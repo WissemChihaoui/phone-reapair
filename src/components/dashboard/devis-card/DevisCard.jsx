@@ -8,7 +8,7 @@ import { fNumber, fPercent, fShortenNumber } from 'src/utils/format-number';
 import { CONFIG } from 'src/config-global';
 import { CustomPopover } from 'src/components/custom-popover';
 
-export default function ReparationCard({
+export default function DevisCard({
     color = 'primary',
     icon,
     percent,
@@ -69,7 +69,7 @@ export default function ReparationCard({
             >
               <Box sx={{ p: 1, maxWidth: 280 }}>
                 <Typography variant="body2">
-                  Voir toutes les réparations
+                  Voir toutes les devis
                 </Typography>
               </Box>
             </CustomPopover>
@@ -100,7 +100,7 @@ export default function ReparationCard({
             >
               <Box sx={{ p: 1, maxWidth: 280 }}>
                 <Typography variant="body2">
-                  Ajouter Réparation
+                  Ajouter devis
                 </Typography>
               </Box>
             </CustomPopover>
@@ -117,6 +117,7 @@ export default function ReparationCard({
             display: 'flex',
             // position: 'absolute',
             alignItems: 'center',
+            
           }}
         >
           <Iconify width={20} icon={percent < 0 ? 'eva:trending-down-fill' : 'eva:trending-up-fill'} />

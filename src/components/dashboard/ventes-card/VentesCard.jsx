@@ -8,7 +8,7 @@ import { fNumber, fPercent, fShortenNumber } from 'src/utils/format-number';
 import { CONFIG } from 'src/config-global';
 import { CustomPopover } from 'src/components/custom-popover';
 
-export default function ReparationCard({
+export default function VentesCard({
     color = 'primary',
     icon,
     percent,
@@ -69,7 +69,7 @@ export default function ReparationCard({
             >
               <Box sx={{ p: 1, maxWidth: 280 }}>
                 <Typography variant="body2">
-                  Voir toutes les réparations
+                  Voir toutes les ventes
                 </Typography>
               </Box>
             </CustomPopover>
@@ -100,7 +100,7 @@ export default function ReparationCard({
             >
               <Box sx={{ p: 1, maxWidth: 280 }}>
                 <Typography variant="body2">
-                  Ajouter Réparation
+                  Ajouter ventes
                 </Typography>
               </Box>
             </CustomPopover>

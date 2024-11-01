@@ -8,7 +8,7 @@ import { fNumber, fPercent, fShortenNumber } from 'src/utils/format-number';
 import { CONFIG } from 'src/config-global';
 import { CustomPopover } from 'src/components/custom-popover';
 
-export default function ReparationCard({
+export default function DemandeDevisCard({
     color = 'primary',
     icon,
     percent,
@@ -51,7 +51,7 @@ export default function ReparationCard({
               onMouseLeave={handleHoverPopoverClose2}
               color={color}
             >
-              <Iconify icon="eva:eye-fill" width={28}/>
+              <Iconify width={28} icon="eva:eye-fill" />
             </IconButton>
 
             <CustomPopover
@@ -69,7 +69,7 @@ export default function ReparationCard({
             >
               <Box sx={{ p: 1, maxWidth: 280 }}>
                 <Typography variant="body2">
-                  Voir toutes les réparations
+                  Voir toutes les demandes
                 </Typography>
               </Box>
             </CustomPopover>
@@ -89,7 +89,7 @@ export default function ReparationCard({
               open={hoverPopoverOpen}
               anchorEl={hoverPopoverRef.current}
               slotProps={{
-                arrow: { placement: 'top-center' },
+                arrow: { placement: 'right-center' },
                 paper: {
                   onMouseEnter: handleHoverPopoverOpen,
                   onMouseLeave: handleHoverPopoverClose,
@@ -100,7 +100,7 @@ export default function ReparationCard({
             >
               <Box sx={{ p: 1, maxWidth: 280 }}>
                 <Typography variant="body2">
-                  Ajouter Réparation
+                  Ajouter demandes de devis
                 </Typography>
               </Box>
             </CustomPopover>
