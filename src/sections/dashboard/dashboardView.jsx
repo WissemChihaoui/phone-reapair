@@ -1,4 +1,4 @@
-import { Box, MenuItem, Select, Typography } from '@mui/material'
+import { Box, Button, MenuItem, Select, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2';
 import { CONFIG } from 'src/config-global';
 
@@ -13,10 +13,32 @@ import DevisCard from 'src/components/dashboard/devis-card/DevisCard';
 import DemandeDevisCard from 'src/components/dashboard/demande-devis-card/DemandeDevisCard';
 import { CaisseCard } from 'src/components/dashboard/caisse-card/CaisseCard';
 import AchatsCard from 'src/components/dashboard/achats-card/AchatsCard';
+import { StockChart } from 'src/components/dashboard/stock-chart/StockChart';
+import { TransactionsTable } from 'src/components/dashboard/transactions-table/TransactionsTable';
+import { _bankingRecentTransitions } from 'src/_mock';
+import { ReparationsTable } from 'src/components/dashboard/reparations-table/ReparationsTable';
 
 export default function DashboardView() {
     // const periods= ["today", "month"]
-   
+   const transactionsData = [
+    {
+        id:1,
+        date:"01/11/2024",
+        client:"Jane Doe",
+        amount: 111000,
+        methode: "CB",
+        employee: "Wissem"
+    }
+   ];
+   const reparationsData = [
+    {
+        id:1,
+        date:"01/11/2024",
+        modele:"Macbook",
+        status: "En attente devis",
+        reparation: "IR_PC000245",
+    }
+   ];
 
     
   return (
@@ -34,7 +56,7 @@ export default function DashboardView() {
             <Grid xs={12} md={6}>
                 <SearchVente />
             </Grid>
-            <Grid xs={12} md={2.4}>
+            <Grid xs={12} md={4} lg={2.4}>
                 <ReparationCard 
                     icon={
                         <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/glass/ic-glass-bag.svg`} />
@@ -44,7 +66,7 @@ export default function DashboardView() {
                     total={18}
                 />    
             </Grid>  
-            <Grid xs={12} md={2.4}>
+            <Grid xs={12} md={4} lg={2.4}>
                 <VentesCard 
                     icon={
                         <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/glass/ic-glass-buy.svg`} />
@@ -55,7 +77,7 @@ export default function DashboardView() {
                     color="warning"
                 />    
             </Grid>  
-            <Grid xs={12} md={2.4}>
+            <Grid xs={12} md={4} lg={2.4}>
                 <DevisCard 
                     icon={
                         <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/glass/ic-glass-users.svg`} />
@@ -66,7 +88,7 @@ export default function DashboardView() {
                     color="secondary"
                 />    
             </Grid>  
-            <Grid xs={12} md={2.4}>
+            <Grid xs={12} md={6} lg={2.4}>
                 <DemandeDevisCard 
                     icon={
                         <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/glass/ic-glass-message.svg`} />
@@ -77,7 +99,7 @@ export default function DashboardView() {
                     color="error"
                 />    
             </Grid>
-            <Grid xs={12} md={2.4}>
+            <Grid xs={12} md={6} lg={2.4}>
                 <AchatsCard
                     icon={
                         <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/glass/wallet.svg`} />
@@ -94,6 +116,59 @@ export default function DashboardView() {
                  earning={25500}
                  orderTotal={287650}
                  currentBalance={187650}
+                />
+            </Grid>
+            <Grid xs={12} md={6}>
+                <StockChart
+                title="Stock"
+                chart={{
+                  series: [
+                    { label: 'En Stock', value: 45 },
+                    { label: 'Epuisé', value: 25 },
+                    { label: 'Faible', value: 20 },
+                  ],
+                }}
+                />
+            </Grid>
+            <Grid xs={12} md={2}>
+                <Box height='100%'>
+                <Button  variant="contained" color='primary' sx={{height:'50%', borderRadius:"12px 12px 0 0"}} fullWidth>
+                    <Box display="flex" flexDirection='column' alignItems='center'>
+                        <Iconify width={36} icon='ic:outline-sms'/>
+                        Envoyer SMS
+                    </Box>
+                </Button>
+                <Button  variant="contained" color='secondary' sx={{height:'50%', borderRadius:"0 0 12px 12px"}} fullWidth>
+                    <Box display="flex" flexDirection='column' alignItems='center'>
+                        <Iconify width={36} icon='ic:outline-mail'/>
+                        Envoyer Email
+                    </Box>
+                </Button>
+                </Box>
+            </Grid>
+            <Grid xs={12}>
+                <TransactionsTable 
+                    title="Dernières Transactions"
+                    tableData={transactionsData}
+                    headLabel={[
+                      { id: 'client', label: 'Client' },
+                      { id: 'date', label: 'Date' },
+                      { id: 'amount', label: 'Monatnt' },
+                      { id: 'methode', label: 'Méthode' },
+                      { id: 'employee', label: 'Employée' },
+                    ]}
+                />
+            </Grid>
+            <Grid xs={12}>
+                <ReparationsTable
+                title="Dernières Réparations"
+                tableData={reparationsData}
+                headLabel={[
+                  { id: 'date', label: 'Date' },
+                  { id: 'modele', label: 'Modèle' },
+                  { id: 'status', label: 'Statut' },
+                  { id: 'reparation', label: 'Réparation' },
+                ]}
                 />
             </Grid>
         </Grid>

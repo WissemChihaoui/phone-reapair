@@ -69,7 +69,7 @@ export default function AchatsCard({
             >
               <Box sx={{ p: 1, maxWidth: 280 }}>
                 <Typography variant="body2">
-                  Voir toutes les ventes
+                  Voir toutes les achats
                 </Typography>
               </Box>
             </CustomPopover>
@@ -100,7 +100,7 @@ export default function AchatsCard({
             >
               <Box sx={{ p: 1, maxWidth: 280 }}>
                 <Typography variant="body2">
-                  Ajouter ventes
+                  Ajouter achats
                 </Typography>
               </Box>
             </CustomPopover>

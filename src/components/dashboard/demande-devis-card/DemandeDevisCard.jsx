@@ -89,7 +89,7 @@ export default function DemandeDevisCard({
               open={hoverPopoverOpen}
               anchorEl={hoverPopoverRef.current}
               slotProps={{
-                arrow: { placement: 'right-center' },
+                arrow: { placement: 'bottom-center' },
                 paper: {
                   onMouseEnter: handleHoverPopoverOpen,
                   onMouseLeave: handleHoverPopoverClose,
