@@ -130,9 +130,11 @@ export function DashboardLayout({ sx, children, header, data }) {
                   />
                 )}
                 {/* -- Workspace popover -- */}
+                <Box display={{xs: 'none', md:'block'}}>
                 <Alert severity="info" >
                   Date expiration abonnement : <strong>31-12-2025</strong> | Solde SMS restants : <strong>0 SMS</strong>
                 </Alert>
+                </Box>
               </>
             ),
             rightArea: (
