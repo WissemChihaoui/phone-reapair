@@ -45,32 +45,33 @@ export const navData = [
       { title: 'Tableau de bord', path: paths.dashboard.root, icon: ICONS.dashboard },
     ]
   },
+  {
+    subheader: 'Gestion',
+    items: [
+      {
+        title: 'Réparations',
+        path: paths.dashboard.group.root,
+        icon: ICONS.user,
+        children: [
+          { title: 'Réparations', path: paths.dashboard.group.root },
+          { title: 'Demandes devis', path: paths.dashboard.group.five },
+          { title: 'Factures', path: paths.dashboard.group.six },
+        ],
+      },
+    ],
+  },
   /**
    * Overview
    */
   {
-    subheader: 'Réparation',
+    subheader: 'Clients',
     items: [
-      { title: 'Two', path: paths.dashboard.two, icon: ICONS.ecommerce },
-      { title: 'Three', path: paths.dashboard.three, icon: ICONS.analytics },
+      { title: 'Clients', path: paths.dashboard.two, icon: ICONS.ecommerce },
+      { title: 'Commandes', path: paths.dashboard.three, icon: ICONS.analytics },
     ],
   },
   /**
    * Management
    */
-  {
-    subheader: 'Paramétre',
-    items: [
-      {
-        title: 'Group',
-        path: paths.dashboard.group.root,
-        icon: ICONS.user,
-        children: [
-          { title: 'Four', path: paths.dashboard.group.root },
-          { title: 'Five', path: paths.dashboard.group.five },
-          { title: 'Six', path: paths.dashboard.group.six },
-        ],
-      },
-    ],
-  },
+  
 ];

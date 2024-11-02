@@ -41,7 +41,7 @@ export function NavUpgrade({ sx, ...other }) {
               borderBottomLeftRadius: 2,
             }}
           >
-            Free
+            Disponible
           </Label>
         </Box>
 
@@ -59,12 +59,12 @@ export function NavUpgrade({ sx, ...other }) {
             noWrap
             sx={{ color: 'var(--layout-nav-text-disabled-color)' }}
           >
-            {user?.email}
+            support@saasgestion.com
           </Typography>
         </Stack>
 
         <Button variant="contained" href={paths.minimalStore} target="_blank" rel="noopener">
-          Upgrade to Pro
+            Contacter Support
         </Button>
       </Stack>
     </Stack>

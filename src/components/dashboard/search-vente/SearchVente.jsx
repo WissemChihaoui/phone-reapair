@@ -16,7 +16,7 @@ export default function SearchVente() {
       <Box sx={{ typography: 'subtitle2' }}>Chercher Vente </Box>
       <Box sx={{ mt: 1.5, mb: 1, typography: 'h3', display: 'flex' }}>
         <TextField 
-          placeholder='Rechercher...'
+          placeholder='Chercher par Nom Client, Email, N° Facture, Code Barre...'
           color='primary'
           fullWidth
           InputProps={{

@@ -16,7 +16,7 @@ export default function SearchReparation() {
       <Box sx={{ typography: 'subtitle2' }}>Chercher Réparation </Box>
       <Box sx={{ mt: 1.5, mb: 1, typography: 'h3', display: 'flex' }}>
         <TextField 
-          placeholder='Rechercher...'
+          placeholder='Chercher par Nom, Email, N° Tel, N° Réparation, Code Barre...'
          fullWidth
           InputProps={{
                 startAdornment: (

@@ -89,8 +89,10 @@ function RowItem({ row }) {
         <Label
             variant={lightMode ? 'soft' : 'filled'}
             color={
-              (row.status === 'completed' && 'success') ||
-              (row.status === 'progress' && 'warning') ||
+              (row.status === 'Devis approuvé' && 'success') ||
+              (row.status === 'En attente devis' && 'warning') ||
+              (row.status === 'Réparation en cours' && 'info') ||
+              (row.status === 'Attente validation devis' && 'secondary') ||
               'error'
             }
             sx={{ textTransform: 'capitalize' }}
