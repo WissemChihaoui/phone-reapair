@@ -18,7 +18,7 @@ export function Main({ children, isNavHorizontal, sx, ...other }) {
         flex: '1 1 auto',
         flexDirection: 'column',
         ...(isNavHorizontal && {
-          '--layout-dashboard-content-pt': '40px',
+          '--layout-dashboard-content-pt': '80px',
         }),
         ...sx,
       }}

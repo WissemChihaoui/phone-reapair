@@ -119,12 +119,12 @@ export default function DashboardView() {
     <DashboardContent maxWidth="xl">
       <Box
         display="flex"
-        justifyContent="space-between"
         alignItems="center"
+        flexDirection={{xs: 'column', md:'row'}}
         sx={{ mb: { xs: 3, md: 5 } }}
       >
         <Typography variant="h4">Bonjour, Wissem 👋</Typography>
-        <Box display="flex" gap="4px">
+        <Box display="flex" flex={1} width='100%' justifyContent='center' gap="4px">
           <Fab
             onMouseEnter={handleHoverPopoverOpen('Ajouter réparation')}
             onMouseLeave={handleHoverPopoverClose}
