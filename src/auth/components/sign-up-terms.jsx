@@ -17,13 +17,13 @@ export function SignUpTerms({ sx, ...other }) {
       }}
       {...other}
     >
-      {'By signing up, I agree to '}
+      {"En m'inscrivant, j'accepte de "}
       <Link underline="always" color="text.primary">
-        Terms of service
+      Conditions d&apos;utilisation
       </Link>
-      {' and '}
+      {' et '}
       <Link underline="always" color="text.primary">
-        Privacy policy
+      Politique de confidentialité
       </Link>
       .
     </Box>

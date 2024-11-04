@@ -1,8 +1,9 @@
 import { z as zod } from 'zod';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
@@ -23,26 +24,58 @@ import { signUp } from '../../context/jwt';
 import { useAuthContext } from '../../hooks';
 import { FormHead } from '../../components/form-head';
 import { SignUpTerms } from '../../components/sign-up-terms';
+import { StepOne, Stepper, StepThree, StepTwo } from './jwt-sign-up-form';
 
 // ----------------------------------------------------------------------
+const STEPS = ['Données de boutique', 'Données personelles', 'Authentification'];
 
-export const SignUpSchema = zod.object({
-  firstName: zod.string().min(1, { message: 'First name is required!' }),
-  lastName: zod.string().min(1, { message: 'Last name is required!' }),
-  email: zod
-    .string()
-    .min(1, { message: 'Email is required!' })
-    .email({ message: 'Email must be a valid email address!' }),
-  password: zod
-    .string()
-    .min(1, { message: 'Password is required!' })
-    .min(6, { message: 'Password must be at least 6 characters!' }),
+const StepOneSchema = zod.object({
+  codeParrainage: zod.string().min(1, {message: 'Code de parrainage de la boutique est requis'}),
+  nomBoutique: zod.string().min(1, { message: 'Nom de la boutique est requis!'}),
+  emailBoutique: zod.string().min(1, { message: 'Nom de la boutique est requis!'}),
 });
 
+const StepTwoSchema = zod.object({
+  nomClient: zod.string().min(1, { message: 'Nom de client est requis!'}),
+  prenomClient: zod.string().min(1, {message: 'Prénom de client est requis!'}),
+  adresseClient: zod.string().min(1, { message: 'Adresse de client est requis!'}),
+  codePostal : zod.string()
+                  .min(1, { message: 'Code postal est requis!'})
+                  .min(6, { message: "Code postale n'est pas valide"}),
+  villeClient : zod.string().min(1, { message: "Ville est requis"}),
+  telephone : zod.string()
+                  .min(1, { message: 'Téléphone de client est requis!'})
+                  .min(6, { message: "Téléphone n'est pas valide!"})
+});
+
+const StepThreeSchema = zod.object({
+  adminEmail : zod 
+                .string()
+                .min(1, { message: 'Email est requis'})
+                .email({message: "Email n'est pas valide!"}),
+  password: zod
+    .string()
+    .min(1, { message: 'Mot de pass est requis!' })
+    .min(6, { message: 'Le mot de passe doit comporter au moins 6 caractères !' }),
+  confirmPassword: zod.string().min(1, { message: 'Confirmer mot de pass est requis!' }),
+});
+
+const WizardSchema = zod.object({
+  stepOne: StepOneSchema,
+  stepTwo: StepTwoSchema,
+  stepThree: StepThreeSchema,
+});
+
+const defaultValues = {
+  stepOne : { codeParrainage: '',nomBoutique: '', emailBoutique:''},
+  stepTwo : { nomClient: '', prenomClient:'', adresseClient:'', codePostal: null,villeClient:'', telephone:null},
+  stepThree : { adminEmail:'', password:'', confirmPassword:''}
+}
 // ----------------------------------------------------------------------
 
 export function JwtSignUpView() {
   const { checkUserSession } = useAuthContext();
+  const [activeStep, setActiveStep] = useState(0);
 
   const router = useRouter();
 
@@ -50,19 +83,15 @@ export function JwtSignUpView() {
 
   const [errorMsg, setErrorMsg] = useState('');
 
-  const defaultValues = {
-    firstName: 'Hello',
-    lastName: 'Friend',
-    email: 'hello@gmail.com',
-    password: '@demo1',
-  };
-
   const methods = useForm({
-    resolver: zodResolver(SignUpSchema),
+    resolver: zodResolver(WizardSchema),
     defaultValues,
   });
 
   const {
+    reset,
+    trigger,
+    clearErrors,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
@@ -84,55 +113,43 @@ export function JwtSignUpView() {
     }
   });
 
-  const renderForm = (
-    <Box gap={3} display="flex" flexDirection="column">
-      <Box display="flex" gap={{ xs: 3, sm: 2 }} flexDirection={{ xs: 'column', sm: 'row' }}>
-        <Field.Text name="firstName" label="First name" InputLabelProps={{ shrink: true }} />
-        <Field.Text name="lastName" label="Last name" InputLabelProps={{ shrink: true }} />
-      </Box>
+  const handleNext = useCallback(
+    async (step) => {
+      if (step) {
+        const isValid = await trigger(step);
 
-      <Field.Text name="email" label="Email address" InputLabelProps={{ shrink: true }} />
-
-      <Field.Text
-        name="password"
-        label="Password"
-        placeholder="6+ characters"
-        type={password.value ? 'text' : 'password'}
-        InputLabelProps={{ shrink: true }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={password.onToggle} edge="end">
-                <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-
-      <LoadingButton
-        fullWidth
-        color="inherit"
-        size="large"
-        type="submit"
-        variant="contained"
-        loading={isSubmitting}
-        loadingIndicator="Create account..."
-      >
-        Create account
-      </LoadingButton>
-    </Box>
+        if (isValid) {
+          clearErrors();
+          setActiveStep((currentStep) => currentStep + 1);
+        }
+      } else {
+        setActiveStep((currentStep) => currentStep + 1);
+      }
+    },
+    [trigger, clearErrors]
   );
+
+  const handleBack = useCallback(() => {
+    setActiveStep((currentStep) => currentStep - 1);
+  }, []);
+
+  const handleReset = useCallback(() => {
+    reset();
+    setActiveStep(0);
+  }, [reset]);
+
+  const completedStep = activeStep === STEPS.length;
+ 
 
   return (
     <>
       <FormHead
-        title="Get started absolutely free"
+        title="Créer un compte"
         description={
           <>
-            {`Already have an account? `}
+            {`Vous avez déjà un compte ? `}
             <Link component={RouterLink} href={paths.auth.jwt.signIn} variant="subtitle2">
-              Get started
+              Se connecter
             </Link>
           </>
         }
@@ -146,9 +163,41 @@ export function JwtSignUpView() {
       )}
 
       <Form methods={methods} onSubmit={onSubmit}>
-        {renderForm}
-      </Form>
+        <Stepper steps={STEPS} activeStep={activeStep} />
 
+        <Box marginBottom={4} gap={3} display="flex" flexDirection="column">
+          {activeStep === 0 && <StepOne />}
+          {activeStep === 1 && <StepTwo />}
+          {activeStep === 2 && <StepThree />}
+        </Box>
+
+        {!completedStep && (
+          <Box display="flex">
+            {activeStep !== 0 && <Button onClick={handleBack}>Retour</Button>}
+
+            <Box sx={{ flex: '1 1 auto' }} />
+
+            {activeStep === 0 && (
+              <Button type="submit" variant="contained" onClick={() => handleNext('stepOne')}>
+                Suivant
+              </Button>
+            )}
+
+            {activeStep === 1 && (
+              <Button type="submit" variant="contained" onClick={() => handleNext('stepTwo')}>
+                Suivant
+              </Button>
+            )}
+
+            {activeStep === STEPS.length - 1 && (
+              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                Enregistrer
+              </LoadingButton>
+            )}
+          </Box>
+        )}
+      </Form>
+      
       <SignUpTerms />
     </>
   );

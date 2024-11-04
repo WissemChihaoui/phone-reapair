@@ -16,9 +16,9 @@ export function Section({
   method,
   layoutQuery,
   methods,
-  title = 'Manage the job',
+  title = 'BIENVENUE CHEZ SASGESTION!',
   imgUrl = `${CONFIG.assetsDir}/assets/illustrations/illustration-dashboard.webp`,
-  subtitle = 'More effectively with optimized workflows.',
+  subtitle = 'Logiciel de gestion de réparations et de ventes en téléphonie et ordinateurs.',
   ...other
 }) {
   const theme = useTheme();
