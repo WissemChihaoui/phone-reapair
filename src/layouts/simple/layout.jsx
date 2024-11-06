@@ -33,7 +33,7 @@ export function SimpleLayout({ sx, children, header, content }) {
                 This is an info Alert.
               </Alert>
             ),
-            leftArea: <Logo />,
+            leftArea: <></>,
             rightArea: (
               <Box display="flex" alignItems="center" gap={{ xs: 1, sm: 1.5 }}>
                 {/* -- Help link -- */}

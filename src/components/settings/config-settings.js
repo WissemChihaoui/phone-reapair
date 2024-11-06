@@ -8,7 +8,7 @@ export const defaultSettings = {
   colorScheme: 'light',
   direction: 'ltr',
   contrast: 'default',
-  navLayout: 'vertical',
+  navLayout: 'mini',
   primaryColor: 'default',
   navColor: 'integrate',
   compactLayout: true,

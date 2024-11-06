@@ -61,8 +61,7 @@ export function StockChart({ title, subheader, chart, ...other }) {
             type="donut"
             series={chartSeries}
             options={chartOptions}
-            width={{ xs: 100, xl: 140 }}
-            height={{ xs: 100, xl: 140 }}
+            
             sx={{ mx: 'auto', my: 5 }}
           />
       </Box>

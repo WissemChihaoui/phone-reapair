@@ -111,18 +111,11 @@ export function DashboardLayout({ sx, children, header, data }) {
                   cssVars={navColorVars.section}
                 />
                 {/* -- Logo -- */}
-                {isNavHorizontal && (
-                  <Logo
-                    sx={{
-                      display: 'none',
-                      [theme.breakpoints.up(layoutQuery)]: {
-                        display: 'inline-flex',
-                      },
-                    }}
-                  />
+                {isNavMini && (
+                  <></>
                 )}
                 {/* -- Divider -- */}
-                {isNavHorizontal && (
+                {isNavMini && (
                   <StyledDivider
                     sx={{
                       [theme.breakpoints.up(layoutQuery)]: { display: 'flex' },
@@ -131,14 +124,23 @@ export function DashboardLayout({ sx, children, header, data }) {
                 )}
                 {/* -- Workspace popover -- */}
                 <Box display={{xs: 'none', md:'block'}}>
-                <Alert severity="info" >
-                  Date expiration abonnement : <strong>31-12-2025</strong> | Solde SMS restants : <strong>0 SMS</strong>
-                </Alert>
+                <Logo
+                    sx={{
+                      display: 'none',
+                      [theme.breakpoints.up(layoutQuery)]: {
+                        display: 'inline-flex',
+                      },
+                    }}
+                  />
+                
                 </Box>
               </>
             ),
             rightArea: (
               <Box display="flex" alignItems="center" gap={{ xs: 0, sm: 0.75 }}>
+                <Alert severity="info" >
+                  Date expiration abonnement : <strong>31-12-2025</strong> | Solde SMS restants : <strong>0 SMS</strong>
+                </Alert>
                 {/* -- Searchbar -- */}
                 <Searchbar data={navData} />
                 
