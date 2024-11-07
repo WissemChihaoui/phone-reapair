@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import { useTheme } from '@mui/material/styles';
@@ -48,7 +49,36 @@ export function DashboardLayout({ sx, children, header, data }) {
   const isNavMini = settings.navLayout === 'mini';
   const isNavHorizontal = settings.navLayout === 'horizontal';
   const isNavVertical = isNavMini || settings.navLayout === 'vertical';
+  const [dateTime, setDateTime] = useState("");
+  useEffect(() => {
+    // Function to get the current date and time in the desired format
+    const updateDateTime = () => {
+      const now = new Date();
 
+      // Get hours, minutes, seconds
+      const hours = now.getHours().toString().padStart(2, "0");
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const seconds = now.getSeconds().toString().padStart(2, "0");
+
+      // Format date
+      const day = now.getDate().toString().padStart(2, "0");
+      const month = (now.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+      const year = now.getFullYear();
+
+      // Get day of the week in French
+      const daysOfWeek = ["DIM", "LUN", "MAR", "MER", "JEU", "VEN", "SAM"];
+      const dayOfWeek = daysOfWeek[now.getDay()];
+
+      // Combine into desired format
+      setDateTime(`${hours}:${minutes}:${seconds} ${dayOfWeek}, ${day}/${month}/${year}`);
+    };
+
+    // Update time every second
+    const timer = setInterval(updateDateTime, 1000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(timer);
+  }, []);
   return (
     <LayoutSection
       /** **************************************
@@ -138,16 +168,16 @@ export function DashboardLayout({ sx, children, header, data }) {
             ),
             rightArea: (
               <Box display="flex" alignItems="center" gap={{ xs: 0, sm: 0.75 }}>
-                <Alert severity="info" >
-                  Date expiration abonnement : <strong>31-12-2025</strong> | Solde SMS restants : <strong>0 SMS</strong>
-                </Alert>
+               <Alert severity='warning' icon={false} sx={{fontWeight: 'bold'}}>
+               {dateTime}
+               </Alert>
                 {/* -- Searchbar -- */}
-                <Searchbar data={navData} />
+                {/* <Searchbar data={navData} /> */}
                 
                 {/* -- Notifications popover -- */}
                 <NotificationsDrawer data={_notifications} />
                 {/* -- Contacts popover -- */}
-                <ContactsPopover data={_contacts} />
+                {/* <ContactsPopover data={_contacts} /> */}
                 {/* -- Settings button -- */}
                 <SettingsButton />
                 {/* -- Account drawer -- */}

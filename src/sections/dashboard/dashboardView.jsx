@@ -1,4 +1,4 @@
-import { Box, Button, Fab, IconButton, MenuItem, Select, Typography } from '@mui/material';
+import { Alert, Box, Button, Fab, IconButton, MenuItem, Select, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { CONFIG } from 'src/config-global';
 
@@ -120,8 +120,15 @@ export default function DashboardView() {
        <></>
       </Box>
       <Grid container spacing={3}>
-        <Grid xs={12} md={6}>
-          <SearchReparation />
+        <Grid xs={12} md={6} container>
+        <Grid xs={12}>
+        <Alert severity="info" >
+                  Date expiration abonnement : <strong>31-12-2025</strong> | Solde SMS restants : <strong>0 SMS</strong>
+                </Alert>
+        </Grid>
+          <Grid xs={12}>
+            <SearchReparation />
+          </Grid>
         </Grid>
         <Grid xs={12} md={6} container>
         
