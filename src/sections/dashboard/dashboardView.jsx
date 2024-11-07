@@ -152,6 +152,19 @@ export default function DashboardView() {
            </Button>
          </Grid>
          <Grid xs={6} md={3}>
+           <Button
+            href={paths.dashboard.two}
+            size="medium"
+            color="info"
+            variant="outlined"
+            sx={{display: 'flex', flexDirection: 'column', height:'100%', width:'100%'}}
+           >
+              <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/caisse-fond.png`} width={60}/>
+              <Typography variant='Button'>Fond de caisse</Typography>
+           </Button>
+         </Grid>
+        <Grid xs={6} md={3} container spacing={1}>
+        <Grid xs={12}>
          <Button
               href={paths.dashboard.two}
               variant="contained"
@@ -165,7 +178,7 @@ export default function DashboardView() {
               </Box>
             </Button>
          </Grid>
-         <Grid xs={6} md={3}>
+         <Grid xs={12}>
          <Button
               href={paths.dashboard.two}
               variant="contained"
@@ -179,6 +192,7 @@ export default function DashboardView() {
               </Box>
             </Button>
          </Grid>
+        </Grid>
         </Grid>
         <Grid xs={12} md={6} container>
           <Grid xs={12} md={6}>
