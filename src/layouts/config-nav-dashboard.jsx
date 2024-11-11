@@ -9,6 +9,13 @@ import { SvgColor } from 'src/components/svg-color';
 const icon = (name) => <SvgColor src={`${CONFIG.assetsDir}/assets/icons/navbar/${name}.svg`} />;
 
 const ICONS = {
+  repaire: icon('ic-repaire'),
+  users: icon('ic-users'),
+  stock: icon('ic-stock'),
+  rachat: icon('ic-rachat'),
+  caisse: icon('ic-caisse'),
+  boutique: icon('ic-boutique'),
+  icosystem: icon('ic-icosystem'),
   job: icon('ic-job'),
   blog: icon('ic-blog'),
   chat: icon('ic-chat'),
@@ -51,23 +58,145 @@ export const navData = [
       {
         title: 'Réparations',
         path: paths.dashboard.group.root,
-        icon: ICONS.user,
+        icon: ICONS.repaire,
         children: [
-          { title: 'Réparations', path: paths.dashboard.group.root },
-          { title: 'Demandes devis', path: paths.dashboard.group.five },
-          { title: 'Factures', path: paths.dashboard.group.six },
+          { title: 'Nouvelle réparations', path: paths.dashboard.group.root },
+          { title: 'Liste des réparations', path: paths.dashboard.group.six },
+          { title: 'Liste des devis', path: paths.dashboard.group.five },
+          { title: 'Réparations externes', path: paths.dashboard.group.five },
+          { title: 'Archives', path: paths.dashboard.group.five },
         ],
       },
+      { 
+        title: 'Clients',
+        path: paths.dashboard.two,
+        icon: ICONS.users,
+        children: [
+          { title: 'Nouveau client', path: paths.dashboard.two},
+          { title: 'Liste des clients', path: paths.dashboard.two},
+        ]
+      },
+      {
+        title: 'Stock',
+        path: paths.dashboard.three,
+        icon: ICONS.stock,
+        children: [
+          { title: 'Articles', path: paths.dashboard.three},
+          { title: 'Alerte stock', path: paths.dashboard.three},
+          { title: 'Catégories articles', path: paths.dashboard.three},
+          { title: 'Lieu de stockage', path: paths.dashboard.three},
+          { title: 'Fournisseurs', path: paths.dashboard.three},
+          { title: 'Commandes', path: paths.dashboard.three},
+          { title: 'déstockage', path: paths.dashboard.three},
+        ]
+      },
+      {
+        title: 'Ventes',
+        path: paths.dashboard.three,
+        icon: ICONS.ecommerce,
+        children: [
+          {title:'Nouvelle vente', path: paths.dashboard.three},
+          {title:'Caisse virtuelle', path: paths.dashboard.three},
+          {title:'Historique', path: paths.dashboard.three},
+          {title:'Vente devis', path: paths.dashboard.three},
+        ]
+      },
+      {
+        title: 'Rachat',
+        path: paths.dashboard.three,
+        icon: ICONS.rachat,
+        children: [
+          {title:'Nouveau rachat', path: paths.dashboard.three},
+          {title:'Liste des rachats', path: paths.dashboard.three},
+        ]
+      },
+      {
+        title: 'Nos factures',
+        path: paths.dashboard.three,
+        icon: ICONS.invoice,
+        children: [
+          {title:'Liste des factures', path: paths.dashboard.three},
+          {title:'Liste des accomptes', path: paths.dashboard.three},
+          {title:'Avoir', path: paths.dashboard.three},
+        ]
+      },
     ],
+  },
+  {
+    subheader: 'Ma boutique',
+    items:[
+      {
+        title: 'Caisse',
+        path: paths.dashboard.three,
+        icon: ICONS.caisse,
+        children: [
+          {title:'Caisse', path: paths.dashboard.three},
+          {title:'Dépôt bancaire', path: paths.dashboard.three},
+          {title:'Export comptable', path: paths.dashboard.three},
+          {title:'Export comptable marge', path: paths.dashboard.three},
+          {title:'Statistique', path: paths.dashboard.three},
+        ]
+      },
+      {
+        title: 'Ma Boutique',
+        path: paths.dashboard.three,
+        icon: ICONS.boutique,
+        children: [
+          {title:'Employées', path: paths.dashboard.three},
+          {title:'Partenaires', path: paths.dashboard.three},
+          {title:'Statut', path: paths.dashboard.three},
+          {title:'Mode paiements', path: paths.dashboard.three},
+          {title:'Type de client', path: paths.dashboard.three},
+          {title:'Type de matériel', path: paths.dashboard.three},
+          {title:'Conditions', path: paths.dashboard.three},
+          {title:'Configurations', path: paths.dashboard.three},
+          {title:'Impression', path: paths.dashboard.three},
+          {title:'Casier de rangement', path: paths.dashboard.three},
+          {title:'Fonction employeur', path: paths.dashboard.three},
+        ]
+      },
+      {
+        title: 'Ecosystem',
+        path: paths.dashboard.three,
+        icon: ICONS.icosystem
+      },
+      {
+        title: 'Abonnement',
+        icon: ICONS.booking,
+        path: paths.dashboard.three,
+        children: [
+          {title:'Mon abonnement', path: paths.dashboard.three},
+          {title: 'Parrainage', path: paths.dashboard.three}
+        ]
+      },
+      {
+        title: 'Calendrier',
+        icon: ICONS.calendar,
+        path: paths.dashboard.three,
+      }
+    ]
   },
   /**
    * Overview
    */
   {
-    subheader: 'Clients',
+    subheader: 'Sasgestion',
     items: [
-      { title: 'Clients', path: paths.dashboard.two, icon: ICONS.ecommerce },
-      { title: 'Commandes', path: paths.dashboard.three, icon: ICONS.analytics },
+      {
+        title: 'Boité à idée',
+        icon: ICONS.calendar,
+        path: paths.dashboard.three,
+      },
+      {
+        title: 'Support technique',
+        icon: ICONS.calendar,
+        path: paths.dashboard.three,
+      },
+      {
+        title: 'Nouveautés',
+        icon: ICONS.calendar,
+        path: paths.dashboard.three,
+      },
     ],
   },
   /**
