@@ -144,14 +144,6 @@ export function DashboardLayout({ sx, children, header, data }) {
                 {isNavMini && (
                   <></>
                 )}
-                {/* -- Divider -- */}
-                {isNavMini && (
-                  <StyledDivider
-                    sx={{
-                      [theme.breakpoints.up(layoutQuery)]: { display: 'flex' },
-                    }}
-                  />
-                )}
                 {/* -- Workspace popover -- */}
                 <Box display={{xs: 'none', md:'block'}}>
                 <Logo

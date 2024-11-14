@@ -138,6 +138,7 @@ export const _userList = [...Array(20)].map((_, index) => ({
   country: _mock.countryNames(index),
   avatarUrl: _mock.image.avatar(index),
   phoneNumber: _mock.phoneNumber(index),
+  type: index % 2 === 0 ? 'Particulier' : 'Entreprise',
   status:
     (index % 2 && 'pending') || (index % 3 && 'banned') || (index % 4 && 'rejected') || 'active',
 }));

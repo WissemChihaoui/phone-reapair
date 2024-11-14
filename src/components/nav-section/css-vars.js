@@ -13,7 +13,7 @@ function colorVars(theme, variant) {
   } = theme;
 
   return {
-    '--nav-item-color': palette.text.secondary,
+    '--nav-item-color': "#fff",
     '--nav-item-hover-bg': palette.action.hover,
     '--nav-item-caption-color': palette.text.disabled,
     // root

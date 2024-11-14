@@ -7,10 +7,10 @@ export const STORAGE_KEY = 'app-settings';
 export const defaultSettings = {
   colorScheme: 'light',
   direction: 'ltr',
-  contrast: 'default',
+  contrast: 'hight',
   navLayout: 'mini',
   primaryColor: 'default',
-  navColor: 'integrate',
+  navColor: 'apparent',
   compactLayout: true,
   fontFamily: defaultFont,
 };

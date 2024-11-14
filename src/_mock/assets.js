@@ -298,7 +298,10 @@ export const _countryNames = [
 ];
 
 // ----------------------------------------------------------------------
-
+export const _clientTypes = [
+  'Particulier',
+  'Entreprise'
+]
 export const _roles = [
   `CEO`,
   `CTO`,

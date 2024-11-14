@@ -16,6 +16,9 @@ const ICONS = {
   caisse: icon('ic-caisse'),
   boutique: icon('ic-boutique'),
   icosystem: icon('ic-icosystem'),
+  news: icon('ic-news'),
+  support: icon('ic-support'),
+  idea: icon('ic-idea'),
   job: icon('ic-job'),
   blog: icon('ic-blog'),
   chat: icon('ic-chat'),
@@ -69,11 +72,11 @@ export const navData = [
       },
       { 
         title: 'Clients',
-        path: paths.dashboard.two,
+        path: paths.dashboard.client.root,
         icon: ICONS.users,
         children: [
-          { title: 'Nouveau client', path: paths.dashboard.two},
-          { title: 'Liste des clients', path: paths.dashboard.two},
+          { title: 'Nouveau client', path: paths.dashboard.client.add},
+          { title: 'Liste des clients', path: paths.dashboard.client.root},
         ]
       },
       {
@@ -184,17 +187,17 @@ export const navData = [
     items: [
       {
         title: 'Boité à idée',
-        icon: ICONS.calendar,
+        icon: ICONS.idea,
         path: paths.dashboard.three,
       },
       {
         title: 'Support technique',
-        icon: ICONS.calendar,
+        icon: ICONS.support,
         path: paths.dashboard.three,
       },
       {
         title: 'Nouveautés',
-        icon: ICONS.calendar,
+        icon: ICONS.news,
         path: paths.dashboard.three,
       },
     ],

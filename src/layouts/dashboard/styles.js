@@ -79,7 +79,7 @@ export function useNavColorVars(theme, settings) {
             '--nav-subheader-color': palette.grey[600],
             '--nav-subheader-hover-color': palette.common.white,
             // item
-            '--nav-item-color': palette.grey[500],
+            '--nav-item-color': palette.grey[300],
             '--nav-item-root-active-color': palette.primary.light,
             '--nav-item-root-open-color': palette.common.white,
             // bullet
