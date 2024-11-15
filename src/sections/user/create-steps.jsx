@@ -56,10 +56,13 @@ export function StepOne({ isIndividual, handleNext }) {
   const nextStepOne = (isInd) => {
     if (isInd) {
       isIndividual.onTrue();
+      handleNext('stepTwo');
     } else {
       isIndividual.onFalse();
+      handleNext('stepThree');
+
     }
-    handleNext('stepOne');
+    
   };
   return (
     <>

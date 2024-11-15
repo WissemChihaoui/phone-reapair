@@ -53,6 +53,9 @@ export const paths = {
     client: {
       root: `${ROOTS.DASHBOARD}/client`,
       add: `${ROOTS.DASHBOARD}/client/add`,
+    },
+    stock: {
+      root: `${ROOTS.DASHBOARD}/stock`,
     }
   },
 };
