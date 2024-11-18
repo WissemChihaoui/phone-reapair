@@ -142,19 +142,14 @@ export function ProductNewEditForm({ currentProduct }) {
 
   const renderDetails = (
     <Card>
-      <CardHeader title="Details" subheader="Title, short description, image..." sx={{ mb: 3 }} />
+      <CardHeader title="Détails" subheader="Libellé, Description, Image de base " sx={{ mb: 3 }} />
 
       <Divider />
 
       <Stack spacing={3} sx={{ p: 3 }}>
-        <Field.Text name="name" label="Product name" />
+        <Field.Text name="name" label="Libellé" />
 
-        <Field.Text name="subDescription" label="Sub description" multiline rows={4} />
-
-        <Stack spacing={1.5}>
-          <Typography variant="subtitle2">Content</Typography>
-          <Field.Editor name="description" sx={{ maxHeight: 480 }} />
-        </Stack>
+        <Field.Text name="subDescription" label="Description" multiline rows={4} />
 
         <Stack spacing={1.5}>
           <Typography variant="subtitle2">Images</Typography>
@@ -168,17 +163,40 @@ export function ProductNewEditForm({ currentProduct }) {
             onUpload={() => console.info('ON UPLOAD')}
           />
         </Stack>
+        <Field.Select native name="category" label="Catégorie" InputLabelProps={{ shrink: true }}>
+          {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
+            <optgroup key={category.group} label={category.group}>
+              {category.classify.map((classify) => (
+                <option key={classify} value={classify}>
+                  {classify}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </Field.Select>
+        <Field.Select
+          native
+          name="category"
+          label="Sous Catégorie"
+          InputLabelProps={{ shrink: true }}
+        >
+          {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
+            <optgroup key={category.group} label={category.group}>
+              {category.classify.map((classify) => (
+                <option key={classify} value={classify}>
+                  {classify}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </Field.Select>
       </Stack>
     </Card>
   );
 
   const renderProperties = (
     <Card>
-      <CardHeader
-        title="Properties"
-        subheader="Additional functions and attributes..."
-        sx={{ mb: 3 }}
-      />
+      <CardHeader title="Propriétés" subheader="Stockage, Fournisseur, Réferences" sx={{ mb: 3 }} />
 
       <Divider />
 
@@ -189,101 +207,94 @@ export function ProductNewEditForm({ currentProduct }) {
           display="grid"
           gridTemplateColumns={{ xs: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
         >
-          <Field.Text name="code" label="Product code" />
+          <Field.Select
+            native
+            name="casier"
+            label="Casier de stockage"
+            InputLabelProps={{ shrink: true }}
+          >
+            {['casier 1', 'casier 2', 'casier 3'].map((caiser, index) => (
+              <option key={index} value={index}>
+                {caiser}
+              </option>
+            ))}
+          </Field.Select>
+          <Field.Select
+            native
+            name="fournisseur"
+            label="Fournisseur"
+            InputLabelProps={{ shrink: true }}
+          >
+            {['Fournisseur 1', 'Fournisseur 2', 'Fournisseur 3'].map((caiser, index) => (
+              <option key={index} value={index}>
+                {caiser}
+              </option>
+            ))}
+          </Field.Select>
+          <Field.Text name="refInterne" label="Réf Interne" />
+          <Field.Text name="refFournisseur" label="Réf Fournisseur"/>
 
-          <Field.Text name="sku" label="Product SKU" />
+          <Field.Text name="ean" label="EAN - Cade Barre" />
 
           <Field.Text
             name="quantity"
-            label="Quantity"
+            label="Qté"
             placeholder="0"
             type="number"
             InputLabelProps={{ shrink: true }}
           />
-
-          <Field.Select native name="category" label="Category" InputLabelProps={{ shrink: true }}>
-            {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
-              <optgroup key={category.group} label={category.group}>
-                {category.classify.map((classify) => (
-                  <option key={classify} value={classify}>
-                    {classify}
-                  </option>
-                ))}
-              </optgroup>
+          <Field.Select
+            native
+            name="fournisseur"
+            label="Garantie"
+            InputLabelProps={{ shrink: true }}
+          >
+            {[
+              'Pas de garantie',
+              '1 Mois',
+              '3 Mois',
+              '6 Mois',
+              '12 Mois',
+              '24 Mois',
+              'Garantie à vie',
+              'Autre',
+            ].map((caiser, index) => (
+              <option key={index} value={index}>
+                {caiser}
+              </option>
             ))}
           </Field.Select>
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Field.Switch name="saleLabel.enabled" label={null} sx={{ m: 0 }} />
+            <Typography variant="body">Visible sur la facture</Typography>
+          </Stack>
 
-          <Field.MultiSelect
-            checkbox
-            name="colors"
-            label="Colors"
-            options={PRODUCT_COLOR_NAME_OPTIONS}
-          />
+          <Field.DatePicker name="Dateachat" label="Date d'achat" />
 
-          <Field.MultiSelect checkbox name="sizes" label="Sizes" options={PRODUCT_SIZE_OPTIONS} />
+          <Field.Text name='facture' label="N° Facture" />
         </Box>
-
-        <Field.Autocomplete
-          name="tags"
-          label="Tags"
-          placeholder="+ Tags"
-          multiple
-          freeSolo
-          disableCloseOnSelect
-          options={_tags.map((option) => option)}
-          getOptionLabel={(option) => option}
-          renderOption={(props, option) => (
-            <li {...props} key={option}>
-              {option}
-            </li>
-          )}
-          renderTags={(selected, getTagProps) =>
-            selected.map((option, index) => (
-              <Chip
-                {...getTagProps({ index })}
-                key={option}
-                label={option}
-                size="small"
-                color="info"
-                variant="soft"
-              />
-            ))
-          }
-        />
-
-        <Stack spacing={1}>
-          <Typography variant="subtitle2">Gender</Typography>
-          <Field.MultiCheckbox row name="gender" options={PRODUCT_GENDER_OPTIONS} sx={{ gap: 2 }} />
-        </Stack>
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <Stack direction="row" alignItems="center" spacing={3}>
-          <Field.Switch name="saleLabel.enabled" label={null} sx={{ m: 0 }} />
-          <Field.Text
-            name="saleLabel.content"
-            label="Sale label"
-            fullWidth
-            disabled={!values.saleLabel.enabled}
-          />
-        </Stack>
-
-        <Stack direction="row" alignItems="center" spacing={3}>
-          <Field.Switch name="newLabel.enabled" label={null} sx={{ m: 0 }} />
-          <Field.Text
-            name="newLabel.content"
-            label="New label"
-            fullWidth
-            disabled={!values.newLabel.enabled}
-          />
-        </Stack>
       </Stack>
     </Card>
   );
 
+
+  const renderImei = (
+    <Card>
+      <CardHeader title="IMEI/ N° Série" subheader="IMEI de produits" sx={{ mb: 3 }}/>
+      <Divider/>
+      <Stack spacing={3} sx={{ p: 3 }}>
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Field.Switch name="multiple" label={null} sx={{ m: 0 }} />
+            <Typography variant="body">Multiple</Typography>
+          </Stack>
+          <Field.Text name="imei1" label="IMEI/N° Série" />
+      </Stack>
+    </Card>
+  )
+
   const renderPricing = (
     <Card>
-      <CardHeader title="Pricing" subheader="Price related inputs" sx={{ mb: 3 }} />
+      <CardHeader title="Tarification" subheader="TVA, Marge brut, Prix, Taux de marque,..." sx={{ mb: 3 }} />
 
       <Divider />
 
@@ -298,7 +309,7 @@ export function ProductNewEditForm({ currentProduct }) {
             startAdornment: (
               <InputAdornment position="start">
                 <Box component="span" sx={{ color: 'text.disabled' }}>
-                  $
+                  €
                 </Box>
               </InputAdornment>
             ),
@@ -315,7 +326,7 @@ export function ProductNewEditForm({ currentProduct }) {
             startAdornment: (
               <InputAdornment position="start">
                 <Box component="span" sx={{ color: 'text.disabled' }}>
-                  $
+                  €
                 </Box>
               </InputAdornment>
             ),
@@ -371,6 +382,8 @@ export function ProductNewEditForm({ currentProduct }) {
         {renderDetails}
 
         {renderProperties}
+
+        {renderImei}
 
         {renderPricing}
 

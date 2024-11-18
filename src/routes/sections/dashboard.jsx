@@ -21,6 +21,7 @@ const UserList = lazy(() => import('src/pages/dashboard/client'));
 const AddUser = lazy(() => import('src/pages/dashboard/client/add'));
 
 const Articles = lazy(() => import('src/pages/dashboard/stock'));
+const AddArticle = lazy(() => import ('src/pages/dashboard/stock/addArticle'))
 
 // ----------------------------------------------------------------------
 
@@ -58,7 +59,8 @@ export const dashboardRoutes = [
       {
         path: 'stock',
         children: [
-          {element: <Articles />, index:true}
+          {element: <Articles />, index:true},
+          {element: <AddArticle />, path:'add'}
         ]
       }
     ],

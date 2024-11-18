@@ -39,6 +39,8 @@ import {
   RenderCellPublish,
   RenderCellProduct,
   RenderCellCreatedAt,
+  RenderRefInterne,
+  RenderCellPriceBuy,
 } from '../product-table-row';
 
 // ----------------------------------------------------------------------
@@ -59,7 +61,23 @@ export function ProductListView() {
 
   const router = useRouter();
 
-  const { products, productsLoading } = useGetProducts();
+  // const { products, productsLoading } = useGetProducts();
+  const [products, setProducts] = useState(
+    [
+      {
+        "id": "e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1",
+        "category": "Ecran LCD",
+        "name": "Ecran LCD T44 ",
+        "coverUrl": "https://i.pinimg.com/736x/d6/62/3f/d6623f4d67f053942fa96505b83f076b.jpg",
+        "refInterne": "Prompec",
+        "available": 72,
+        "quantity": 80,
+        "inventoryType": "en stock",
+        "price":82,
+        "buy_price":65
+      }
+    ]
+  )
 
   const filters = useSetState({ publish: [], stock: [] });
 
@@ -133,7 +151,7 @@ export function ProductListView() {
     { field: 'category', headerName: 'Category', filterable: false },
     {
       field: 'name',
-      headerName: 'Product',
+      headerName: 'Article',
       flex: 1,
       minWidth: 360,
       hideable: false,
@@ -142,10 +160,10 @@ export function ProductListView() {
       ),
     },
     {
-      field: 'createdAt',
-      headerName: 'Create at',
+      field: 'refInterne',
+      headerName: 'Ref Interne',
       width: 160,
-      renderCell: (params) => <RenderCellCreatedAt params={params} />,
+      renderCell: (params) => <RenderRefInterne params={params} />,
     },
     {
       field: 'inventoryType',
@@ -157,19 +175,17 @@ export function ProductListView() {
     },
     {
       field: 'price',
-      headerName: 'Price',
+      headerName: 'Prix TTC',
       width: 140,
       editable: true,
       renderCell: (params) => <RenderCellPrice params={params} />,
     },
     {
-      field: 'publish',
-      headerName: 'Publish',
+      field: 'buy_price',
+      headerName: "Prix d'achat",
       width: 110,
-      type: 'singleSelect',
       editable: true,
-      valueOptions: PUBLISH_OPTIONS,
-      renderCell: (params) => <RenderCellPublish params={params} />,
+      renderCell: (params) => <RenderCellPriceBuy params={params} />,
     },
     {
       type: 'actions',
@@ -185,19 +201,25 @@ export function ProductListView() {
         <GridActionsCellItem
           showInMenu
           icon={<Iconify icon="solar:eye-bold" />}
-          label="View"
+          label="Voir"
           onClick={() => handleViewRow(params.row.id)}
         />,
         <GridActionsCellItem
           showInMenu
           icon={<Iconify icon="solar:pen-bold" />}
-          label="Edit"
+          label="Adjustement Quantité"
+          onClick={() => handleEditRow(params.row.id)}
+        />,
+        <GridActionsCellItem
+          showInMenu
+          icon={<Iconify icon="solar:copy-bold-duotone" />}
+          label="Dupliquer"
           onClick={() => handleEditRow(params.row.id)}
         />,
         <GridActionsCellItem
           showInMenu
           icon={<Iconify icon="solar:trash-bin-trash-bold" />}
-          label="Delete"
+          label="Supprimer"
           onClick={() => {
             handleDeleteRow(params.row.id);
           }}
@@ -227,6 +249,7 @@ export function ProductListView() {
               component={RouterLink}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
+              href={paths.dashboard.stock.addArticle}
             >
               Ajouter un article
             </Button>
@@ -247,7 +270,7 @@ export function ProductListView() {
             disableRowSelectionOnClick
             rows={dataFiltered}
             columns={columns}
-            loading={productsLoading}
+            // loading={productsLoading}
             getRowHeight={() => 'auto'}
             pageSizeOptions={[5, 10, 25]}
             initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
@@ -327,7 +350,7 @@ function CustomToolbar({
               startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
               onClick={onOpenConfirmDeleteRows}
             >
-              Delete ({selectedRowIds.length})
+              Supprimer ({selectedRowIds.length})
             </Button>
           )}
 

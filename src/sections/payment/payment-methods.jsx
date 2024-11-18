@@ -1,67 +1,79 @@
-import { Controller, useFormContext } from 'react-hook-form';
+import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import TextField from '@mui/material/TextField';
-import CardHeader from '@mui/material/CardHeader';
+import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import FormHelperText from '@mui/material/FormHelperText';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { varAlpha } from 'src/theme/styles';
 
 import { Iconify } from 'src/components/iconify';
-import { PaymentNewCardForm } from '../payment/payment-new-card-form';
 
-// import { PaymentNewCardForm } from '../payment/payment-new-card-form';
+import { PaymentNewCardForm } from './payment-new-card-form';
 
 // ----------------------------------------------------------------------
 
-export function CheckoutPaymentMethods({ name, options, ...other }) {
-  const { control } = useFormContext();
+const PAYMENT_OPTIONS = [
+  { label: 'Paypal', value: 'paypal' },
+  { label: 'Credit / debit', value: 'creditcard' },
+];
 
+const CARD_OPTIONS = [
+  {
+    value: 'visa1',
+    label: '**** **** **** 1212 - Jimmy Holland',
+  },
+  {
+    value: 'visa2',
+    label: '**** **** **** 2424 - Shawn Stokes',
+  },
+  {
+    value: 'mastercard',
+    label: '**** **** **** 4545 - Cole Armstrong',
+  },
+];
+
+// ----------------------------------------------------------------------
+
+export function PaymentMethods({ sx, ...other }) {
   const openForm = useBoolean();
+
+  const [method, setMethod] = useState('paypal');
+
+  const handleChangeMethod = useCallback((newValue) => {
+    setMethod(newValue);
+  }, []);
 
   return (
     <>
-      <Card {...other}>
-        <CardHeader title="Payment" />
+      <Box sx={sx} {...other}>
+        <Typography component="h6" variant="h5" sx={{ mb: { xs: 3, md: 5 } }}>
+          Payment method
+        </Typography>
 
-        <Controller
-          name={name}
-          control={control}
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <Box gap={2.5} display="flex" flexDirection="column" sx={{ p: 3 }}>
-              {options.payments.map((option) => {
-                const isSelected = value === option.value;
+        <Box gap={3} display="flex" flexDirection="column">
+          {PAYMENT_OPTIONS.map((option) => {
+            const isSelected = method === option.value;
 
-                return (
-                  <OptionItem
-                    key={option.label}
-                    option={option}
-                    selected={isSelected}
-                    onOpen={openForm.onTrue}
-                    cardOptions={options.cards}
-                    isCredit={isSelected && option.value === 'creditcard'}
-                    onClick={() => onChange(option.value)}
-                  />
-                );
-              })}
-
-              {!!error && (
-                <FormHelperText error sx={{ mt: 0, px: 2 }}>
-                  {error.message}
-                </FormHelperText>
-              )}
-            </Box>
-          )}
-        />
-      </Card>
+            return (
+              <OptionItem
+                key={option.label}
+                option={option}
+                selected={isSelected}
+                onOpen={openForm.onTrue}
+                isCredit={isSelected && option.value === 'creditcard'}
+                onClick={() => handleChangeMethod(option.value)}
+              />
+            );
+          })}
+        </Box>
+      </Box>
 
       <Dialog fullWidth maxWidth="xs" open={openForm.value} onClose={openForm.onFalse}>
         <DialogTitle> Add new card </DialogTitle>
@@ -86,7 +98,7 @@ export function CheckoutPaymentMethods({ name, options, ...other }) {
 
 // ----------------------------------------------------------------------
 
-function OptionItem({ sx, option, onOpen, selected, isCredit, cardOptions, ...other }) {
+function OptionItem({ option, onOpen, selected, isCredit, sx, ...other }) {
   return (
     <Box
       sx={{
@@ -104,36 +116,36 @@ function OptionItem({ sx, option, onOpen, selected, isCredit, cardOptions, ...ot
       }}
       {...other}
     >
-      <Box display="flex" alignItems="flex-start" sx={{ p: 2.5, cursor: 'pointer' }}>
-        <Box
-          gap={0.5}
-          flexGrow={1}
-          display="flex"
-          flexDirection="column"
-          sx={{ typography: 'subtitle1' }}
-        >
+      <Box display="flex" alignItems="center" sx={{ px: 2, gap: 2, height: 80, cursor: 'pointer' }}>
+        <Iconify
+          width={24}
+          icon={selected ? 'solar:check-circle-bold' : 'carbon:radio-button'}
+          sx={{
+            color: 'text.disabled',
+            ...(selected && { color: 'primary.main' }),
+          }}
+        />
+
+        <Box component="span" sx={{ typography: 'subtitle1', flexGrow: 1 }}>
           {option.label}
-          <Box component="span" sx={{ typography: 'body2', color: 'text.secondary' }}>
-            {option.description}
-          </Box>
         </Box>
 
         <Box gap={1} display="flex" alignItems="center">
-          {option.value === 'creditcard' && (
+          {option.value === 'creditcard' ? (
             <>
-              <Iconify icon="logos:mastercard" width={24} />
-              <Iconify icon="logos:visa" width={24} />
+              <Iconify width={24} icon="logos:mastercard" />
+              <Iconify width={24} icon="logos:visa" />
             </>
+          ) : (
+            <Iconify width={24} icon="logos:paypal" />
           )}
-          {option.value === 'paypal' && <Iconify icon="logos:paypal" width={24} />}
-          {option.value === 'cash' && <Iconify icon="solar:wad-of-money-bold" width={32} />}
         </Box>
       </Box>
 
       {isCredit && (
         <Box sx={{ px: 3 }}>
           <TextField select fullWidth label="Card" SelectProps={{ native: true }}>
-            {cardOptions.map((card) => (
+            {CARD_OPTIONS.map((card) => (
               <option key={card.value} value={card.value}>
                 {card.label}
               </option>

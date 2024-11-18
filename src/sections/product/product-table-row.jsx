@@ -9,11 +9,18 @@ import { fCurrency } from 'src/utils/format-number';
 import { fTime, fDate } from 'src/utils/format-time';
 
 import { Label } from 'src/components/label';
+import { Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
 export function RenderCellPrice({ params }) {
   return fCurrency(params.row.price);
+}
+
+// ----------------------------------------------------------------------
+
+export function RenderCellPriceBuy({params}){
+  return fCurrency(params.row.buy_price)
 }
 
 // ----------------------------------------------------------------------
@@ -61,7 +68,7 @@ export function RenderCellStock({ params }) {
 
 // ----------------------------------------------------------------------
 
-export function RenderCellProduct({ params, onViewRow }) {
+export function RenderCellProduct({ params, onViewRow }) {  
   return (
     <Stack direction="row" alignItems="center" sx={{ py: 2, width: 1 }}>
       <Avatar
@@ -93,4 +100,12 @@ export function RenderCellProduct({ params, onViewRow }) {
       />
     </Stack>
   );
+}
+
+// ----------------------------------------------------------------------
+
+export function RenderRefInterne({params}){
+  return(
+    <Typography>{params.row.refInterne}</Typography>
+  )
 }

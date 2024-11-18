@@ -1,8 +1,8 @@
-import { formatNumberLocale } from 'src/locales';
+// import { formatNumberLocale } from 'src/locales';
 
 // ----------------------------------------------------------------------
 
-const DEFAULT_LOCALE = { code: 'en-US', currency: 'USD' };
+const DEFAULT_LOCALE = { code: 'fr-FR', currency: 'EUR' };
 
 function processInput(inputValue) {
   if (inputValue == null || Number.isNaN(inputValue)) return null;
@@ -12,7 +12,7 @@ function processInput(inputValue) {
 // ----------------------------------------------------------------------
 
 export function fNumber(inputValue, options) {
-  const locale = formatNumberLocale() || DEFAULT_LOCALE;
+  const locale = DEFAULT_LOCALE;
 
   const number = processInput(inputValue);
   if (number === null) return '';
@@ -29,7 +29,7 @@ export function fNumber(inputValue, options) {
 // ----------------------------------------------------------------------
 
 export function fCurrency(inputValue, options) {
-  const locale = formatNumberLocale() || DEFAULT_LOCALE;
+  const locale = DEFAULT_LOCALE;
 
   const number = processInput(inputValue);
   if (number === null) return '';
@@ -48,7 +48,7 @@ export function fCurrency(inputValue, options) {
 // ----------------------------------------------------------------------
 
 export function fPercent(inputValue, options) {
-  const locale = formatNumberLocale() || DEFAULT_LOCALE;
+  const locale = DEFAULT_LOCALE;
 
   const number = processInput(inputValue);
   if (number === null) return '';
@@ -66,7 +66,7 @@ export function fPercent(inputValue, options) {
 // ----------------------------------------------------------------------
 
 export function fShortenNumber(inputValue, options) {
-  const locale = formatNumberLocale() || DEFAULT_LOCALE;
+  const locale = DEFAULT_LOCALE;
 
   const number = processInput(inputValue);
   if (number === null) return '';
