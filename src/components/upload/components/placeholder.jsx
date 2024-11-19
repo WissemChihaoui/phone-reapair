@@ -18,16 +18,16 @@ export function UploadPlaceholder({ sx, ...other }) {
       <UploadIllustration hideBackground sx={{ width: 200 }} />
 
       <Stack spacing={1} sx={{ textAlign: 'center' }}>
-        <Box sx={{ typography: 'h6' }}>Drop or select file</Box>
+        <Box sx={{ typography: 'h6' }}>Déposer ou sélectionner un fichier</Box>
         <Box sx={{ typography: 'body2', color: 'text.secondary' }}>
-          Drop files here or click to
+          Déposez vos fichiers ici ou cliquez sur
           <Box
             component="span"
             sx={{ mx: 0.5, color: 'primary.main', textDecoration: 'underline' }}
           >
-            browse
+            parcourir
           </Box>
-          through your machine.
+          par lintermédiaire de votre machine.
         </Box>
       </Stack>
     </Box>

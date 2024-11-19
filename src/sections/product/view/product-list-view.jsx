@@ -31,6 +31,7 @@ import { EmptyContent } from 'src/components/empty-content';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
+import { UserQuickEditForm } from 'src/sections/user/user-quick-edit-form';
 import { ProductTableToolbar } from '../product-table-toolbar';
 import { ProductTableFiltersResult } from '../product-table-filters-result';
 import {
@@ -79,6 +80,8 @@ export function ProductListView() {
     ]
   )
 
+  const adjustDialog = useBoolean();
+
   const filters = useSetState({ publish: [], stock: [] });
 
   const [tableData, setTableData] = useState([]);
@@ -120,10 +123,25 @@ export function ProductListView() {
 
   const handleEditRow = useCallback(
     (id) => {
-      router.push(paths.dashboard.product.edit(id));
+      router.push(paths.dashboard.stock.editArticle(id));
     },
     [router]
   );
+  
+  const handleDuplicateRow = useCallback(
+    (id) => {
+      router.push(paths.dashboard.stock.duplicate(id));
+    },
+    [router]
+  );
+
+  // const handleAdjustRow = useCallback(
+  //   (id) => {
+      
+  //     adjustDialog.onTrue;
+  //   },
+  //   [id]
+  // );
 
   const handleViewRow = useCallback(
     (id) => {
@@ -156,7 +174,7 @@ export function ProductListView() {
       minWidth: 360,
       hideable: false,
       renderCell: (params) => (
-        <RenderCellProduct params={params} onViewRow={() => handleViewRow(params.row.id)} />
+        <RenderCellProduct params={params} onViewRow={() => handleEditRow(params.row.id)} />
       ),
     },
     {
@@ -202,19 +220,19 @@ export function ProductListView() {
           showInMenu
           icon={<Iconify icon="solar:eye-bold" />}
           label="Voir"
-          onClick={() => handleViewRow(params.row.id)}
+          onClick={() => handleEditRow(params.row.id)}
         />,
         <GridActionsCellItem
           showInMenu
           icon={<Iconify icon="solar:pen-bold" />}
           label="Adjustement Quantité"
-          onClick={() => handleEditRow(params.row.id)}
+          onClick={() => adjustDialog.onTrue}
         />,
         <GridActionsCellItem
           showInMenu
           icon={<Iconify icon="solar:copy-bold-duotone" />}
           label="Dupliquer"
-          onClick={() => handleEditRow(params.row.id)}
+          onClick={() => handleDuplicateRow(params.row.id)}
         />,
         <GridActionsCellItem
           showInMenu
@@ -291,7 +309,7 @@ export function ProductListView() {
           />
         </Card>
       </DashboardContent>
-
+      <UserQuickEditForm currentUser={products[0]} open={adjustDialog.value} onClose={adjustDialog.onFalse} />
       <ConfirmDialog
         open={confirmRows.value}
         onClose={confirmRows.onFalse}

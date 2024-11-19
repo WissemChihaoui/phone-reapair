@@ -21,7 +21,9 @@ const UserList = lazy(() => import('src/pages/dashboard/client'));
 const AddUser = lazy(() => import('src/pages/dashboard/client/add'));
 
 const Articles = lazy(() => import('src/pages/dashboard/stock'));
-const AddArticle = lazy(() => import ('src/pages/dashboard/stock/addArticle'))
+const AddArticle = lazy(() => import ('src/pages/dashboard/stock/addArticle'));
+const EditArticle = lazy(() => import ('src/pages/dashboard/stock/editArticle'));
+const DuplicateArticle = lazy(() => import ('src/pages/dashboard/stock/duplicateArticle'));
 
 // ----------------------------------------------------------------------
 
@@ -60,7 +62,9 @@ export const dashboardRoutes = [
         path: 'stock',
         children: [
           {element: <Articles />, index:true},
-          {element: <AddArticle />, path:'add'}
+          {element: <AddArticle />, path:'add'},
+          {element: <EditArticle />, path:':id/edit'},
+          {element: <DuplicateArticle />, path:':id/duplicate'},
         ]
       }
     ],

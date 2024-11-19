@@ -53,7 +53,7 @@ export const NewProductSchema = zod.object({
 
 // ----------------------------------------------------------------------
 
-export function ProductNewEditForm({ currentProduct }) {
+export function ProductDuplicateForm({ currentProduct }) {
   const router = useRouter();
 
   const [includeTaxes, setIncludeTaxes] = useState(false);
@@ -465,7 +465,7 @@ export function ProductNewEditForm({ currentProduct }) {
   const renderActions = (
     <Stack spacing={3} direction="row" alignItems="center" flexWrap="wrap">
       <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
-        {!currentProduct ? 'Créer Article' : 'Modifier'}
+        {!currentProduct ? 'Créer Article' : 'Dupliquer'}
       </LoadingButton>
     </Stack>
   );
