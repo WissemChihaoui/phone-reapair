@@ -13,7 +13,7 @@ import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/components/settings';
 
 import { AuthProvider } from 'src/auth/context/jwt';
-import { LocalizationProvider } from './locales';
+import { I18nProvider, LocalizationProvider } from './locales';
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +21,7 @@ export default function App() {
   useScrollToTop();
 
   return (
+    <I18nProvider>
     <LocalizationProvider>
       <AuthProvider>
         <SettingsProvider settings={defaultSettings}>
@@ -34,5 +35,6 @@ export default function App() {
         </SettingsProvider>
       </AuthProvider>
     </LocalizationProvider>
+    </I18nProvider>
   );
 }

@@ -108,7 +108,13 @@ export function ProductNewEditForm({ currentProduct }) {
     formState: { isSubmitting },
   } = methods;
 
-  const values = watch();
+  const quantityWatch = watch("quantity");
+  const multipleWatch = watch("multiple")
+
+  useEffect(()=> {
+    console.log(multipleWatch);
+    
+  },[multipleWatch])
 
   useEffect(() => {
     if (currentProduct) {
@@ -275,10 +281,27 @@ export function ProductNewEditForm({ currentProduct }) {
       <Divider />
       <Stack spacing={3} sx={{ p: 3 }}>
         <Stack direction="row" alignItems="center" spacing={3}>
-          <Field.Switch name="multiple" label={null} sx={{ m: 0 }} />
+          <Field.Switch 
+            name="multiple" 
+            label={null} 
+            sx={{ m: 0 }} 
+          />
           <Typography variant="body">Multiple</Typography>
         </Stack>
-        <Field.Text name="imei" label="IMEI/N° Série" />
+        
+        {multipleWatch ? (
+          // Render multiple IMEI fields based on the quantity
+          Array.from({ length: quantityWatch }).map((_, index) => (
+            <Field.Text
+              key={index}
+              name={`imei[${index}]`}  // Dynamically name each IMEI field
+              label={`IMEI/N° Série ${index + 1}`}  // Label the IMEI field based on index
+            />
+          ))
+        ) : (
+          // Single IMEI field if multiple is false
+          <Field.Text name="imei" label="IMEI/N° Série" />
+        )}
       </Stack>
     </Card>
   );

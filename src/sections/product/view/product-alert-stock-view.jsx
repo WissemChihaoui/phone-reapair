@@ -49,21 +49,25 @@ const PUBLISH_OPTIONS = [
   { value: 'published', label: 'Published' },
   { value: 'draft', label: 'Draft' },
 ];
-
+const categoryOptions = [
+    { value: 'Ecran', label: 'Ecran'},
+    { value: 'Furniture', label: 'Furniture'},
+    { value: 'Clothing', label: 'Clothing'},
+]
 const HIDE_COLUMNS = { category: false, sousCategory: false };
 
 const HIDE_COLUMNS_TOGGLABLE = ['category', 'actions'];
 
 // ----------------------------------------------------------------------
 
-export function ProductListView() {
+export function ProductAlertStockView() {
   const confirmRows = useBoolean();
   const confirmRow = useBoolean();
 
   const router = useRouter();
 
   // const { products, productsLoading } = useGetProducts();
-  const categoryOptions = ['Ecran', 'Furniture', 'Clothing'];
+//   const categoryOptions = ['Ecran', 'Furniture', 'Clothing'];
 const sousCategoryOptions = ['Ecran LCD', 'Tables', 'Shirts'];
 const newCategories = [
   {
@@ -131,7 +135,7 @@ const newCategories = [
   )
   const adjustDialog = useBoolean();
 
-  const filters = useSetState({ publish: [], stock: [] });
+  const filters = useSetState({ publish: [], stock: [], category:[] });
 
   const [tableData, setTableData] = useState([]);
 
@@ -331,11 +335,11 @@ const newCategories = [
     <>
       <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         <CustomBreadcrumbs
-          heading="Liste des articles"
+          heading="Alerte de stock"
           links={[
             { name: 'Tableau de bord', href: paths.dashboard.root },
             { name: 'Stock', href: paths.dashboard.stock.root },
-            { name: 'Liste des articles' },
+            { name: 'Alerte de stock' },
           ]}
           action={
             <Button
@@ -454,10 +458,7 @@ function CustomToolbar({
   return (
     <>
       <GridToolbarContainer>
-        <ProductTableToolbar
-          filters={filters}
-          options={{ stocks: PRODUCT_STOCK_OPTIONS, publishs: PUBLISH_OPTIONS }}
-        />
+        
 
         <GridToolbarQuickFilter placeholder='Rechercher...'/>
 
@@ -498,7 +499,7 @@ function CustomToolbar({
 }
 
 function applyFilter({ inputData, filters }) {
-  const { stock, publish } = filters;
+  const { stock, publish, category } = filters;
 
   if (stock.length) {
     inputData = inputData.filter((product) => stock.includes(product.inventoryType));
@@ -506,6 +507,10 @@ function applyFilter({ inputData, filters }) {
 
   if (publish.length) {
     inputData = inputData.filter((product) => publish.includes(product.publish));
+  }
+
+  if (category.length) {
+    inputData = inputData.filter((product) => publish.includes(product.category));
   }
 
   return inputData;

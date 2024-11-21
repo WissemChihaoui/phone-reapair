@@ -6,6 +6,7 @@ import { iconButtonClasses } from '@mui/material/IconButton';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
+import { allLangs } from 'src/locales';
 import { _contacts, _notifications } from 'src/_mock';
 
 import { Logo } from 'src/components/logo';
@@ -165,7 +166,7 @@ export function DashboardLayout({ sx, children, header, data }) {
                </Alert>
                 {/* -- Searchbar -- */}
                 {/* <Searchbar data={navData} /> */}
-                
+                <LanguagePopover data={allLangs} />
                 {/* -- Notifications popover -- */}
                 <NotificationsDrawer data={_notifications} />
                 {/* -- Contacts popover -- */}
