@@ -26,11 +26,27 @@ export function ProductTableFiltersResult({ filters, totalResults, sx }) {
     },
     [filters]
   );
+  const handleRemoveCategory = useCallback(
+    (inputValue) => {
+      const newValue = "";
+
+      filters.setState({ category: newValue });
+    },
+    [filters]
+  );
+  const handleRemoveSousCategory = useCallback(
+    (inputValue) => {
+      const newValue = "";
+
+      filters.setState({ sousCategory: newValue });
+    },
+    [filters]
+  );
 
   return (
     <FiltersResult totalResults={totalResults} onReset={filters.onResetState} sx={sx}>
-      <FiltersBlock label="Stock:" isShow={!!filters.state.stock.length}>
-        {filters.state.stock.map((item) => (
+      <FiltersBlock label="Stock:" isShow={!!filters.state.stock?.length}>
+        {filters.state.stock?.map((item) => (
           <Chip
             {...chipProps}
             key={item}
@@ -40,8 +56,8 @@ export function ProductTableFiltersResult({ filters, totalResults, sx }) {
         ))}
       </FiltersBlock>
 
-      <FiltersBlock label="Publish:" isShow={!!filters.state.publish.length}>
-        {filters.state.publish.map((item) => (
+      <FiltersBlock label="Publish:" isShow={!!filters.state.publish?.length}>
+        {filters.state.publish?.map((item) => (
           <Chip
             {...chipProps}
             key={item}
@@ -49,6 +65,22 @@ export function ProductTableFiltersResult({ filters, totalResults, sx }) {
             onDelete={() => handleRemovePublish(item)}
           />
         ))}
+      </FiltersBlock>
+      <FiltersBlock label="Catégories:" isShow={!!filters.state.category?.length}>
+      <Chip
+            {...chipProps}
+            key={filters.state.category}
+            label={sentenceCase(filters.state.category)}
+            onDelete={() => handleRemoveCategory(filters.state.category)}
+          />
+      </FiltersBlock>
+      <FiltersBlock label="Sous Catégorie:" isShow={!!filters.state.sousCategory?.length}>
+      <Chip
+            {...chipProps}
+            key={filters.state.sousCategory}
+            label={sentenceCase(filters.state.sousCategory)}
+            onDelete={() => handleRemoveSousCategory(filters.state.sousCategory)}
+          />
       </FiltersBlock>
     </FiltersResult>
   );

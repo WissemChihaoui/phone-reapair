@@ -12,7 +12,6 @@ import {
   GridToolbarQuickFilter,
   GridToolbarFilterButton,
   GridToolbarColumnsButton,
-  GridFilterInputSingleSelect, 
   GridToolbar
 } from '@mui/x-data-grid';
 
@@ -42,6 +41,8 @@ import {
   RenderCellPriceBuy,
 } from '../product-table-row';
 import { ProductQuantityAdjust } from '../product-quantity-adjust';
+import ProductAlertToolbar from '../product-alert-toolbar';
+// import { ProductAlertToolbar } from '../product-alert-toolbar';
 
 // ----------------------------------------------------------------------
 
@@ -49,10 +50,40 @@ const PUBLISH_OPTIONS = [
   { value: 'published', label: 'Published' },
   { value: 'draft', label: 'Draft' },
 ];
+// const categoryOptions = [
+//     { value: 'Ecran', label: 'Ecran'},
+//     { value: 'Furniture', label: 'Furniture'},
+//     { value: 'Clothing', label: 'Clothing'},
+// ]
 const categoryOptions = [
-    { value: 'Ecran', label: 'Ecran'},
-    { value: 'Furniture', label: 'Furniture'},
-    { value: 'Clothing', label: 'Clothing'},
+  {
+    label: 'Ecran',
+    value: 'Ecran',
+    childrens: [
+      {
+        label: 'Ecran LCD',
+        value: 'Ecran LCD'
+      },
+      {
+        label: 'TV',
+        value: 'TV'
+      }
+    ]
+  },
+  {
+    label: 'Catégorie 1',
+    value: 'Catégorie 1',
+    childrens: [
+      {
+        label: 'Sous 1',
+        value: 'Sous 1'
+      },
+      {
+        label: 'Sous 2',
+        value: 'Sous 2'
+      }
+    ]
+  }
 ]
 const HIDE_COLUMNS = { category: false, sousCategory: false };
 
@@ -69,30 +100,7 @@ export function ProductAlertStockView() {
   // const { products, productsLoading } = useGetProducts();
 //   const categoryOptions = ['Ecran', 'Furniture', 'Clothing'];
 const sousCategoryOptions = ['Ecran LCD', 'Tables', 'Shirts'];
-const newCategories = [
-  {
-    label: 'Ecran',
-    childrens: [
-      {
-        label: 'Ecran LCD'
-      },
-      {
-        label: 'TV'
-      }
-    ]
-  },
-  {
-    label: 'Catégorie 1',
-    childrens: [
-      {
-        label: 'Sous 1'
-      },
-      {
-        label: 'Sous 2'
-      }
-    ]
-  }
-]
+
 
   const [products, setProducts] = useState(
     [
@@ -124,6 +132,20 @@ const newCategories = [
         "buy_price":65,
         "fournisseur": "fournisseur 2",
       },
+      {
+        "id": "e99fz9b7-dd88-49d5-b1c8-1daf80c2d7b1",
+        "category": "Ecran",
+        "sousCategory": "TV",
+        "name": "TV T44 ",
+        "coverUrl": "https://i.pinimg.com/736x/d6/62/3f/d6623f4d67f053942fa96505b83f076b.jpg",
+        "refInterne": "Prompec",
+        "available": 0,
+        "quantity": -5,
+        "inventoryType": "Repture de stock",
+        "price":82,
+        "buy_price":65,
+        "fournisseur": "fournisseur 2",
+      },
     ]
   )
   const [selectedRowAdjust, setSelectedRowAdjust] = useState(
@@ -135,7 +157,7 @@ const newCategories = [
   )
   const adjustDialog = useBoolean();
 
-  const filters = useSetState({ publish: [], stock: [], category:[] });
+  const filters = useSetState({ category:"", sousCategory:"" });
 
   const [tableData, setTableData] = useState([]);
 
@@ -149,11 +171,11 @@ const newCategories = [
 
   useEffect(() => {
     if (products.length) {
-      setTableData(products);
+      setTableData(products.filter((p)=>p.quantity <= 0));
     }
   }, [products]);
 
-  const canReset = filters.state.publish.length > 0 || filters.state.stock.length > 0;
+  const canReset = filters.state.category !== "" || filters.state.sousCategory !== "";
 
   const dataFiltered = applyFilter({ inputData: tableData, filters: filters.state });
 
@@ -231,7 +253,7 @@ const newCategories = [
       headerName: 'Category',
       width: 200,
       type: 'singleSelect',
-      valueOptions: newCategories,
+      valueOptions: categoryOptions,
     },
     {
       field: 'name',
@@ -246,7 +268,7 @@ const newCategories = [
     },
     {
       field: 'sousCategory',
-      headerName: 'Sous Category',
+      headerName: 'Sous Catégorie',
       width: 200,
       type: 'singleSelect',
       valueOptions: sousCategoryOptions,
@@ -459,7 +481,8 @@ function CustomToolbar({
     <>
       <GridToolbarContainer>
         
-
+        <ProductAlertToolbar filters={filters}
+          options={{ category: categoryOptions }} />
         <GridToolbarQuickFilter placeholder='Rechercher...'/>
 
         <Stack
@@ -499,18 +522,18 @@ function CustomToolbar({
 }
 
 function applyFilter({ inputData, filters }) {
-  const { stock, publish, category } = filters;
+  const { category, sousCategory } = filters;
+  
+  console.log(filters);
+  
 
-  if (stock.length) {
-    inputData = inputData.filter((product) => stock.includes(product.inventoryType));
+  console.log('from applyFilter',category);
+  
+  if (category) {
+    inputData = inputData.filter((product) => category === product.category);
   }
-
-  if (publish.length) {
-    inputData = inputData.filter((product) => publish.includes(product.publish));
-  }
-
-  if (category.length) {
-    inputData = inputData.filter((product) => publish.includes(product.category));
+  if (sousCategory) {
+    inputData = inputData.filter((product) => sousCategory === product.sousCategory);
   }
 
   return inputData;

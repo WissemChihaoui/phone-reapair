@@ -86,7 +86,7 @@ export const navData = [
         children: [
           { title: 'Articles', path: paths.dashboard.stock.root},
           { title: 'Alerte stock', path: paths.dashboard.stock.alertStock},
-          { title: 'Catégories articles', path: paths.dashboard.three},
+          { title: 'Catégories articles', path: paths.dashboard.stock.categories},
           { title: 'Lieu de stockage', path: paths.dashboard.three},
           { title: 'Fournisseurs', path: paths.dashboard.three},
           { title: 'Commandes', path: paths.dashboard.three},
