@@ -57,6 +57,7 @@ export const paths = {
     stock: {
       root: `${ROOTS.DASHBOARD}/stock`,
       categories: `${ROOTS.DASHBOARD}/stock/categories`,
+      stockage: `${ROOTS.DASHBOARD}/stock/stockage`,
       addArticle: `${ROOTS.DASHBOARD}/stock/add`,
       alertStock: `${ROOTS.DASHBOARD}/stock/alert-stock`,
       editArticle: (id) => `${ROOTS.DASHBOARD}/stock/${id}/edit`,

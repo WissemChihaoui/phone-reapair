@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { CONFIG } from 'src/config-global';
-import ProductCategoriesView from 'src/sections/product/view/categories/product-categories-view';
+import ProductStockageView from 'src/sections/product/view/stockage/product-stockage-view';
 
-const metadata = { title: `Catégories de stock - ${CONFIG.appName}` };
+const metadata = { title: `Casiers de stockage - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -10,7 +10,7 @@ export default function Page() {
       <Helmet>
         <title>{metadata.title}</title>
       </Helmet>
-      <ProductCategoriesView />
+      <ProductStockageView />
     </>
   );
 }

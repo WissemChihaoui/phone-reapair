@@ -12,8 +12,8 @@ import {
   GridToolbarQuickFilter,
   GridToolbarFilterButton,
   GridToolbarColumnsButton,
-  GridFilterInputSingleSelect, 
-  GridToolbar
+  GridFilterInputSingleSelect,
+  GridToolbar,
 } from '@mui/x-data-grid';
 
 import { paths } from 'src/routes/paths';
@@ -32,16 +32,16 @@ import { EmptyContent } from 'src/components/empty-content';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-import { ProductTableToolbar } from '../product-table-toolbar';
-import { ProductTableFiltersResult } from '../product-table-filters-result';
+import { ProductTableToolbar } from '../../product-table-toolbar';
+import { ProductTableFiltersResult } from '../../product-table-filters-result';
 import {
   RenderCellStock,
   RenderCellPrice,
   RenderCellProduct,
   RenderRefInterne,
   RenderCellPriceBuy,
-} from '../product-table-row';
-import { ProductQuantityAdjust } from '../product-quantity-adjust';
+} from '../../product-table-row';
+import { ProductQuantityAdjust } from '../../product-quantity-adjust';
 
 // ----------------------------------------------------------------------
 
@@ -64,71 +64,67 @@ export function ProductListView() {
 
   // const { products, productsLoading } = useGetProducts();
   const categoryOptions = ['Ecran', 'Furniture', 'Clothing'];
-const sousCategoryOptions = ['Ecran LCD', 'Tables', 'Shirts'];
-const newCategories = [
-  {
-    label: 'Ecran',
-    childrens: [
-      {
-        label: 'Ecran LCD'
-      },
-      {
-        label: 'TV'
-      }
-    ]
-  },
-  {
-    label: 'Catégorie 1',
-    childrens: [
-      {
-        label: 'Sous 1'
-      },
-      {
-        label: 'Sous 2'
-      }
-    ]
-  }
-]
-
-  const [products, setProducts] = useState(
-    [
-      {
-        "id": "e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1",
-        "category": "Ecran",
-        "sousCategory": 'Tables',
-        "name": "Ecran LCD T44 ",
-        "coverUrl": "https://i.pinimg.com/736x/d6/62/3f/d6623f4d67f053942fa96505b83f076b.jpg",
-        "refInterne": "Prompec",
-        "available": 72,
-        "quantity": 80,
-        "inventoryType": "en stock",
-        "price":82,
-        "buy_price":65,
-        "fournisseur": "fournisseur 2",
-      },
-      {
-        "id": "e99f09b7-dd88-49d5-b1c8-1daf80c2d7b1",
-        "category": "Ecran",
-        "sousCategory": "Ecran LCD",
-        "name": "Ecran LCD T44 ",
-        "coverUrl": "https://i.pinimg.com/736x/d6/62/3f/d6623f4d67f053942fa96505b83f076b.jpg",
-        "refInterne": "Prompec",
-        "available": 72,
-        "quantity": 100,
-        "inventoryType": "en stock",
-        "price":82,
-        "buy_price":65,
-        "fournisseur": "fournisseur 2",
-      },
-    ]
-  )
-  const [selectedRowAdjust, setSelectedRowAdjust] = useState(
+  const sousCategoryOptions = ['Ecran LCD', 'Tables', 'Shirts'];
+  const newCategories = [
     {
-      "quantity": 0,
-      "fournisseur": "",
-      "category": ""
-    }
-  )
+      label: 'Ecran',
+      childrens: [
+        {
+          label: 'Ecran LCD',
+        },
+        {
+          label: 'TV',
+        },
+      ],
+    },
+    {
+      label: 'Catégorie 1',
+      childrens: [
+        {
+          label: 'Sous 1',
+        },
+        {
+          label: 'Sous 2',
+        },
+      ],
+    },
+  ];
+
+  const [products, setProducts] = useState([
+    {
+      id: 'e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1',
+      category: 'Ecran',
+      sousCategory: 'Tables',
+      name: 'Ecran LCD T44 ',
+      coverUrl: 'https://i.pinimg.com/736x/d6/62/3f/d6623f4d67f053942fa96505b83f076b.jpg',
+      refInterne: 'Prompec',
+      available: 72,
+      quantity: 80,
+      inventoryType: 'en stock',
+      price: 82,
+      buy_price: 65,
+      fournisseur: 'fournisseur 2',
+    },
+    {
+      id: 'e99f09b7-dd88-49d5-b1c8-1daf80c2d7b1',
+      category: 'Ecran',
+      sousCategory: 'Ecran LCD',
+      name: 'Ecran LCD T44 ',
+      coverUrl: 'https://i.pinimg.com/736x/d6/62/3f/d6623f4d67f053942fa96505b83f076b.jpg',
+      refInterne: 'Prompec',
+      available: 72,
+      quantity: 100,
+      inventoryType: 'en stock',
+      price: 82,
+      buy_price: 65,
+      fournisseur: 'fournisseur 2',
+    },
+  ]);
+  const [selectedRowAdjust, setSelectedRowAdjust] = useState({
+    quantity: 0,
+    fournisseur: '',
+    category: '',
+  });
   const adjustDialog = useBoolean();
 
   const filters = useSetState({ publish: [], stock: [] });
@@ -137,7 +133,7 @@ const newCategories = [
 
   const [selectedRowIds, setSelectedRowIds] = useState([]);
 
-  const [toDelete, setToDelete] = useState({})
+  const [toDelete, setToDelete] = useState({});
 
   const [filterButtonEl, setFilterButtonEl] = useState(null);
 
@@ -154,10 +150,9 @@ const newCategories = [
   const dataFiltered = applyFilter({ inputData: tableData, filters: filters.state });
 
   const showDeleteModal = (row) => {
-      setToDelete(row)
-      confirmRow.onTrue()
-    }
-
+    setToDelete(row);
+    confirmRow.onTrue();
+  };
 
   const handleDeleteRow = useCallback(
     (id) => {
@@ -184,7 +179,7 @@ const newCategories = [
     },
     [router]
   );
-  
+
   const handleDuplicateRow = useCallback(
     (id) => {
       router.push(paths.dashboard.stock.duplicate(id));
@@ -192,16 +187,14 @@ const newCategories = [
     [router]
   );
 
-  function handleAdjust (row){
+  function handleAdjust(row) {
     console.log(row);
-    setSelectedRowAdjust(
-      {
-        "quantity": row.quantity,
-        "fournisseur": row.fournisseur,
-        "category": row.category
-      }
-    )
-    adjustDialog.onTrue()
+    setSelectedRowAdjust({
+      quantity: row.quantity,
+      fournisseur: row.fournisseur,
+      category: row.category,
+    });
+    adjustDialog.onTrue();
   }
 
   const CustomToolbarCallback = useCallback(
@@ -246,7 +239,6 @@ const newCategories = [
       width: 200,
       type: 'singleSelect',
       valueOptions: sousCategoryOptions,
-      
     },
     {
       field: 'refInterne',
@@ -363,7 +355,7 @@ const newCategories = [
             disableRowSelectionOnClick
             rows={dataFiltered}
             columns={columns}
-            filterMode='client'
+            filterMode="client"
             components={{
               Toolbar: GridToolbar, // Add filter button
             }}
@@ -394,7 +386,13 @@ const newCategories = [
         </Card>
       </DashboardContent>
       {/* <UserQuickEditForm currentUser={products[0]} open={adjustDialog.value} onClose={adjustDialog.onFalse} /> */}
-      {adjustDialog.value && <ProductQuantityAdjust currentProduct={selectedRowAdjust} open={adjustDialog.value} onClose={adjustDialog.onFalse} />}
+      {adjustDialog.value && (
+        <ProductQuantityAdjust
+          currentProduct={selectedRowAdjust}
+          open={adjustDialog.value}
+          onClose={adjustDialog.onFalse}
+        />
+      )}
       <ConfirmDialog
         open={confirmRows.value}
         onClose={confirmRows.onFalse}
@@ -459,7 +457,7 @@ function CustomToolbar({
           options={{ stocks: PRODUCT_STOCK_OPTIONS, publishs: PUBLISH_OPTIONS }}
         />
 
-        <GridToolbarQuickFilter placeholder='Rechercher...'/>
+        <GridToolbarQuickFilter placeholder="Rechercher..." />
 
         <Stack
           spacing={1}
@@ -482,7 +480,6 @@ function CustomToolbar({
           <GridToolbarColumnsButton />
           <GridToolbarFilterButton ref={setFilterButtonEl} />
           <GridToolbarExport />
-          
         </Stack>
       </GridToolbarContainer>
 

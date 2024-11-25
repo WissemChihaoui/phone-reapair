@@ -4,9 +4,7 @@ import { useParams } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/config-global';
 import { useGetProduct } from 'src/actions/product';
-import { ProductDuplicateView } from 'src/sections/product/view/product-duplicate-view';
-
-
+import { ProductDuplicateView } from 'src/sections/product/view/articles/product-duplicate-view';
 
 // ----------------------------------------------------------------------
 

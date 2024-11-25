@@ -4,25 +4,24 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-import { ProductDuplicateForm } from '../product-duplicate-form';
+import { ProductNewEditForm } from '../../product-new-edit-form';
 
 // ----------------------------------------------------------------------
 
-export function ProductDuplicateView({ product }) {
+export function ProductEditView({ product }) {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Duplicate"
+        heading="Modifier"
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },
           { name: 'Stock', href: paths.dashboard.stock.root },
-          { name: 'Duplicate', href: paths.dashboard.stock.root },
           { name: product?.name },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
 
-      <ProductDuplicateForm currentProduct={product} />
+      <ProductNewEditForm currentProduct={product} />
     </DashboardContent>
   );
 }
