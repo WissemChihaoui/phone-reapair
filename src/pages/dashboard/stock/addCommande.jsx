@@ -1,11 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 
-import { useParams } from 'src/routes/hooks';
-
 import { CONFIG } from 'src/config-global';
-import ProductFournisseursView from 'src/sections/product/view/fournisseurs/product-fournisseurs-view';
+import ProductCommandeAdd from 'src/sections/product/view/commandes/product-commande-add';
 
-const metadata = { title: `Fournisseurs | Dashboard - ${CONFIG.appName}` };
+const metadata = { title: `Ajouter Commande | Tableau de bord - ${CONFIG.appName}` };
 
 export default function Page() {
     return(
@@ -13,7 +11,7 @@ export default function Page() {
             <Helmet>
                 <title> {metadata.title}</title>
             </Helmet>
-            <ProductFournisseursView />
+            <ProductCommandeAdd />
         </>
         
     )

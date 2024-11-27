@@ -60,6 +60,7 @@ export const paths = {
       stockage: `${ROOTS.DASHBOARD}/stock/stockage`,
       fournisseurs: `${ROOTS.DASHBOARD}/stock/fournisseurs`,
       addArticle: `${ROOTS.DASHBOARD}/stock/add`,
+      addCommande: `${ROOTS.DASHBOARD}/stock/commande/add`,
       alertStock: `${ROOTS.DASHBOARD}/stock/alert-stock`,
       editArticle: (id) => `${ROOTS.DASHBOARD}/stock/${id}/edit`,
       duplicate: (id) => `${ROOTS.DASHBOARD}/stock/${id}/duplicate`,
