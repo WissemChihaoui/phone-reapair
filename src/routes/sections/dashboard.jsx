@@ -29,6 +29,8 @@ const Categories = lazy(() => import ('src/pages/dashboard/stock/categories'));
 const Stockage = lazy(() => import ('src/pages/dashboard/stock/stockage'));
 const Fournisseurs = lazy(() => import ('src/pages/dashboard/stock/fournisseur'));
 const AddCommande = lazy(() => import ('src/pages/dashboard/stock/addCommande'));
+const Commandes = lazy(() => import ('src/pages/dashboard/stock/commandes'));
+const EditCommande = lazy(() => import ('src/pages/dashboard/stock/editCommande'));
 
 // ----------------------------------------------------------------------
 
@@ -75,6 +77,8 @@ export const dashboardRoutes = [
           {element: <Stockage />, path:'stockage'},
           {element: <Fournisseurs />, path:'fournisseurs'},
           {element: <AddCommande />, path:'commande/add'},
+          {element: <Commandes />, path:'commande'},
+          {element: <EditCommande />, path:'commande/:id/edit'},
         ]
       }
     ],
