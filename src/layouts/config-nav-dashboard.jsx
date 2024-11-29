@@ -90,7 +90,7 @@ export const navData = [
           { title: 'Lieu de stockage', path: paths.dashboard.stock.stockage},
           { title: 'Fournisseurs', path: paths.dashboard.stock.fournisseurs},
           { title: 'Commandes', path: paths.dashboard.stock.commande},
-          { title: 'déstockage', path: paths.dashboard.three},
+          { title: 'déstockage', path: paths.dashboard.stock.destockage},
         ]
       },
       {

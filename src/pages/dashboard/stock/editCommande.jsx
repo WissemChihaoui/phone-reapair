@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/config-global';
+import ProductCommandeEdit from 'src/sections/product/view/commandes/product-commande-edit';
 
 // ----------------------------------------------------------------------
 
@@ -17,9 +18,8 @@ export default function Page() {
           <Helmet>
             <title> {metadata.title}</title>
           </Helmet>
-          <p>hello</p>
-        
-          {/* <ProductEditView product={product} /> */}
+
+          <ProductCommandeEdit />
         </>
       );
 }

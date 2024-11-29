@@ -1,10 +1,15 @@
 import { useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
+import Select from '@mui/material/Select';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
+import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
 import IconButton from '@mui/material/IconButton';
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { formHelperTextClasses } from '@mui/material/FormHelperText';
@@ -14,13 +19,24 @@ import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
-export function OrderTableToolbar({ filters, onResetPage, dateError }) {
+export function DestockageTableToolbar({ filters, options, dateError, onResetPage }) {
   const popover = usePopover();
 
   const handleFilterName = useCallback(
     (event) => {
       onResetPage();
       filters.setState({ name: event.target.value });
+    },
+    [filters, onResetPage]
+  );
+
+  const handleFilterService = useCallback(
+    (event) => {
+      const newValue =
+        typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value;
+
+      onResetPage();
+      filters.setState({ type: newValue });
     },
     [filters, onResetPage]
   );
@@ -49,12 +65,37 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
         direction={{ xs: 'column', md: 'row' }}
         sx={{ p: 2.5, pr: { xs: 2.5, md: 1 } }}
       >
+        <FormControl sx={{ flexShrink: 0, width: { xs: 1, md: 180 } }}>
+          <InputLabel htmlFor="invoice-filter-service-select-label">Type</InputLabel>
+
+          <Select
+            multiple
+            value={filters.state.type}
+            onChange={handleFilterService}
+            input={<OutlinedInput label="Type" />}
+            renderValue={(selected) => selected.map((value) => value).join(', ')}
+            inputProps={{ id: 'invoice-filter-service-select-label' }}
+            sx={{ textTransform: 'capitalize' }}
+          >
+            {options.services.map((option) => (
+              <MenuItem key={option} value={option}>
+                <Checkbox
+                  disableRipple
+                  size="small"
+                  checked={filters.state.type.includes(option)}
+                />
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
         <DatePicker
           label="Date de début"
-          value={filters.state.startDate}
+          value={filters.state.endDate}
           onChange={handleFilterStartDate}
           slotProps={{ textField: { fullWidth: true } }}
-          sx={{ maxWidth: { md: 200 } }}
+          sx={{ maxWidth: { md: 180 } }}
         />
 
         <DatePicker
@@ -69,10 +110,10 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
             },
           }}
           sx={{
-            maxWidth: { md: 200 },
+            maxWidth: { md: 180 },
             [`& .${formHelperTextClasses.root}`]: {
-              position: { md: 'absolute' },
               bottom: { md: -40 },
+              position: { md: 'absolute' },
             },
           }}
         />
@@ -82,7 +123,7 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
             fullWidth
             value={filters.state.name}
             onChange={handleFilterName}
-            placeholder="Rechercher fournisseur où numéro de commande..."
+            placeholder="Recherche d'un numéro de déstockage ou nom d'article..."
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -105,32 +146,34 @@ export function OrderTableToolbar({ filters, onResetPage, dateError }) {
         slotProps={{ arrow: { placement: 'right-top' } }}
       >
         <MenuList>
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:printer-minimalistic-bold" />
-            Print
-          </MenuItem>
+          <MenuList>
+            <MenuItem
+              onClick={() => {
+                popover.onClose();
+              }}
+            >
+              <Iconify icon="solar:printer-minimalistic-bold" />
+              Imprimer
+            </MenuItem>
 
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:import-bold" />
-            Import
-          </MenuItem>
+            <MenuItem
+              onClick={() => {
+                popover.onClose();
+              }}
+            >
+              <Iconify icon="solar:import-bold" />
+              Importer
+            </MenuItem>
 
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:export-bold" />
-            Export
-          </MenuItem>
+            <MenuItem
+              onClick={() => {
+                popover.onClose();
+              }}
+            >
+              <Iconify icon="solar:export-bold" />
+              Exporter
+            </MenuItem>
+          </MenuList>
         </MenuList>
       </CustomPopover>
     </>
