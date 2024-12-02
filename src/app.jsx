@@ -13,7 +13,9 @@ import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/components/settings';
 
 import { AuthProvider } from 'src/auth/context/jwt';
-import { I18nProvider, LocalizationProvider } from './locales';
+import { I18nProvider } from 'src/locales/i18n-provider';
+import { LocalizationProvider } from 'src/locales';
+import { Snackbar } from './components/snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +29,7 @@ export default function App() {
         <SettingsProvider settings={defaultSettings}>
           <ThemeProvider>
             <MotionLazy>
+              <Snackbar />
               <ProgressBar />
               <SettingsDrawer />
               <Router />

@@ -1,17 +1,27 @@
 import { useTheme } from '@emotion/react';
 import { Box, Card, IconButton, Stack, Tab, Table, TableBody, Tabs, Tooltip } from '@mui/material';
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react';
 import { toast } from 'sonner';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs'
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { Iconify } from 'src/components/iconify';
 import { Label } from 'src/components/label';
 import { Scrollbar } from 'src/components/scrollbar';
-import { emptyRows, getComparator, rowInPage, TableEmptyRows, TableHeadCustom, TableNoData, TablePaginationCustom, TableSelectedAction, useTable } from 'src/components/table';
+import {
+  emptyRows,
+  getComparator,
+  rowInPage,
+  TableEmptyRows,
+  TableHeadCustom,
+  TableNoData,
+  TablePaginationCustom,
+  TableSelectedAction,
+  useTable,
+} from 'src/components/table';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
-import { DashboardContent } from 'src/layouts/dashboard'
+import { DashboardContent } from 'src/layouts/dashboard';
 import { useRouter } from 'src/routes/hooks';
-import { paths } from 'src/routes/paths'
+import { paths } from 'src/routes/paths';
 import { varAlpha } from 'src/theme/styles';
 import { fIsAfter, fIsBetween } from 'src/utils/format-time';
 import { sumBy } from 'src/utils/helper';
@@ -19,24 +29,19 @@ import { DestockageTableToolbar } from '../../destockage-table-toolbar';
 import { DestockageTableFiltersResult } from '../../destockage-table-filter-result';
 import { DestockageTableRow } from '../../destockage-table-row';
 
-
 const TABLE_HEAD = [
-    { id: 'destockage', label: '#ID' },
-    { id: 'article', label: 'Article' },
-    { id: 'createdAt', label: 'Date' },
-    { id: 'type', label: 'Type' },
-    { id: 'status', label: 'Statut' },
-    { id: 'admin', label: 'Boutique' },
-  ];
+  { id: 'destockage', label: '#ID' },
+  { id: 'article', label: 'Article' },
+  { id: 'createdAt', label: 'Date' },
+  { id: 'type', label: 'Type' },
+  { id: 'status', label: 'Statut' },
+  { id: 'admin', label: 'Boutique' },
+];
 
-  const INVOICE_SERVICE_OPTIONS = [
-    'Vente',
-    'Prise en charge',
-  ]
+const INVOICE_SERVICE_OPTIONS = ['Vente', 'Prise en charge'];
 
 export default function ProductDestockageList() {
-
-    const theme = useTheme();
+  const theme = useTheme();
 
   const router = useRouter();
 
@@ -46,14 +51,14 @@ export default function ProductDestockageList() {
 
   const [tableData, setTableData] = useState([
     {
-        id:'1',
-        destockage: '21258',
-        name: 'Ecran TV LCD',
-        createdAt: '2024-11-25T12:41:34+01:00',
-        type:'Vente',   
-        status: 'pending',
-        admin:'Wissem'
-    }
+      id: '1',
+      destockage: '21258',
+      name: 'Ecran TV LCD',
+      createdAt: '2024-11-25T12:41:34+01:00',
+      type: 'Vente',
+      status: 'pending',
+      admin: 'Wissem',
+    },
   ]);
 
   const filters = useSetState({
@@ -130,7 +135,7 @@ export default function ProductDestockageList() {
     (id) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
 
-      toast.success('Delete success!');
+      toast.success('Suppression du succès !');
 
       setTableData(deleteRow);
 
@@ -142,7 +147,7 @@ export default function ProductDestockageList() {
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
 
-    toast.success('Delete success!');
+    toast.success('Suppression du succès !');
 
     setTableData(deleteRows);
 
@@ -175,157 +180,156 @@ export default function ProductDestockageList() {
   );
   return (
     <DashboardContent>
-        <CustomBreadcrumbs
-            heading="Liste des déstockage"
-            links={[
-              { name: 'Tableau de bord', href: paths.dashboard.root },
-              { name: 'Déstockage' },
-              { name: 'Liste' },
-            ]}
-            sx={{ mb: { xs: 3, md: 5 } }}
-          />
+      <CustomBreadcrumbs
+        heading="Liste des déstockage"
+        links={[
+          { name: 'Tableau de bord', href: paths.dashboard.root },
+          { name: 'Déstockage' },
+          { name: 'Liste' },
+        ]}
+        sx={{ mb: { xs: 3, md: 5 } }}
+      />
 
-<Card>
-          <Tabs
-            value={filters.state.status}
-            onChange={handleFilterStatus}
-            sx={{
-              px: 2.5,
-              boxShadow: `inset 0 -2px 0 0 ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
-            }}
-          >
-            {TABS.map((tab) => (
-              <Tab
-                key={tab.value}
-                value={tab.value}
-                label={tab.label}
-                iconPosition="end"
-                icon={
-                  <Label
-                    variant={
-                      ((tab.value === 'all' || tab.value === filters.state.status) && 'filled') ||
-                      'soft'
-                    }
-                    color={tab.color}
-                  >
-                    {tab.count}
-                  </Label>
-                }
-              />
-            ))}
-          </Tabs>
-
-          <DestockageTableToolbar
-            filters={filters}
-            dateError={dateError}
-            onResetPage={table.onResetPage}
-            options={{ services: INVOICE_SERVICE_OPTIONS }}
-          />
-
-          {canReset && (
-            <DestockageTableFiltersResult
-              filters={filters}
-              onResetPage={table.onResetPage}
-              totalResults={dataFiltered.length}
-              sx={{ p: 2.5, pt: 0 }}
+      <Card>
+        <Tabs
+          value={filters.state.status}
+          onChange={handleFilterStatus}
+          sx={{
+            px: 2.5,
+            boxShadow: `inset 0 -2px 0 0 ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
+          }}
+        >
+          {TABS.map((tab) => (
+            <Tab
+              key={tab.value}
+              value={tab.value}
+              label={tab.label}
+              iconPosition="end"
+              icon={
+                <Label
+                  variant={
+                    ((tab.value === 'all' || tab.value === filters.state.status) && 'filled') ||
+                    'soft'
+                  }
+                  color={tab.color}
+                >
+                  {tab.count}
+                </Label>
+              }
             />
-          )}
+          ))}
+        </Tabs>
 
-          <Box sx={{ position: 'relative' }}>
-            <Scrollbar sx={{ minHeight: 444 }}>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 800 }}>
-                <TableHeadCustom
-                  order={table.order}
-                  orderBy={table.orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={dataFiltered.length}
-                  numSelected={table.selected.length}
-                  onSort={table.onSort}
-                  
+        <DestockageTableToolbar
+          filters={filters}
+          dateError={dateError}
+          onResetPage={table.onResetPage}
+          options={{ services: INVOICE_SERVICE_OPTIONS }}
+        />
+
+        {canReset && (
+          <DestockageTableFiltersResult
+            filters={filters}
+            onResetPage={table.onResetPage}
+            totalResults={dataFiltered.length}
+            sx={{ p: 2.5, pt: 0 }}
+          />
+        )}
+
+        <Box sx={{ position: 'relative' }}>
+          <Scrollbar sx={{ minHeight: 444 }}>
+            <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 800 }}>
+              <TableHeadCustom
+                order={table.order}
+                orderBy={table.orderBy}
+                headLabel={TABLE_HEAD}
+                rowCount={dataFiltered.length}
+                numSelected={table.selected.length}
+                onSort={table.onSort}
+              />
+
+              <TableBody>
+                {dataFiltered
+                  .slice(
+                    table.page * table.rowsPerPage,
+                    table.page * table.rowsPerPage + table.rowsPerPage
+                  )
+                  .map((row) => (
+                    <DestockageTableRow
+                      key={row.id}
+                      row={row}
+                      selected={table.selected.includes(row.id)}
+                      onSelectRow={() => table.onSelectRow(row.id)}
+                      onViewRow={() => handleViewRow(row.id)}
+                      onEditRow={() => handleEditRow(row.id)}
+                      onDeleteRow={() => handleDeleteRow(row.id)}
+                    />
+                  ))}
+
+                <TableEmptyRows
+                  height={table.dense ? 56 : 56 + 20}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
                 />
 
-                <TableBody>
-                  {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
-                    .map((row) => (
-                      <DestockageTableRow
-                        key={row.id}
-                        row={row}
-                        selected={table.selected.includes(row.id)}
-                        onSelectRow={() => table.onSelectRow(row.id)}
-                        onViewRow={() => handleViewRow(row.id)}
-                        onEditRow={() => handleEditRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                      />
-                    ))}
+                <TableNoData notFound={notFound} />
+              </TableBody>
+            </Table>
+          </Scrollbar>
+        </Box>
 
-                  <TableEmptyRows
-                    height={table.dense ? 56 : 56 + 20}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
-                  />
-
-                  <TableNoData notFound={notFound} />
-                </TableBody>
-              </Table>
-            </Scrollbar>
-          </Box>
-
-          <TablePaginationCustom
-            page={table.page}
-            dense={table.dense}
-            count={dataFiltered.length}
-            rowsPerPage={table.rowsPerPage}
-            onPageChange={table.onChangePage}
-            onChangeDense={table.onChangeDense}
-            onRowsPerPageChange={table.onChangeRowsPerPage}
-          />
-        </Card>
+        <TablePaginationCustom
+          page={table.page}
+          dense={table.dense}
+          count={dataFiltered.length}
+          rowsPerPage={table.rowsPerPage}
+          onPageChange={table.onChangePage}
+          onChangeDense={table.onChangeDense}
+          onRowsPerPageChange={table.onChangeRowsPerPage}
+        />
+      </Card>
     </DashboardContent>
-  )
+  );
 }
 function applyFilter({ inputData, comparator, filters, dateError }) {
-    const { name, status, type, startDate, endDate } = filters;
-  
-    const stabilizedThis = inputData.map((el, index) => [el, index]);
-  
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-  
-    inputData = stabilizedThis.map((el) => el[0]);
-  
-    if (name) {
-      inputData = inputData.filter(
-        (invoice) =>
-          invoice.destockage.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-          invoice.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
-      );
-    }
-  
-    if (status !== 'all') {
-      inputData = inputData.filter((invoice) => invoice.status === status);
-    }
+  const { name, status, type, startDate, endDate } = filters;
 
-    if (type.length) {
-        inputData = inputData.filter((user) => type.includes(user.type));
-    }
-  
-    // if (type.length) {
-    //   inputData = inputData.filter((invoice) =>
-    //     invoice.items.some((filterItem) => type.includes(filterItem.type))
-    //   );
-    // }
-  
-    if (!dateError) {
-      if (startDate && endDate) {
-        inputData = inputData.filter((invoice) => fIsBetween(invoice.createdAt, startDate, endDate));
-      }
-    }
-  
-    return inputData;
+  const stabilizedThis = inputData.map((el, index) => [el, index]);
+
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+
+  inputData = stabilizedThis.map((el) => el[0]);
+
+  if (name) {
+    inputData = inputData.filter(
+      (invoice) =>
+        invoice.destockage.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        invoice.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+    );
   }
+
+  if (status !== 'all') {
+    inputData = inputData.filter((invoice) => invoice.status === status);
+  }
+
+  if (type.length) {
+    inputData = inputData.filter((user) => type.includes(user.type));
+  }
+
+  // if (type.length) {
+  //   inputData = inputData.filter((invoice) =>
+  //     invoice.items.some((filterItem) => type.includes(filterItem.type))
+  //   );
+  // }
+
+  if (!dateError) {
+    if (startDate && endDate) {
+      inputData = inputData.filter((invoice) => fIsBetween(invoice.createdAt, startDate, endDate));
+    }
+  }
+
+  return inputData;
+}

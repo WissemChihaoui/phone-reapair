@@ -19,7 +19,7 @@ import { UserQuickEditForm } from './user-quick-edit-form';
 
 // ----------------------------------------------------------------------
 
-export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow }) {
+export function UserTableRow({ row, selected, onEditRow, onDeleteRow }) {
   const confirm = useBoolean();
 
   const popover = usePopover();
@@ -29,45 +29,7 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
   return (
     <>
       <TableRow hover selected={selected} aria-checked={selected} tabIndex={-1}>
-        <TableCell padding="checkbox">
-          <Checkbox id={row.id} checked={selected} onClick={onSelectRow} />
-        </TableCell>
-
-        <TableCell>
-          <Stack spacing={2} direction="row" alignItems="center">
-
-            <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>
-              <Link color="inherit" onClick={onEditRow} sx={{ cursor: 'pointer' }}>
-                {row.name}
-              </Link>
-              <Box component="span" sx={{ color: 'text.disabled' }}>
-                {row.email}
-              </Box>
-            </Stack>
-          </Stack>
-        </TableCell>
-
-
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.company}</TableCell>
-
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>
-        <Label variant="soft"
-              color={
-                (row.type === 'Particulier' && 'warning') ||
-                (row.type === 'Entreprise' && 'success') ||
-                'default'
-              }
-              >
-                {row.type}
-              </Label>
-        </TableCell>
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.phoneNumber}</TableCell>
-
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>
-         {row.city}, {row.state}, {row.zipCode}
-        </TableCell>
-          
-        <TableCell>
+      <TableCell>
           <Stack direction="row" alignItems="center" spacing={1}>
             <Tooltip title="Modifier" placement="top" arrow>
               <Fab
@@ -88,6 +50,40 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
             </Tooltip>
           </Stack>
         </TableCell>
+
+        <TableCell>
+          <Stack spacing={2} direction="row" alignItems="center">
+
+            <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>
+              <Link color="inherit" onClick={onEditRow} sx={{ cursor: 'pointer' }}>
+                {row.name}
+              </Link>
+              <Box component="span" sx={{ color: 'text.disabled' }}>
+                {row.email}
+              </Box>
+            </Stack>
+          </Stack>
+        </TableCell>
+
+
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.raison}</TableCell>
+
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>
+        <Label variant="soft"
+              color={
+                (row.isInd ? 'warning' : 'success')
+              }
+              >
+                {row.isInd ? 'Individuel' : 'Société'}
+              </Label>
+        </TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.phoneNumber}</TableCell>
+
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>
+         {row.state}, {row.address}, {row.zipCode}
+        </TableCell>
+          
+        
       </TableRow>
 
       <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />

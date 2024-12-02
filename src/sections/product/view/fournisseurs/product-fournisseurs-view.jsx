@@ -5,7 +5,17 @@ import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
-import { emptyRows, getComparator, rowInPage, TableEmptyRows, TableHeadCustom, TableNoData, TablePaginationCustom, TableSelectedAction, useTable } from 'src/components/table';
+import {
+  emptyRows,
+  getComparator,
+  rowInPage,
+  TableEmptyRows,
+  TableHeadCustom,
+  TableNoData,
+  TablePaginationCustom,
+  TableSelectedAction,
+  useTable,
+} from 'src/components/table';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 import { DashboardContent } from 'src/layouts/dashboard';
@@ -20,16 +30,16 @@ import { FournisseurTableToolbar } from '../../fournisseur-table-toolbar';
 import FournisseurAddEditForm from '../../FournisseurAddEditForm';
 
 const TABLE_HEAD = [
+  { id: 'actions', label: '' },
   { id: 'name', label: 'Nom' },
   { id: 'phone', label: 'Téléphone' },
   { id: 'email', label: 'E-mail' },
   { id: 'adress', label: 'Addresse' },
-  { id: 'actions', label: '' },
 ];
 
 const FournisseursList = [
-  { 
-    id:'1',
+  {
+    id: '1',
     name: 'Wissem Chihaoui',
     company: 'Company 1',
     phone: '+216 202-555-0143',
@@ -39,8 +49,8 @@ const FournisseursList = [
     city: 'Some Ville',
     zipCode: '13546',
   },
-  { 
-    id:'2',
+  {
+    id: '2',
     name: '2Wissem Chihaoui',
     company: 'Company 2',
     phone: '+1 202-555-0143',
@@ -50,10 +60,9 @@ const FournisseursList = [
     city: 'Some Ville',
     zipCode: '13546',
   },
-]
+];
 export default function ProductFournisseursView() {
-
-  const table = useTable({defaultDense:true});
+  const table = useTable({ defaultDense: true });
 
   const router = useRouter();
 
@@ -82,7 +91,7 @@ export default function ProductFournisseursView() {
     (id) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
 
-      toast.success('Delete success!');
+      toast.success('Suppression du succès !');
 
       setTableData(deleteRow);
 
@@ -94,7 +103,7 @@ export default function ProductFournisseursView() {
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
 
-    toast.success('Delete success!');
+    toast.success('Suppression du succès !');
 
     setTableData(deleteRows);
 
@@ -123,29 +132,30 @@ export default function ProductFournisseursView() {
     <>
       <DashboardContent>
         <CustomBreadcrumbs
-          heading="List"
+          heading="Liste des fournisseurs"
           links={[
             { name: 'Tableau de bord', href: paths.dashboard.root },
-            { name: 'Liste des Fournisseurs' },
+            { name: 'Stock', href: paths.dashboard.stock.root },
+            { name: 'Liste des fournisseurs' },
           ]}
           action={
             <Box display="flex" gap={2}>
               <Button
-              component={RouterLink}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-              onClick={quickEdit.onTrue}
-            >
-              Ajouter fournisseur
-            </Button>
-            <Button
-              component={RouterLink}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-              href={paths.dashboard.stock.addCommande}
-            >
-              Ajouter commande
-            </Button>
+                component={RouterLink}
+                variant="contained"
+                startIcon={<Iconify icon="mingcute:add-line" />}
+                onClick={quickEdit.onTrue}
+              >
+                Ajouter fournisseur
+              </Button>
+              <Button
+                component={RouterLink}
+                variant="contained"
+                startIcon={<Iconify icon="mingcute:add-line" />}
+                href={paths.dashboard.stock.addCommande}
+              >
+                Ajouter commande
+              </Button>
             </Box>
           }
           sx={{ mb: { xs: 3, md: 5 } }}
@@ -167,7 +177,7 @@ export default function ProductFournisseursView() {
             />
           )}
 
-<Box sx={{ position: 'relative' }}>
+          <Box sx={{ position: 'relative' }}>
             <TableSelectedAction
               dense={table.dense}
               numSelected={table.selected.length}
@@ -196,12 +206,7 @@ export default function ProductFournisseursView() {
                   rowCount={dataFiltered.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      dataFiltered.map((row) => row.id)
-                    )
-                  }
+                 
                 />
 
                 <TableBody>
@@ -244,7 +249,11 @@ export default function ProductFournisseursView() {
           />
         </Card>
       </DashboardContent>
-      <FournisseurAddEditForm currentFournisseur={null} open={quickEdit.value } onClose={quickEdit.onFalse}/>
+      <FournisseurAddEditForm
+        currentFournisseur={null}
+        open={quickEdit.value}
+        onClose={quickEdit.onFalse}
+      />
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
@@ -270,7 +279,6 @@ export default function ProductFournisseursView() {
     </>
   );
 }
-
 
 function applyFilter({ inputData, comparator, filters }) {
   const { name, status, type } = filters;

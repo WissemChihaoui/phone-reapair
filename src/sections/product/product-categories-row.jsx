@@ -77,14 +77,23 @@ export function ProductCategoriesRow({ rowParent, selected, onViewRow, onSelectR
   };
   const renderPrimary = (
     <TableRow hover selected={selected}>
-      <TableCell padding="checkbox">
-        <Checkbox
-          checked={selected}
-          onClick={onSelectRow}
-          inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
-        />
-      </TableCell>
+      
+      <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
+       
 
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Tooltip title="Modifier" placement="top" arrow>
+            <Fab size="small" color="warning" onClick={()=>handleEditRow(row.id)}>
+              <Iconify icon="solar:pen-bold" />
+            </Fab>
+          </Tooltip>
+          <Tooltip title="Supprimer" placement="top" arrow>
+            <Fab color="error" size="small" onClick={confirm.onTrue}>
+              <Iconify icon="solar:trash-bin-trash-bold" />
+            </Fab>
+          </Tooltip>
+        </Stack>
+      </TableCell>
       <TableCell>
         <Link color="inherit" onClick={onViewRow} underline="always" sx={{ cursor: 'pointer' }}>
           {row.state.name}
@@ -104,23 +113,18 @@ export function ProductCategoriesRow({ rowParent, selected, onViewRow, onSelectR
         />
       </TableCell>
 
-      <TableCell align="center"> {row.state.items.length} </TableCell>
-
-      <TableCell>{totalCount}</TableCell>
-
-      <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-        <IconButton
-          color={collapse.value ? 'inherit' : 'default'}
+      <TableCell align="center">   <IconButton
+          color='inherit'
           onClick={collapse.onToggle}
           sx={{ ...(collapse.value && { bgcolor: 'action.hover' }) }}
         >
-          <Iconify icon="eva:arrow-ios-downward-fill" />
-        </IconButton>
+          <Typography variant='body2'>{row.state.items.length}</Typography>
+          <Iconify icon={collapse.value ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'} />
+        </IconButton></TableCell>
 
-        <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-          <Iconify icon="eva:more-vertical-fill" />
-        </IconButton>
-      </TableCell>
+      <TableCell>{totalCount}</TableCell>
+
+      
     </TableRow>
   );
 

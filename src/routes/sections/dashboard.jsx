@@ -33,6 +33,9 @@ const Commandes = lazy(() => import ('src/pages/dashboard/stock/commandes'));
 const EditCommande = lazy(() => import ('src/pages/dashboard/stock/editCommande'));
 const Destockage = lazy(() => import ('src/pages/dashboard/stock/destockage'));
 
+const Ventes = lazy(() => import('src/pages/dashboard/ventes/index'))
+const AddVente = lazy(() => import('src/pages/dashboard/ventes/add'))
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -81,6 +84,13 @@ export const dashboardRoutes = [
           {element: <Commandes />, path:'commande'},
           {element: <Destockage />, path:'destockage'},
           {element: <EditCommande />, path:'commande/:id/edit'},
+        ]
+      },
+      {
+        path: 'vente',
+        children: [
+          {element: <Ventes />, index: true},
+          {element: <AddVente />, path: 'add'},
         ]
       }
     ],

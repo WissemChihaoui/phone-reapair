@@ -48,7 +48,7 @@ const STATUS_OPTIONS = {
   completed: { label: 'Réçu' },
 };
 
-export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteRow }) {
+export function VenteTableRow({ row, selected, onViewRow, onSelectRow, onDeleteRow }) {
   
  
   const defaultValues = useMemo (
@@ -132,6 +132,11 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
           {row.orderNumber}
         </Link>
       </TableCell>
+      <TableCell>
+        <Link color="inherit" onClick={onViewRow} underline="always" sx={{ cursor: 'pointer' }}>
+          {row.orderNumber}
+        </Link>
+      </TableCell>
 
       <TableCell>
         <Stack spacing={2} direction="row" alignItems="center">
@@ -165,106 +170,16 @@ export function OrderTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
         />
       </TableCell>
 
-      <TableCell align="center">
-        {' '}
-        {row.totalQuantity}{' '}
-        <IconButton
-          color={collapse.value ? 'inherit' : 'default'}
-          onClick={collapse.onToggle}
-          sx={{ ...(collapse.value && { bgcolor: 'action.hover' }) }}
-        >
-          <Iconify
-            icon={!collapse.value ? 'eva:arrow-ios-downward-fill' : 'eva:arrow-ios-upward-fill'}
-          />
-        </IconButton>{' '}
-      </TableCell>
+    
 
       <TableCell> {fCurrency(row.subtotal)} </TableCell>
-
-      <TableCell>
-        <Label
-          variant="soft"
-          color={
-            (row.status === 'completed' && 'success') ||
-            (row.status === 'pending' && 'warning') ||
-            (row.status === 'cancelled' && 'error') ||
-            'default'
-          }
-        >
-          {STATUS_OPTIONS[row.status]?.label || 'Unknown'}
-        </Label>
-      </TableCell>
     </TableRow>
   );
 
-  const renderSecondary = (
-    <TableRow>
-      <TableCell sx={{ p: 0, border: 'none' }} colSpan={8}>
-        <Collapse
-          in={collapse.value}
-          timeout="auto"
-          unmountOnExit
-          sx={{ bgcolor: 'background.neutral' }}
-        >
-          <Paper sx={{ m: 1.5 }}>
-            {row.items.map((item) => (
-              <Stack
-                key={item.id}
-                direction="row"
-                alignItems="center"
-                sx={{
-                  p: (theme) => theme.spacing(1.5, 2, 1.5, 1.5),
-                  '&:not(:last-of-type)': {
-                    borderBottom: (theme) => `solid 2px ${theme.vars.palette.background.neutral}`,
-                  },
-                }}
-              >
-                <Avatar
-                  src={item.coverUrl}
-                  variant="rounded"
-                  sx={{ width: 48, height: 48, mr: 2 }}
-                />
-
-                <ListItemText
-                  primary={item.name}
-                  secondary={item.sku}
-                  primaryTypographyProps={{ typography: 'body2' }}
-                  secondaryTypographyProps={{
-                    component: 'span',
-                    color: 'text.disabled',
-                    mt: 0.5,
-                  }}
-                />
-
-                <div>x{item.quantity} </div>
-
-                <Box sx={{ width: 110, textAlign: 'right' }}>{fCurrency(item.price)}</Box>
-                <Box ml={4}>
-                  <Tooltip title="Valider" placement="top" arrow>
-                    <Fab
-                      size="small"
-                      color="success"
-                      onClick={() => {
-                        openValid(item);
-                      }}
-                    >
-                      <Iconify icon="solar:check-read-outline" />
-                    </Fab>
-                  </Tooltip>
-                </Box>
-              </Stack>
-            ))}
-          </Paper>
-        </Collapse>
-      </TableCell>
-    </TableRow>
-  );
 
   return (
     <>
       {renderPrimary}
-
-      {renderSecondary}
 
       <ConfirmDialog
         open={confirm.value}

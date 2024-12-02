@@ -32,10 +32,28 @@ export function FournisseurTableRow({ row, selected, onEditRow, onSelectRow, onD
   return (
     <>
       <TableRow hover selected={selected} aria-checked={selected} tabIndex={-1}>
-        <TableCell padding="checkbox">
-          <Checkbox id={row.id} checked={selected} onClick={onSelectRow} />
+        
+      <TableCell>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Tooltip title="Modifier" placement="top" arrow>
+              <Fab
+                size='small'
+                color='warning'
+                onClick={()=>quickEdit.onTrue()}
+              >
+                <Iconify icon="solar:pen-bold" />
+              </Fab>
+            </Tooltip>
+            <Tooltip title="Supprimer" placement='top' arrow>
+              <Fab color='error' size='small' onClick={() => {
+              confirm.onTrue();
+              popover.onClose();
+            }}>
+                <Iconify icon="solar:trash-bin-trash-bold" />
+              </Fab>
+            </Tooltip>
+          </Stack>
         </TableCell>
-
         <TableCell>
           <Stack spacing={2} direction="row" alignItems="center">
 
@@ -59,27 +77,7 @@ export function FournisseurTableRow({ row, selected, onEditRow, onSelectRow, onD
          {row.city}, {row.state}, {row.zipCode}
         </TableCell>
           
-        <TableCell>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Tooltip title="Modifier" placement="top" arrow>
-              <Fab
-                size='small'
-                color='warning'
-                onClick={()=>quickEdit.onTrue()}
-              >
-                <Iconify icon="solar:pen-bold" />
-              </Fab>
-            </Tooltip>
-            <Tooltip title="Supprimer" placement='top' arrow>
-              <Fab color='error' size='small' onClick={() => {
-              confirm.onTrue();
-              popover.onClose();
-            }}>
-                <Iconify icon="solar:trash-bin-trash-bold" />
-              </Fab>
-            </Tooltip>
-          </Stack>
-        </TableCell>
+        
       </TableRow>
 
       {/* <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} /> */}

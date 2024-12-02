@@ -43,23 +43,43 @@ export const UserQuickEditSchema = zod.object({
 
 // ----------------------------------------------------------------------
 
+
+//       isInd: false,
+//       id: '255-89-877',
+//       name: 'Ahmed',
+//       email: 'email.mail@mail.com',
+//       phoneNumber: '+216 98789800',
+//       type : '',
+//       state: 'Mahdia',
+//       address : '908 Jack Locks',
+//       zipCode: '85807',
+//       raison :'Raison Sociale',
+//       siret: 'TN-188547779',
+//       tva: '89775654',
+//       isTvaUnion: true,
+
 export function UserQuickEditForm({ currentUser, open, onClose }) {
   const defaultValues = useMemo(
     () => ({
+      isInd : currentUser.isInd,
+      id: currentUser?.id || '',
       name: currentUser?.name || '',
       email: currentUser?.email || '',
       phoneNumber: currentUser?.phoneNumber || '',
-      address: currentUser?.address || '',
-      country: currentUser?.country || '',
+      type: currentUser?.type || '',
       state: currentUser?.state || '',
-      city: currentUser?.city || '',
+      address: currentUser?.address || '',
       zipCode: currentUser?.zipCode || '',
-      status: currentUser?.status,
-      company: currentUser?.company || '',
-      role: currentUser?.role || '',
+      raison: currentUser?.raison || '',
+      siret: currentUser?.siret || '',
+      tva: currentUser?.tva || '',
+      isTvaUnion: currentUser?.isTvaUnion || '',
     }),
     [currentUser]
   );
+
+  console.log('Current user from quick edit :', currentUser);
+  
 
   const methods = useForm({
     mode: 'all',
@@ -103,11 +123,11 @@ export function UserQuickEditForm({ currentUser, open, onClose }) {
       PaperProps={{ sx: { maxWidth: 720 } }}
     >
       <Form methods={methods} onSubmit={onSubmit}>
-        <DialogTitle>Quick Update</DialogTitle>
+        <DialogTitle>Modifier le client</DialogTitle>
 
         <DialogContent>
           <Alert variant="outlined" severity="info" sx={{ mb: 3 }}>
-            Account is waiting for confirmation
+            C&apos;est un compte individuel, pour changer le type il faut creér un nouveau utilisateur
           </Alert>
 
           <Box
@@ -116,43 +136,52 @@ export function UserQuickEditForm({ currentUser, open, onClose }) {
             display="grid"
             gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
           >
-            <Field.Select name="status" label="Status">
-              {USER_STATUS_OPTIONS.map((status) => (
-                <MenuItem key={status.value} value={status.value}>
-                  {status.label}
+            <Box sx={{ width: '100%'}}>
+              <Field.Select name="isInd" label="Type de compte">
+                <MenuItem value={1}>
+                    Individuel
                 </MenuItem>
-              ))}
-            </Field.Select>
+                <MenuItem value={0}>
+                    Société
+                </MenuItem>
+              </Field.Select>
+            </Box>
 
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }} />
-
-            <Field.Text name="name" label="Full name" />
+            <Field.Text name="name" label={defaultValues.isInd ? 'Nom et prénom' : 'Nom du gérant'} />
             <Field.Text name="email" label="Email address" />
             <Field.Phone name="phoneNumber" label="Phone number" />
 
-            <Field.CountrySelect
-              fullWidth
-              name="country"
-              label="Country"
-              placeholder="Choose a country"
-            />
+            <Field.Select name="type" label="Type de compte">
+              <MenuItem value="">
+                  Type 1
+              </MenuItem>
+              <MenuItem value="1">
+                  Type 2
+              </MenuItem>
+            </Field.Select>
 
             <Field.Text name="state" label="State/region" />
-            <Field.Text name="city" label="City" />
             <Field.Text name="address" label="Address" />
             <Field.Text name="zipCode" label="Zip/code" />
-            <Field.Text name="company" label="Company" />
-            <Field.Text name="role" label="Role" />
+            {
+              !defaultValues.isInd &&
+              <>
+                <Field.Text name="raison" label="Raison social"/>
+                <Field.Text name="siret" label="SIRET"/>
+                <Field.Text name="siret" label="SIRET"/>
+                <Field.Text name="tva" label="TVA"/>
+              </>
+            }
           </Box>
         </DialogContent>
 
         <DialogActions>
           <Button variant="outlined" onClick={onClose}>
-            Cancel
+            Annuler
           </Button>
 
           <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-            Update
+            Mettre à jour
           </LoadingButton>
         </DialogActions>
       </Form>

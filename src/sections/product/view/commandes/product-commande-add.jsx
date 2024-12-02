@@ -133,7 +133,7 @@ export default function ProductCommandeAdd() {
           heading="Ajouter une commande"
           links={[
             { name: 'Tableau de bord', href: paths.dashboard.root },
-            { name: 'Liste des commandes' },
+            { name: 'Liste des commandes', href: paths.dashboard.stock.commande },
             { name: 'Ajouter' },
           ]}
           sx={{ mb: { xs: 3, md: 5 } }}

@@ -83,6 +83,7 @@ export default function ProductCategoriesView() {
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
   const TABLE_HEAD = [
+    { id: '', width: 88 },
     { id: 'name', label: 'Nom' },
     { id: 'createdAt', label: 'Date', width: 200 },
     {
@@ -92,14 +93,14 @@ export default function ProductCategoriesView() {
       align: 'center',
     },
     { id: '', label: 'Total articles', width: 200 },
-    { id: '', width: 88 },
+    
   ];
 
   const handleDeleteRow = useCallback(
     (id) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
 
-      toast.success('Delete success!');
+      toast.success('Suppression du succès !');
 
       setTableData(deleteRow);
 
@@ -110,7 +111,7 @@ export default function ProductCategoriesView() {
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
 
-    toast.success('Delete success!');
+    toast.success('Suppression du succès !');
 
     setTableData(deleteRows);
 
@@ -195,12 +196,7 @@ export default function ProductCategoriesView() {
                 rowCount={dataFiltered.length}
                 numSelected={table.selected.length}
                 onSort={table.onSort}
-                onSelectAllRows={(checked) =>
-                  table.onSelectAllRows(
-                    checked,
-                    dataFiltered.map((row) => row.id)
-                  )
-                }
+                
               />
 
               <TableBody>

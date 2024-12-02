@@ -46,11 +46,12 @@ import { OrderTableFiltersResult } from '../order-table-filters-result';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [{ value: 'all', label: 'Touts' }, 
-                        { value: 'pending', label: 'En cours' },
-                        { value: 'cancelled', label: 'Incomplete' },
-                        { value: 'completed', label: 'Réçu' },
-                      ];
+const STATUS_OPTIONS = [
+  { value: 'all', label: 'Touts' },
+  { value: 'pending', label: 'En cours' },
+  { value: 'cancelled', label: 'Incomplete' },
+  { value: 'completed', label: 'Réçu' },
+];
 
 const TABLE_HEAD = [
   { id: '', width: 88 },
@@ -65,7 +66,6 @@ const TABLE_HEAD = [
   },
   { id: 'totalAmount', label: 'Totale', width: 140 },
   { id: 'status', label: 'Status', width: 110 },
-  
 ];
 
 // ----------------------------------------------------------------------
@@ -80,7 +80,6 @@ export function OrderListView() {
   const [tableData, setTableData] = useState(_orders);
 
   console.log(tableData);
-  
 
   const filters = useSetState({
     name: '',
@@ -111,7 +110,7 @@ export function OrderListView() {
     (id) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
 
-      toast.success('Delete success!');
+      toast.success('Suppression du succès !');
 
       setTableData(deleteRow);
 
@@ -123,7 +122,7 @@ export function OrderListView() {
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
 
-    toast.success('Delete success!');
+    toast.success('Suppression du succès !');
 
     setTableData(deleteRows);
 
@@ -152,7 +151,7 @@ export function OrderListView() {
     <>
       <DashboardContent>
         <CustomBreadcrumbs
-          heading="List"
+          heading="Liste des commandes"
           links={[
             { name: 'Tableau de bord', href: paths.dashboard.root },
             { name: 'Commandes', href: paths.dashboard.stock.commande },
@@ -243,12 +242,7 @@ export function OrderListView() {
                   rowCount={dataFiltered.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      dataFiltered.map((row) => row.id)
-                    )
-                  }
+                  
                 />
 
                 <TableBody>

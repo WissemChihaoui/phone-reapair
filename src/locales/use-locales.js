@@ -15,10 +15,13 @@ export function useTranslate(ns) {
   const fallback = allLangs.filter((lang) => lang.value === fallbackLng)[0];
 
   const currentLang = allLangs.find((lang) => lang.value === i18n.resolvedLanguage);
-
+  console.log(currentLang.value);
+  
   const onChangeLang = useCallback(
     async (newLang) => {
       try {
+        console.log(newLang);
+
         const langChangePromise = i18n.changeLanguage(newLang);
 
         const currentMessages = messages[newLang] || messages.en;

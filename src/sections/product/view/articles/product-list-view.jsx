@@ -158,7 +158,7 @@ export function ProductListView() {
     (id) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
 
-      toast.success('Delete success!');
+      toast.success('Suppression du succès !');
 
       setTableData(deleteRow);
     },
@@ -168,7 +168,7 @@ export function ProductListView() {
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !selectedRowIds.includes(row.id));
 
-    toast.success('Delete success!');
+    toast.success('Suppression du succès !');
 
     setTableData(deleteRows);
   }, [selectedRowIds, tableData]);
@@ -215,6 +215,46 @@ export function ProductListView() {
   );
 
   const columns = [
+    {
+      type: 'actions',
+      field: 'actions',
+      headerName: ' ',
+      align: 'right',
+      headerAlign: 'right',
+      width: 80,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
+      getActions: (params) => [
+        <GridActionsCellItem
+          showInMenu
+          icon={<Iconify icon="solar:eye-bold" />}
+          label="Voir"
+          onClick={() => handleEditRow(params.row.id)}
+        />,
+        <GridActionsCellItem
+          showInMenu
+          icon={<Iconify icon="solar:pen-bold" />}
+          label="Adjustement Quantité"
+          onClick={() => handleAdjust(params.row)}
+        />,
+        <GridActionsCellItem
+          showInMenu
+          icon={<Iconify icon="solar:copy-bold-duotone" />}
+          label="Dupliquer"
+          onClick={() => handleDuplicateRow(params.row.id)}
+        />,
+        <GridActionsCellItem
+          showInMenu
+          icon={<Iconify icon="solar:trash-bin-trash-bold" />}
+          label="Supprimer"
+          onClick={() => {
+            showDeleteModal(params.row);
+          }}
+          sx={{ color: 'error.main' }}
+        />,
+      ],
+    },
     {
       field: 'category',
       headerName: 'Category',
@@ -272,46 +312,7 @@ export function ProductListView() {
       editable: true,
       renderCell: (params) => <RenderCellPriceBuy params={params} />,
     },
-    {
-      type: 'actions',
-      field: 'actions',
-      headerName: ' ',
-      align: 'right',
-      headerAlign: 'right',
-      width: 80,
-      sortable: false,
-      filterable: false,
-      disableColumnMenu: true,
-      getActions: (params) => [
-        <GridActionsCellItem
-          showInMenu
-          icon={<Iconify icon="solar:eye-bold" />}
-          label="Voir"
-          onClick={() => handleEditRow(params.row.id)}
-        />,
-        <GridActionsCellItem
-          showInMenu
-          icon={<Iconify icon="solar:pen-bold" />}
-          label="Adjustement Quantité"
-          onClick={() => handleAdjust(params.row)}
-        />,
-        <GridActionsCellItem
-          showInMenu
-          icon={<Iconify icon="solar:copy-bold-duotone" />}
-          label="Dupliquer"
-          onClick={() => handleDuplicateRow(params.row.id)}
-        />,
-        <GridActionsCellItem
-          showInMenu
-          icon={<Iconify icon="solar:trash-bin-trash-bold" />}
-          label="Supprimer"
-          onClick={() => {
-            showDeleteModal(params.row);
-          }}
-          sx={{ color: 'error.main' }}
-        />,
-      ],
-    },
+    
   ];
 
   const getTogglableColumns = () =>

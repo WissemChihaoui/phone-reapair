@@ -95,12 +95,12 @@ export const navData = [
       },
       {
         title: 'Ventes',
-        path: paths.dashboard.three,
+        path: paths.dashboard.vente.root,
         icon: ICONS.ecommerce,
         children: [
           {title:'Nouvelle vente', path: paths.dashboard.three},
+          {title:'Liste des ventes', path: paths.dashboard.vente.root},
           {title:'Caisse virtuelle', path: paths.dashboard.three},
-          {title:'Historique', path: paths.dashboard.three},
           {title:'Vente devis', path: paths.dashboard.three},
         ]
       },

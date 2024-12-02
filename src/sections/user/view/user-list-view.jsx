@@ -48,24 +48,51 @@ import { UserTableFiltersResult } from '../user-table-filters-result';
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
+  { id: '', width: 88 },
   { id: 'name', label: 'Nom' },
   { id: 'company', label: 'Société', width: 220 },
   { id: 'type', label: 'Type du client', width: 220 },
   { id: 'phoneNumber', label: 'Téléphone', width: 180 },
   { id: 'role', label: 'Adresse', width: 180 },
-  { id: '', width: 88 },
 ];
 
 // ----------------------------------------------------------------------
 
 export function UserListView() {
-  const table = useTable({defaultDense:true});
+  const table = useTable({ defaultDense: true });
 
   const router = useRouter();
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_userList);
+  const [tableData, setTableData] = useState([
+    {
+      isInd: 1,
+      id: '124-55-888',
+      name: 'Wissem',
+      email: 'email.mail@mail.com',
+      phoneNumber: '+216 96898989',
+      type: '1',
+      state: 'Mahdia',
+      address: '908 Jack Locks',
+      zipCode: '85807',
+    },
+    {
+      isInd: 0,
+      id: '255-89-877',
+      name: 'Ahmed',
+      email: 'email.mail@mail.com',
+      phoneNumber: '+216 98789800',
+      type: '',
+      state: 'Mahdia',
+      address: '908 Jack Locks',
+      zipCode: '85807',
+      raison: 'Raison Sociale',
+      siret: 'TN-188547779',
+      tva: '89775654',
+      isTvaUnion: true,
+    },
+  ]);
 
   const filters = useSetState({ name: '', type: [], status: 'all' });
 
@@ -86,7 +113,7 @@ export function UserListView() {
     (id) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
 
-      toast.success('Delete success!');
+      toast.success('Suppression du succès !');
 
       setTableData(deleteRow);
 
@@ -98,7 +125,7 @@ export function UserListView() {
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
 
-    toast.success('Delete success!');
+    toast.success('Suppression du succès !');
 
     setTableData(deleteRows);
 
@@ -127,7 +154,7 @@ export function UserListView() {
     <>
       <DashboardContent>
         <CustomBreadcrumbs
-          heading="List"
+          heading="Liste des clients"
           links={[
             { name: 'Tableau de bord', href: paths.dashboard.root },
             { name: 'Clients' },
@@ -145,10 +172,7 @@ export function UserListView() {
           }
           sx={{ mb: { xs: 3, md: 5 } }}
         />
-
         <Card>
-          
-
           <UserTableToolbar
             filters={filters}
             onResetPage={table.onResetPage}
@@ -193,12 +217,6 @@ export function UserListView() {
                   rowCount={dataFiltered.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      dataFiltered.map((row) => row.id)
-                    )
-                  }
                 />
 
                 <TableBody>

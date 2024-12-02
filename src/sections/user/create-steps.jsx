@@ -54,15 +54,15 @@ export function Stepper({ steps, activeStep }) {
 
 export function StepOne({ isIndividual, handleNext }) {
   const nextStepOne = (isInd) => {
+    console.log(isInd);
+
     if (isInd) {
       isIndividual.onTrue();
-      handleNext('stepTwo');
     } else {
       isIndividual.onFalse();
-      handleNext('stepThree');
-
     }
-    
+    console.log(isIndividual);
+
   };
   return (
     <>
@@ -102,17 +102,16 @@ export function StepOne({ isIndividual, handleNext }) {
   );
 }
 export const USER_TYPE_OPTIONS = [
-    { value: '1', label: 'Client particulier' },
-    { value: '2', label: 'Client de passage' },
-    { value: '3', label: 'Client pro' },
-    { value: '4', label: 'Client internet' },
-    { value: '5', label: 'Client(e) locale' },
-    { value: '6', label: 'Client(e) professionel' },
-    { value: '7', label: 'Client(e) de passage' },
-  ];
+  { value: '1', label: 'Client particulier' },
+  { value: '2', label: 'Client de passage' },
+  { value: '3', label: 'Client pro' },
+  { value: '4', label: 'Client internet' },
+  { value: '5', label: 'Client(e) locale' },
+  { value: '6', label: 'Client(e) professionel' },
+  { value: '7', label: 'Client(e) de passage' },
+];
 
 export function StepTwo() {
-    
   return (
     <Grid container spacing={3}>
       <Grid xs={12} md={6} lg={4} padding={2}>
@@ -147,7 +146,8 @@ export function StepTwo() {
       <Grid xs={12} md={6} lg={4} padding={2}>
         <Field.Phone
           name="StepUserData.phone"
-          label="Téléphone" variant="filled"
+          label="Téléphone"
+          variant="filled"
           placeholder=""
           InputLabelProps={{ shrink: true }}
         />
@@ -155,14 +155,15 @@ export function StepTwo() {
       <Grid xs={12} md={6} lg={4} padding={2}>
         <Field.Select
           name="StepUserData.type"
-          label="Type client" variant="filled"
+          label="Type client"
+          variant="filled"
           InputLabelProps={{ shrink: true }}
         >
-            {USER_TYPE_OPTIONS.map((status) => (
-                <MenuItem key={status.value} value={status.value}>
-                  {status.label}
-                </MenuItem>
-              ))}
+          {USER_TYPE_OPTIONS.map((status) => (
+            <MenuItem key={status.value} value={status.value}>
+              {status.label}
+            </MenuItem>
+          ))}
         </Field.Select>
       </Grid>
       <Grid xs={12} md={6} lg={4} padding={2}>
@@ -194,24 +195,25 @@ export function StepTwo() {
       </Grid>
       <Grid xs={12}>
         <Field.Switch
-              name="StepUserData.isVerified"
-              labelPlacement="end"
-              label={
-                <>
-                  <Typography variant="subtitle2">
-                    Voulez-vous recevoir nos offres commerciales
-                  </Typography>
-                </>
-              }
-              sx={{ mx: 0, width: 1 }}
-            />
+          name="StepUserData.isVerified"
+          labelPlacement="end"
+          label={
+            <>
+              <Typography variant="subtitle2">
+                Voulez-vous recevoir nos offres commerciales
+              </Typography>
+            </>
+          }
+          sx={{ mx: 0, width: 1 }}
+        />
       </Grid>
     </Grid>
   );
 }
 
 export function StepThree() {
-    
+  console.log('Working on step three');
+
   return (
     <Grid container spacing={3}>
       <Grid xs={12} md={6} lg={4} padding={2}>
@@ -246,12 +248,13 @@ export function StepThree() {
       <Grid xs={12} md={6} lg={4} padding={2}>
         <Field.Phone
           name="StepUserData.phone"
-          label="Téléphone" variant="filled"
+          label="Téléphone"
+          variant="filled"
           placeholder=""
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={6} lg={8} padding={2}>
+      <Grid xs={12} md={6} lg={4} padding={2}>
         <Field.Text
           name="StepCompanyData.name"
           label="Nom du gérant"
@@ -260,7 +263,7 @@ export function StepThree() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={6} lg={8} padding={2}>
+      <Grid xs={12} md={6} lg={4} padding={2}>
         <Field.Text
           name="StepCompanyData.siret"
           label="Siret"
@@ -278,7 +281,7 @@ export function StepThree() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} padding={2}>
+      <Grid xs={12} md={6} lg={4} padding={2}>
         <Field.Checkbox name="primary" label="Exonéré de TVA union européen ou étranger" />
       </Grid>
       <Grid xs={12} md={6} lg={4} padding={2}>
@@ -310,17 +313,17 @@ export function StepThree() {
       </Grid>
       <Grid xs={12}>
         <Field.Switch
-              name="StepCompanyData.isVerified"
-              labelPlacement="end"
-              label={
-                <>
-                  <Typography variant="subtitle2">
-                    Voulez-vous recevoir nos offres commerciales
-                  </Typography>
-                </>
-              }
-              sx={{ mx: 0, width: 1 }}
-            />
+          name="StepCompanyData.isVerified"
+          labelPlacement="end"
+          label={
+            <>
+              <Typography variant="subtitle2">
+                Voulez-vous recevoir nos offres commerciales
+              </Typography>
+            </>
+          }
+          sx={{ mx: 0, width: 1 }}
+        />
       </Grid>
     </Grid>
   );
