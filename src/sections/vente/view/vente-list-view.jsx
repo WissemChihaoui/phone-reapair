@@ -1,4 +1,4 @@
-import { Box, Button, Card, Table, TableBody } from '@mui/material';
+import { Box, Button, Card, Tab, Table, TableBody, Tabs } from '@mui/material';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { DashboardContent } from 'src/layouts/dashboard';
 import { useRouter } from 'src/routes/hooks';
@@ -20,15 +20,50 @@ import { toast } from 'src/components/snackbar';
 import { RouterLink } from 'src/routes/components';
 import { _orders } from 'src/_mock';
 import { Scrollbar } from 'src/components/scrollbar';
+import { Label } from 'src/components/label';
+import { varAlpha } from 'src/theme/styles';
 import { VenteTableToolbar } from '../VenteTableToolbar';
 import { VenteTableFiltersResult } from '../vente-table-filters-result';
 import { VenteTableRow } from '../vente-table-row';
+
+const _ventes = [
+  {
+    id: 1,
+    venteNumber: 4556,
+    customer: {
+      name : 'Wissem Chihaoui',
+      email: 'mail@mail.com',
+    },
+    createdAt: '2024-11-25T12:41:34+01:00',
+    subtotal: 255.2,
+    status: 2,
+  },
+  {
+    id: 2,
+    venteNumber: 4556,
+    customer: {
+      name : 'Wissem Chihaoui',
+      email: 'mail@mail.com',
+    },
+    createdAt: '2024-11-25T11:41:34+01:00',
+    subtotal: 255.2,
+    status: 1,
+  },
+]
+
+const STATUS_OPTIONS = [
+  { value: 'all', label: 'Tous' },
+  { value: '0', label: 'Facturé' },
+  { value: '1', label: 'Devis' },
+  { value: '2', label: 'Paiement Partiel' },
+];
 
 const TABLE_HEAD = [
   { id: '', width: 88 },
   { id: 'id', label: '#Id', width: 140 },
   { id: 'venteNumber', label: 'Réf', width: 140 },
   { id: 'name', label: 'Client' },
+  { id: 'status', label: 'Statut' },
   { id: 'createdAt', label: 'Date', width: 200 },
   {
     id: 'totalQuantity',
@@ -40,7 +75,7 @@ const TABLE_HEAD = [
 export function VenteListView() {
   const table = useTable({ defaultOrderBy: 'createdAt' });
   const router = useRouter();
-  const [tableData, setTableData] = useState(_orders);
+  const [tableData, setTableData] = useState(_ventes);
   const filters = useSetState({
     name: '',
     status: 'all',
@@ -86,6 +121,15 @@ export function VenteListView() {
     [router]
   );
 
+  const handleFilterStatus = useCallback(
+    (event, newValue) => {
+      table.onResetPage();
+      filters.setState({ status: newValue });
+    },
+    [filters, table]
+  );
+
+
   return (
     <>
       <DashboardContent>
@@ -110,6 +154,51 @@ export function VenteListView() {
         />
 
         <Card>
+
+        <Tabs
+  value={filters.state.status}
+  onChange={handleFilterStatus}
+  sx={{
+    px: 2.5,
+    boxShadow: (theme) =>
+      `inset 0 -2px 0 0 ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
+  }}
+>
+  {STATUS_OPTIONS.map((tab) => {
+    const statusCount =
+      tab.value === 'all'
+        ? tableData.length
+        : tableData.filter((order) => String(order.status) === tab.value).length;
+
+    return (
+      <Tab
+        key={tab.value}
+        value={tab.value}
+        label={
+          <>
+            {tab.label}
+            <Label
+               variant={
+                ((tab.value === 'all' || tab.value === filters.state.status) && 'filled') ||
+                'soft'
+              }
+              color={
+                (tab.value === '0' && 'success') ||
+                (tab.value === '1' && 'warning') ||
+                (tab.value === '2' && 'error') ||
+                'default'
+              }
+              sx={{ ml: 1 }}
+            >
+              {statusCount}
+            </Label>
+          </>
+        }
+      />
+    );
+  })}
+</Tabs>
+
           <VenteTableToolbar
             filters={filters}
             onResetPage={table.onResetPage}
@@ -191,9 +280,10 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
     );
   }
 
-  if (status !== 'all') {
-    inputData = inputData.filter((order) => order.status === status);
+  if (filters.status !== 'all') {
+    inputData = inputData.filter((order) => String(order.status) === filters.status);
   }
+  
 
   if (!dateError) {
     if (startDate && endDate) {

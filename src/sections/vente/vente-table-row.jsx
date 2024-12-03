@@ -42,11 +42,12 @@ import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = {
-  pending: { label: 'En Cours' },
-  cancelled: { label: 'Incomplete' },
-  completed: { label: 'Réçu' },
-};
+const STATUS_OPTIONS = [
+  { value: 'all', label: 'Tous' },
+  { value: '0', label: 'Facturé' },
+  { value: '1', label: 'Devis' },
+  { value: '2', label: 'Paiement Partiel' },
+];
 
 export function VenteTableRow({ row, selected, onViewRow, onSelectRow, onDeleteRow }) {
   
@@ -109,6 +110,12 @@ export function VenteTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
     [router]
   );
 
+
+  const statusLabel = useMemo(() => {
+    const option = STATUS_OPTIONS.find((opt) => opt.value === row.status?.toString());
+    return option ? option.label : 'Unknown';
+  }, [row.status]);
+
   const renderPrimary = (
     <TableRow hover selected={selected}>
       
@@ -129,12 +136,12 @@ export function VenteTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
 
       <TableCell>
         <Link color="inherit" onClick={onViewRow} underline="always" sx={{ cursor: 'pointer' }}>
-          {row.orderNumber}
+          #{row.id}
         </Link>
       </TableCell>
       <TableCell>
         <Link color="inherit" onClick={onViewRow} underline="always" sx={{ cursor: 'pointer' }}>
-          {row.orderNumber}
+          #{row.venteNumber}
         </Link>
       </TableCell>
 
@@ -156,7 +163,19 @@ export function VenteTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
           </Stack>
         </Stack>
       </TableCell>
-
+      <TableCell>
+  <Label
+    variant="soft"
+    color={
+      (row.status === 0 && 'success') ||
+      (row.status === 1 && 'warning') ||
+      (row.status === 2 && 'error') ||
+      'default'
+    }
+  >
+    {statusLabel}
+  </Label>
+</TableCell>
       <TableCell>
         <ListItemText
           primary={fDate(row.createdAt)}

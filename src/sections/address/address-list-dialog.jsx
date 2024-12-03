@@ -105,7 +105,7 @@ export function AddressListDialog({
         <TextField
           value={searchAddress}
           onChange={handleSearchAddress}
-          placeholder="Search..."
+          placeholder="Rechercher..."
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">

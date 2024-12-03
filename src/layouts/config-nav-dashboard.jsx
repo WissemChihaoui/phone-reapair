@@ -98,7 +98,7 @@ export const navData = [
         path: paths.dashboard.vente.root,
         icon: ICONS.ecommerce,
         children: [
-          {title:'Nouvelle vente', path: paths.dashboard.three},
+          {title:'Nouvelle vente', path: paths.dashboard.vente.add},
           {title:'Liste des ventes', path: paths.dashboard.vente.root},
           {title:'Caisse virtuelle', path: paths.dashboard.three},
           {title:'Vente devis', path: paths.dashboard.three},

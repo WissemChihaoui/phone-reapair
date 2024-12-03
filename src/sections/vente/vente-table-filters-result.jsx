@@ -1,12 +1,19 @@
 import { useCallback } from 'react';
-
 import Chip from '@mui/material/Chip';
-
 import { fDateRangeShortLabel } from 'src/utils/format-time';
-
 import { chipProps, FiltersBlock, FiltersResult } from 'src/components/filters-result';
 
-// ----------------------------------------------------------------------
+const STATUS_OPTIONS = [
+  { value: 'all', label: 'Tous' },
+  { value: '0', label: 'Facturé' },
+  { value: '1', label: 'Devis' },
+  { value: '2', label: 'Paiement Partiel' },
+];
+
+const getStatusLabel = (value, options) => {
+  const option = options.find((opt) => opt.value === value);
+  return option ? option.label : value;
+};
 
 export function VenteTableFiltersResult({ filters, totalResults, onResetPage, sx }) {
   const handleRemoveKeyword = useCallback(() => {
@@ -34,7 +41,7 @@ export function VenteTableFiltersResult({ filters, totalResults, onResetPage, sx
       <FiltersBlock label="Status:" isShow={filters.state.status !== 'all'}>
         <Chip
           {...chipProps}
-          label={filters.state.status}
+          label={getStatusLabel(filters.state.status, STATUS_OPTIONS)}
           onDelete={handleRemoveStatus}
           sx={{ textTransform: 'capitalize' }}
         />
@@ -57,3 +64,4 @@ export function VenteTableFiltersResult({ filters, totalResults, onResetPage, sx
     </FiltersResult>
   );
 }
+  
