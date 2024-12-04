@@ -5,15 +5,20 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { Autocomplete, Box, ButtonBase, TextField } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
 
 import { _addressBooks } from 'src/_mock';
 
+import { useState } from 'react';
+import { Label } from 'src/components/label';
+import { Field } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
 
 import { AddressListDialog } from '../address';
+import VenteNewEditAddClient from './vente-new-edit-add-client';
 
 // ----------------------------------------------------------------------
 
@@ -28,11 +33,25 @@ export function VenteNewEditAddress() {
 
   const values = watch();
 
+  const [clientTo, setClientTo] = useState();
+
   const { invoiceFrom } = values;
 
-  const from = useBoolean();
+  const addClient = useBoolean()
 
-  const to = useBoolean();
+  const handlePassager = () => {
+    setValue('invoiceFrom', {
+      id: '0',
+      name: 'Client Passager',
+      fullAddress: '123, Passager',
+      phoneNumber: '',
+    });
+    setClientTo(null);
+  };
+
+  const handleSelectAddress = (option) => {
+    setValue('invoiceFrom', { ...option });
+  };
 
   return (
     <>
@@ -51,63 +70,99 @@ export function VenteNewEditAddress() {
         <Stack sx={{ width: 1 }}>
           <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
             <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
+              Choisir Client
+            </Typography>
+          </Stack>
+
+          <Stack>
+            <Autocomplete
+              value={clientTo}
+              fullWidth
+              options={_addressBooks}
+              onChange={(event, option) => {
+                setClientTo(option); // Update the state with the selected value
+                handleSelectAddress(option);
+              }}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => <TextField {...params} label="Client" margin="none" />}
+              renderOption={(props, option) => (
+                <li {...props} key={option.name}>
+                  <Stack
+                    key={option.id}
+                    sx={{
+                      py: 1,
+                      my: 0.5,
+                      px: 1.5,
+                      gap: 0.5,
+                      width: 1,
+                      borderRadius: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <Typography variant="subtitle2">{option.name}</Typography>
+                      {option.primary && <Label color="info">Default</Label>}
+                    </Stack>
+                    {option.company && (
+                      <Box sx={{ color: 'primary.main', typography: 'caption' }}>
+                        {option.company}
+                      </Box>
+                    )}
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      {option.fullAddress}
+                    </Typography>
+                    {option.phoneNumber && (
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        {option.phoneNumber}
+                      </Typography>
+                    )}
+                  </Stack>
+                </li>
+              )}
+            />
+
+            <Box display="flex" gap={1} width={1} mt={3}>
+              <Button
+                startIcon={<Iconify icon="mingcute:add-line" />}
+                sx={{ alignSelf: 'flex-end', width: '100%' }}
+                variant="contained"
+                color='primary'
+                onClick={()=>addClient.onTrue()}
+              >
+                Creér client
+              </Button>
+              <Button
+                startIcon={<Iconify icon="mingcute:user-1-line" />}
+                sx={{ alignSelf: 'flex-end', width: '100%' }}
+                onClick={() => handlePassager()}
+                variant='outlined'
+              >
+                Client Passager
+              </Button>
+            </Box>
+          </Stack>
+        </Stack>
+        <Stack sx={{ width: 1 }}>
+          <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
+            <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
               Client:
             </Typography>
-
-            <IconButton onClick={from.onTrue}>
-              <Iconify icon="solar:pen-bold" />
-            </IconButton>
           </Stack>
 
           <Stack spacing={1}>
-            <Typography variant="subtitle2">{invoiceFrom.name}</Typography>
-            <Typography variant="body2">{invoiceFrom.fullAddress}</Typography>
-            <Typography variant="body2"> {invoiceFrom.phoneNumber}</Typography>
+            <Typography variant="subtitle2">{invoiceFrom?.name}</Typography>
+            <Typography variant="caption" sx={{ color: 'primary.main' }}>
+              {invoiceFrom?.company}
+            </Typography>
+            <Typography variant="body2">{invoiceFrom?.fullAddress}</Typography>
+            <Typography variant="body2"> {invoiceFrom?.phoneNumber}</Typography>
+            <Typography variant="body2"> {invoiceFrom?.email}</Typography>
           </Stack>
         </Stack>
-
-        {/* <Stack sx={{ width: 1 }}>
-          <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
-            <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
-              To:
-            </Typography>
-
-            <IconButton onClick={to.onTrue}>
-              <Iconify icon={invoiceTo ? 'solar:pen-bold' : 'mingcute:add-line'} />
-            </IconButton>
-          </Stack>
-
-          {invoiceTo ? (
-            <Stack spacing={1}>
-              <Typography variant="subtitle2">{invoiceTo.name}</Typography>
-              <Typography variant="body2">{invoiceTo.fullAddress}</Typography>
-              <Typography variant="body2"> {invoiceTo.phoneNumber}</Typography>
-            </Stack>
-          ) : (
-            <Typography typography="caption" sx={{ color: 'error.main' }}>
-              {errors.invoiceTo?.message}
-            </Typography>
-          )}
-        </Stack> */}
       </Stack>
-
-      <AddressListDialog
-        title="Client"
-        open={from.value}
-        onClose={from.onFalse}
-        selected={(selectedId) => invoiceFrom?.id === selectedId}
-        onSelect={(address) => setValue('invoiceFrom', address)}
-        list={_addressBooks}
-        action={
-          <Button
-            size="small"
-            startIcon={<Iconify icon="mingcute:add-line" />}
-            sx={{ alignSelf: 'flex-end' }}
-          >
-            Creér client
-          </Button>
-        }
-      />
+      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse}/>
     </>
   );
 }

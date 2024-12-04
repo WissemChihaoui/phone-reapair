@@ -19,6 +19,8 @@ import { _addressBooks } from 'src/_mock';
 import { Form, schemaHelper } from 'src/components/hook-form';
 import { VenteNewEditDetails } from './vente-new-edit-details';
 import { VenteNewEditAddress } from './vente-new-edit-address';
+import { VenteNewEditStatusDate } from './vente-new-edit-status';
+import VenteNewEditCheckout from './vente-new-edit-checkout';
 
 // import { InvoiceNewEditDetails } from './invoice-new-edit-details';
 // import { InvoiceNewEditAddress } from './invoice-new-edit-address';
@@ -71,26 +73,40 @@ export function VenteNewEditForm({ currentInvoice }) {
 
   const loadingSend = useBoolean();
 
+  const checkout = useBoolean()
+
   const defaultValues = useMemo(
+    
     () => ({
-      invoiceNumber: currentInvoice?.invoiceNumber || 'INV-1990',
-      createDate: currentInvoice?.createDate || today(),
-      dueDate: currentInvoice?.dueDate || null,
-      taxes: currentInvoice?.taxes || 0,
-      shipping: currentInvoice?.shipping || 0,
-      status: currentInvoice?.status || 'draft',
-      discount: currentInvoice?.discount || 0,
-      invoiceFrom: currentInvoice?.invoiceFrom || _addressBooks[0],
-      invoiceTo: currentInvoice?.invoiceTo || null,
-      totalAmount: currentInvoice?.totalAmount || 0,
+      invoiceNumber: currentInvoice?.invoiceNumber || 'INV-1990', // vente Id
+      createDate: currentInvoice?.createDate || today(), // date
+      status: currentInvoice?.status || '', // statut
+      type: currentInvoice?.type || 'Vente', // statut
+      discount: currentInvoice?.discount || 0, // Remise Total
+      invoiceFrom: currentInvoice?.invoiceFrom || null, // Client
+      totalAmount: currentInvoice?.totalAmount || 0, // total TTC
+      note: currentInvoice?.note || '', // Note
+      totalHt: currentInvoice?.totalHT || 0, // total HT
+      total : currentInvoice?.total || 0,
+      signature : currentInvoice?.signature || null,
+      payement : currentInvoice?.payement || [
+        {
+          id:0,
+          amount: null,
+          date: today(),
+          via : null
+        },
+      ],
       items: currentInvoice?.items || [
         {
-          title: '',
+          articleId: '',
+          articleName: '',
           description: '',
-          service: '',
           quantity: 1,
           price: 0,
+          remise: 0,
           total: 0,
+          tva: 0,
         },
       ],
     }),
@@ -99,7 +115,7 @@ export function VenteNewEditForm({ currentInvoice }) {
 
   const methods = useForm({
     mode: 'all',
-    resolver: zodResolver(NewInvoiceSchema),
+    // resolver: zodResolver(NewInvoiceSchema),
     defaultValues,
   });
 
@@ -111,44 +127,43 @@ export function VenteNewEditForm({ currentInvoice }) {
 
   const handleSaveAsDraft = handleSubmit(async (data) => {
     loadingSave.onTrue();
+    console.log(data);
+    
 
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      loadingSave.onFalse();
-      router.push(paths.dashboard.invoice.root);
-      console.info('DATA', JSON.stringify(data, null, 2));
-    } catch (error) {
-      console.error(error);
-      loadingSave.onFalse();
-    }
+    // try {
+    //   await new Promise((resolve) => setTimeout(resolve, 500));
+    //   reset();
+    //   loadingSave.onFalse();
+    //   router.push(paths.dashboard.invoice.root);
+    //   console.info('DATA', JSON.stringify(data, null, 2));
+    // } catch (error) {
+    //   console.error(error);
+    //   loadingSave.onFalse();
+    // }
   });
 
   const handleCreateAndSend = handleSubmit(async (data) => {
     loadingSend.onTrue();
-
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      loadingSend.onFalse();
-      router.push(paths.dashboard.invoice.root);
-      console.info('DATA', JSON.stringify(data, null, 2));
-    } catch (error) {
-      console.error(error);
-      loadingSend.onFalse();
-    }
+    checkout.onTrue();
+    // try {
+    //   await new Promise((resolve) => setTimeout(resolve, 500));
+    //   reset();
+    //   loadingSend.onFalse();
+    //   router.push(paths.dashboard.invoice.root);
+    //   console.info('DATA', JSON.stringify(data, null, 2));
+    // } catch (error) {
+    //   console.error(error);
+    //   loadingSend.onFalse();
+    // }
   });
 
   return (
     <Form methods={methods}>
       <Card>
         <VenteNewEditAddress />
+        <VenteNewEditStatusDate />
         <VenteNewEditDetails />
-        {/* <InvoiceNewEditAddress />
-
-        <InvoiceNewEditStatusDate />
-
-        <InvoiceNewEditDetails /> */}
+        <VenteNewEditCheckout open={checkout.value} onClose={checkout.onFalse}/>
       </Card>
 
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
@@ -159,17 +174,20 @@ export function VenteNewEditForm({ currentInvoice }) {
           loading={loadingSave.value && isSubmitting}
           onClick={handleSaveAsDraft}
         >
-          Save as draft
+          {currentInvoice ? 'Modifier' : 'Enregistrer'}
         </LoadingButton>
 
-        <LoadingButton
+          {methods.watch('type') === 'Vente' ?         
+          <LoadingButton
           size="large"
           variant="contained"
+          color='primary'
           loading={loadingSend.value && isSubmitting}
-          onClick={handleCreateAndSend}
+          onClick={()=>handleCreateAndSend()}
         >
-          {currentInvoice ? 'Update' : 'Create'} & send
-        </LoadingButton>
+          {currentInvoice ? 'Modifier' : 'Enregistrer'} & Payer
+        </LoadingButton> : ''}
+          
       </Stack>
     </Form>
   );

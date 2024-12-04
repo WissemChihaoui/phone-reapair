@@ -5,14 +5,11 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import { inputBaseClasses } from '@mui/material/InputBase';
 
 import { fCurrency } from 'src/utils/format-number';
-
-import { INVOICE_SERVICE_OPTIONS } from 'src/_mock';
 
 import { Field } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
@@ -22,8 +19,8 @@ import { Iconify } from 'src/components/iconify';
 const _roles = ['article 1', 'article 2'];
 
 const articles = [
-    { id: '1', name: 'Ecran LCD T44', price: 82, tva: 20 },
-    { id: '2', name: 'Ecran LED T55', price: 100, tva: 18 },
+    { id: '1', name: 'Ecran LCD T44', price: 82, tva: 20, stock: 30 },
+    { id: '2', name: 'Ecran LED T55', price: 100, tva: 18, stock: 10 },
   ];
 
 export function VenteNewEditDetails() {
@@ -35,9 +32,22 @@ export function VenteNewEditDetails() {
 
   const selectedArticles = useWatch({
     control,
-    name: fields.map((_, index) => `items[${index}].title`),
+    name: fields.map((_, index) => `items[${index}].articleName`),
   });
-
+  const updateFieldValues = (index, field, value) => {
+    const item = values.items[index];
+    const quantity = field === 'quantity' ? value : item.quantity || 1;
+    const price = field === 'price' ? value : item.price || 0;
+    const remise = field === 'remise' ? value : item.remise || 0;
+    const tva = item.tva || 0;
+  
+    const priceHT = price * quantity - (price * quantity * tva) / 100;
+    const priceTTC = price * quantity - remise;
+  
+    setValue(`items[${index}].${field}`, value);
+    setValue(`items[${index}].priceht`, priceHT.toFixed(2));
+    setValue(`items[${index}].pricettc`, priceTTC.toFixed(2));
+  };
   useEffect(() => {
     fields.forEach((field, index) => {
       const selectedArticle = articles.find(
@@ -52,7 +62,8 @@ export function VenteNewEditDetails() {
   
         const priceHT = price * quantity - (price * quantity * tva) / 100;
         const priceTTC = price * quantity - remise;
-  
+        
+        setValue(`items[${index}].articleId`, selectedArticle.id)
         setValue(`items[${index}].price`, price);
         setValue(`items[${index}].tva`, tva);
         setValue(`items[${index}].quantity`, quantity);
@@ -65,47 +76,32 @@ export function VenteNewEditDetails() {
 
   const totalOnRow = values.items.map((item) => item.quantity * item.price);
 
+  const totalDiscounted = values.items.map((item) => (item.quantity * item.price)-item.remise);
+
+  const totalHt = values.items.map((item)=> Number(item.priceht))
+
+  const totalHtAmount = totalHt.reduce((acc, num) => acc + num, 0)
+  
+  const totalDiscount = values.items.map((item) => item.remise);
+  
   const subtotal = totalOnRow.reduce((acc, num) => acc + num, 0);
 
-  const totalAmount = subtotal - values.discount - values.shipping + values.taxes;
+  const totalAmount = totalDiscounted.reduce((acc, num) => acc + num, 0);
+  
+  const discountAmount = totalDiscount.reduce((acc, num) => acc + num, 0);
+
 
 
   useEffect(() => {
     setValue('totalAmount', totalAmount);
   }, [setValue, totalAmount]);
 
-  const calculateFields = useCallback(
-    (index) => {
-      const item = values[index];
-      const priceHT = ((item.price * (100 - item.tva)) / 100) * item.quantity;
-      const priceTTC = item.quantity * item.price - (item.remise || 0);
-
-      setValue(`items[${index}].priceHT`, priceHT.toFixed(2));
-      setValue(`items[${index}].priceTTC`, priceTTC.toFixed(2));
-    },
-    [setValue, values]
-  );
-
-  //   const handleSelectArticle = useCallback(
-  //     (index, article) => {
-  //       if (article) {
-  //         setValue(`items[${index}].title`, article);
-  //         setValue(`items[${index}].price`, article.price);
-  //         setValue(`items[${index}].tva`, article.tva);
-  //         setValue(`items[${index}].quantity`, 1); // Default quantity
-  //         calculateFields(index);
-  //       }
-  //     },
-  //     [setValue, calculateFields]
-  //   );
 
   const handleAdd = () => {
-    console.log(values);
-
     append({
-      title: '',
+      articleId:null,
+      articleName: '',
       description: '',
-      service: '',
       quantity: 1,
       price: 0,
       priceht: 0,
@@ -119,14 +115,6 @@ export function VenteNewEditDetails() {
     remove(index);
   };
 
-  const handleClearService = useCallback(
-    (index) => {
-      setValue(`items[${index}].quantity`, 1);
-      setValue(`items[${index}].price`, 0);
-      setValue(`items[${index}].total`, 0);
-    },
-    [setValue]
-  );
 
   const handleSelectService = useCallback(
     (index, option) => {
@@ -139,53 +127,17 @@ export function VenteNewEditDetails() {
     [setValue, values.items]
   );
 
-  const handleChangeQuantity = useCallback(
-    (event, index) => {
-      const quantity = Number(event.target.value);
-      const price = values.items[index]?.price || 0;
-      const tva = values.items[index]?.tva || 0;
-      const remise = values.items[index]?.remise || 0;
-  
-      const priceHT = price * quantity - (price * quantity * tva) / 100;
-      const priceTTC = price * quantity - remise;
-  
-      setValue(`items[${index}].quantity`, quantity);
-      setValue(`items[${index}].priceht`, priceHT.toFixed(2));
-      setValue(`items[${index}].pricettc`, priceTTC.toFixed(2));
-    },
-    [setValue, values.items]
-  );
+  const handleChangeQuantity = (event, index) => {
+    updateFieldValues(index, 'quantity', Number(event.target.value));
+  };
 
-  const handleChangePrice = useCallback(
-    (event, index) => {
-      const price = Number(event.target.value);
-      const quantity = values.items[index]?.quantity || 1;
-      const tva = values.items[index]?.tva || 0;
-      const remise = values.items[index]?.remise || 0;
-  
-      const priceHT = price * quantity - (price * quantity * tva) / 100;
-      const priceTTC = price * quantity - remise;
-  
-      setValue(`items[${index}].price`, price);
-      setValue(`items[${index}].priceht`, priceHT.toFixed(2));
-      setValue(`items[${index}].pricettc`, priceTTC.toFixed(2));
-    },
-    [setValue, values.items]
-  );
+  const handleChangePrice = (event, index) => {
+    updateFieldValues(index, 'price', Number(event.target.value));
+  };
 
-  const handleChangeRemise = useCallback(
-    (event, index) => {
-      const remise = Number(event.target.value);
-      const price = values.items[index]?.price || 0;
-      const quantity = values.items[index]?.quantity || 1;
-  
-      const priceTTC = price * quantity - remise;
-  
-      setValue(`items[${index}].remise`, remise);
-      setValue(`items[${index}].pricettc`, priceTTC.toFixed(2));
-    },
-    [setValue, values.items]
-  );
+  const handleChangeRemise = (event, index) => {
+    updateFieldValues(index, 'remise', Number(event.target.value));
+  };
 
   const renderTotal = (
     <Stack
@@ -194,27 +146,19 @@ export function VenteNewEditDetails() {
       sx={{ mt: 3, textAlign: 'right', typography: 'body2' }}
     >
       <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Subtotal</Box>
+        <Box sx={{ color: 'text.secondary' }}>Total HT</Box>
+        <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(totalHtAmount) || '-'}</Box>
+      </Stack>
+      <Stack direction="row">
+        <Box sx={{ color: 'text.secondary' }}>Ss Total</Box>
         <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(subtotal) || '-'}</Box>
       </Stack>
 
       <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Shipping</Box>
-        <Box sx={{ width: 160, ...(values.shipping && { color: 'error.main' }) }}>
-          {values.shipping ? `- ${fCurrency(values.shipping)}` : '-'}
+        <Box sx={{ color: 'text.secondary' }}>Remise totale</Box>
+        <Box sx={{ width: 160, ...(discountAmount && { color: 'error.main' }) }}>
+          {discountAmount ? `- ${fCurrency(discountAmount)}` : '-'}
         </Box>
-      </Stack>
-
-      <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Discount</Box>
-        <Box sx={{ width: 160, ...(values.discount && { color: 'error.main' }) }}>
-          {values.discount ? `- ${fCurrency(values.discount)}` : '-'}
-        </Box>
-      </Stack>
-
-      <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Taxes</Box>
-        <Box sx={{ width: 160 }}>{values.taxes ? fCurrency(values.taxes) : '-'}</Box>
       </Stack>
 
       <Stack direction="row" sx={{ typography: 'subtitle1' }}>
@@ -238,7 +182,7 @@ export function VenteNewEditDetails() {
                 <Field.Autocomplete
                   size="small"
                   label="Article"
-                  name={`items[${index}].title`}
+                  name={`items[${index}].articleName`}
                   InputLabelProps={{ shrink: true }}
                   options={articles.map((option) => option.name)}
                   getOptionLabel={(option) => option}
@@ -247,7 +191,6 @@ export function VenteNewEditDetails() {
                       {option}
                     </li>
                   )}
-                  // onChange={(event, value) => handleSelectArticle(index, value)}
                 />
 
                 <Field.Text
@@ -399,14 +342,13 @@ export function VenteNewEditDetails() {
         <Button
           size="small"
           color="primary"
+          variant='outlined'
           startIcon={<Iconify icon="mingcute:add-line" />}
           onClick={handleAdd}
           sx={{ flexShrink: 0 }}
         >
           Ajouter Article
         </Button>
-
-        
       </Stack>
 
       {renderTotal}
