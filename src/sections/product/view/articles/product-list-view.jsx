@@ -15,6 +15,7 @@ import {
   GridFilterInputSingleSelect,
   GridToolbar,
 } from '@mui/x-data-grid';
+import { Fab } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -216,44 +217,53 @@ export function ProductListView() {
 
   const columns = [
     {
-      type: 'actions',
       field: 'actions',
       headerName: ' ',
       align: 'right',
       headerAlign: 'right',
-      width: 80,
+      width: 120,
       sortable: false,
       filterable: false,
-      disableColumnMenu: true,
-      getActions: (params) => [
-        <GridActionsCellItem
-          showInMenu
-          icon={<Iconify icon="solar:eye-bold" />}
-          label="Voir"
-          onClick={() => handleEditRow(params.row.id)}
-        />,
-        <GridActionsCellItem
-          showInMenu
-          icon={<Iconify icon="solar:pen-bold" />}
-          label="Adjustement Quantité"
-          onClick={() => handleAdjust(params.row)}
-        />,
-        <GridActionsCellItem
-          showInMenu
-          icon={<Iconify icon="solar:copy-bold-duotone" />}
-          label="Dupliquer"
-          onClick={() => handleDuplicateRow(params.row.id)}
-        />,
-        <GridActionsCellItem
-          showInMenu
-          icon={<Iconify icon="solar:trash-bin-trash-bold" />}
-          label="Supprimer"
-          onClick={() => {
-            showDeleteModal(params.row);
-          }}
-          sx={{ color: 'error.main' }}
-        />,
-      ],
+      renderCell: (params) => (
+        <Stack display="flex" gap={1} flexDirection="row" flexWrap="wrap">
+          <Fab
+            whileTap="tap"
+            whileHover="hover"
+            color='primary'
+            size='small'
+            onClick={() => handleEditRow(params.row.id)}
+          >
+            <Iconify icon="solar:eye-bold" />
+          </Fab>
+          <Fab
+            whileTap="tap"
+            whileHover="hover"
+            color='success'
+            size='small'
+            onClick={() => handleAdjust(params.row)}
+          >
+            <Iconify icon="solar:pen-bold" />
+          </Fab>
+          <Fab
+            whileTap="tap"
+            whileHover="hover"
+            color='warning'
+            size='small'
+            onClick={() => handleDuplicateRow(params.row.id)}
+          >
+            <Iconify icon="solar:copy-bold-duotone" />
+          </Fab>
+          <Fab
+            whileTap="tap"
+            whileHover="hover"
+            color='error'
+            size='small'
+            onClick={() => showDeleteModal(params.row)}
+          >
+            <Iconify icon="solar:trash-bin-trash-bold" />
+          </Fab>
+        </Stack>
+      ),
     },
     {
       field: 'category',

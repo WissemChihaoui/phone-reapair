@@ -26,7 +26,10 @@ import {
 } from 'src/_mock';
 
 import { toast } from 'src/components/snackbar';
-import { Button, Grid } from '@mui/material';
+import { Button, CardContent, Grid, Table, TableBody, TableCell, TableRow } from '@mui/material';
+import { TableHeadCustom } from 'src/components/table';
+import { fDate, today } from 'src/utils/format-time';
+import { label } from 'yet-another-react-lightbox';
 
 // ----------------------------------------------------------------------
 
@@ -55,6 +58,7 @@ export const NewProductSchema = zod.object({
 
 export function ProductNewEditForm({ currentProduct }) {
   const router = useRouter();
+
 
   const [includeTaxes, setIncludeTaxes] = useState(false);
 
@@ -145,6 +149,7 @@ export function ProductNewEditForm({ currentProduct }) {
   const handleRemoveFile = useCallback(() => {
     setValue('coverUrl', null);
   }, [setValue]);
+  const [imageExist, setImageExist] = useState(!!watch('coverUrl'));
 
   const renderDetails = (
     <Card>
@@ -158,9 +163,22 @@ export function ProductNewEditForm({ currentProduct }) {
         <Field.Text name="description" label="Description" multiline rows={4} />
 
         <Stack spacing={1.5}>
-          <Typography variant="subtitle2">Images</Typography>
-          <Field.Upload name="coverUrl" maxSize={3145728} onDelete={handleRemoveFile} />
+          <Stack display="flex" flexDirection="row" alignItems='center' justifyContent='space-between'>
+            <Typography variant="subtitle2">Image Couverture</Typography>
+            <FormControlLabel
+        control={<Switch checked={imageExist} onChange={()=> setImageExist((prev)=> !prev)} />}
+        label="Contient l'image"
+      />
+            
+          </Stack>
+          {imageExist && <Field.Upload name="coverUrl" maxSize={3145728} onDelete={handleRemoveFile} />}
         </Stack>
+        <Box
+          columnGap={2}
+          rowGap={3}
+          display="grid"
+          gridTemplateColumns={{ xs: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
+        >
         <Field.Select native name="category" label="Catégorie" InputLabelProps={{ shrink: true }}>
           {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
             <optgroup key={category.group} label={category.group}>
@@ -188,6 +206,7 @@ export function ProductNewEditForm({ currentProduct }) {
             </optgroup>
           ))}
         </Field.Select>
+        </Box>
       </Stack>
     </Card>
   );
@@ -486,16 +505,74 @@ export function ProductNewEditForm({ currentProduct }) {
   );
 
   const renderActions = (
-    <Stack spacing={3} direction="row" alignItems="center" flexWrap="wrap">
-      <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
+    <Stack mt={3} spacing={3} direction="row" width='100%' display="flex" justifyContent="flex-end" alignItems="center" flexWrap="wrap">
+      <Button variant='outlined' size="large" onClick={()=>router.push(paths.dashboard.stock.root)}>Annuler</Button>
+      <LoadingButton type="submit" variant="contained" size="large" color='primary' loading={isSubmitting}>
         {!currentProduct ? 'Créer Article' : 'Modifier'}
       </LoadingButton>
     </Stack>
   );
 
+  const TABLE_HEAD= [
+    { id: 'raison', label: 'Raison'},
+    { id: 'adjust', label: 'Ajustement'},
+    { id: 'prevQte', label: 'Ancienne Quantité'},
+    { id: 'newQte', label: 'Nouvelle Quantité'},
+    { id: 'date', label: 'Date'},
+    { id: 'note', label: 'Note'},
+    { id: 'fournisseur', label: 'Fournisseur'},
+  ]
+
+  const TABLE_DATA = [
+    {
+      id: 1,
+      raison:'Entreé',
+      adjust:'Rachat',
+      prevQte: 80,
+      newQte: 90,
+      date:today(),
+      note: 'Dis qc',
+      fournisseur:'Wissem Chihaoui',
+    }
+  ]
+
+  const renderAdjustTable = (
+   <Card sx={{ my:{ xs: 3, md: 5 } }}>
+    <CardHeader
+        title="Les entrées/sorties"
+        subheader="Historique ajustement des entrées et des sorties"
+        sx={{ mb: 3 }}
+      />
+      <CardContent>
+      <Table>
+      <TableHeadCustom headLabel={TABLE_HEAD}/>
+      <TableBody>
+        {TABLE_DATA.map((row) => (
+          <TableRow key={row.id}>
+            <TableCell>{row.raison}</TableCell>
+            <TableCell>{row.adjust}</TableCell>
+            <TableCell>{row.prevQte}</TableCell>
+            <TableCell>{row.newQte}</TableCell>
+            <TableCell>{fDate(row.date)}</TableCell>
+            <TableCell>{row.note}</TableCell>
+            <TableCell>{row.fournisseur}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+      </CardContent>
+     
+   </Card>
+  )
+
   return (
     <Form methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={{ xs: 3, md: 5 }} sx={{ mx: 'auto', maxWidth: { xs: 720, xl: 880 } }}>
+      <Stack display="grid" 
+        gridTemplateColumns={{  
+          sm: 'repeat(1, 1fr)',
+          md: 'repeat(2, 1fr)',
+        }} 
+        spacing={{ xs: 3, md: 5 }} sx={{ mx: 'auto' }}>
         {renderDetails}
 
         {renderProperties}
@@ -503,9 +580,11 @@ export function ProductNewEditForm({ currentProduct }) {
         {renderImei}
 
         {renderPricing}
-
+        </Stack>
+        {currentProduct && renderAdjustTable}
         {renderActions}
-      </Stack>
+      
+      
     </Form>
   );
 }

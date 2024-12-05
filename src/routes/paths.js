@@ -71,6 +71,11 @@ export const paths = {
     vente: {
       root: `${ROOTS.DASHBOARD}/vente`,
       add: `${ROOTS.DASHBOARD}/vente/add`,
+    },
+
+    rachat: {
+      root: `${ROOTS.DASHBOARD}/rachat`,
+      add: `${ROOTS.DASHBOARD}/rachat/add`
     }
   },
 };

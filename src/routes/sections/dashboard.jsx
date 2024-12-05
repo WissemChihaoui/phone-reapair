@@ -36,6 +36,9 @@ const Destockage = lazy(() => import ('src/pages/dashboard/stock/destockage'));
 const Ventes = lazy(() => import('src/pages/dashboard/ventes/index'))
 const AddVente = lazy(() => import('src/pages/dashboard/ventes/add'))
 
+const Rachats = lazy(() => import('src/pages/dashboard/rachat/index'))
+const AddRachats = lazy(() => import('src/pages/dashboard/rachat/add'))
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -91,6 +94,13 @@ export const dashboardRoutes = [
         children: [
           {element: <Ventes />, index: true},
           {element: <AddVente />, path: 'add'},
+        ]
+      },
+      {
+        path: 'rachat',
+        children: [
+          {element: <Rachats />, index: true},
+          {element: <AddRachats />, path:'add'},
         ]
       }
     ],

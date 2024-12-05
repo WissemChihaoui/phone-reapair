@@ -90,7 +90,7 @@ export const navData = [
           { title: 'Lieu de stockage', path: paths.dashboard.stock.stockage},
           { title: 'Fournisseurs', path: paths.dashboard.stock.fournisseurs},
           { title: 'Commandes', path: paths.dashboard.stock.commande},
-          { title: 'déstockage', path: paths.dashboard.stock.destockage},
+          { title: 'Déstockage', path: paths.dashboard.stock.destockage},
         ]
       },
       {
@@ -106,11 +106,11 @@ export const navData = [
       },
       {
         title: 'Rachat',
-        path: paths.dashboard.three,
+        path: paths.dashboard.rachat.root,
         icon: ICONS.rachat,
         children: [
-          {title:'Nouveau rachat', path: paths.dashboard.three},
-          {title:'Liste des rachats', path: paths.dashboard.three},
+          {title:'Nouveau rachat', path: paths.dashboard.rachat.add},
+          {title:'Liste des rachats', path: paths.dashboard.rachat.root},
         ]
       },
       {

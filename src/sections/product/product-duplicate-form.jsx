@@ -463,16 +463,22 @@ export function ProductDuplicateForm({ currentProduct }) {
   );
 
   const renderActions = (
-    <Stack spacing={3} direction="row" alignItems="center" flexWrap="wrap">
-      <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
-        {!currentProduct ? 'Créer Article' : 'Dupliquer'}
+    <Stack mt={3} spacing={3} direction="row" width='100%' display="flex" justifyContent="flex-end" alignItems="center" flexWrap="wrap">
+      <Button variant='outlined' size="large" onClick={()=>router.push(paths.dashboard.stock.root)}>Annuler</Button>
+      <LoadingButton type="submit" variant="contained" size="large" color='primary' loading={isSubmitting}>
+        {!currentProduct ? 'Créer Article' : 'Modifier'}
       </LoadingButton>
     </Stack>
   );
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={{ xs: 3, md: 5 }} sx={{ mx: 'auto', maxWidth: { xs: 720, xl: 880 } }}>
+      <Stack display="grid" 
+        gridTemplateColumns={{  
+          sm: 'repeat(1, 1fr)',
+          md: 'repeat(2, 1fr)',
+        }} 
+        spacing={{ xs: 3, md: 5 }} sx={{ mx: 'auto' }}>
         {renderDetails}
 
         {renderProperties}
@@ -480,9 +486,10 @@ export function ProductDuplicateForm({ currentProduct }) {
         {renderImei}
 
         {renderPricing}
-
+        </Stack>
         {renderActions}
-      </Stack>
+      
+      
     </Form>
   );
 }

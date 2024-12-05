@@ -115,7 +115,7 @@ export default function VenteNewEditAddClient ({ open, onClose }) {
   return (
     <Dialog fullScreen open={open} onClose={onClose}>
         <DialogContent>
-        <Box sx={{ p: 5, width: 1, mx: 'auto' }}>
+        <Box   sx={{ p: 5, width: 1, mx: 'auto' }}>
         <Form methods={methods} onSubmit={onSubmit}>
           <StepOne isIndividual={isIndividual} />
           {isIndividual.value ? <StepTwo /> : <StepThree />}
@@ -127,7 +127,7 @@ export default function VenteNewEditAddClient ({ open, onClose }) {
             </LoadingButton>
           </Stack>
         </Form>
-      </Box>
+      </Box >
         </DialogContent>
     </Dialog>
   )

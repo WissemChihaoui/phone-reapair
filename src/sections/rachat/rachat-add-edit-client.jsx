@@ -18,11 +18,11 @@ import { Field } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
 
 import { AddressListDialog } from '../address';
-import VenteNewEditAddClient from './vente-new-edit-add-client';
+// import VenteNewEditAddClient from './vente-new-edit-add-client';
 
 // ----------------------------------------------------------------------
 
-export function VenteNewEditAddress() {
+export function RachatAddEditClient() {
   const {
     watch,
     setValue,
@@ -162,7 +162,7 @@ export function VenteNewEditAddress() {
           </Stack>
         </Stack>
       </Stack>
-      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse}/>
+      {/* <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse}/> */}
     </>
   );
 }

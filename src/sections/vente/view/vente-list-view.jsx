@@ -236,8 +236,6 @@ export function VenteListView() {
                       <VenteTableRow
                         key={row.id}
                         row={row}
-                        // selected={table.selected.includes(row.id)}
-                        // onSelectRow={() => table.onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onViewRow={() => handleViewRow(row.id)}
                       />

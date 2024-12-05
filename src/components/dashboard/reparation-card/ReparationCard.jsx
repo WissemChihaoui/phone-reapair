@@ -9,7 +9,7 @@ import { CONFIG } from 'src/config-global';
 import { CustomPopover } from 'src/components/custom-popover';
 
 export default function ReparationCard({
-    color = 'primary',
+    color = 'success',
     icon,
     percent,
     title,

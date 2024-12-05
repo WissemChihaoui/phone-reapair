@@ -123,16 +123,14 @@ export default function DashboardView() {
         <Grid xs={12} md={6} container>
         <Grid xs={12}>
         <Alert severity="info" >
-                  Date expiration abonnement : <strong>31-12-2025</strong> | Solde SMS restants : <strong>0 SMS</strong>
-                </Alert>
+          Date expiration abonnement : <strong>31-12-2025</strong> | Solde SMS restants : <strong>0 SMS</strong>
+        </Alert>
         </Grid>
           <Grid xs={12}>
             <SearchReparation />
           </Grid>
         </Grid>
-        <Grid xs={12} md={6} container>
-        
-         
+        <Grid xs={12} md={6} container>         
          <Grid xs={6} md={3}>
            <Button
              href={paths.dashboard.two}
@@ -189,7 +187,7 @@ export default function DashboardView() {
          <Button
               href={paths.dashboard.two}
               variant="contained"
-              color="secondary"
+              color="success"
               sx={{ height: '100%'}}
               fullWidth
             >
@@ -293,7 +291,7 @@ export default function DashboardView() {
             </Button>
             <Button
               variant="contained"
-              color="secondary"
+              color="success"
               sx={{ height: '50%', borderRadius: '0 0 12px 12px' }}
               fullWidth
             >

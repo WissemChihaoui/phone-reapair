@@ -3,25 +3,23 @@ import { paths } from 'src/routes/paths';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-
-import { ProductNewEditForm } from '../../product-new-edit-form';
+import { VenteNewEditForm } from '../vente-new-edit-form';
 
 // ----------------------------------------------------------------------
 
-export function ProductCreateView() {
+export function VenteCreateView() {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Créer Article"
+        heading="Modifier une vente"
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },
-          { name: 'Stock', href: paths.dashboard.stock.root },
-          { name: 'Créer Article' },
+          { name: 'Ventes', href: paths.dashboard.vente.root },
+          { name: 'Modifier' },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
-
-      <ProductNewEditForm />
+      <VenteNewEditForm />
     </DashboardContent>
   );
 }
