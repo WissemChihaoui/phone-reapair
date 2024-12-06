@@ -105,7 +105,7 @@ export function VenteTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
 
   const handleEditRow = useCallback(
     (id) => {
-      router.push(paths.dashboard.stock.editCommande(id));
+      router.push(paths.dashboard.vente.edit(id));
     },
     [router]
   );

@@ -8,7 +8,7 @@ import {
   Divider,
   Stack,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Field } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
@@ -17,18 +17,32 @@ import { today } from 'src/utils/format-time';
 
 const _methodes = ['Virement', 'Éspece'];
 
-export default function VenteNewEditCheckout({ open, onClose }) {
+export default function VenteNewEditCheckout({ open, onClose, handleSubmit }) {
   const { control, setValue, watch } = useFormContext();
 
   const { fields, append, remove } = useFieldArray({ control, name: 'payement' });
 
   const values = watch();
 
-  console.log(values.payement);
+  const paid = values.payement?.map((item) => item.amount);
+  const paidAmount = paid?.reduce((acc, num) => acc + num, 0);
+  const rest = values.totalAmount - paidAmount;
 
-  const paid = values.payement.map((item) => item.amount);
-  const paidAmount = paid.reduce((acc, num) => acc - num, 0);
-  const rest = values.totalAmount + paidAmount;
+  useEffect(()=> {
+      if(values.type === 'Vente'){
+        setValue('rest', rest);
+        setValue('paid', paidAmount);
+
+        if( rest > 0 ) setValue('status', 'Paiement Partielle');
+        if( rest <= 0 ) setValue('status', 'Payé');
+      }else{
+        setValue('rest', null);
+        setValue('paid', null);
+        setValue('payement', null);
+        setValue('status', 'Devis')
+      }
+  }, [setValue,paidAmount, rest,values])
+
 
   const handleAdd = () => {
     if (rest > 0) {
@@ -49,6 +63,10 @@ export default function VenteNewEditCheckout({ open, onClose }) {
     remove();
     onClose();
   }
+
+  const handleCreateAndSend = handleSubmit(async (data) => {
+    console.log(data);
+  });
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -131,7 +149,7 @@ export default function VenteNewEditCheckout({ open, onClose }) {
           <Button variant="outlined" onClick={()=>handleCancel()}>
             Annuler
           </Button>
-          <Button variant="contained" color="success">
+          <Button onClick={()=>handleCreateAndSend()} variant="contained" color="success">
             Confirmer le paiement
           </Button>
         </DialogActions>

@@ -35,9 +35,13 @@ const Destockage = lazy(() => import ('src/pages/dashboard/stock/destockage'));
 
 const Ventes = lazy(() => import('src/pages/dashboard/ventes/index'))
 const AddVente = lazy(() => import('src/pages/dashboard/ventes/add'))
+const EditVente = lazy(() => import('src/pages/dashboard/ventes/edit'))
 
 const Rachats = lazy(() => import('src/pages/dashboard/rachat/index'))
 const AddRachats = lazy(() => import('src/pages/dashboard/rachat/add'))
+const EditRachats = lazy(() => import('src/pages/dashboard/rachat/edit'))
+
+const Invoice = lazy(() => import('src/pages/dashboard/invoice/index'))
 
 // ----------------------------------------------------------------------
 
@@ -94,6 +98,7 @@ export const dashboardRoutes = [
         children: [
           {element: <Ventes />, index: true},
           {element: <AddVente />, path: 'add'},
+          {element: <EditVente />, path: ':id/edit'},
         ]
       },
       {
@@ -101,6 +106,13 @@ export const dashboardRoutes = [
         children: [
           {element: <Rachats />, index: true},
           {element: <AddRachats />, path:'add'},
+          {element: <EditRachats />, path:':id/edit'},
+        ]
+      },
+      {
+        path: 'invoice',
+        children: [
+          {element: <Invoice />, index: true}
         ]
       }
     ],

@@ -7,7 +7,7 @@ import { Field } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
-export function VenteNewEditStatusDate() {
+export function InvoiceNewEditStatusDate() {
   const { watch } = useFormContext();
 
   const values = watch();
@@ -20,21 +20,21 @@ export function VenteNewEditStatusDate() {
     >
       <Field.Text
         disabled
-        name="id"
-        label="Vente Numéro"
-        value={values.id}
+        name="invoiceNumber"
+        label="Invoice number"
+        value={values.invoiceNumber}
       />
 
-      <Field.Select fullWidth name="type" label="Type" InputLabelProps={{ shrink: true }}>
-        {['Vente', 'Devis'].map((option) => (
+      <Field.Select fullWidth name="status" label="Status" InputLabelProps={{ shrink: true }}>
+        {['paid', 'pending', 'overdue', 'draft'].map((option) => (
           <MenuItem key={option} value={option} sx={{ textTransform: 'capitalize' }}>
             {option}
           </MenuItem>
         ))}
       </Field.Select>
 
-      <Field.DatePicker name="date" label="Date Facture" />
-      <Field.Text name="note" label="Note" />
+      <Field.DatePicker name="createDate" label="Date create" />
+      <Field.DatePicker name="dueDate" label="Due date" />
     </Stack>
   );
 }

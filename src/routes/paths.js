@@ -71,11 +71,17 @@ export const paths = {
     vente: {
       root: `${ROOTS.DASHBOARD}/vente`,
       add: `${ROOTS.DASHBOARD}/vente/add`,
+      edit: (id) => `${ROOTS.DASHBOARD}/vente/${id}/edit`
     },
 
     rachat: {
       root: `${ROOTS.DASHBOARD}/rachat`,
-      add: `${ROOTS.DASHBOARD}/rachat/add`
+      add: `${ROOTS.DASHBOARD}/rachat/add`,
+      edit: (id) => `${ROOTS.DASHBOARD}/rachat/${id}/edit`
+    },
+
+    invoice: {
+      root: `${ROOTS.DASHBOARD}/invoice`
     }
   },
 };

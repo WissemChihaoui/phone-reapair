@@ -7,7 +7,7 @@ import { VenteNewEditForm } from '../vente-new-edit-form';
 
 // ----------------------------------------------------------------------
 
-export function VenteCreateView() {
+export function VenteEditView({ product }) {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
@@ -19,7 +19,7 @@ export function VenteCreateView() {
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
-      <VenteNewEditForm />
+      <VenteNewEditForm currentInvoice={product}/>
     </DashboardContent>
   );
 }

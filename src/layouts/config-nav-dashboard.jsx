@@ -115,13 +115,8 @@ export const navData = [
       },
       {
         title: 'Nos factures',
-        path: paths.dashboard.three,
+        path: paths.dashboard.invoice.root,
         icon: ICONS.invoice,
-        children: [
-          {title:'Liste des factures', path: paths.dashboard.three},
-          {title:'Liste des accomptes', path: paths.dashboard.three},
-          {title:'Avoir', path: paths.dashboard.three},
-        ]
       },
     ],
   },

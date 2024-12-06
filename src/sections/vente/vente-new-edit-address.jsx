@@ -35,12 +35,12 @@ export function VenteNewEditAddress() {
 
   const [clientTo, setClientTo] = useState();
 
-  const { invoiceFrom } = values;
+  const { client } = values;
 
   const addClient = useBoolean()
 
   const handlePassager = () => {
-    setValue('invoiceFrom', {
+    setValue('client', {
       id: '0',
       name: 'Client Passager',
       fullAddress: '123, Passager',
@@ -50,7 +50,7 @@ export function VenteNewEditAddress() {
   };
 
   const handleSelectAddress = (option) => {
-    setValue('invoiceFrom', { ...option });
+    setValue('client', { ...option });
   };
 
   return (
@@ -152,13 +152,13 @@ export function VenteNewEditAddress() {
           </Stack>
 
           <Stack spacing={1}>
-            <Typography variant="subtitle2">{invoiceFrom?.name}</Typography>
+            <Typography variant="subtitle2">{client?.name}</Typography>
             <Typography variant="caption" sx={{ color: 'primary.main' }}>
-              {invoiceFrom?.company}
+              {client?.company}
             </Typography>
-            <Typography variant="body2">{invoiceFrom?.fullAddress}</Typography>
-            <Typography variant="body2"> {invoiceFrom?.phoneNumber}</Typography>
-            <Typography variant="body2"> {invoiceFrom?.email}</Typography>
+            <Typography variant="body2">{client?.fullAddress}</Typography>
+            <Typography variant="body2"> {client?.phoneNumber}</Typography>
+            <Typography variant="body2"> {client?.email}</Typography>
           </Stack>
         </Stack>
       </Stack>

@@ -4,6 +4,8 @@ import { Iconify } from 'src/components/iconify'
 import { Image } from 'src/components/image'
 import { Label } from 'src/components/label'
 import { useBoolean } from 'src/hooks/use-boolean'
+import { useRouter } from 'src/routes/hooks'
+import { paths } from 'src/routes/paths'
 import { fCurrency } from 'src/utils/format-number'
 import { fDate } from 'src/utils/format-time'
 
@@ -16,16 +18,16 @@ const STATUS_OPTIONS = {
   };
   const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 export function RachatTableRow({ row, selected, onViewRow, onSelectRow, onDeleteRow }) {
-  
-  const showCin = useBoolean()
-  const showFacture = useBoolean()
+    const router = useRouter();
+    const showCin = useBoolean()
+    const showFacture = useBoolean()
     return (
     <>
     <TableRow hover selected={selected}>
         <TableCell align='right' sx={{ px: 1, whiteSpace: 'nowrap' }}>
             <Stack direction="row" alignItems="center" spacing={1}>
                 <Tooltip title="Modifier" placement="top" arrow>
-                    <Fab size="small" color="warning">
+                    <Fab size="small" color="warning" onClick={()=>router.push(paths.dashboard.rachat.edit(row.id))}>
                         <Iconify icon="solar:pen-bold" />
                     </Fab>
                 </Tooltip>

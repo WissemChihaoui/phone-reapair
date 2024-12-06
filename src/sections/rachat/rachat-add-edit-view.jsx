@@ -2,46 +2,28 @@ import React, { useMemo } from 'react'
 import { useForm } from 'react-hook-form';
 import { Form } from 'src/components/hook-form'
 import { today } from 'src/utils/format-time';
-import { Card } from '@mui/material';
+import { Card, Stack } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { useBoolean } from 'src/hooks/use-boolean';
 import {RachatAddEditClient} from './rachat-add-edit-client';
+import RachatAddEditDetails from './rachat-add-edit-details';
+import RachatAddEditPayment from './rachat-add-edit-payment';
 
 export default function RachatAddEditView({ currentInvoice }) {
 
     const defaultValues = useMemo(
     
         () => ({
-          invoiceNumber: currentInvoice?.invoiceNumber || 'INV-1990', // vente Id
-          createDate: currentInvoice?.createDate || today(), // date
-          status: currentInvoice?.status || '', // statut
-          type: currentInvoice?.type || 'Vente', // statut
-          discount: currentInvoice?.discount || 0, // Remise Total
-          invoiceFrom: currentInvoice?.invoiceFrom || null, // Client
-          totalAmount: currentInvoice?.totalAmount || 0, // total TTC
-          note: currentInvoice?.note || '', // Note
-          totalHt: currentInvoice?.totalHT || 0, // total HT
-          total : currentInvoice?.total || 0,
-          signature : currentInvoice?.signature || null,
-          payement : currentInvoice?.payement || [
-            {
-              id:0,
-              amount: null,
-              date: today(),
-              via : null
-            },
-          ],
-          items: currentInvoice?.items || [
-            {
-              articleId: '',
-              articleName: '',
-              description: '',
-              quantity: 1,
-              price: 0,
-              remise: 0,
-              total: 0,
-              tva: 0,
-            },
-          ],
+          id: currentInvoice?.id || null,
+          client: currentInvoice?.client || null,
+          product: currentInvoice?.product || {name: '', accessoire: '', etat: '', serie:''},
+          amount: currentInvoice?.amount || 0,
+          payementMethode : currentInvoice?.payementMethode || null,
+          imageCni : '',
+          imageFacture: '',
+          cni: ''
         }),
+          
         [currentInvoice]
       );
 
@@ -57,11 +39,32 @@ export default function RachatAddEditView({ currentInvoice }) {
         formState: { isSubmitting },
       } = methods;
 
+      const loadingSend = useBoolean();
+
+      const handleCreateAndSend = handleSubmit(async (data) => {
+        console.log(data);
+      });
+
   return (
     <Form methods={methods}>
         <Card>
             <RachatAddEditClient />
+            <RachatAddEditDetails />
+            <RachatAddEditPayment />
         </Card>
+
+        <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>  
+          <LoadingButton
+          size="large"
+          variant="contained"
+          color='primary'
+          loading={loadingSend.value && isSubmitting}
+          onClick={()=>handleCreateAndSend()}
+        >
+          {currentInvoice ? 'Modifier' : 'Enregistrer'}
+        </LoadingButton>
+          
+      </Stack>
     </Form>
   )
 }

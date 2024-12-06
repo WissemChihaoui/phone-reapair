@@ -94,7 +94,10 @@ export function VenteNewEditDetails() {
 
   useEffect(() => {
     setValue('totalAmount', totalAmount);
-  }, [setValue, totalAmount]);
+    setValue('discount', discountAmount);
+    setValue('totalSs', subtotal);
+    setValue('totalHt', totalHtAmount);
+  }, [setValue, totalAmount,discountAmount,subtotal,totalHtAmount]);
 
 
   const handleAdd = () => {
@@ -115,17 +118,6 @@ export function VenteNewEditDetails() {
     remove(index);
   };
 
-
-  const handleSelectService = useCallback(
-    (index, option) => {
-      setValue(`items[${index}].price`, articles.find((service) => service.name === option)?.price);
-      setValue(
-        `items[${index}].total`,
-        values.items.map((item) => item.quantity * item.price)[index]
-      );
-    },
-    [setValue, values.items]
-  );
 
   const handleChangeQuantity = (event, index) => {
     updateFieldValues(index, 'quantity', Number(event.target.value));

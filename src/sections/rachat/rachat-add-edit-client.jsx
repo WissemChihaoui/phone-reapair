@@ -18,6 +18,7 @@ import { Field } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
 
 import { AddressListDialog } from '../address';
+import VenteNewEditAddClient from '../vente/vente-new-edit-add-client';
 // import VenteNewEditAddClient from './vente-new-edit-add-client';
 
 // ----------------------------------------------------------------------
@@ -35,22 +36,13 @@ export function RachatAddEditClient() {
 
   const [clientTo, setClientTo] = useState();
 
-  const { invoiceFrom } = values;
+  const { client } = values;
 
   const addClient = useBoolean()
 
-  const handlePassager = () => {
-    setValue('invoiceFrom', {
-      id: '0',
-      name: 'Client Passager',
-      fullAddress: '123, Passager',
-      phoneNumber: '',
-    });
-    setClientTo(null);
-  };
-
+  
   const handleSelectAddress = (option) => {
-    setValue('invoiceFrom', { ...option });
+    setValue('client', { ...option, ...values.client });
   };
 
   return (
@@ -66,7 +58,7 @@ export function RachatAddEditClient() {
           />
         }
         sx={{ p: 3 }}
-      >
+        >
         <Stack sx={{ width: 1 }}>
           <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
             <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
@@ -126,20 +118,12 @@ export function RachatAddEditClient() {
             <Box display="flex" gap={1} width={1} mt={3}>
               <Button
                 startIcon={<Iconify icon="mingcute:add-line" />}
-                sx={{ alignSelf: 'flex-end', width: '100%' }}
+                sx={{ alignSelf: 'flex-end', width: { xs :'100%', md: '50%'} }}
                 variant="contained"
                 color='primary'
                 onClick={()=>addClient.onTrue()}
               >
                 Creér client
-              </Button>
-              <Button
-                startIcon={<Iconify icon="mingcute:user-1-line" />}
-                sx={{ alignSelf: 'flex-end', width: '100%' }}
-                onClick={() => handlePassager()}
-                variant='outlined'
-              >
-                Client Passager
               </Button>
             </Box>
           </Stack>
@@ -152,17 +136,17 @@ export function RachatAddEditClient() {
           </Stack>
 
           <Stack spacing={1}>
-            <Typography variant="subtitle2">{invoiceFrom?.name}</Typography>
+            <Typography variant="subtitle2">{client?.name}</Typography>
             <Typography variant="caption" sx={{ color: 'primary.main' }}>
-              {invoiceFrom?.company}
+              {client?.company}
             </Typography>
-            <Typography variant="body2">{invoiceFrom?.fullAddress}</Typography>
-            <Typography variant="body2"> {invoiceFrom?.phoneNumber}</Typography>
-            <Typography variant="body2"> {invoiceFrom?.email}</Typography>
+            <Typography variant="body2">{client?.fullAddress}</Typography>
+            <Typography variant="body2"> {client?.phoneNumber}</Typography>
+            <Typography variant="body2"> {client?.email}</Typography>
           </Stack>
         </Stack>
       </Stack>
-      {/* <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse}/> */}
+      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse}/>
     </>
   );
 }
