@@ -83,4 +83,8 @@ export const _mock = {
     portrait: (index) =>
       `${CONFIG.assetsDir}/assets/images/mock/portrait/portrait-${index + 1}.webp`,
   },
+  //  Article   
+  articles: {
+    name: (index) => _productNames[index]
+  }
 };

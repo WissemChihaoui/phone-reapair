@@ -129,7 +129,7 @@ export const navData = [
         icon: ICONS.caisse,
         children: [
           {title:'Caisse', path: paths.dashboard.three},
-          {title:'Dépôt bancaire', path: paths.dashboard.three},
+          {title:'Dépôt bancaire', path: paths.dashboard.caisse.depot},
           {title:'Export comptable', path: paths.dashboard.three},
           {title:'Export comptable marge', path: paths.dashboard.three},
           {title:'Statistique', path: paths.dashboard.three},

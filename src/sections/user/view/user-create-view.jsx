@@ -10,12 +10,12 @@ import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { LoadingButton } from '@mui/lab';
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { Box, Button, Card, CardActions, Stack } from '@mui/material';
+import { Card, Stack } from '@mui/material';
 import { Form } from 'src/components/hook-form';
-import { StepOne, Stepper, StepThree, StepTwo } from '../create-steps';
+import { StepOne, StepThree, StepTwo } from '../create-steps';
 
 // ----------------------------------------------------------------------
-const STEPS = ['Type de client', 'Informations'];
+
 
 const StepUserData = zod.object({
   id: zod.string().min(1, { message: '' }),
@@ -88,7 +88,6 @@ export function UserCreateView() {
     defaultValues,
   });
   const {
-    reset,
     trigger,
     clearErrors,
     handleSubmit,
@@ -112,14 +111,6 @@ export function UserCreateView() {
     [trigger, clearErrors]
   );
 
-  const handleBack = useCallback(() => {
-    setActiveStep((currentStep) => currentStep - 1);
-  }, []);
-
-  const handleReset = useCallback(() => {
-    reset();
-    setActiveStep(0);
-  }, [reset]);
   const onSubmit = handleSubmit(async (data) => {
     console.log('hey');
 
@@ -132,9 +123,6 @@ export function UserCreateView() {
       console.error(error);
     }
   });
-
-  const completedStep = activeStep === STEPS.length;
-
   return (
     <DashboardContent>
       <CustomBreadcrumbs

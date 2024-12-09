@@ -1,61 +1,17 @@
 import Box from '@mui/material/Box';
-import Step from '@mui/material/Step';
 import Button from '@mui/material/Button';
-import MuiStepper from '@mui/material/Stepper';
-import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 
 import { Iconify } from 'src/components/iconify';
 import { Field } from 'src/components/hook-form';
 import { Grid, MenuItem } from '@mui/material';
 import { CONFIG } from 'src/config-global';
-
-// ----------------------------------------------------------------------
-
-export function Stepper({ steps, activeStep }) {
-  return (
-    <MuiStepper activeStep={activeStep} alternativeLabel sx={{ mb: 5 }}>
-      {steps.map((label, index) => (
-        <Step key={label}>
-          <StepLabel
-            StepIconComponent={({ active, completed }) => (
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                sx={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: '50%',
-                  color: 'text.disabled',
-                  typography: 'subtitle2',
-                  bgcolor: 'action.disabledBackground',
-                  ...(active && { bgcolor: 'primary.main', color: 'primary.contrastText' }),
-                  ...(completed && { bgcolor: 'primary.main', color: 'primary.contrastText' }),
-                }}
-              >
-                {completed ? (
-                  <Iconify width={14} icon="mingcute:check-fill" />
-                ) : (
-                  <Box sx={{ typography: 'subtitle2' }}>{index + 1}</Box>
-                )}
-              </Box>
-            )}
-          >
-            {label}
-          </StepLabel>
-        </Step>
-      ))}
-    </MuiStepper>
-  );
-}
+import { _clientIndvTypes } from 'src/_mock';
 
 // ----------------------------------------------------------------------
 
 export function StepOne({ isIndividual, handleNext }) {
   const nextStepOne = (isInd) => {
-    console.log(isInd);
-
     if (isInd) {
       isIndividual.onTrue();
     } else {
@@ -71,8 +27,8 @@ export function StepOne({ isIndividual, handleNext }) {
           <Button
             onClick={() => nextStepOne(true)}
             size="medium"
-            color="info"
-            variant="outlined"
+            color="primary"
+            variant={isIndividual.value ? 'contained' : 'outlined'}
             sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}
           >
             <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/user.png`} width={60} />
@@ -86,8 +42,8 @@ export function StepOne({ isIndividual, handleNext }) {
           <Button
             onClick={() => nextStepOne(false)}
             size="medium"
-            color="info"
-            variant="outlined"
+            color="primary"
+            variant={isIndividual.value ? 'outlined' : 'contained'}
             sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}
           >
             <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/office.png`} width={60} />
@@ -101,16 +57,6 @@ export function StepOne({ isIndividual, handleNext }) {
     </>
   );
 }
-export const USER_TYPE_OPTIONS = [
-  { value: '1', label: 'Client particulier' },
-  { value: '2', label: 'Client de passage' },
-  { value: '3', label: 'Client pro' },
-  { value: '4', label: 'Client internet' },
-  { value: '5', label: 'Client(e) locale' },
-  { value: '6', label: 'Client(e) professionel' },
-  { value: '7', label: 'Client(e) de passage' },
-];
-
 export function StepTwo() {
   return (
     <Grid container spacing={3}>
@@ -159,7 +105,7 @@ export function StepTwo() {
           variant="filled"
           InputLabelProps={{ shrink: true }}
         >
-          {USER_TYPE_OPTIONS.map((status) => (
+          {_clientIndvTypes.map((status) => (
             <MenuItem key={status.value} value={status.value}>
               {status.label}
             </MenuItem>
@@ -212,8 +158,6 @@ export function StepTwo() {
 }
 
 export function StepThree() {
-  console.log('Working on step three');
-
   return (
     <Grid container spacing={3}>
       <Grid xs={12} md={6} lg={4} padding={2}>

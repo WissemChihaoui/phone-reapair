@@ -71,10 +71,10 @@ export function UserTableRow({ row, selected, onEditRow, onDeleteRow }) {
         <TableCell sx={{ whiteSpace: 'nowrap' }}>
         <Label variant="soft"
               color={
-                (row.isInd ? 'warning' : 'success')
+                (row.type === 'Particulier' ? 'warning' : 'success')
               }
               >
-                {row.isInd ? 'Individuel' : 'Société'}
+                {row.type === 'Particulier' ? 'Particulier' : 'Entreprise'}
               </Label>
         </TableCell>
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.phoneNumber}</TableCell>
@@ -92,8 +92,8 @@ export function UserTableRow({ row, selected, onEditRow, onDeleteRow }) {
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
-        title="Supprimer"
-        content="Êtes-vous sûr de vouloir effacer ?"
+        title="Supprimer client"
+        content={`Êtes-vous sûr de vouloir effacer ${row.name}?`}
         action={
           <Button variant="contained" color="error" onClick={onDeleteRow}>
             Supprimer

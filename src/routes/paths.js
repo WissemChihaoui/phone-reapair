@@ -82,6 +82,9 @@ export const paths = {
 
     invoice: {
       root: `${ROOTS.DASHBOARD}/invoice`
+    },
+    caisse: {
+      depot: `${ROOTS.DASHBOARD}/caisse/depot`
     }
   },
 };

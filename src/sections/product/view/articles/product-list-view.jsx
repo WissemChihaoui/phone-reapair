@@ -25,6 +25,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
 import { PRODUCT_STOCK_OPTIONS } from 'src/_mock';
+import { _articlesList } from 'src/_mock/_articles';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { toast } from 'src/components/snackbar';
@@ -91,36 +92,7 @@ export function ProductListView() {
     },
   ];
 
-  const [products, setProducts] = useState([
-    {
-      id: 'e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1',
-      category: 'Ecran',
-      sousCategory: 'Tables',
-      name: 'Ecran LCD T44 ',
-      coverUrl: 'https://i.pinimg.com/736x/d6/62/3f/d6623f4d67f053942fa96505b83f076b.jpg',
-      refInterne: 'Prompec',
-      available: 72,
-      quantity: 80,
-      inventoryType: 'en stock',
-      price: 82,
-      buy_price: 65,
-      fournisseur: 'fournisseur 2',
-    },
-    {
-      id: 'e99f09b7-dd88-49d5-b1c8-1daf80c2d7b1',
-      category: 'Ecran',
-      sousCategory: 'Ecran LCD',
-      name: 'Ecran LCD T44 ',
-      coverUrl: 'https://i.pinimg.com/736x/d6/62/3f/d6623f4d67f053942fa96505b83f076b.jpg',
-      refInterne: 'Prompec',
-      available: 72,
-      quantity: 100,
-      inventoryType: 'en stock',
-      price: 82,
-      buy_price: 65,
-      fournisseur: 'fournisseur 2',
-    },
-  ]);
+  const [products, setProducts] = useState(_articlesList);
   const [selectedRowAdjust, setSelectedRowAdjust] = useState({
     quantity: 0,
     fournisseur: '',

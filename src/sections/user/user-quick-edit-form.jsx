@@ -3,9 +3,7 @@ import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isValidPhoneNumber } from 'react-phone-number-input/input';
-
 import Box from '@mui/material/Box';
-import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,7 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 
-import { USER_STATUS_OPTIONS } from 'src/_mock';
+import { _clientIndvTypes, _clientTypes } from 'src/_mock';
 
 import { toast } from 'src/components/snackbar';
 import { Form, Field, schemaHelper } from 'src/components/hook-form';
@@ -44,24 +42,9 @@ export const UserQuickEditSchema = zod.object({
 // ----------------------------------------------------------------------
 
 
-//       isInd: false,
-//       id: '255-89-877',
-//       name: 'Ahmed',
-//       email: 'email.mail@mail.com',
-//       phoneNumber: '+216 98789800',
-//       type : '',
-//       state: 'Mahdia',
-//       address : '908 Jack Locks',
-//       zipCode: '85807',
-//       raison :'Raison Sociale',
-//       siret: 'TN-188547779',
-//       tva: '89775654',
-//       isTvaUnion: true,
-
 export function UserQuickEditForm({ currentUser, open, onClose }) {
   const defaultValues = useMemo(
     () => ({
-      isInd : currentUser.isInd,
       id: currentUser?.id || '',
       name: currentUser?.name || '',
       email: currentUser?.email || '',
@@ -74,11 +57,10 @@ export function UserQuickEditForm({ currentUser, open, onClose }) {
       siret: currentUser?.siret || '',
       tva: currentUser?.tva || '',
       isTvaUnion: currentUser?.isTvaUnion || '',
+      indvType: currentUser?.indvType || ''
     }),
     [currentUser]
   );
-
-  console.log('Current user from quick edit :', currentUser);
   
 
   const methods = useForm({
@@ -90,6 +72,7 @@ export function UserQuickEditForm({ currentUser, open, onClose }) {
   const {
     reset,
     handleSubmit,
+    watch,
     formState: { isSubmitting },
   } = methods;
 
@@ -126,51 +109,42 @@ export function UserQuickEditForm({ currentUser, open, onClose }) {
         <DialogTitle>Modifier le client</DialogTitle>
 
         <DialogContent>
-          <Alert variant="outlined" severity="info" sx={{ mb: 3 }}>
-            C&apos;est un compte individuel, pour changer le type il faut creér un nouveau utilisateur
-          </Alert>
-
           <Box
             rowGap={3}
             columnGap={2}
+            mt={2}
             display="grid"
             gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
           >
             <Box sx={{ width: '100%'}}>
-              <Field.Select name="isInd" label="Type de compte">
-                <MenuItem value={1}>
-                    Individuel
-                </MenuItem>
-                <MenuItem value={0}>
-                    Société
-                </MenuItem>
+              <Field.Select name="type" label="Type de compte">
+                {_clientTypes.map((type) => (
+                  <MenuItem value={type}>{type}</MenuItem>
+                ))}
               </Field.Select>
             </Box>
 
-            <Field.Text name="name" label={defaultValues.isInd ? 'Nom et prénom' : 'Nom du gérant'} />
+            <Field.Text name="name" label={watch('type') === 'Particulier' ? 'Nom et prénom' : 'Nom du gérant'} />
             <Field.Text name="email" label="Email address" />
             <Field.Phone name="phoneNumber" label="Phone number" />
-
-            <Field.Select name="type" label="Type de compte">
-              <MenuItem value="">
-                  Type 1
-              </MenuItem>
-              <MenuItem value="1">
-                  Type 2
-              </MenuItem>
-            </Field.Select>
 
             <Field.Text name="state" label="State/region" />
             <Field.Text name="address" label="Address" />
             <Field.Text name="zipCode" label="Zip/code" />
             {
-              !defaultValues.isInd &&
+              watch('type') === 'Entreprise'?
               <>
                 <Field.Text name="raison" label="Raison social"/>
                 <Field.Text name="siret" label="SIRET"/>
-                <Field.Text name="siret" label="SIRET"/>
                 <Field.Text name="tva" label="TVA"/>
-              </>
+              </>:
+              <Box sx={{ width: '100%'}}>
+              <Field.Select name="indvType" label="Type de compte individuel">
+                {_clientIndvTypes.map((type) => (
+                  <MenuItem value={type}>{type}</MenuItem>
+                ))}
+              </Field.Select>
+            </Box>
             }
           </Box>
         </DialogContent>

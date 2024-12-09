@@ -13,10 +13,10 @@ import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
-import { useSetState } from 'src/hooks/use-set-state';
+import { useSetState } from 'src/hooks/use-set-state'; 
 
 import { DashboardContent } from 'src/layouts/dashboard';
-import { _roles, _userList, USER_STATUS_OPTIONS, _clientTypes } from 'src/_mock';
+import { _clientList , USER_STATUS_OPTIONS, _clientTypes } from 'src/_mock';
 
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
@@ -38,6 +38,7 @@ import {
 import { UserTableRow } from '../user-table-row';
 import { UserTableToolbar } from '../user-table-toolbar';
 import { UserTableFiltersResult } from '../user-table-filters-result';
+
 
 // ----------------------------------------------------------------------
 
@@ -61,35 +62,11 @@ export function UserListView() {
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState([
-    {
-      isInd: 1,
-      id: '124-55-888',
-      name: 'Wissem',
-      email: 'email.mail@mail.com',
-      phoneNumber: '+216 96898989',
-      type: '1',
-      state: 'Mahdia',
-      address: '908 Jack Locks',
-      zipCode: '85807',
-    },
-    {
-      isInd: 0,
-      id: '255-89-877',
-      name: 'Ahmed',
-      email: 'email.mail@mail.com',
-      phoneNumber: '+216 98789800',
-      type: '',
-      state: 'Mahdia',
-      address: '908 Jack Locks',
-      zipCode: '85807',
-      raison: 'Raison Sociale',
-      siret: 'TN-188547779',
-      tva: '89775654',
-      isTvaUnion: true,
-    },
-  ]);
+  const [tableData, setTableData] = useState(_clientList);
 
+
+  console.log((tableData));
+  
   const filters = useSetState({ name: '', type: [], status: 'all' });
 
   const dataFiltered = applyFilter({

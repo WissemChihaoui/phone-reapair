@@ -299,8 +299,18 @@ export const _countryNames = [
 
 // ----------------------------------------------------------------------
 export const _clientTypes = [
+  'Entreprise',
   'Particulier',
-  'Entreprise'
+]
+
+export const _clientIndvTypes = [
+  'Client particulier',
+  'Client de passage',
+  'Client pro',
+  'Client internet',
+  'Client(e) locale',
+  'Client(e) professionel',
+  'Client(e) de passage',
 ]
 export const _roles = [
   `CEO`,
