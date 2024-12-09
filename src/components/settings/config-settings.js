@@ -9,8 +9,8 @@ export const defaultSettings = {
   direction: 'ltr',
   contrast: 'hight',
   navLayout: 'mini',
-  primaryColor: 'default',
+  primaryColor: 'purple',
   navColor: 'apparent',
-  compactLayout: true,
+  compactLayout: false,
   fontFamily: defaultFont,
 };

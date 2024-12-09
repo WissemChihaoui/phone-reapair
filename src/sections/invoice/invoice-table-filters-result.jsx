@@ -16,10 +16,19 @@ export function InvoiceTableFiltersResult({ filters, totalResults, onResetPage, 
 
   const handleRemoveService = useCallback(
     (inputValue) => {
-      const newValue = filters.state.service.filter((item) => item !== inputValue);
+      const newValue = filters.state.payement.filter((item) => item !== inputValue);
 
       onResetPage();
-      filters.setState({ service: newValue });
+      filters.setState({ payement: newValue });
+    },
+    [filters, onResetPage]
+  );
+  const handleRemoveType = useCallback(
+    (inputValue) => {
+      const newValue = filters.state.type.filter((item) => item !== inputValue);
+
+      onResetPage();
+      filters.setState({ type: newValue });
     },
     [filters, onResetPage]
   );
@@ -36,9 +45,15 @@ export function InvoiceTableFiltersResult({ filters, totalResults, onResetPage, 
 
   return (
     <FiltersResult totalResults={totalResults} onReset={filters.onResetState} sx={sx}>
-      <FiltersBlock label="Service:" isShow={!!filters.state.service.length}>
-        {filters.state.service.map((item) => (
+      <FiltersBlock label="Service:" isShow={!!filters.state.payement.length}>
+        {filters.state.payement.map((item) => (
           <Chip {...chipProps} key={item} label={item} onDelete={() => handleRemoveService(item)} />
+        ))}
+      </FiltersBlock>
+
+      <FiltersBlock label="Type:" isShow={!!filters.state.type.length}>
+        {filters.state.type.map((item) => (
+           <Chip {...chipProps} key={item} label={item} onDelete={() => handleRemoveType(item)} />
         ))}
       </FiltersBlock>
 

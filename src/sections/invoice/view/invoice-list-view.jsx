@@ -53,14 +53,91 @@ import { InvoiceTableFiltersResult } from '../invoice-table-filters-result';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'invoiceNumber', label: 'Customer' },
-  { id: 'createDate', label: 'Create' },
-  { id: 'dueDate', label: 'Due' },
-  { id: 'price', label: 'Amount' },
-  { id: 'sent', label: 'Sent', align: 'center' },
-  { id: 'status', label: 'Status' },
   { id: '' },
+  { id: 'id', label: '#ID'},
+  { id: 'invoiceNumber', label: 'Client' },
+  { id: 'createDate', label: 'Date' },
+  { id: 'price', label: 'Prix' },
+  { id: 'sent', label: 'Produits', align: 'center' },
+  { id: 'status', label: 'Statut' },
+  
 ];
+
+const PAIEMENT_METHODS = [
+  { id: 1, label: "Virement" },
+  { id: 2, label: "Espèces" },
+  { id: 3, label: "Carte Bancaire" },
+  { id: 4, label: "Chèque" },
+  { id: 5, label: "PayPal" },
+  { id: 6, label: "Autre" }
+];
+
+const FACTURE_TYPE = [
+  { id: 0, label: 'Réparations'},
+  { id: 1, label: 'Ventes'},
+]
+
+const TABLE_DATA = [
+  {
+    id: 1,
+    commande_id: '1',
+    client: {
+      addressType: 'Home',
+      company: 'Gleichner, Mueller and Tromp',
+      email: 'ashlynn.ohara62@gmail.com',
+      fullAddress: '19034 Verna Unions Apt. 164 - Honolulu, RI / 87535',
+      id: 'e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1',
+      name: 'Jayvion Simon',
+      phoneNumber: '+1 202-555-0143',
+      primary: true,
+    },
+    amount: 250,
+    product:[ 
+      {
+        id:1,
+        name : 'PC LENEVO V14',
+      },
+      {
+        id:2,
+        name : 'PC LENEVO V15',
+      },
+    ],
+    date : "2024-12-26T00:00:00+01:00",
+    payement: "Virement",
+    type: 'Réparations',
+    status : 'Avoir'
+  },
+  {
+    id: 2,
+    commande_id: '2',
+    client: {
+      addressType: 'Home',
+      company: 'Gleichner, Mueller and Tromp',
+      email: 'ashlynn.ohara62@gmail.com',
+      fullAddress: '19034 Verna Unions Apt. 164 - Honolulu, RI / 87535',
+      id: 'e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1',
+      name: 'Havier Simon',
+      phoneNumber: '+1 202-555-0143',
+      primary: true,
+    },
+    amount: 250,
+    product:[ 
+      {
+        id:1,
+        name : 'PC LENEVO V14',
+      },
+      {
+        id:2,
+        name : 'PC LENEVO V15',
+      },
+    ],
+    date : "2024-12-26T00:00:00+01:00",
+    payement: "Virement",
+    type: 'Réparations',
+    status : 'Payé'
+  },
+]
+
 
 // ----------------------------------------------------------------------
 
@@ -69,15 +146,16 @@ export function InvoiceListView() {
 
   const router = useRouter();
 
-  const table = useTable({ defaultOrderBy: 'createDate' });
+  const table = useTable({ defaultOrderBy: 'date' });
 
   const confirm = useBoolean();
 
-  const [tableData, setTableData] = useState(_invoices);
+  const [tableData, setTableData] = useState(TABLE_DATA);
 
   const filters = useSetState({
     name: '',
-    service: [],
+    payement: [],
+    type:[],
     status: 'all',
     startDate: null,
     endDate: null,
@@ -96,7 +174,8 @@ export function InvoiceListView() {
 
   const canReset =
     !!filters.state.name ||
-    filters.state.service.length > 0 ||
+    filters.state.payement.length > 0 ||
+    filters.state.type.length > 0 ||
     filters.state.status !== 'all' ||
     (!!filters.state.startDate && !!filters.state.endDate);
 
@@ -115,33 +194,27 @@ export function InvoiceListView() {
   const TABS = [
     {
       value: 'all',
-      label: 'All',
+      label: 'Tous',
       color: 'default',
       count: tableData.length,
     },
     {
-      value: 'paid',
-      label: 'Paid',
+      value: 'Payé',
+      label: 'Payé',
       color: 'success',
-      count: getInvoiceLength('paid'),
+      count: getInvoiceLength('Payé'),
     },
     {
-      value: 'pending',
-      label: 'Pending',
+      value: 'Accomptes',
+      label: 'Accomptes',
       color: 'warning',
-      count: getInvoiceLength('pending'),
+      count: getInvoiceLength('Accomptes'),
     },
     {
-      value: 'overdue',
-      label: 'Overdue',
+      value: 'Avoir',
+      label: 'Avoir',
       color: 'error',
-      count: getInvoiceLength('overdue'),
-    },
-    {
-      value: 'draft',
-      label: 'Draft',
-      color: 'default',
-      count: getInvoiceLength('draft'),
+      count: getInvoiceLength('Avoir'),
     },
   ];
 
@@ -224,27 +297,27 @@ export function InvoiceListView() {
 
               <InvoiceAnalytic
                 title="Payé"
-                total={getInvoiceLength('paid')}
-                percent={getPercentByStatus('paid')}
-                price={getTotalAmount('paid')}
+                total={getInvoiceLength('Payé')}
+                percent={getPercentByStatus('Payé')}
+                price={getTotalAmount('Payé')}
                 icon="solar:file-check-bold-duotone"
                 color={theme.vars.palette.success.main}
               />
 
               <InvoiceAnalytic
                 title="Accomptes"
-                total={getInvoiceLength('pending')}
-                percent={getPercentByStatus('pending')}
-                price={getTotalAmount('pending')}
+                total={getInvoiceLength('Accomptes')}
+                percent={getPercentByStatus('Accomptes')}
+                price={getTotalAmount('Accomptes')}
                 icon="solar:sort-by-time-bold-duotone"
                 color={theme.vars.palette.warning.main}
               />
 
               <InvoiceAnalytic
                 title="Avoir"
-                total={getInvoiceLength('overdue')}
-                percent={getPercentByStatus('overdue')}
-                price={getTotalAmount('overdue')}
+                total={getInvoiceLength('Avoir')}
+                percent={getPercentByStatus('Avoir')}
+                price={getTotalAmount('Avoir')}
                 icon="solar:bell-bing-bold-duotone"
                 color={theme.vars.palette.error.main}
               />
@@ -287,7 +360,7 @@ export function InvoiceListView() {
             filters={filters}
             dateError={dateError}
             onResetPage={table.onResetPage}
-            options={{ services: INVOICE_SERVICE_OPTIONS.map((option) => option.name) }}
+            options={{ payement: PAIEMENT_METHODS.map((option) => option.label), type: FACTURE_TYPE.map((option) => option.label) }}
           />
 
           {canReset && (
@@ -300,45 +373,6 @@ export function InvoiceListView() {
           )}
 
           <Box sx={{ position: 'relative' }}>
-            <TableSelectedAction
-              dense={table.dense}
-              numSelected={table.selected.length}
-              rowCount={dataFiltered.length}
-              onSelectAllRows={(checked) => {
-                table.onSelectAllRows(
-                  checked,
-                  dataFiltered.map((row) => row.id)
-                );
-              }}
-              action={
-                <Stack direction="row">
-                  <Tooltip title="Sent">
-                    <IconButton color="primary">
-                      <Iconify icon="iconamoon:send-fill" />
-                    </IconButton>
-                  </Tooltip>
-
-                  <Tooltip title="Download">
-                    <IconButton color="primary">
-                      <Iconify icon="eva:download-outline" />
-                    </IconButton>
-                  </Tooltip>
-
-                  <Tooltip title="Print">
-                    <IconButton color="primary">
-                      <Iconify icon="solar:printer-minimalistic-bold" />
-                    </IconButton>
-                  </Tooltip>
-
-                  <Tooltip title="Delete">
-                    <IconButton color="primary" onClick={confirm.onTrue}>
-                      <Iconify icon="solar:trash-bin-trash-bold" />
-                    </IconButton>
-                  </Tooltip>
-                </Stack>
-              }
-            />
-
             <Scrollbar sx={{ minHeight: 444 }}>
               <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 800 }}>
                 <TableHeadCustom
@@ -348,12 +382,6 @@ export function InvoiceListView() {
                   rowCount={dataFiltered.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      dataFiltered.map((row) => row.id)
-                    )
-                  }
                 />
 
                 <TableBody>
@@ -424,7 +452,7 @@ export function InvoiceListView() {
 }
 
 function applyFilter({ inputData, comparator, filters, dateError }) {
-  const { name, status, service, startDate, endDate } = filters;
+  const { name, status, payement, type, startDate, endDate } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -439,8 +467,8 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
   if (name) {
     inputData = inputData.filter(
       (invoice) =>
-        invoice.invoiceNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        invoice.invoiceTo.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        invoice.commande_id.indexOf(name.toLowerCase()) !== -1 ||
+        invoice.client.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 
@@ -448,15 +476,18 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
     inputData = inputData.filter((invoice) => invoice.status === status);
   }
 
-  if (service.length) {
-    inputData = inputData.filter((invoice) =>
-      invoice.items.some((filterItem) => service.includes(filterItem.service))
-    );
+  console.log(inputData)
+
+  if (payement.length > 0) {
+    inputData = inputData.filter((item) => payement.includes(item.payement));
+  }
+  if (type.length > 0) {
+    inputData = inputData.filter((item) => type.includes(item.type));
   }
 
   if (!dateError) {
     if (startDate && endDate) {
-      inputData = inputData.filter((invoice) => fIsBetween(invoice.createDate, startDate, endDate));
+      inputData = inputData.filter((invoice) => fIsBetween(invoice.date, startDate, endDate));
     }
   }
 

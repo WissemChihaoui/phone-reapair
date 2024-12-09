@@ -21,34 +21,51 @@ import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
+import { Autocomplete, Box, Dialog, DialogActions, DialogContent, DialogTitle, Fab, InputAdornment, OutlinedInput, Select, TextField, Tooltip } from '@mui/material';
+import { Field } from 'src/components/hook-form';
+import { Scrollbar } from 'src/components/scrollbar';
 
 // ----------------------------------------------------------------------
 
 export function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
-  const confirm = useBoolean();
-
-  const popover = usePopover();
+  const open = useBoolean();
+  const router = useRouter();
 
   return (
     <>
       <TableRow hover selected={selected}>
-        <TableCell padding="checkbox">
-          <Checkbox
-            checked={selected}
-            onClick={onSelectRow}
-            inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
-          />
+        <TableCell align='right' sx={{ px: 1, whiteSpace: 'nowrap' }}>
+            <Stack direction="row" alignItems="center" spacing={1}>
+                <Tooltip title="Modifier" placement="top" arrow>
+                    <Fab size="small" color="warning" onClick={()=>router.push(paths.dashboard.rachat.edit(row.id))}>
+                        <Iconify icon="solar:pen-bold" />
+                    </Fab>
+                </Tooltip>
+                {row.status !== "Avoir" && 
+                  <Tooltip title="Avoir" placement="top" arrow>
+                    <Fab size="small" color="success" onClick={()=>open.onTrue()}>
+                        <Iconify icon="solar:wad-of-money-bold" />
+                    </Fab>
+                  </Tooltip>
+                }
+            </Stack>
+        </TableCell>
+
+        <TableCell>
+          #{row.id}
         </TableCell>
 
         <TableCell>
           <Stack spacing={2} direction="row" alignItems="center">
-            <Avatar alt={row.invoiceTo.name}>{row.invoiceTo.name.charAt(0).toUpperCase()}</Avatar>
+            <Avatar alt={row.client.name}>{row.client.name.charAt(0).toUpperCase()}</Avatar>
 
             <ListItemText
               disableTypography
               primary={
                 <Typography variant="body2" noWrap>
-                  {row.invoiceTo.name}
+                  {row.client.name}
                 </Typography>
               }
               secondary={
@@ -58,7 +75,7 @@ export function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditR
                   onClick={onViewRow}
                   sx={{ color: 'text.disabled', cursor: 'pointer' }}
                 >
-                  {row.invoiceNumber}
+                  {row.commande_id}
                 </Link>
               }
             />
@@ -67,33 +84,24 @@ export function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditR
 
         <TableCell>
           <ListItemText
-            primary={fDate(row.createDate)}
-            secondary={fTime(row.createDate)}
+            primary={fDate(row.date)}
+            secondary={fTime(row.date)}
             primaryTypographyProps={{ typography: 'body2', noWrap: true }}
             secondaryTypographyProps={{ mt: 0.5, component: 'span', typography: 'caption' }}
           />
         </TableCell>
 
-        <TableCell>
-          <ListItemText
-            primary={fDate(row.dueDate)}
-            secondary={fTime(row.dueDate)}
-            primaryTypographyProps={{ typography: 'body2', noWrap: true }}
-            secondaryTypographyProps={{ mt: 0.5, component: 'span', typography: 'caption' }}
-          />
-        </TableCell>
+        <TableCell>{fCurrency(row.amount)}</TableCell>
 
-        <TableCell>{fCurrency(row.totalAmount)}</TableCell>
-
-        <TableCell align="center">{row.sent}</TableCell>
+        <TableCell align="center">{row.product[0].name}</TableCell>
 
         <TableCell>
           <Label
             variant="soft"
             color={
-              (row.status === 'paid' && 'success') ||
-              (row.status === 'pending' && 'warning') ||
-              (row.status === 'overdue' && 'error') ||
+              (row.status === 'Payé' && 'success') ||
+              (row.status === 'Accomptes' && 'warning') ||
+              (row.status === 'Avoir' && 'error') ||
               'default'
             }
           >
@@ -101,66 +109,83 @@ export function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditR
           </Label>
         </TableCell>
 
-        <TableCell align="right" sx={{ px: 1 }}>
-          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </TableCell>
       </TableRow>
 
-      <CustomPopover
-        open={popover.open}
-        anchorEl={popover.anchorEl}
-        onClose={popover.onClose}
-        slotProps={{ arrow: { placement: 'right-top' } }}
-      >
-        <MenuList>
-          <MenuItem
-            onClick={() => {
-              onViewRow();
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:eye-bold" />
-            View
-          </MenuItem>
+      <Dialog maxWidth="sm" fullWidth open={open.value} onClose={open.onFalse}>
+        
+          <DialogTitle>Avoir #{row.id}</DialogTitle>
+          <Scrollbar sx={{ p: 3, bgcolor: 'background.neutral' }}>
+            <Stack spacing={3}>
+              <Typography variant='h6'>{row.client.name}</Typography>
+              <Autocomplete
+                fullWidth
+                options={row.product}
+                getOptionLabel={(option) => option.name}
+                renderInput={(params) => <TextField {...params} label="Produit" margin="none" />}
+              />
+              <TextField 
+                label='Total Facture' 
+                value={row.amount} 
+                disabled 
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <Box component="span" sx={{ color: 'text.disabled' }}>
+                        €
+                      </Box>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField 
+                label='Total Payé' 
+                value={row.amount} 
+                disabled 
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <Box component="span" sx={{ color: 'text.disabled' }}>
+                        €
+                      </Box>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField 
+                label='Montant' 
+                value={row.amount}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <Box component="span" sx={{ color: 'text.disabled' }}>
+                        €
+                      </Box>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Autocomplete
+                fullWidth
+                options={['Virement', 'Espece']}
+                getOptionLabel={(option) => option}
+                renderInput={(params) => <TextField {...params} label="Type de paiement" margin="none" />}
+              />
 
-          <MenuItem
-            onClick={() => {
-              onEditRow();
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:pen-bold" />
-            Edit
-          </MenuItem>
-
-          <Divider sx={{ borderStyle: 'dashed' }} />
-
-          <MenuItem
-            onClick={() => {
-              confirm.onTrue();
-              popover.onClose();
-            }}
-            sx={{ color: 'error.main' }}
-          >
-            <Iconify icon="solar:trash-bin-trash-bold" />
-            Delete
-          </MenuItem>
-        </MenuList>
-      </CustomPopover>
-
-      <ConfirmDialog
-        open={confirm.value}
-        onClose={confirm.onFalse}
-        title="Delete"
-        content="Are you sure want to delete?"
-        action={
-          <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Delete
-          </Button>
-        }
-      />
+        <TextField
+          rows={4}
+          fullWidth
+          multiline
+          label="Notation interne"
+        
+        />
+            </Stack>
+          </Scrollbar>
+          <DialogActions>
+            <Button variant='outlined' onClick={()=> open.onFalse()}>Annuler</Button>
+            <Button variant='contained' color='primary'>Valider</Button>
+          </DialogActions>
+        
+      </Dialog>
     </>
   );
 }

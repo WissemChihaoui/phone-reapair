@@ -20,7 +20,6 @@ import { usePopover, CustomPopover } from 'src/components/custom-popover';
 // ----------------------------------------------------------------------
 
 export function InvoiceTableToolbar({ filters, options, dateError, onResetPage }) {
-  const popover = usePopover();
 
   const handleFilterName = useCallback(
     (event) => {
@@ -34,9 +33,20 @@ export function InvoiceTableToolbar({ filters, options, dateError, onResetPage }
     (event) => {
       const newValue =
         typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value;
-
+        
       onResetPage();
-      filters.setState({ service: newValue });
+      filters.setState({ payement: newValue });
+    },
+    [filters, onResetPage]
+  );
+
+  const handleFilterType = useCallback(
+    (event) => {
+      const newValue = 
+        typeof event.target.value === 'string' ? event.targt.value.split(',') : event.target.value;
+      
+      onResetPage();
+      filters.setState({ type: newValue })
     },
     [filters, onResetPage]
   );
@@ -66,23 +76,49 @@ export function InvoiceTableToolbar({ filters, options, dateError, onResetPage }
         sx={{ p: 2.5, pr: { xs: 2.5, md: 1 } }}
       >
         <FormControl sx={{ flexShrink: 0, width: { xs: 1, md: 180 } }}>
-          <InputLabel htmlFor="invoice-filter-service-select-label">Service</InputLabel>
+          <InputLabel htmlFor="invoice-filter-service-select-label">Paiement</InputLabel>
 
           <Select
+            label='Paiement'
             multiple
-            value={filters.state.service}
+            value={filters.state.payement}
             onChange={handleFilterService}
-            input={<OutlinedInput label="Service" />}
+            input={<OutlinedInput label="Paiement" />}
             renderValue={(selected) => selected.map((value) => value).join(', ')}
             inputProps={{ id: 'invoice-filter-service-select-label' }}
             sx={{ textTransform: 'capitalize' }}
           >
-            {options.services.map((option) => (
+            {options.payement.map((option) => (
               <MenuItem key={option} value={option}>
                 <Checkbox
                   disableRipple
                   size="small"
-                  checked={filters.state.service.includes(option)}
+                  checked={filters.state.payement.includes(option)}
+                />
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl sx={{ flexShrink: 0, width: { xs: 1, md: 180 } }}>
+          <InputLabel htmlFor="invoice-filter-type-select-label">Type</InputLabel>
+
+          <Select
+            label='Type'
+            multiple
+            value={filters.state.type}
+            onChange={handleFilterType}
+            input={<OutlinedInput label="Type" />}
+            renderValue={(selected) => selected.map((value) => value).join(', ')}
+            inputProps={{ id: 'invoice-filter-type-select-label' }}
+            sx={{ textTransform: 'capitalize' }}
+          >
+            {options.type.map((option) => (
+              <MenuItem key={option} value={option}>
+                <Checkbox
+                  disableRipple
+                  size="small"
+                  checked={filters.state.type.includes(option)}
                 />
                 {option}
               </MenuItem>
@@ -91,7 +127,7 @@ export function InvoiceTableToolbar({ filters, options, dateError, onResetPage }
         </FormControl>
 
         <DatePicker
-          label="Start date"
+          label="Date début"
           value={filters.state.endDate}
           onChange={handleFilterStartDate}
           slotProps={{ textField: { fullWidth: true } }}
@@ -99,14 +135,14 @@ export function InvoiceTableToolbar({ filters, options, dateError, onResetPage }
         />
 
         <DatePicker
-          label="End date"
+          label="Date fin"
           value={filters.state.endDate}
           onChange={handleFilterEndDate}
           slotProps={{
             textField: {
               fullWidth: true,
               error: dateError,
-              helperText: dateError ? 'End date must be later than start date' : null,
+              helperText: dateError ? 'La date de fin doit être postérieure à la date de début' : null,
             },
           }}
           sx={{
@@ -123,7 +159,7 @@ export function InvoiceTableToolbar({ filters, options, dateError, onResetPage }
             fullWidth
             value={filters.state.name}
             onChange={handleFilterName}
-            placeholder="Search customer or invoice number..."
+            placeholder="Rechercher Client ou ID commande..."
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -132,50 +168,10 @@ export function InvoiceTableToolbar({ filters, options, dateError, onResetPage }
               ),
             }}
           />
-
-          <IconButton onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
         </Stack>
       </Stack>
 
-      <CustomPopover
-        open={popover.open}
-        anchorEl={popover.anchorEl}
-        onClose={popover.onClose}
-        slotProps={{ arrow: { placement: 'right-top' } }}
-      >
-        <MenuList>
-          <MenuList>
-            <MenuItem
-              onClick={() => {
-                popover.onClose();
-              }}
-            >
-              <Iconify icon="solar:printer-minimalistic-bold" />
-              Print
-            </MenuItem>
-
-            <MenuItem
-              onClick={() => {
-                popover.onClose();
-              }}
-            >
-              <Iconify icon="solar:import-bold" />
-              Import
-            </MenuItem>
-
-            <MenuItem
-              onClick={() => {
-                popover.onClose();
-              }}
-            >
-              <Iconify icon="solar:export-bold" />
-              Export
-            </MenuItem>
-          </MenuList>
-        </MenuList>
-      </CustomPopover>
+      
     </>
   );
 }
