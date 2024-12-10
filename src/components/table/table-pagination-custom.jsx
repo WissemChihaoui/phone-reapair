@@ -16,6 +16,7 @@ export function TablePaginationCustom({
     <Box sx={{ position: 'relative', ...sx }}>
       <TablePagination
         rowsPerPageOptions={rowsPerPageOptions}
+        labelRowsPerPage="Lignes par page"
         component="div"
         {...other}
         sx={{ borderTopColor: 'transparent' }}

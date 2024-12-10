@@ -45,7 +45,7 @@ import { UserTableFiltersResult } from '../user-table-filters-result';
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: '', width: 88 },
+  { id: '', width: 120 },
   { id: 'name', label: 'Nom' },
   { id: 'company', label: 'Société', width: 220 },
   { id: 'type', label: 'Type du client', width: 220 },

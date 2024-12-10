@@ -10,12 +10,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { formHelperTextClasses } from '@mui/material/FormHelperText';
 
 import { Iconify } from 'src/components/iconify';
-import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { usePopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
 export function ProductCategoriesToolbar({ filters, onResetPage, dateError }) {
-  const popover = usePopover();
 
   const handleFilterName = useCallback(
     (event) => {
@@ -23,23 +22,7 @@ export function ProductCategoriesToolbar({ filters, onResetPage, dateError }) {
       filters.setState({ name: event.target.value });
     },
     [filters, onResetPage]
-  );
-
-  const handleFilterStartDate = useCallback(
-    (newValue) => {
-      onResetPage();
-      filters.setState({ startDate: newValue });
-    },
-    [filters, onResetPage]
-  );
-
-  const handleFilterEndDate = useCallback(
-    (newValue) => {
-      onResetPage();
-      filters.setState({ endDate: newValue });
-    },
-    [filters, onResetPage]
-  );
+  );  
 
   return (
     <>
