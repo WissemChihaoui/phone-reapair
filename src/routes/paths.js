@@ -88,6 +88,9 @@ export const paths = {
       exportComptable: `${ROOTS.DASHBOARD}/caisse/export-comptable`,
       exportComptableMarge: `${ROOTS.DASHBOARD}/caisse/export-comptable-marge`,
       statistiques: `${ROOTS.DASHBOARD}/caisse/statistics`,
+    },
+    boutique: {
+      root: `${ROOTS.DASHBOARD}/boutique`,
     }
   },
 };

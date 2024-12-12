@@ -48,6 +48,8 @@ const ExportComptable = lazy(() => import('src/pages/dashboard/caisse/export-com
 const ExportComptableMarge = lazy(() => import('src/pages/dashboard/caisse/export-comptable-marge'))
 const Statistics = lazy(() => import('src/pages/dashboard/caisse/statistics'))
 
+const Employees = lazy(() => import('src/pages/dashboard/boutique/employees'))
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -127,6 +129,12 @@ export const dashboardRoutes = [
           {element: <ExportComptable />, path: 'export-comptable'},
           {element: <ExportComptableMarge />, path: 'export-comptable-marge'},
           {element: <Statistics />, path: 'statistics'},
+        ]
+      },
+      {
+        path: 'boutique',
+        children: [
+          {element: <Employees />, index:true}
         ]
       }
     ],

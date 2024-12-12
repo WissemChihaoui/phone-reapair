@@ -140,7 +140,7 @@ export const navData = [
         path: paths.dashboard.three,
         icon: ICONS.boutique,
         children: [
-          {title:'Employées', path: paths.dashboard.three},
+          {title:'Employées', path: paths.dashboard.boutique.root},
           {title:'Partenaires', path: paths.dashboard.three},
           {title:'Statut', path: paths.dashboard.three},
           {title:'Mode paiements', path: paths.dashboard.three},
