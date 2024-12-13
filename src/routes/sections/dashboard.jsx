@@ -49,6 +49,7 @@ const ExportComptableMarge = lazy(() => import('src/pages/dashboard/caisse/expor
 const Statistics = lazy(() => import('src/pages/dashboard/caisse/statistics'))
 
 const Employees = lazy(() => import('src/pages/dashboard/boutique/employees'))
+const Partenaires = lazy(() => import('src/pages/dashboard/boutique/partenaires'))
 
 // ----------------------------------------------------------------------
 
@@ -134,7 +135,8 @@ export const dashboardRoutes = [
       {
         path: 'boutique',
         children: [
-          {element: <Employees />, index:true}
+          {element: <Employees />, index:true},
+          {element: <Partenaires />, path:'partenaires'},
         ]
       }
     ],

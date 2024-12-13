@@ -141,7 +141,7 @@ export const navData = [
         icon: ICONS.boutique,
         children: [
           {title:'Employées', path: paths.dashboard.boutique.root},
-          {title:'Partenaires', path: paths.dashboard.three},
+          {title:'Partenaires', path: paths.dashboard.boutique.partenaires},
           {title:'Statut', path: paths.dashboard.three},
           {title:'Mode paiements', path: paths.dashboard.three},
           {title:'Type de client', path: paths.dashboard.three},

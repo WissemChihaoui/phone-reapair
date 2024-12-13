@@ -91,6 +91,7 @@ export const paths = {
     },
     boutique: {
       root: `${ROOTS.DASHBOARD}/boutique`,
+      partenaires: `${ROOTS.DASHBOARD}/boutique/partenaires`,
     }
   },
 };

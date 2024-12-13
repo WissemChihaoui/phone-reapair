@@ -17,11 +17,9 @@ import { RouterLink } from 'src/routes/components';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
-import { varAlpha } from 'src/theme/styles';
 import { DashboardContent } from 'src/layouts/dashboard';
 import { _roles, _userList, USER_STATUS_OPTIONS } from 'src/_mock';
 
-import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
@@ -38,23 +36,22 @@ import {
   TableSelectedAction,
   TablePaginationCustom,
 } from 'src/components/table';
-import { EmployeesTableToolbar } from '../employees-table-toolbar';
 
-// import { UserTableRow } from '../user-table-row';
-// import { UserTableToolbar } from '../user-table-toolbar';
-// import { UserTableFiltersResult } from '../user-table-filters-result';
+import { EmployeesTableToolbar } from '../employees-table-toolbar';
+import { EmployeesTableFiltersResult } from '../employees-table-filters-result';
+import { EmployeesTableRow } from '../employees-table-row';
+import EmployeesCreateEditDialog from '../employees-create-edit-dialog';
 
 // ----------------------------------------------------------------------
 
 const STATUS_OPTIONS = [{ value: 'all', label: 'All' }, ...USER_STATUS_OPTIONS];
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name' },
-  { id: 'phoneNumber', label: 'Phone number', width: 180 },
-  { id: 'company', label: 'Company', width: 220 },
-  { id: 'role', label: 'Role', width: 180 },
-  { id: 'status', label: 'Status', width: 100 },
   { id: '', width: 88 },
+  { id: 'name', label: 'Nom' },
+  { id: 'phoneNumber', label: 'Téléphone', width: 180 },
+  { id: 'role', label: 'Fonction', width: 180 },
+  { id: 'address', label: 'Adresse' },
 ];
 
 // ----------------------------------------------------------------------
@@ -65,6 +62,8 @@ export function EmployeesListView() {
   const router = useRouter();
 
   const confirm = useBoolean();
+
+  const addDialog = useBoolean();
 
   const [tableData, setTableData] = useState(_userList);
 
@@ -87,7 +86,7 @@ export function EmployeesListView() {
     (id) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
 
-      toast.success('Delete success!');
+      toast.success('Suppression effectué !');
 
       setTableData(deleteRow);
 
@@ -99,7 +98,7 @@ export function EmployeesListView() {
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
 
-    toast.success('Delete success!');
+    toast.success('Suppression effectué !');
 
     setTableData(deleteRows);
 
@@ -116,32 +115,24 @@ export function EmployeesListView() {
     [router]
   );
 
-  const handleFilterStatus = useCallback(
-    (event, newValue) => {
-      table.onResetPage();
-      filters.setState({ status: newValue });
-    },
-    [filters, table]
-  );
-
   return (
     <>
       <DashboardContent>
         <CustomBreadcrumbs
-          heading="List"
+          heading="Liste des employées"
           links={[
-            { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'User', href: paths.dashboard.boutique.root },
-            { name: 'List' },
+            { name: 'Tableau de bord', href: paths.dashboard.root },
+            { name: 'Employées', href: paths.dashboard.boutique.root },
+            { name: 'Liste' },
           ]}
           action={
             <Button
               component={RouterLink}
-              // href={paths.dashboard.user.new}
+              onClick={()=>addDialog.onTrue()}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
-              New user
+              Nouveau Employée
             </Button>
           }
           sx={{ mb: { xs: 3, md: 5 } }}
@@ -154,14 +145,14 @@ export function EmployeesListView() {
             options={{ roles: _roles }}
           />
 
-          {/* {canReset && (
-            <UserTableFiltersResult
+          {canReset && (
+            <EmployeesTableFiltersResult
               filters={filters}
               totalResults={dataFiltered.length}
               onResetPage={table.onResetPage}
               sx={{ p: 2.5, pt: 0 }}
             />
-          )} */}
+          )}
 
           <Box sx={{ position: 'relative' }}>
             <TableSelectedAction
@@ -175,7 +166,7 @@ export function EmployeesListView() {
                 )
               }
               action={
-                <Tooltip title="Delete">
+                <Tooltip title="Supprimer">
                   <IconButton color="primary" onClick={confirm.onTrue}>
                     <Iconify icon="solar:trash-bin-trash-bold" />
                   </IconButton>
@@ -206,15 +197,15 @@ export function EmployeesListView() {
                       table.page * table.rowsPerPage,
                       table.page * table.rowsPerPage + table.rowsPerPage
                     )
-                    .map((row) => (<></>
-                      // <UserTableRow
-                      //   key={row.id}
-                      //   row={row}
-                      //   selected={table.selected.includes(row.id)}
-                      //   onSelectRow={() => table.onSelectRow(row.id)}
-                      //   onDeleteRow={() => handleDeleteRow(row.id)}
-                      //   onEditRow={() => handleEditRow(row.id)}
-                      // />
+                    .map((row) => (
+                      <EmployeesTableRow
+                        key={row.id}
+                        row={row}
+                        selected={table.selected.includes(row.id)}
+                        onSelectRow={() => table.onSelectRow(row.id)}
+                        onDeleteRow={() => handleDeleteRow(row.id)}
+                        onEditRow={() => handleEditRow(row.id)}
+                      />
                     ))}
 
                   <TableEmptyRows
@@ -239,14 +230,15 @@ export function EmployeesListView() {
           />
         </Card>
       </DashboardContent>
-
+        
+      <EmployeesCreateEditDialog open={addDialog.value} onClose={addDialog.onFalse}/>
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
-        title="Delete"
+        title="Suppression"
         content={
           <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
+            Êtes-vous sûr de vouloir supprimer <strong> {table.selected.length} </strong> employées?
           </>
         }
         action={
@@ -258,7 +250,7 @@ export function EmployeesListView() {
               confirm.onFalse();
             }}
           >
-            Delete
+            Supprimer
           </Button>
         }
       />
