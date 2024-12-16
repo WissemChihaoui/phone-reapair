@@ -20,8 +20,8 @@ export default function MethodeCard({ item, add, openAdd, deleteData, editData }
   return (
     <>
     {item && 
-    <Card variant='outlined'>
-    <Stack sx={{ p: 3, pb: 2, textAlign: 'center' }}>
+    <Card variant='outlined' sx={{ display: 'flex', flexDirection: 'column'}}>
+    <Stack sx={{ p: 3, pb: 2, textAlign: 'center', flex:1, justifyContent: 'center' }}>
         <Typography variant='h6'> {item.name}</Typography>      
     </Stack>
     <Divider sx={{ borderStyle: 'dashed' }} />

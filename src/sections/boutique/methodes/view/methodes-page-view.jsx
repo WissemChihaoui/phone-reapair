@@ -17,17 +17,58 @@ import MethodesDnd from '../methodes-dnd'
 // import ProductCasierDnd from '../../product-casier-dnd'
 
 const casiersData = [
-  {
-    id:1,
-    name:'Virement',
-    createdAt: '2024-11-25T12:41:34+01:00',
-  },
-  {
-    id:2,
-    name:'Paypal',
-    createdAt: '2024-12-25T12:41:34+01:00',
-  },
-];
+    {
+      id: 1,
+      name: 'Virement bancaire',
+      createdAt: '2024-11-25T12:41:34+01:00',
+    },
+    {
+      id: 2,
+      name: 'PayPal',
+      createdAt: '2024-12-25T12:41:34+01:00',
+    },
+    {
+      id: 3,
+      name: 'Espèces',
+      createdAt: '2024-12-26T12:41:34+01:00',
+    },
+    {
+      id: 4,
+      name: 'Carte bancaire',
+      createdAt: '2024-12-27T12:41:34+01:00',
+    },
+    {
+      id: 5,
+      name: 'Chèque',
+      createdAt: '2024-12-28T12:41:34+01:00',
+    },
+    {
+      id: 6,
+      name: 'Cryptomonnaie',
+      createdAt: '2024-12-29T12:41:34+01:00',
+    },
+    {
+      id: 7,
+      name: 'Apple Pay',
+      createdAt: '2024-12-30T12:41:34+01:00',
+    },
+    {
+      id: 8,
+      name: 'Google Pay',
+      createdAt: '2024-12-31T12:41:34+01:00',
+    },
+    {
+      id: 9,
+      name: 'Prélèvement automatique',
+      createdAt: '2025-01-01T12:41:34+01:00',
+    },
+    {
+      id: 10,
+      name: 'Western Union',
+      createdAt: '2025-01-02T12:41:34+01:00',
+    },
+  ];
+  
 
 
 export default function MethodesPageView() {
