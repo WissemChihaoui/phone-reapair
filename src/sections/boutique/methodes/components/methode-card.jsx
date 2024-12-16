@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { ConfirmDialog } from 'src/components/custom-dialog'
 import { useBoolean } from 'src/hooks/use-boolean'
 
-export default function CasierCard({ item, add, openAdd, deleteData, editData }) {
+export default function MethodeCard({ item, add, openAdd, deleteData, editData }) {
     const openDelete = useBoolean()
     const openEdit = useBoolean()
 

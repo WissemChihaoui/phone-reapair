@@ -93,6 +93,7 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/boutique`,
       partenaires: `${ROOTS.DASHBOARD}/boutique/partenaires`,
       status: `${ROOTS.DASHBOARD}/boutique/status`,
+      methodes: `${ROOTS.DASHBOARD}/boutique/methodes`,
     }
   },
 };

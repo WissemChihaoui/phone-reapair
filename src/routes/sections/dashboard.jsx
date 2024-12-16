@@ -51,6 +51,7 @@ const Statistics = lazy(() => import('src/pages/dashboard/caisse/statistics'))
 const Employees = lazy(() => import('src/pages/dashboard/boutique/employees'))
 const Partenaires = lazy(() => import('src/pages/dashboard/boutique/partenaires'))
 const Status = lazy(() => import('src/pages/dashboard/boutique/status'))
+const Methodes = lazy(() => import('src/pages/dashboard/boutique/methodes'))
 
 // ----------------------------------------------------------------------
 
@@ -139,6 +140,7 @@ export const dashboardRoutes = [
           {element: <Employees />, index:true},
           {element: <Partenaires />, path:'partenaires'},
           {element: <Status />, path:'status'},
+          {element: <Methodes />, path:'methodes'},
         ]
       }
     ],
