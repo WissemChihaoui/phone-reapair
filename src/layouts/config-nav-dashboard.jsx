@@ -144,7 +144,7 @@ export const navData = [
           {title:'Partenaires', path: paths.dashboard.boutique.partenaires},
           {title:'Statut', path: paths.dashboard.boutique.status},
           {title:'Mode paiements', path: paths.dashboard.boutique.methodes},
-          {title:'Type de client', path: paths.dashboard.three},
+          {title:'Type de client', path: paths.dashboard.boutique.types},
           {title:'Type de matériel', path: paths.dashboard.three},
           {title:'Conditions', path: paths.dashboard.three},
           {title:'Configurations', path: paths.dashboard.three},
