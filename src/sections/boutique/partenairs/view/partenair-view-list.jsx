@@ -9,6 +9,8 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { paths } from 'src/routes/paths';
 import PartenaireExternList from '../partenair-extern-view';
 import PartenaireInternView from '../partenair-intern-view';
+import PartenairExternForm from '../partenair-extern-form';
+import PartenaireInternForm from '../partenair-intern-form';
 
 const PARTENAIRES_TYPE =[
     {value: 0, label: 'SASgestion'},
@@ -16,7 +18,8 @@ const PARTENAIRES_TYPE =[
 ]
 
 export default function PartenaireViewList() {
-  const addDialog = useBoolean();
+  const addDialogExtern = useBoolean();
+  const addDialogIntern = useBoolean();
   const customTabs = useTabs(0);
   return (
     <>
@@ -31,14 +34,14 @@ export default function PartenaireViewList() {
           action={
             <Grid display="flex" gap={2}>
               <Button
-                onClick={() => addDialog.onTrue()}
+                onClick={() => addDialogExtern.onTrue()}
                 variant="contained"
                 startIcon={<Iconify icon="mingcute:add-line" />}
               >
                 Ajouter un partenaire externe
               </Button>
               <Button
-                onClick={() => addDialog.onTrue()}
+                onClick={() => addDialogIntern.onTrue()}
                 variant="contained"
                 startIcon={<Iconify icon="mingcute:add-line" />}
               >
@@ -66,6 +69,8 @@ export default function PartenaireViewList() {
             )}
         </Box>
       </DashboardContent>
+      <PartenairExternForm open={addDialogExtern.value} onClose={addDialogExtern.onFalse}/>
+      <PartenaireInternForm open={addDialogIntern.value} onClose={addDialogIntern.onFalse}/>
     </>
   );
 }

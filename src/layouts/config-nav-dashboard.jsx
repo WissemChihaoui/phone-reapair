@@ -137,12 +137,12 @@ export const navData = [
       },
       {
         title: 'Ma Boutique',
-        path: paths.dashboard.three,
+        path: paths.dashboard.boutique.root,
         icon: ICONS.boutique,
         children: [
           {title:'Employées', path: paths.dashboard.boutique.root},
           {title:'Partenaires', path: paths.dashboard.boutique.partenaires},
-          {title:'Statut', path: paths.dashboard.three},
+          {title:'Statut', path: paths.dashboard.boutique.status},
           {title:'Mode paiements', path: paths.dashboard.three},
           {title:'Type de client', path: paths.dashboard.three},
           {title:'Type de matériel', path: paths.dashboard.three},

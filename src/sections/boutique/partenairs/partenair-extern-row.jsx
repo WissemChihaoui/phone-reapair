@@ -18,6 +18,7 @@ import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import PartenairExternForm from './partenair-extern-form';
 // import EmployeesCreateEditDialog from './employees-create-edit-dialog';
 
 // import { UserQuickEditForm } from './user-quick-edit-form';
@@ -79,11 +80,7 @@ export function PartenaireExterneTableRow({ row, selected, onEditRow, onSelectRo
 
       </TableRow>
 
-      {/* <EmployeesCreateEditDialog
-        currentUser={row}
-        open={quickEdit.value}
-        onClose={quickEdit.onFalse}
-      /> */}
+     
 
       <ConfirmDialog
         open={confirm.value}
@@ -96,6 +93,7 @@ export function PartenaireExterneTableRow({ row, selected, onEditRow, onSelectRo
           </Button>
         }
       />
+      <PartenairExternForm open={quickEdit.value} onClose={quickEdit.onFalse} currentUser={row}/>
     </>
   );
 }

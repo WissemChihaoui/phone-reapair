@@ -11,6 +11,7 @@ import { toast } from 'sonner'
 import { PartenairTableToolbar } from './partenair-table-toolbar'
 import { PartenaireTableFiltersResult } from './partenair-table-filters-result'
 import { PartenaireExterneTableRow } from './partenair-extern-row'
+import PartenairExternForm from './partenair-extern-form'
 
 const TABLE_HEAD=[
     {id:'', width: 88},
@@ -22,6 +23,8 @@ const TABLE_HEAD=[
 export default function PartenaireExternList() {
     const table = useTable();
       const confirm = useBoolean();
+
+      
     
 
 const [tableData, setTableData] = useState(_userList);
@@ -181,6 +184,8 @@ const [tableData, setTableData] = useState(_userList);
           </Button>
         }
       />
+
+      
     </>
   )
 }
