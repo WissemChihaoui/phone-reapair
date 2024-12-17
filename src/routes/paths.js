@@ -94,7 +94,10 @@ export const paths = {
       partenaires: `${ROOTS.DASHBOARD}/boutique/partenaires`,
       status: `${ROOTS.DASHBOARD}/boutique/status`,
       methodes: `${ROOTS.DASHBOARD}/boutique/methodes`,
-      types: `${ROOTS.DASHBOARD}/boutique/types`,
+      types: `${ROOTS.DASHBOARD}/boutique/client-types`,
+      materialTypes: `${ROOTS.DASHBOARD}/boutique/material-types`,
+      conditions: `${ROOTS.DASHBOARD}/boutique/conditions`,
+      configurations: `${ROOTS.DASHBOARD}/boutique/configurations`,
     }
   },
 };

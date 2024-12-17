@@ -53,6 +53,9 @@ const Partenaires = lazy(() => import('src/pages/dashboard/boutique/partenaires'
 const Status = lazy(() => import('src/pages/dashboard/boutique/status'))
 const Methodes = lazy(() => import('src/pages/dashboard/boutique/methodes'))
 const TypeClient = lazy(() => import('src/pages/dashboard/boutique/type_client'))
+const TypeMateriel = lazy(() => import('src/pages/dashboard/boutique/type_materiel'))
+const Conditions = lazy(() => import('src/pages/dashboard/boutique/conditions'))
+const Configurations = lazy(() => import('src/pages/dashboard/boutique/configurations'))
 
 // ----------------------------------------------------------------------
 
@@ -142,7 +145,10 @@ export const dashboardRoutes = [
           {element: <Partenaires />, path:'partenaires'},
           {element: <Status />, path:'status'},
           {element: <Methodes />, path:'methodes'},
-          {element: <TypeClient />, path:'types'},
+          {element: <TypeClient />, path:'client-types'},
+          {element: <TypeMateriel />, path:'material-types'},
+          {element: <Conditions />, path:'conditions'},
+          {element: <Configurations />, path:'configurations'},
         ]
       }
     ],

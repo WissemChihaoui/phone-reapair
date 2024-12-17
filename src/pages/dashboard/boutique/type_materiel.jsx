@@ -1,11 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
-import TypesPageView from 'src/sections/boutique/types/view/type-page-view';
+import MaterialPageView from 'src/sections/boutique/materialTypes/view/material-page-view';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Les types de client - ${CONFIG.appName}` };
+const metadata = { title: `Les types de matériel - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -13,7 +13,7 @@ export default function Page() {
       <Helmet>
         <title> {metadata.title}</title>
       </Helmet>
-      <TypesPageView />
+      <MaterialPageView />
     </>
   );
 }
