@@ -98,6 +98,7 @@ export const paths = {
       materialTypes: `${ROOTS.DASHBOARD}/boutique/material-types`,
       conditions: `${ROOTS.DASHBOARD}/boutique/conditions`,
       configurations: `${ROOTS.DASHBOARD}/boutique/configurations`,
+      cassierRangements: `${ROOTS.DASHBOARD}/boutique/cassier-rangements`,
     }
   },
 };
