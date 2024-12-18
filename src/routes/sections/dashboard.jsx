@@ -57,6 +57,7 @@ const TypeMateriel = lazy(() => import('src/pages/dashboard/boutique/type_materi
 const Conditions = lazy(() => import('src/pages/dashboard/boutique/conditions'))
 const Configurations = lazy(() => import('src/pages/dashboard/boutique/configurations'))
 const Rangements = lazy(() => import('src/pages/dashboard/boutique/cassiers_rangements'))
+const Fonctions = lazy(() => import('src/pages/dashboard/boutique/fonctions'))
 
 // ----------------------------------------------------------------------
 
@@ -151,6 +152,7 @@ export const dashboardRoutes = [
           {element: <Conditions />, path:'conditions'},
           {element: <Configurations />, path:'configurations'},
           {element: <Rangements />, path:'cassier-rangements'},
+          {element: <Fonctions />, path:'fonctions'},
         ]
       }
     ],

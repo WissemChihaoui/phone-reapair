@@ -99,6 +99,7 @@ export const paths = {
       conditions: `${ROOTS.DASHBOARD}/boutique/conditions`,
       configurations: `${ROOTS.DASHBOARD}/boutique/configurations`,
       cassierRangements: `${ROOTS.DASHBOARD}/boutique/cassier-rangements`,
+      fonctions: `${ROOTS.DASHBOARD}/boutique/fonctions`,
     }
   },
 };

@@ -150,7 +150,7 @@ export const navData = [
           {title:'Configurations', path: paths.dashboard.boutique.configurations},
           {title:'Impression', path: paths.dashboard.three},
           {title:'Casier de rangement', path: paths.dashboard.boutique.cassierRangements},
-          {title:'Fonction employeur', path: paths.dashboard.three},
+          {title:'Fonction employeur', path: paths.dashboard.boutique.fonctions},
         ]
       },
       {
