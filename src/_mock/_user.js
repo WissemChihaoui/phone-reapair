@@ -26,6 +26,9 @@ export const _userAbout = {
     instagram: `https://www.instagram.com/caitlyn.kerluke`,
     linkedin: `https://www.linkedin.com/in/caitlyn.kerluke`,
     twitter: `https://www.twitter.com/caitlyn.kerluke`,
+    whatsapp: `https://www.whatsapp.com/`,
+    snapchat: `https://www.snapchat.com/`,
+    website: `https://www.website.com/`,
   },
 };
 
