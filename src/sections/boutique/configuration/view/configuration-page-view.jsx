@@ -12,6 +12,7 @@ import ReparationFormView from '../forms/reparation-form-view';
 import { SocialFormView } from '../forms/social-form-view';
 import { SecurityFormView } from '../forms/security-form-view';
 import QrcodeFormView from '../forms/qrcode-form-view';
+import ApiFormView from '../forms/api-form-view';
 
 const TABS = [
     { value: 'general', label: 'Générale', icon: <Iconify icon="solar:user-id-bold" width={24} /> },
@@ -24,6 +25,7 @@ const TABS = [
     { value: 'social', label: 'Réseaux Socieaux', icon: <Iconify icon="solar:share-bold" width={24} /> },
     { value: 'security', label: 'Sécurité', icon: <Iconify icon="ic:round-vpn-key" width={24} /> },
     { value: 'qrcode', label: 'Qr Code', icon: <Iconify icon="mingcute:qrcode-fill" width={24} /> },
+    { value: 'api', label: 'Quali Répar', icon: <Iconify icon="mynaui:api-solid" width={24} /> },
   ];
 
 export default function ConfigurationsPageView() {
@@ -52,6 +54,7 @@ export default function ConfigurationsPageView() {
       {tabs.value === 'reparation' && <ReparationFormView />}
       {tabs.value === 'security' && <SecurityFormView />}
       {tabs.value === 'qrcode' && <QrcodeFormView />}
+      {tabs.value === 'api' && <ApiFormView />}
       {tabs.value === 'social' && <SocialFormView socialLinks={_userAbout.socialLinks}/>}
     </DashboardContent>
   )
