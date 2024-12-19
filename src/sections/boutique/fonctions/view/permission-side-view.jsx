@@ -1,189 +1,188 @@
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import Tooltip from '@mui/material/Tooltip';
-import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
-import TableContainer from '@mui/material/TableContainer';
-import { tableCellClasses } from '@mui/material/TableCell';
-import { tablePaginationClasses } from '@mui/material/TablePagination';
-
-import { Iconify } from 'src/components/iconify';
 import {
-  TableNoData,
-  TableHeadCustom,
-  TableSelectedAction,
-  TablePaginationCustom,
-} from 'src/components/table';
+  Box,
+  Checkbox,
+  Collapse,
+  FormControl,
+  IconButton,
+  MenuItem,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
+import React from 'react';
+import { Iconify } from 'src/components/iconify';
+import { useBoolean } from 'src/hooks/use-boolean';
+import { useSetState } from 'src/hooks/use-set-state';
+import { paths } from 'src/routes/paths';
 
-// import { FileManagerTableRow } from './file-manager-table-row';
+// Transforms routes to a table-friendly structure
+function transformToStructuredTable(obj) {
+  const result = [];
+  Object.entries(obj).forEach(([key, value]) => {
+    if (typeof value === 'string') {
+      result.push({ key, path: value, children: null });
+    } else if (typeof value === 'object' && value !== null) {
+      result.push({
+        key,
+        path: null,
+        children: transformToStructuredTable(value),
+      });
+    }
+  });
+  return result;
+}
 
-// ----------------------------------------------------------------------
-
-const TABLE_HEAD = [
-  { id: 'name', label: 'Name' },
-  { id: 'size', label: 'Size', width: 120 },
-  { id: 'type', label: 'Type', width: 120 },
-  { id: 'modifiedAt', label: 'Modified', width: 140 },
-  {
-    id: 'shared',
-    label: 'Shared',
-    align: 'right',
-    width: 140,
-  },
-  { id: '', width: 88 },
+const FONCTIONS_LIST = [
+  { id: 'Admin', label: 'Admin' },
+  { id: 'User', label: 'User' },
+  { id: 'Viewer', label: 'Viewer' },
 ];
 
-// ----------------------------------------------------------------------
+export function PermissionSideView() {
+  const TABLE_DATA = transformToStructuredTable(paths.dashboard);
 
-export function PermissionSideView({
-  sx,
-  table,
-  notFound,
-  onDeleteRow,
-  dataFiltered,
-  onOpenConfirm,
-  ...other
-}) {
-  const {
-    dense,
-    page,
-    order,
-    orderBy,
-    rowsPerPage,
-    //
-    selected,
-    onSelectRow,
-    onSelectAllRows,
-    //
-    onSort,
-    onChangeDense,
-    onChangePage,
-    onChangeRowsPerPage,
-  } = table;
+  console.log(TABLE_DATA);
+
+  return (
+    <Box mt={2}>
+      <Table sx={{ minWidth: 800 }}>
+        <TableHead>
+          <TableRow>
+            <TableCell />
+            <TableCell>Route</TableCell>
+            <TableCell align="right">Lien</TableCell>
+            <TableCell align="right">Fonctions</TableCell>
+          </TableRow>
+        </TableHead>
+
+        <TableBody>
+          {TABLE_DATA.map((row) => (
+            <CollapsibleTableRow key={row.key} row={row} />
+          ))}
+        </TableBody>
+      </Table>
+    </Box>
+  );
+}
+
+function CollapsibleTableRow({ row }) {
+  const collapsible = useBoolean();
+  const local = useSetState({ selectedFunctions: [] });
+
+  // Handle function selection for a route
+  const handleFunctionSelect = (selectedId) => {
+    const alreadySelected = local.state.selectedFunctions.includes(selectedId);
+
+    if (alreadySelected) {
+      // Remove permission
+      local.setState({
+        selectedFunctions: local.state.selectedFunctions.filter((id) => id !== selectedId),
+      });
+    } else {
+      // Add permission
+      local.setState({
+        selectedFunctions: [...local.state.selectedFunctions, selectedId],
+      });
+    }
+  };
 
   return (
     <>
-      <Box
-        sx={{
-          position: 'relative',
-          m: (theme) => ({ md: theme.spacing(-2, -3, 0, -3) }),
-          ...sx,
-        }}
-        {...other}
-      >
-        <TableSelectedAction
-          dense={dense}
-          numSelected={selected.length}
-          rowCount={dataFiltered.length}
-          onSelectAllRows={(checked) =>
-            onSelectAllRows(
-              checked,
-              dataFiltered.map((row) => row.id)
-            )
-          }
-          action={
-            <>
-              <Tooltip title="Share">
-                <IconButton color="primary">
-                  <Iconify icon="solar:share-bold" />
-                </IconButton>
-              </Tooltip>
-
-              <Tooltip title="Delete">
-                <IconButton color="primary" onClick={onOpenConfirm}>
-                  <Iconify icon="solar:trash-bin-trash-bold" />
-                </IconButton>
-              </Tooltip>
-            </>
-          }
-          sx={{
-            pl: 1,
-            pr: 2,
-            top: 16,
-            left: 24,
-            right: 24,
-            width: 'auto',
-            borderRadius: 1.5,
-          }}
-        />
-
-        <TableContainer sx={{ px: { md: 3 } }}>
-          <Table
-            size={dense ? 'small' : 'medium'}
-            sx={{
-              minWidth: 960,
-              borderCollapse: 'separate',
-              borderSpacing: '0 16px',
-            }}
-          >
-            <TableHeadCustom
-              order={order}
-              orderBy={orderBy}
-              headLabel={TABLE_HEAD}
-              rowCount={dataFiltered.length}
-              numSelected={selected.length}
-              onSort={onSort}
-              onSelectAllRows={(checked) =>
-                onSelectAllRows(
-                  checked,
-                  dataFiltered.map((row) => row.id)
-                )
-              }
-              sx={{
-                [`& .${tableCellClasses.head}`]: {
-                  '&:first-of-type': {
-                    borderTopLeftRadius: 12,
-                    borderBottomLeftRadius: 12,
-                  },
-                  '&:last-of-type': {
-                    borderTopRightRadius: 12,
-                    borderBottomRightRadius: 12,
-                  },
-                },
-              }}
-            />
-
-            <TableBody>
-              {dataFiltered
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => (
-                    <></>
-                //   <FileManagerTableRow
-                //     key={row.id}
-                //     row={row}
-                //     selected={selected.includes(row.id)}
-                //     onSelectRow={() => onSelectRow(row.id)}
-                //     onDeleteRow={() => onDeleteRow(row.id)}
-                //   />
-                ))}
-
-              <TableNoData
-                notFound={notFound}
-                sx={{
-                  m: -2,
-                  borderRadius: 1.5,
-                  border: (theme) => `dashed 1px ${theme.vars.palette.divider}`,
-                }}
+      {/* Parent Route */}
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableCell>
+          {row.children && (
+            <IconButton
+              size="small"
+              color={collapsible.value ? 'inherit' : 'default'}
+              onClick={collapsible.onToggle}
+            >
+              <Iconify
+                icon={
+                  collapsible.value
+                    ? 'eva:arrow-ios-upward-fill'
+                    : 'eva:arrow-ios-downward-fill'
+                }
               />
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
+            </IconButton>
+          )}
+        </TableCell>
 
-      <TablePaginationCustom
-        page={page}
-        dense={dense}
-        rowsPerPage={rowsPerPage}
-        count={dataFiltered.length}
-        onPageChange={onChangePage}
-        onChangeDense={onChangeDense}
-        onRowsPerPageChange={onChangeRowsPerPage}
-        sx={{
-          [`& .${tablePaginationClasses.toolbar}`]: {
-            borderTopColor: 'transparent',
-          },
-        }}
-      />
+        <TableCell component="th" scope="row">
+          {row.key}
+        </TableCell>
+
+        <TableCell align="right">{row.path}</TableCell>
+
+        {/* Function Select for Parent */}
+        <TableCell align="right">
+          <FormControl sx={{ flexShrink: 0, width: { xs: 1, md: 400 } }}>
+            <Select
+              multiple
+              value={local.state.selectedFunctions}
+              onChange={(e) => local.setState({ selectedFunctions: e.target.value })}
+              renderValue={(selected) => selected.map((value) => value).join(', ')}
+            >
+              {FONCTIONS_LIST.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  <Checkbox
+                    disableRipple
+                    size="small"
+                    checked={local.state.selectedFunctions.includes(option.id)}
+                    
+                    onChange={() => handleFunctionSelect(option.id)}
+                  />
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </TableCell>
+      </TableRow>
+
+      {/* Child Routes */}
+      {row.children && (
+        <TableRow>
+          <TableCell sx={{ py: 0 }} colSpan={6}>
+            <Collapse in={collapsible.value} timeout="auto" unmountOnExit>
+              <Paper
+                variant="outlined"
+                sx={{
+                  py: 2,
+                  mb: 2,
+                  borderRadius: 1.5,
+                  ...(collapsible.value && { boxShadow: (theme) => theme.customShadows.z20 }),
+                }}
+              >
+                <Typography variant="h6" component="div" sx={{ p: 2 }}>
+                  Lien Secondaires
+                </Typography>
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell />
+                      <TableCell>Route</TableCell>
+                      <TableCell>Lien</TableCell>
+                      <TableCell align="right">Fonctions</TableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    {row.children?.map((child) => (
+                      <CollapsibleTableRow key={child.key} row={child} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </Paper>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      )}
     </>
   );
 }
