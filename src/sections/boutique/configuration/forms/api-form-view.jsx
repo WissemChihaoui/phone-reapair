@@ -3,11 +3,14 @@ import React from 'react';
 import { CustomPopover, usePopover } from 'src/components/custom-popover';
 import { Field, Form } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
+import { Image } from 'src/components/image';
+import { Label } from 'src/components/label';
 import { CONFIG } from 'src/config-global';
 import { RouterLink } from 'src/routes/components';
 
+
 const APIS_ITEMS = [
-    {   icon: `${CONFIG.assetsDir}/assets/images/mock/cover/cover-1.webp`, name: 'Ecosystem', routing:''}
+    {   icon: `${CONFIG.assetsDir}/assets/icons/ecosystem.png`, name: 'Ecosystem', routing:''}
 ]
 export default function ApiFormView() {
     const popover = usePopover();
@@ -21,16 +24,23 @@ export default function ApiFormView() {
        {
         APIS_ITEMS.map((item) => (
             <Card>
-        <IconButton onClick={popover.onOpen} sx={{ position: 'absolute', top: 8, right: 8 }}>
-          <Iconify icon="eva:more-vertical-fill" />
-        </IconButton>
+        <Stack sx={{ position: 'absolute', top: 16, right: 16 }}>
+          <Label color="success">Connecté</Label>
+        </Stack>
 
         <Stack sx={{ p: 3, pb: 2 }}>
-          <Avatar
+          {/* <Avatar
             alt={item.name}
             src={item.icon}
             variant="rounded"
             sx={{ mb: 2 }}
+          /> */}
+
+          <Image
+          alt={item.name}
+          src={item.icon}
+          ratio="3/2"
+          sx={{ width: "50%"}}
           />
 
           <ListItemText
@@ -57,8 +67,8 @@ export default function ApiFormView() {
        
 
         <Divider sx={{ borderStyle: 'dashed' }} />
-            <Stack display="flex" p={2}>
-                <Button>Authentifier</Button>
+            <Stack display="flex" width="100%" flexDirection="row" justifyContent="flex-end" p={2}>
+                <Button color='primary' variant='contained'>Authentifier</Button>
             </Stack>
         
       </Card>

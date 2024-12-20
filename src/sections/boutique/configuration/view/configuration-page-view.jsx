@@ -31,7 +31,7 @@ const TABS = [
 export default function ConfigurationsPageView() {
   console.log(paths.dashboard);
   
-    const tabs = useTabs('security');
+    const tabs = useTabs('general');
   return (
     <DashboardContent>
        <CustomBreadcrumbs

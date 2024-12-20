@@ -154,11 +154,6 @@ export const navData = [
         ]
       },
       {
-        title: 'Ecosystem',
-        path: paths.dashboard.three,
-        icon: ICONS.icosystem
-      },
-      {
         title: 'Abonnement',
         icon: ICONS.booking,
         path: paths.dashboard.three,
