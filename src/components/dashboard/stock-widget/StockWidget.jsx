@@ -20,20 +20,6 @@ export function StockWidget({ sx, icon, title, total, color = 'warning', ...othe
         </Typography>
       </Box>
       <img src={icon} alt={title} style={{position:"absolute", width:"56px", height:"56px", top:"24px", right:"20px"}}/>
-
-      {/* <img
-        src={icon}
-        style={{
-          top: '24',
-          right: '20',
-          width: '36',
-          height: '36',
-          position: 'absolute',
-          background: (theme) =>
-            `linear-gradient(135deg, ${theme.vars.palette[color].main} 0%, ${theme.vars.palette[color].dark} 100%)`,
-        }}
-      /> */}
-
       <Box
         sx={{
           top: -44,

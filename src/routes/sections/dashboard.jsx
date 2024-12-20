@@ -59,6 +59,11 @@ const Configurations = lazy(() => import('src/pages/dashboard/boutique/configura
 const Rangements = lazy(() => import('src/pages/dashboard/boutique/cassiers_rangements'))
 const Fonctions = lazy(() => import('src/pages/dashboard/boutique/fonctions'))
 
+const Abonnement = lazy(() => import('src/pages/dashboard/abonnement/index'))
+const Parrainage = lazy(() => import('src/pages/dashboard/abonnement/parrainage'))
+
+const Calendar = lazy(() => import('src/pages/dashboard/calendrier/index'))
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -153,6 +158,19 @@ export const dashboardRoutes = [
           {element: <Configurations />, path:'configurations'},
           {element: <Rangements />, path:'cassier-rangements'},
           {element: <Fonctions />, path:'fonctions'},
+        ]
+      }, 
+      {
+        path:'abonnement',
+        children: [
+          {element: <Abonnement />, index:true},
+          {element: <Parrainage />, path: 'parrainage'},
+        ]
+      },
+      {
+        path:'calendrier',
+        children: [
+          {element: <Calendar />, index: true}
         ]
       }
     ],

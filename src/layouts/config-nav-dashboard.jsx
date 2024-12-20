@@ -158,14 +158,14 @@ export const navData = [
         icon: ICONS.booking,
         path: paths.dashboard.three,
         children: [
-          {title:'Mon abonnement', path: paths.dashboard.three},
-          {title: 'Parrainage', path: paths.dashboard.three}
+          {title:'Mon abonnement', path: paths.dashboard.abonnement.root},
+          {title: 'Parrainage', path: paths.dashboard.abonnement.parrainage}
         ]
       },
       {
         title: 'Calendrier',
         icon: ICONS.calendar,
-        path: paths.dashboard.three,
+        path: paths.dashboard.calendrier.root,
       }
     ]
   },
