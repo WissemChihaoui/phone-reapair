@@ -113,7 +113,7 @@ export function CalendarView() {
             startIcon={<Iconify icon="mingcute:add-line" />}
             onClick={onOpenForm}
           >
-            Ajouter
+            Ajouter RDV
           </Button>
         </Stack>
 
@@ -189,7 +189,7 @@ export function CalendarView() {
         }}
       >
         <DialogTitle sx={{ minHeight: 76 }}>
-          {openForm && <> {currentEvent?.id ? 'Modifier' : 'Ajouter'} une tache</>}
+          {openForm && <> {currentEvent?.id ? 'Modifier' : 'Ajouter'} un RDV</>}
         </DialogTitle>
 
         <CalendarForm
