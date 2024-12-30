@@ -1,13 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
-import { UserListView } from 'src/sections/user/view';
-
-// import { UserListView } from 'src/sections/user/view';
+import SupportListView from 'src/sections/support/view/support-list-view';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Liste des clients | Tableau de bord - ${CONFIG.appName}` };
+const metadata = { title: `Support technique | Tableau de bord - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -15,8 +13,7 @@ export default function Page() {
       <Helmet>
         <title> {metadata.title}</title>
       </Helmet>
-
-      <UserListView />
+      <SupportListView />
     </>
   );
 }

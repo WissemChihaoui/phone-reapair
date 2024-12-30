@@ -107,6 +107,14 @@ export const paths = {
     },
     calendrier: {
       root: `${ROOTS.DASHBOARD}/calendrier`
-    }
+    },
+    idee: {
+      root: `${ROOTS.DASHBOARD}/idee`
+    },
+    support: {
+      root: `${ROOTS.DASHBOARD}/support`,
+      add: `${ROOTS.DASHBOARD}/support/add`,
+      edit: (title) => `${ROOTS.DASHBOARD}/support/${title}/edit`,
+    },
   },
 };

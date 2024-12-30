@@ -92,7 +92,7 @@ export function CalendarForm({ currentEvent, colorOptions, onClose }) {
   const onDelete = useCallback(async () => {
     try {
       await deleteEvent(`${currentEvent?.id}`);
-      toast.success('Delete success!');
+      toast.success('Suppression effectué !');
       onClose();
     } catch (error) {
       console.error(error);
@@ -101,12 +101,11 @@ export function CalendarForm({ currentEvent, colorOptions, onClose }) {
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
-        <Scrollbar sx={{ p: 3, bgcolor: 'background.neutral' }}>
-          <Stack spacing={3}>
+      <Scrollbar sx={{ p: 3, bgcolor: 'background.neutral' }}>
+        <Stack spacing={3}>
           <Field.Text name="title" label="Titre" />
 
           <Field.Text name="description" label="Description" multiline rows={3} />
-
 
           <Field.MobileDateTimePicker name="start" label="Date de début" />
 

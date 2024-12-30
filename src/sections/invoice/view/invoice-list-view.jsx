@@ -54,28 +54,27 @@ import { InvoiceTableFiltersResult } from '../invoice-table-filters-result';
 
 const TABLE_HEAD = [
   { id: '' },
-  { id: 'id', label: '#ID'},
+  { id: 'id', label: '#ID' },
   { id: 'invoiceNumber', label: 'Client' },
   { id: 'createDate', label: 'Date' },
   { id: 'price', label: 'Prix' },
   { id: 'sent', label: 'Produits', align: 'center' },
   { id: 'status', label: 'Statut' },
-  
 ];
 
 const PAIEMENT_METHODS = [
-  { id: 1, label: "Virement" },
-  { id: 2, label: "Espèces" },
-  { id: 3, label: "Carte Bancaire" },
-  { id: 4, label: "Chèque" },
-  { id: 5, label: "PayPal" },
-  { id: 6, label: "Autre" }
+  { id: 1, label: 'Virement' },
+  { id: 2, label: 'Espèces' },
+  { id: 3, label: 'Carte Bancaire' },
+  { id: 4, label: 'Chèque' },
+  { id: 5, label: 'PayPal' },
+  { id: 6, label: 'Autre' },
 ];
 
 const FACTURE_TYPE = [
-  { id: 0, label: 'Réparations'},
-  { id: 1, label: 'Ventes'},
-]
+  { id: 0, label: 'Réparations' },
+  { id: 1, label: 'Ventes' },
+];
 
 const TABLE_DATA = [
   {
@@ -92,20 +91,20 @@ const TABLE_DATA = [
       primary: true,
     },
     amount: 250,
-    product:[ 
+    product: [
       {
-        id:1,
-        name : 'PC LENEVO V14',
+        id: 1,
+        name: 'PC LENEVO V14',
       },
       {
-        id:2,
-        name : 'PC LENEVO V15',
+        id: 2,
+        name: 'PC LENEVO V15',
       },
     ],
-    date : "2024-12-26T00:00:00+01:00",
-    payement: "Virement",
+    date: '2024-12-26T00:00:00+01:00',
+    payement: 'Virement',
     type: 'Réparations',
-    status : 'Avoir'
+    status: 'Avoir',
   },
   {
     id: 2,
@@ -121,23 +120,22 @@ const TABLE_DATA = [
       primary: true,
     },
     amount: 250,
-    product:[ 
+    product: [
       {
-        id:1,
-        name : 'PC LENEVO V14',
+        id: 1,
+        name: 'PC LENEVO V14',
       },
       {
-        id:2,
-        name : 'PC LENEVO V15',
+        id: 2,
+        name: 'PC LENEVO V15',
       },
     ],
-    date : "2024-12-26T00:00:00+01:00",
-    payement: "Virement",
+    date: '2024-12-26T00:00:00+01:00',
+    payement: 'Virement',
     type: 'Réparations',
-    status : 'Payé'
+    status: 'Payé',
   },
-]
-
+];
 
 // ----------------------------------------------------------------------
 
@@ -155,7 +153,7 @@ export function InvoiceListView() {
   const filters = useSetState({
     name: '',
     payement: [],
-    type:[],
+    type: [],
     status: 'all',
     startDate: null,
     endDate: null,
@@ -222,7 +220,7 @@ export function InvoiceListView() {
     (id) => {
       const deleteRow = tableData.filter((row) => row.id !== id);
 
-      toast.success('Delete success!');
+      toast.success('Suppression effectué !');
 
       setTableData(deleteRow);
 
@@ -234,7 +232,7 @@ export function InvoiceListView() {
   const handleDeleteRows = useCallback(() => {
     const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
 
-    toast.success('Delete success!');
+    toast.success('Suppression effectué !');
 
     setTableData(deleteRows);
 
@@ -321,7 +319,6 @@ export function InvoiceListView() {
                 icon="solar:bell-bing-bold-duotone"
                 color={theme.vars.palette.error.main}
               />
-
             </Stack>
           </Scrollbar>
         </Card>
@@ -360,7 +357,10 @@ export function InvoiceListView() {
             filters={filters}
             dateError={dateError}
             onResetPage={table.onResetPage}
-            options={{ payement: PAIEMENT_METHODS.map((option) => option.label), type: FACTURE_TYPE.map((option) => option.label) }}
+            options={{
+              payement: PAIEMENT_METHODS.map((option) => option.label),
+              type: FACTURE_TYPE.map((option) => option.label),
+            }}
           />
 
           {canReset && (
@@ -476,7 +476,7 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
     inputData = inputData.filter((invoice) => invoice.status === status);
   }
 
-  console.log(inputData)
+  console.log(inputData);
 
   if (payement.length > 0) {
     inputData = inputData.filter((item) => payement.includes(item.payement));

@@ -141,6 +141,7 @@ export const navData = [
         icon: ICONS.boutique,
         children: [
           {title:'Employées', path: paths.dashboard.boutique.root},
+          {title:'Fonction employeur', path: paths.dashboard.boutique.fonctions},
           {title:'Partenaires', path: paths.dashboard.boutique.partenaires},
           {title:'Statut', path: paths.dashboard.boutique.status},
           {title:'Mode paiements', path: paths.dashboard.boutique.methodes},
@@ -150,7 +151,6 @@ export const navData = [
           {title:'Configurations', path: paths.dashboard.boutique.configurations},
           {title:'Impression', path: paths.dashboard.three},
           {title:'Casier de rangement', path: paths.dashboard.boutique.cassierRangements},
-          {title:'Fonction employeur', path: paths.dashboard.boutique.fonctions},
         ]
       },
       {
@@ -178,12 +178,12 @@ export const navData = [
       {
         title: 'Boité à idée',
         icon: ICONS.idea,
-        path: paths.dashboard.three,
+        path: paths.dashboard.idee.root,
       },
       {
         title: 'Support technique',
         icon: ICONS.support,
-        path: paths.dashboard.three,
+        path: paths.dashboard.support.root,
       },
       {
         title: 'Nouveautés',

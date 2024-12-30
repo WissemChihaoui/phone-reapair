@@ -64,6 +64,12 @@ const Parrainage = lazy(() => import('src/pages/dashboard/abonnement/parrainage'
 
 const Calendar = lazy(() => import('src/pages/dashboard/calendrier/index'))
 
+const Idee = lazy(() => import('src/pages/dashboard/idee/index'))
+
+const Support = lazy(() => import('src/pages/dashboard/support/index'))
+const ViewSupport = lazy(() => import('src/pages/dashboard/support/view'))
+const AddSupport = lazy(() => import('src/pages/dashboard/support/add'))
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -172,7 +178,21 @@ export const dashboardRoutes = [
         children: [
           {element: <Calendar />, index: true}
         ]
-      }
+      },
+      {
+        path:'idee',
+        children: [
+          {element: <Idee />, index: true}
+        ]
+      },
+      {
+        path:'support',
+        children: [
+          {element: <Support />, index: true},
+          {element: <ViewSupport />, path:':title/edit'},
+          {element: <AddSupport />, path:'add'},
+        ]
+      },
     ],
   },
 ];
