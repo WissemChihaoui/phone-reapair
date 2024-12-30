@@ -70,6 +70,8 @@ const Support = lazy(() => import('src/pages/dashboard/support/index'))
 const ViewSupport = lazy(() => import('src/pages/dashboard/support/view'))
 const AddSupport = lazy(() => import('src/pages/dashboard/support/add'))
 
+const Reparations = lazy(() => import('src/pages/dashboard/reparations/index'))
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -95,6 +97,12 @@ export const dashboardRoutes = [
           { path: 'five', element: <PageFive /> },
           { path: 'six', element: <PageSix /> },
         ],
+      },
+      {
+        path: 'reparations',
+        children: [
+          {element:<Reparations />, index: true},
+        ]
       },
       {
         path: 'client',

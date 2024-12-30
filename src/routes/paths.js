@@ -50,6 +50,9 @@ export const paths = {
       five: `${ROOTS.DASHBOARD}/group/five`,
       six: `${ROOTS.DASHBOARD}/group/six`,
     },
+    reparations:{
+      root: `${ROOTS.DASHBOARD}/reparations`
+    },
     client: {
       root: `${ROOTS.DASHBOARD}/client`,
       add: `${ROOTS.DASHBOARD}/client/add`,
