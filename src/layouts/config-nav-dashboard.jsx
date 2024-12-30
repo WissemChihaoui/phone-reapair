@@ -188,7 +188,7 @@ export const navData = [
       {
         title: 'Nouveautés',
         icon: ICONS.news,
-        path: paths.dashboard.three,
+        path: paths.dashboard.news.root,
       },
     ],
   },

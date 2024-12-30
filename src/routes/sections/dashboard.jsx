@@ -72,6 +72,8 @@ const AddSupport = lazy(() => import('src/pages/dashboard/support/add'))
 
 const Reparations = lazy(() => import('src/pages/dashboard/reparations/index'))
 
+const News = lazy(() => import('src/pages/dashboard/news/index'))
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -201,6 +203,12 @@ export const dashboardRoutes = [
           {element: <AddSupport />, path:'add'},
         ]
       },
+      {
+        path: 'news', 
+        children: [
+          {element: <News /> , index: true},
+        ]
+      }
     ],
   },
 ];
