@@ -115,7 +115,8 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/idee`
     },
     news: {
-      root: `${ROOTS.DASHBOARD}/news`
+      root: `${ROOTS.DASHBOARD}/news`,
+      view: (title) => `${ROOTS.DASHBOARD}/news/${title}/view`
     },
     support: {
       root: `${ROOTS.DASHBOARD}/support`,

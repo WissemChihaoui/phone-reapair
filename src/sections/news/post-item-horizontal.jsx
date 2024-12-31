@@ -20,7 +20,7 @@ import { maxLine } from 'src/theme/styles';
 import { Label } from 'src/components/label';
 import { Image } from 'src/components/image';
 import { Iconify } from 'src/components/iconify';
-import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { usePopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ export function PostItemHorizontal({ post, sx, ...other }) {
           <Stack spacing={1} flexGrow={1}>
             <Link
               component={RouterLink}
-              // href={paths.dashboard.post.details(post.title)}
+              href={paths.dashboard.news.view("exploring-the-impact-of-artificial-intelligence-on-modern-healthcare")}
               color="inherit"
               variant="subtitle2"
               sx={{ ...maxLine({ line: 2 }) }}
@@ -54,40 +54,10 @@ export function PostItemHorizontal({ post, sx, ...other }) {
               {post.title}
             </Link>
 
-            <Typography variant="body2" sx={{ ...maxLine({ line: 2 }), color: 'text.secondary' }}>
+            <Typography variant="body2" sx={{ ...maxLine({ line: 5 }), color: 'text.secondary' }}>
               {post.description}
             </Typography>
           </Stack>
-
-          <Box display="flex" alignItems="center">
-            <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-              <Iconify icon="eva:more-horizontal-fill" />
-            </IconButton>
-
-            <Box
-              gap={1.5}
-              flexGrow={1}
-              display="flex"
-              flexWrap="wrap"
-              justifyContent="flex-end"
-              sx={{ typography: 'caption', color: 'text.disabled' }}
-            >
-              <Box display="flex" alignItems="center" gap={0.5}>
-                <Iconify icon="eva:message-circle-fill" width={16} />
-                {fShortenNumber(post.totalComments)}
-              </Box>
-
-              <Box display="flex" alignItems="center" gap={0.5}>
-                <Iconify icon="solar:eye-bold" width={16} />
-                {fShortenNumber(post.totalViews)}
-              </Box>
-
-              <Box display="flex" alignItems="center" gap={0.5}>
-                <Iconify icon="solar:share-bold" width={16} />
-                {fShortenNumber(post.totalShares)}
-              </Box>
-            </Box>
-          </Box>
         </Stack>
 
         <Box
@@ -100,53 +70,9 @@ export function PostItemHorizontal({ post, sx, ...other }) {
             display: { xs: 'none', sm: 'block' },
           }}
         >
-          <Avatar
-            alt={post.author.name}
-            src={post.author.avatarUrl}
-            sx={{ top: 16, right: 16, zIndex: 9, position: 'absolute' }}
-          />
           <Image alt={post.title} src={post.coverUrl} sx={{ height: 1, borderRadius: 1.5 }} />
         </Box>
       </Card>
-
-      <CustomPopover
-        open={popover.open}
-        anchorEl={popover.anchorEl}
-        onClose={popover.onClose}
-        slotProps={{ arrow: { placement: 'bottom-center' } }}
-      >
-        <MenuList>
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-              router.push(paths.dashboard.post.details(post.title));
-            }}
-          >
-            <Iconify icon="solar:eye-bold" />
-            View
-          </MenuItem>
-
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-              router.push(paths.dashboard.post.edit(post.title));
-            }}
-          >
-            <Iconify icon="solar:pen-bold" />
-            Edit
-          </MenuItem>
-
-          <MenuItem
-            onClick={() => {
-              popover.onClose();
-            }}
-            sx={{ color: 'error.main' }}
-          >
-            <Iconify icon="solar:trash-bin-trash-bold" />
-            Delete
-          </MenuItem>
-        </MenuList>
-      </CustomPopover>
     </>
   );
 }
