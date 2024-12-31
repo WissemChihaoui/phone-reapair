@@ -56,21 +56,21 @@ const TABLE_HEAD = [
 
 const TABLE_DATA = [
   {
-    orderNumber:'R-255-55',
-    name: 'Technicien 1',
-    rep: 'Réparation 1',
-    piece: 'Piéce 1',
-    client: 'Client 1',
-    product: 'Produit 1',
+    orderNumber:'R-255-50',
+    name: 'Technicien 2',
+    rep: 'Réparation 2',
+    piece: 'Piéce 2',
+    client: 'Client 2',
+    product: 'Produit 2',
     createdAt: '2024-11-25T12:41:34+01:00',
     totalAmount: 288,
-    status: 'Prise en charge'
+    status: 'Devis'
   }
 ]
 
 // ----------------------------------------------------------------------
 
-export function ReparationListView() {
+export function DevisListView() {
   const table = useTable({ defaultOrderBy: 'orderNumber' });
 
   const router = useRouter();

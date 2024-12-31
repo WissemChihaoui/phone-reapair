@@ -16,7 +16,6 @@ import { useSetState } from 'src/hooks/use-set-state';
 
 import { fIsAfter, fIsBetween } from 'src/utils/format-time';
 
-import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
@@ -49,6 +48,7 @@ const TABLE_HEAD = [
   { id: 'piece', label: 'Piéce' },
   { id: 'client', label: 'Client' },
   { id: 'product', label: 'Produit' },
+  { id: 'fournisseur', label: 'Fournisseur' },
   { id: 'createdAt', label: 'Date', width: 140 },
   { id: 'totalAmount', label: 'Prix', width: 140 },
   { id: 'status', label: 'Statut', width: 110 },
@@ -62,6 +62,7 @@ const TABLE_DATA = [
     piece: 'Piéce 1',
     client: 'Client 1',
     product: 'Produit 1',
+    fournisseur: 'Produit 1',
     createdAt: '2024-11-25T12:41:34+01:00',
     totalAmount: 288,
     status: 'Prise en charge'
@@ -70,7 +71,7 @@ const TABLE_DATA = [
 
 // ----------------------------------------------------------------------
 
-export function ReparationListView() {
+export function ReparationExtListView() {
   const table = useTable({ defaultOrderBy: 'orderNumber' });
 
   const router = useRouter();
