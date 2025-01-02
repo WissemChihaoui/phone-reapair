@@ -1,8 +1,11 @@
-import { Tab, Tabs } from '@mui/material';
+import { Button, Tab, Tabs } from '@mui/material';
 import React from 'react'
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { useTabs } from 'src/hooks/use-tabs';
+import { CustomTabs } from 'src/components/custom-tabs';
 import { DashboardContent } from 'src/layouts/dashboard';
+import { Iconify } from 'src/components/iconify';
+import { RouterLink } from 'src/routes/components';
 import { paths } from 'src/routes/paths';
 import { ReparationListView } from './reparation-list-view';
 import { DevisListView } from './devis-list-view';
@@ -20,16 +23,17 @@ export default function ReparationDevisView() {
     const selectedTabLabel = REP_DEVIS.find((tab) => tab.value === tabs.value)?.label || '';
     
     const renderTabs = (
-        <Tabs value={tabs.value} onChange={tabs.onChange} sx={{ mb: { xs: 3, md: 5 } }}>
+        <CustomTabs value={tabs.value} onChange={tabs.onChange} sx={{ mb: { xs: 3, md: 5 } }}>
           {REP_DEVIS.map((tab) => (
             <Tab
               key={tab.value}
-              iconPosition="end"
+              iconPosition="start"
+              icon={<Iconify icon="material-symbols:list-rounded" width={24} />}
               value={tab.value}
               label={tab.label}
             />
           ))}
-        </Tabs>
+        </CustomTabs>
       );
     
   return (
@@ -43,6 +47,9 @@ export default function ReparationDevisView() {
             { name: selectedTabLabel },
           ]}
           sx={{ mb: { xs: 3, md: 5 } }}
+          action={
+            <Button variant='contained' href={paths.dashboard.reparations.add} LinkComponent={RouterLink}>Ajouter une réparation</Button>
+          }
         />
     {renderTabs}
 

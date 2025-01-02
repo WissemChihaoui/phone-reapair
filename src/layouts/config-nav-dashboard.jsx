@@ -63,7 +63,7 @@ export const navData = [
         path: paths.dashboard.group.root,
         icon: ICONS.repaire,
         children: [
-          { title: 'Nouvelle réparations', path: paths.dashboard.group.root },
+          { title: 'Nouvelle réparations', path: paths.dashboard.reparations.add },
           { title: 'Réparation & Devis', path: paths.dashboard.reparations.root }
         ],
       },

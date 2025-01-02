@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
-import ReparationDevisView from 'src/sections/reparations/views/reparation-devis-view';
+import AddReparationView from 'src/sections/reparations/views/add-reparation-view';
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ export default function Page() {
       <Helmet>
         <title> {metadata.title}</title>
       </Helmet>
-      <ReparationDevisView />
+      <AddReparationView />
     </>
   );
 }
