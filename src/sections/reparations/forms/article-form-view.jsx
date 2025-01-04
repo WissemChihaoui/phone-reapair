@@ -8,28 +8,55 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Iconify } from 'src/components/iconify';
+import SingleArticleForm from '../single-article-form';
 
 export default function ArticleFormView() {
-  const { control, setValue, watch } = useFormContext();
+  const { control, watch, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({ control, name: 'products' });
-  const values = watch();
+  const [expanded, setExpanded] = useState(null);
+
   const handleAdd = () => {
     append({});
+    setExpanded(null); // Collapse all accordions
   };
+
   const handleRemove = (index) => {
     remove(index);
+    setExpanded(null); // Optionally collapse all after removal
   };
+
+  const handleAccordionChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : null);
+  };
+
+  const totalHT = fields.reduce((sum, field) => sum + (field.totalHT || 0), 0);
+  const totalRemise = fields.reduce((sum, field) => sum + (parseFloat(field.totalRemise) || 0), 0);
+
+  const setTotalProducts = useCallback(
+    () => {
+      setValue('totalHT',totalHT)
+      setValue('totalRemise',totalRemise)
+      setValue('totalTTC',totalHT-totalRemise)
+    },[setValue,totalHT,totalRemise]
+)
+useEffect(()=> {
+  setTotalProducts()
+},[totalHT, totalRemise, setTotalProducts])
   return (
     <Box sx={{ p: 3, bgcolor: 'background.neutral' }}>
       <Typography variant="h6" sx={{ color: 'text.disabled', mb: 3 }}>
         Article à réparer
       </Typography>
       <Stack divider={<Divider flexItem sx={{ borderStyle: 'dashed' }} />} spacing={3}>
-        {fields.map((item, index) => (
-          <Accordion>
+        {fields.map((_, index) => (
+          <Accordion
+            key={index}
+            expanded={expanded === `panel${index}`}
+            onChange={handleAccordionChange(`panel${index}`)}
+          >
             <AccordionSummary expandIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}>
               <Stack
                 display="flex"
@@ -50,7 +77,7 @@ export default function ArticleFormView() {
               </Stack>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>Formulair produit {index + 1}</Typography>
+              <SingleArticleForm index={index}/>
             </AccordionDetails>
           </Accordion>
         ))}
