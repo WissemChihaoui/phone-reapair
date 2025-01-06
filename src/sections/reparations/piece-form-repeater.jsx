@@ -32,45 +32,6 @@ export default function PieceFormRepeater({ index }) {
     [pieces, index, setValue]
   );
 
-  // Function to handle quantity change and update totalHT dynamically
-  const handleChangeQuantity = useCallback(
-    (event, pieceIndex) => {
-      const newQuantity = Number(event.target.value);
-      setValue(`products[${index}].piece[${pieceIndex}].qte`, newQuantity);
-
-      // Calculate the new totalHT for the piece
-      const price = parseFloat(watch(`products[${index}].piece[${pieceIndex}].price`)) || 0;
-      setValue(`products[${index}].piece[${pieceIndex}].totalHT`, newQuantity * price);
-    },
-    [setValue, watch, index]
-  );
-
-  // Function to handle price change and update totalHT dynamically
-  const handleChangePrice = useCallback(
-    (event, pieceIndex) => {
-      const newPrice = Number(event.target.value);
-      setValue(`products[${index}].piece[${pieceIndex}].price`, newPrice);
-
-      // Calculate the new totalHT for the piece
-      const quantity = parseInt(watch(`products[${index}].piece[${pieceIndex}].qte`), 10) || 0;
-      setValue(`products[${index}].piece[${pieceIndex}].totalHT`, quantity * newPrice);
-    },
-    [setValue, watch, index]
-  );
-  const totalHT = pieces.reduce((sum, piece) => sum + (piece.totalHT || 0), 0);
-  const totalOeuvre = oeuvre.reduce((sum, piece) => sum + (piece.price || 0), 0);
-  const totalRemise = pieces.reduce((sum, piece) => sum + (parseFloat(piece.remise) || 0), 0);
-  const totalAmount = parseFloat(totalHT) + parseFloat(totalOeuvre);
-  const handleTotalSingleProduct = useCallback(
-    (event) => {
-      setValue(`products[${index}].totalHT`,  totalAmount )
-      setValue(`products[${index}].totalRemise`,totalRemise )
-    },
-    [setValue, index,  totalRemise, totalAmount]
-  )
-  useEffect(()=> {
-    handleTotalSingleProduct()
-  },[totalHT,totalRemise, handleTotalSingleProduct,totalAmount])
   
   return (
     <Stack spacing={2}>
@@ -90,7 +51,7 @@ export default function PieceFormRepeater({ index }) {
               name={`products[${index}].piece[${pieceIndex}].qte`}
               label="Quantité"
               type="number"
-              onChange={(event) => handleChangeQuantity(event, pieceIndex)}
+              // onChange={(event) => handleChangeQuantity(event, pieceIndex)}
             />
           </Grid>
           <Grid xs={12} md={4}>
@@ -99,7 +60,7 @@ export default function PieceFormRepeater({ index }) {
               name={`products[${index}].piece[${pieceIndex}].price`}
               label="Prix"
               type="number"
-              onChange={(event) => handleChangePrice(event, pieceIndex)}
+              // onChange={(event) => handleChangePrice(event, pieceIndex)}
             />
           </Grid>
           <Grid xs={12} md={6}>
@@ -114,6 +75,7 @@ export default function PieceFormRepeater({ index }) {
               size="small"
               name={`products[${index}].piece[${pieceIndex}].remise`}
               label="Remise en euro TTC"
+              type='number'
             />
           </Grid>
           <Grid xs={12} md={2}>
@@ -126,20 +88,11 @@ export default function PieceFormRepeater({ index }) {
               Supprimer
             </Button>
           </Grid>
-          <Grid xs={12} md={4}>
-            <Typography variant="body2" color="text.secondary">
-              Total HT: {piece.totalHT || 0} €
-            </Typography>
-          </Grid>
+          
           <Divider sx={{ borderStyle: 'dashed', width: '100%' }} />
         </Grid>
       ))}
-      <Typography variant="subtitle1" color="text.primary">
-        Total HT de tous les pièces: {totalHT} €
-      </Typography>
-      <Typography variant="subtitle1" color="text.primary">
-        Total Remise: {totalRemise} €
-      </Typography>
+
       <Button
         variant="outlined"
         color="primary"

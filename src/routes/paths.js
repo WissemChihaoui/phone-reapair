@@ -53,6 +53,7 @@ export const paths = {
     reparations:{
       root: `${ROOTS.DASHBOARD}/reparations`,
       add: `${ROOTS.DASHBOARD}/reparations/add`,
+      display:(id) => `${ROOTS.DASHBOARD}/reparations/${id}/display`,
     },
     client: {
       root: `${ROOTS.DASHBOARD}/client`,

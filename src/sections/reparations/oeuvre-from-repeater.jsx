@@ -1,6 +1,6 @@
 import { Button, Divider, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Field } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
@@ -40,6 +40,7 @@ export default function OeuvreFormRepeater({ index }) {
             size='small'
               name={`products[${index}].oeuvre[${pieceIndex}].price`}
               label="Prix"
+              type="number"
             />
           </Grid>
           <Grid xs={12} md={8}>

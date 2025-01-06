@@ -36,7 +36,9 @@ export default function AddReparationView() {
               champ: '',
             },
           ],
-          totalHT:null, /* SUM(piece.totalHT) + SUM(oeuvre) */
+          totalPiece:null, /* SUM(piece.totalHT) */
+          totalOeuvre:null, /* SUM(oeuvre.price) */
+          totalHT: null, /* totalPiece + totalOeuvre */
           totalRemise: null, /* SUM(piece.remise) */
           type: '',
           marque: '',
@@ -66,6 +68,15 @@ export default function AddReparationView() {
         },
       ],
       paid: null, /* SUM(payment.amount) */
+      settings: {
+        notifications: null,
+        etat: null,
+        casier: null,
+        isMateriel: false,
+        materiel: null,
+        delai: null,
+        validity: null
+      }
     }),
     []
   );

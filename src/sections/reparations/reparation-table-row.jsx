@@ -18,6 +18,9 @@ import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 import { Fab, Stack, Tooltip, Typography } from '@mui/material';
+import { Path } from '@react-pdf/renderer';
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +28,12 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
   const confirm = useBoolean();
 
   const popover = usePopover();
+
+  const router = useRouter();
+
+  const display = () => {
+    router.replace(paths.dashboard.reparations.display(row.id))
+  }
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
@@ -37,31 +46,30 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
       </TableCell>
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-        
-      <Stack spacing={1} display='flex' flexDirection='row'>
-        <Tooltip title="Modifier" placement="top" arrow>
-                <Fab size="small" color="warning">
-                  <Iconify icon="solar:pen-bold" />
-                </Fab>
-              </Tooltip>
-        <Tooltip title="Voir" placement="top" arrow>
-                <Fab size="small" color="info">
-                  <Iconify icon="solar:eye-bold" />
-                </Fab>
-              </Tooltip>
-              <Tooltip title="Supprimer" placement="top" arrow>
-                <Fab
-                  color="error"
-                  size="small"
-                  onClick={() => {
-                    confirm.onTrue();
-                    popover.onClose();
-                    }}
-                >
-                  <Iconify icon="solar:trash-bin-trash-bold" />
-                </Fab>
-              </Tooltip>
-      </Stack>
+        <Stack spacing={1} display="flex" flexDirection="row">
+          <Tooltip title="Modifier" placement="top" arrow>
+            <Fab size="small" color="warning">
+              <Iconify icon="solar:pen-bold" />
+            </Fab>
+          </Tooltip>
+          <Tooltip title="Voir" placement="top" arrow>
+            <Fab onClick={()=> display()} size="small" color="info">
+              <Iconify icon="solar:eye-bold" />
+            </Fab>
+          </Tooltip>
+          <Tooltip title="Supprimer" placement="top" arrow>
+            <Fab
+              color="error"
+              size="small"
+              onClick={() => {
+                confirm.onTrue();
+                popover.onClose();
+              }}
+            >
+              <Iconify icon="solar:trash-bin-trash-bold" />
+            </Fab>
+          </Tooltip>
+        </Stack>
       </TableCell>
 
       <TableCell>
@@ -71,23 +79,13 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
       </TableCell>
 
       <TableCell>
-        <Typography variant='Subtitle1'>{row.name}</Typography>
+        <Typography variant="Subtitle1">{row.name}</Typography>
       </TableCell>
-      <TableCell>
-        {row.rep}
-      </TableCell>
-      <TableCell>
-        {row.piece}
-      </TableCell>
-      <TableCell>
-        {row.client}
-      </TableCell>
-      <TableCell>
-        {row.product}
-      </TableCell>
-      {row.fournisseur && <TableCell>
-        {row.fournisseur}
-      </TableCell>}
+      <TableCell>{row.rep}</TableCell>
+      <TableCell>{row.piece}</TableCell>
+      <TableCell>{row.client}</TableCell>
+      <TableCell>{row.product}</TableCell>
+      {row.fournisseur && <TableCell>{row.fournisseur}</TableCell>}
 
       <TableCell>
         <ListItemText
@@ -117,11 +115,8 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
           {row.status}
         </Label>
       </TableCell>
-
-      
     </TableRow>
   );
-
 
   return (
     <>

@@ -1,8 +1,9 @@
 import { Button, Chip, Divider, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { Field } from 'src/components/hook-form';
+import { useFormContext } from 'react-hook-form';
 import { Iconify } from 'src/components/iconify';
 import PieceFormRepeater from './piece-form-repeater';
 import OeuvreFormRepeater from './oeuvre-from-repeater';
@@ -17,10 +18,13 @@ const Modele = ['Article 1'];
 const Techniciens = ['Technicien'];
 const Etat = ['Comme neuf', 'Très bon état', 'Bon état', 'Correct', 'Endommagé'];
 export default function SingleArticleForm({ index }) {
+  const { control, watch, setValue } = useFormContext();
     const openRapport = useBoolean()
     const openPad = useBoolean()
     const openAddMarque = useBoolean()
     const openAddModele = useBoolean()
+
+    
   return (
     <>
       <Grid container spacing={2}>

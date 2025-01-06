@@ -32,19 +32,20 @@ export default function ArticleFormView() {
     setExpanded(isExpanded ? panel : null);
   };
 
-  const totalHT = fields.reduce((sum, field) => sum + (field.totalHT || 0), 0);
+  const total = fields.reduce((sum, field) => sum + (field.total || 0), 0);
+  // const totalRemise = fields.reduce((sum, field) => sum + (parseFloat(field.totalRemise) || 0), 0);
   const totalRemise = fields.reduce((sum, field) => sum + (parseFloat(field.totalRemise) || 0), 0);
 
   const setTotalProducts = useCallback(
     () => {
-      setValue('totalHT',totalHT)
+      setValue('totalHT',total)
       setValue('totalRemise',totalRemise)
-      setValue('totalTTC',totalHT-totalRemise)
-    },[setValue,totalHT,totalRemise]
+      setValue('totalTTC',total-totalRemise)
+    },[setValue,total,totalRemise]
 )
 useEffect(()=> {
   setTotalProducts()
-},[totalHT, totalRemise, setTotalProducts])
+},[total, totalRemise, setTotalProducts,watch])
   return (
     <Box sx={{ p: 3, bgcolor: 'background.neutral' }}>
       <Typography variant="h6" sx={{ color: 'text.disabled', mb: 3 }}>

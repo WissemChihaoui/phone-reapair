@@ -72,6 +72,7 @@ const AddSupport = lazy(() => import('src/pages/dashboard/support/add'))
 
 const Reparations = lazy(() => import('src/pages/dashboard/reparations/index'))
 const AddReparations = lazy(() => import('src/pages/dashboard/reparations/add'))
+const DisplayReparations = lazy(() => import('src/pages/dashboard/reparations/display'))
 
 const News = lazy(() => import('src/pages/dashboard/news/index'))
 const ViewNews = lazy(() => import('src/pages/dashboard/news/view'))
@@ -107,6 +108,7 @@ export const dashboardRoutes = [
         children: [
           {element:<Reparations />, index: true},
           {element:<AddReparations />, path: 'add'},
+          {element:<DisplayReparations />, path: ':id/display'},
         ]
       },
       {
