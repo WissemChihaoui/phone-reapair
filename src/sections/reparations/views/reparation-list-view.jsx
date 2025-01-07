@@ -56,7 +56,7 @@ const TABLE_HEAD = [
 
 const TABLE_DATA = [
   {
-    orderNumber:'R-255-55',
+    orderNumber:'R85-9-88',
     name: 'Technicien 1',
     rep: 'Réparation 1',
     piece: 'Piéce 1',
@@ -64,7 +64,8 @@ const TABLE_DATA = [
     product: 'Produit 1',
     createdAt: '2024-11-25T12:41:34+01:00',
     totalAmount: 288,
-    status: 'Prise en charge'
+    status: 'Prise en charge',
+    id: 'e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1'
   }
 ]
 

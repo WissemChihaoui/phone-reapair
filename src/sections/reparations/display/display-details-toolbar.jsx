@@ -12,6 +12,8 @@ import { fDateTime } from 'src/utils/format-time';
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { useBoolean } from 'src/hooks/use-boolean';
+import DisplayControlPanel from './display-control-panel';
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +26,8 @@ export function DisplayDetailsToolbar({
   onChangeStatus,
 }) {
   const popover = usePopover();
+  const printPopover = usePopover();
+  const openPanel = useBoolean();
 
   return (
     <>
@@ -76,12 +80,17 @@ export function DisplayDetailsToolbar({
             color="inherit"
             variant="outlined"
             startIcon={<Iconify icon="solar:printer-minimalistic-bold" />}
+            endIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
+            onClick={printPopover.onOpen}
           >
-            Print
+            Imprimer
           </Button>
 
           <Button color="inherit" variant="contained" startIcon={<Iconify icon="solar:pen-bold" />}>
-            Edit
+            Modifier
+          </Button>
+          <Button onClick={()=>openPanel.onTrue()} color="inherit" variant="contained" startIcon={<Iconify icon="tdesign:setting-filled" />}>
+          panneau de contrôle
           </Button>
         </Stack>
       </Stack>
@@ -107,6 +116,37 @@ export function DisplayDetailsToolbar({
           ))}
         </MenuList>
       </CustomPopover>
+
+      <CustomPopover 
+        open={printPopover.open}
+        anchorEl={printPopover.anchorEl}
+        onClose={printPopover.onClose}
+        slotProps={{ arrow: { placement: 'top-right' } }}
+      >
+        <MenuItem
+              onClick={() => {
+                console.log('lien 1');
+              }}
+            >
+              Réçu
+            </MenuItem>
+        <MenuItem
+              onClick={() => {
+                console.log('lien 2');
+              }}
+            >
+              Étiquette
+            </MenuItem>
+        <MenuItem
+              onClick={() => {
+                console.log('lien 3');
+              }}
+            >
+              Réçu atelier
+            </MenuItem>
+      </CustomPopover>
+
+      <DisplayControlPanel open={openPanel.value} onClose={openPanel.onFalse} />
     </>
   );
 }
