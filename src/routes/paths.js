@@ -125,5 +125,8 @@ export const paths = {
       add: `${ROOTS.DASHBOARD}/support/add`,
       edit: (title) => `${ROOTS.DASHBOARD}/support/${title}/edit`,
     },
+    ecosystem: {
+      add: (id) => `${ROOTS.DASHBOARD}/ecosystem/${id}/add`,
+    }
   },
 };

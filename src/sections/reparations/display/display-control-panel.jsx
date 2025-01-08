@@ -20,6 +20,8 @@ import { ColorPicker } from 'src/components/color-utils';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Button } from '@mui/material';
 import { Block } from 'src/components/settings/drawer/styles';
+import { paths } from 'src/routes/paths';
+import { RouterLink } from 'src/routes/components';
 
 // ----------------------------------------------------------------------
 
@@ -84,7 +86,7 @@ export default function DisplayControlPanel({
         <Block sx={{ mb: 2 }} title="Impression Document">
           <Grid container spacing={2}>
             <Grid xs={6}>
-              <Button variant="outlined" sx={{ height: '100%' }} fullWidth>
+              <Button variant="outlined" disabled sx={{ height: '100%' }} fullWidth>
                 <Box display="flex" flexDirection="column" alignItems="center">
                   <Iconify width={36} icon="mdi:file" />
                   Devis
@@ -92,7 +94,7 @@ export default function DisplayControlPanel({
               </Button>
             </Grid>
             <Grid xs={6}>
-              <Button variant="outlined" sx={{ height: '100%' }} fullWidth>
+              <Button variant="outlined" disabled sx={{ height: '100%' }} fullWidth>
                 <Box display="flex" flexDirection="column" alignItems="center">
                   <Iconify width={36} icon="teenyicons:pdf-solid" />
                   Réçu PDF
@@ -100,7 +102,7 @@ export default function DisplayControlPanel({
               </Button>
             </Grid>
             <Grid xs={6}>
-              <Button variant="outlined" sx={{ height: '100%' }} fullWidth>
+              <Button variant="outlined" disabled sx={{ height: '100%' }} fullWidth>
                 <Box display="flex" flexDirection="column" alignItems="center">
                   <Iconify width={36} icon="mdi:file" />
                   Bon de CMD
@@ -108,7 +110,7 @@ export default function DisplayControlPanel({
               </Button>
             </Grid>
             <Grid xs={6}>
-              <Button variant="outlined" sx={{ height: '100%' }} fullWidth>
+              <Button variant="outlined" disabled sx={{ height: '100%' }} fullWidth>
                 <Box display="flex" flexDirection="column" alignItems="center">
                   <Iconify width={36} icon="solar:ticket-bold" />
                   Réçu ticket
@@ -172,7 +174,7 @@ export default function DisplayControlPanel({
               </Button>
             </Grid>
             <Grid xs={6}>
-              <Button variant="outlined" sx={{ height: '100%' }} fullWidth>
+              <Button href={paths.dashboard.ecosystem.add(1)} LinkComponent={RouterLink} variant="outlined" sx={{ height: '100%' }} fullWidth>
                 <Box display="flex" flexDirection="column" alignItems="center">
                   <Iconify width={36} icon="nimbus:ecosystem" />
                   EcoSystem

@@ -98,7 +98,6 @@ export const navData = [
           {title:'Nouvelle vente', path: paths.dashboard.vente.add},
           {title:'Liste des ventes', path: paths.dashboard.vente.root},
           {title:'Caisse virtuelle', path: paths.dashboard.three},
-          {title:'Vente devis', path: paths.dashboard.three},
         ]
       },
       {
@@ -153,7 +152,7 @@ export const navData = [
       {
         title: 'Abonnement',
         icon: ICONS.booking,
-        path: paths.dashboard.three,
+        path: paths.dashboard.abonnement.root,
         children: [
           {title:'Mon abonnement', path: paths.dashboard.abonnement.root},
           {title: 'Parrainage', path: paths.dashboard.abonnement.parrainage}

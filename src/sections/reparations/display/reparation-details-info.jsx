@@ -13,11 +13,16 @@ import { Iconify } from 'src/components/iconify';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 import { CardActions, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useBoolean } from 'src/hooks/use-boolean';
+import DisplayPayementModal from './display-payement-modal';
+import DisplaySendSmsModal from './display-sendSms-modal';
 
 // ----------------------------------------------------------------------
 
 export function ReparationDetailsInfo({ customer, delivery, payment, shippingAddress }) {
     console.log(customer);
+    const openPayment = useBoolean()
+    const openSMS = useBoolean()
     
   const renderCustomer = (
     <>
@@ -37,15 +42,6 @@ export function ReparationDetailsInfo({ customer, delivery, payment, shippingAdd
         <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
             #877-87-877
         </Box>
-        <Button
-            size="small"
-            color="primary"
-            startIcon={<Iconify icon="material-symbols:mail-outline" />}
-            sx={{ mt: 1 }}
-            variant='contained'
-          >
-            Envoyer Mail
-          </Button>
         </Stack>
     </>
   );
@@ -98,6 +94,7 @@ export function ReparationDetailsInfo({ customer, delivery, payment, shippingAdd
             startIcon={<Iconify icon="material-symbols:sms-outline" />}
             sx={{ mt: 1 }}
             variant='contained'
+            onClick={() => openSMS.onTrue()}
           >
             Envoyer SMS
           </Button>
@@ -110,7 +107,7 @@ export function ReparationDetailsInfo({ customer, delivery, payment, shippingAdd
       <CardHeader
         title="Paiement"
         action={
-          <IconButton>
+          <IconButton onClick={()=> openPayment.onTrue()}>
             <Iconify icon="solar:pen-bold" />
           </IconButton>
         }
@@ -124,6 +121,7 @@ export function ReparationDetailsInfo({ customer, delivery, payment, shippingAdd
   );
 
   return (
+    <>
     <Card>
       {renderCustomer}
       <Divider sx={{ borderStyle: 'dashed' }} />
@@ -139,5 +137,8 @@ export function ReparationDetailsInfo({ customer, delivery, payment, shippingAdd
 
       {renderPayment}
     </Card>
+    <DisplayPayementModal open={openPayment.value} onClose={openPayment.onFalse} />
+    <DisplaySendSmsModal open={openSMS.value} onClose={openSMS.onFalse} />
+    </>
   );
 }

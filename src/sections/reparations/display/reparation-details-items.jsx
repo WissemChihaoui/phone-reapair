@@ -15,6 +15,11 @@ import { accordion } from 'src/theme/core/components/accordion';
 import { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { fDate, today } from 'src/utils/format-time';
+import { useBoolean } from 'src/hooks/use-boolean';
+import RapportPanneModal from '../rapport-panne-modal';
+import DisplayRapportAvant from './display-rapport-avant';
+import DisplayAttestaionModal from './display-attestation-modal';
+import DisplaySchemaModal from './display-schema-modal';
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +36,10 @@ export function OrderDetailsItems({
   const handleChangeControlled = (panel) => (event, isExpanded) => {
     setControlled(isExpanded ? panel : false);
   };
+
+  const openRapport = useBoolean()
+  const openAttestation = useBoolean()
+  const openSchema = useBoolean()
 
   return (
     <Card>
@@ -184,10 +193,10 @@ export function OrderDetailsItems({
                 </Grid>
                 <Grid xs={12}>
                   <Stack display="flex" gap={2} flexDirection="row" flexWrap="wrap">    
-                    <Button variant='contained' color='success'>Schéma</Button>
-                    <Button variant='contained' color='primary'>Rapport Avant</Button>
-                    <Button variant='contained' color='primary'>Rapport Aprés</Button>
-                    <Button variant='contained' color='primary'>Attestation d&apos;irréparabilité</Button>
+                    <Button variant='contained' color='success' onClick={()=> openSchema.onTrue()}>Schéma</Button>
+                    <Button variant='contained' color='primary' onClick={()=> openRapport.onTrue()}>Rapport Avant</Button>
+                    <Button variant='contained' color='primary' onClick={()=> openRapport.onTrue()}>Rapport Aprés</Button>
+                    <Button variant='contained' color='primary' onClick={()=> openAttestation.onTrue()}>Attestation d&apos;irréparabilité</Button>
                   </Stack>
                 </Grid>
               </Grid>
@@ -195,6 +204,9 @@ export function OrderDetailsItems({
           </Accordion>
         ))}
       </Scrollbar>
+      <DisplayRapportAvant index={1} open={openRapport.value} onClose={openRapport.onFalse}/>
+      <DisplayAttestaionModal index={1} open={openAttestation.value} onClose={openAttestation.onFalse}/>
+      <DisplaySchemaModal open={openSchema.value} onClose={openSchema.onFalse} pathScreen={[0,1,2,3,4,5,6]}/>
     </Card>
   );
 }

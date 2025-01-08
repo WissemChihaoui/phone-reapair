@@ -77,6 +77,9 @@ const DisplayReparations = lazy(() => import('src/pages/dashboard/reparations/di
 const News = lazy(() => import('src/pages/dashboard/news/index'))
 const ViewNews = lazy(() => import('src/pages/dashboard/news/view'))
 
+
+const Ecosystem = lazy(() => import('src/pages/dashboard/ecosystem/add'))
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -213,6 +216,12 @@ export const dashboardRoutes = [
         children: [
           {element: <News /> , index: true},
           {element: <ViewNews />, path:':title/view'},
+        ]
+      },
+      {
+        path: 'ecosystem',
+        children: [
+          { element: <Ecosystem />, path: ':id/add'}
         ]
       }
     ],
