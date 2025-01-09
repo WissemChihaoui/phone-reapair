@@ -5,18 +5,18 @@ import { paths } from 'src/routes/paths';
 
 import EcoCardContent from './eco-card-content';
 
-export default function EcosystemPageView() {
+export default function EcologicPageView() {
   
 
   return (
     <>
       <DashboardContent>
         <CustomBreadcrumbs
-          heading="Ajouter Ecosystem"
+          heading="Ajouter Ecologic"
           links={[
             { name: 'Tableau de bord', href: paths.dashboard.root },
             { name: 'Boutique', href: paths.dashboard.boutique.configurations },
-            { name: 'Ecosystem' },
+            { name: 'Ecologic' },
           ]}
           sx={{ mb: { xs: 3, md: 5 } }}
         />

@@ -127,6 +127,9 @@ export const paths = {
     },
     ecosystem: {
       add: (id) => `${ROOTS.DASHBOARD}/ecosystem/${id}/add`,
+    },
+    ecologic: {
+      add: (id) => `${ROOTS.DASHBOARD}/ecologic/${id}/add`,
     }
   },
 };

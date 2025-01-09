@@ -182,7 +182,7 @@ export default function DisplayControlPanel({
               </Button>
             </Grid>
             <Grid xs={6}>
-              <Button variant="outlined" sx={{ height: '100%' }} fullWidth>
+              <Button href={paths.dashboard.ecologic.add(1)} LinkComponent={RouterLink} variant="outlined" sx={{ height: '100%' }} fullWidth>
                 <Box display="flex" flexDirection="column" alignItems="center">
                   <Iconify width={36} icon="nimbus:ecosystem" />
                   EcoLogic

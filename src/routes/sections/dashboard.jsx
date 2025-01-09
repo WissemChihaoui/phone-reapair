@@ -79,6 +79,7 @@ const ViewNews = lazy(() => import('src/pages/dashboard/news/view'))
 
 
 const Ecosystem = lazy(() => import('src/pages/dashboard/ecosystem/add'))
+const Ecologic = lazy(() => import('src/pages/dashboard/ecologic/add'))
 
 // ----------------------------------------------------------------------
 
@@ -222,6 +223,12 @@ export const dashboardRoutes = [
         path: 'ecosystem',
         children: [
           { element: <Ecosystem />, path: ':id/add'}
+        ]
+      },
+      {
+        path: 'ecologic',
+        children: [
+          { element: <Ecologic />, path: ':id/add'}
         ]
       }
     ],
