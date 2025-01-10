@@ -145,7 +145,7 @@ export const navData = [
           {title:'Type de matériel', path: paths.dashboard.boutique.materialTypes},
           {title:'Conditions', path: paths.dashboard.boutique.conditions},
           {title:'Configurations', path: paths.dashboard.boutique.configurations},
-          {title:'Impression', path: paths.dashboard.three},
+          {title:'Impression', path: paths.dashboard.boutique.impression},
           {title:'Casier de rangement', path: paths.dashboard.boutique.cassierRangements},
         ]
       },

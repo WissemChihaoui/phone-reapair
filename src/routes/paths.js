@@ -105,6 +105,7 @@ export const paths = {
       configurations: `${ROOTS.DASHBOARD}/boutique/configurations`,
       cassierRangements: `${ROOTS.DASHBOARD}/boutique/cassier-rangements`,
       fonctions: `${ROOTS.DASHBOARD}/boutique/fonctions`,
+      impression: `${ROOTS.DASHBOARD}/boutique/impression`,
     },
     abonnement: {
       root: `${ROOTS.DASHBOARD}/abonnement`,

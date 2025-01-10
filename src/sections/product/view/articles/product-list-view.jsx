@@ -193,7 +193,7 @@ export function ProductListView() {
       headerName: ' ',
       align: 'right',
       headerAlign: 'right',
-      width: 120,
+      width: 210,
       sortable: false,
       filterable: false,
       renderCell: (params) => (
