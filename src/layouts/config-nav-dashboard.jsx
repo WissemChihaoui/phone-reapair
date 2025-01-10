@@ -121,10 +121,10 @@ export const navData = [
     items:[
       {
         title: 'Caisse',
-        path: paths.dashboard.three,
+        path: paths.dashboard.caisse.root,
         icon: ICONS.caisse,
         children: [
-          {title:'Caisse', path: paths.dashboard.three},
+          {title:'Caisse', path: paths.dashboard.caisse.root},
           {title:'Dépôt bancaire', path: paths.dashboard.caisse.depot},
           {title:'Export comptable', path: paths.dashboard.caisse.exportComptable},
           {title:'Export comptable marge', path: paths.dashboard.caisse.exportComptableMarge},

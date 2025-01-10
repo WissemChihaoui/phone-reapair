@@ -43,6 +43,7 @@ const EditRachats = lazy(() => import('src/pages/dashboard/rachat/edit'))
 
 const Invoice = lazy(() => import('src/pages/dashboard/invoice/index'))
 
+const Caisse = lazy(() => import('src/pages/dashboard/caisse/index'))
 const Depot = lazy(() => import('src/pages/dashboard/caisse/depot'))
 const ExportComptable = lazy(() => import('src/pages/dashboard/caisse/export-comptable'))
 const ExportComptableMarge = lazy(() => import('src/pages/dashboard/caisse/export-comptable-marge'))
@@ -165,6 +166,7 @@ export const dashboardRoutes = [
       {
         path: 'caisse',
         children: [
+          {element: <Caisse />, index: true},
           {element: <Depot />, path: 'depot'},
           {element: <ExportComptable />, path: 'export-comptable'},
           {element: <ExportComptableMarge />, path: 'export-comptable-marge'},

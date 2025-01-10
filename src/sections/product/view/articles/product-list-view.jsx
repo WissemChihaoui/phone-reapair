@@ -461,8 +461,7 @@ function CustomToolbar({
           )}
 
           <GridToolbarColumnsButton />
-          <GridToolbarFilterButton ref={setFilterButtonEl} />
-          <GridToolbarExport />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <GridToolbarExport />
         </Stack>
       </GridToolbarContainer>
 
