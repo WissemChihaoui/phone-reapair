@@ -6,6 +6,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Se
 import React from 'react'
 import { Field, Form } from 'src/components/hook-form'
 import { toast } from 'sonner';
+import { LoadingButton } from '@mui/lab';
 
 
 const ACTIONS = [
@@ -14,10 +15,11 @@ const ACTIONS = [
 ]
 
 export const depotSchema = zod.object({
-    email: zod
-      .string()
-      .min(1, { message: 'Email is required!' })
-      .email({ message: 'Email must be a valid email address!' }),
+    action: zod.string().min(1, "Choisir l'action"),
+    type: zod.string().min(1, "Choisir type"),
+    comment: zod.string(),
+    amount: zod.number().min(1, "Indiquez le montant"),
+
   });
 export default function AddDepotModal({ open, onClose }) {
     const defaultValues = {
@@ -52,7 +54,6 @@ export default function AddDepotModal({ open, onClose }) {
         <DialogTitle>Ajouter Dépot / Retrait</DialogTitle>
         <DialogContent>
             <Stack p={1} spacing={2}>
-                
                     <Field.Select name='action' label="Action">
                         {ACTIONS.map((action) => (
                             <MenuItem value={action.value} key={action.value}>{action.label}</MenuItem>
@@ -69,7 +70,7 @@ export default function AddDepotModal({ open, onClose }) {
             </Stack>
         </DialogContent>
         <DialogActions>
-            <Button variant='contained'>Enregistrer</Button>
+            <LoadingButton type="submit" loading={isSubmitting} loadingIndicator="En cours..." variant='contained'>Enregistrer</LoadingButton>
         </DialogActions>
         </Form>
     </Dialog>

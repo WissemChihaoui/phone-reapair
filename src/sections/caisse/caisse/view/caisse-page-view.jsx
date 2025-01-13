@@ -8,6 +8,7 @@ import CaisseToolbar from '../caisse-toolbar';
 import { CaisseWidgetSummary } from '../caisse-widget-summary';
 import FondTableView from '../fond-table-view';
 import DepotTableView from '../depot-table-view';
+import CaisseVerificationTable from '../caisse-verification-table';
 
 
 
@@ -79,7 +80,7 @@ export default function CaissePageView() {
           <Grid xs={12}>
             {tabs.value === "fond" &&<FondTableView />}
             {tabs.value === "retrait" && <DepotTableView />}
-            {tabs.value === "verification" && <p>Verification</p>}
+            {tabs.value === "verification" && <CaisseVerificationTable />}
           </Grid>
         </Grid>
 

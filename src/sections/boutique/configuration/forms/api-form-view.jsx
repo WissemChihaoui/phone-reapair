@@ -10,7 +10,8 @@ import { RouterLink } from 'src/routes/components';
 
 
 const APIS_ITEMS = [
-    {   icon: `${CONFIG.assetsDir}/assets/icons/ecosystem.png`, name: 'Ecosystem', routing:''}
+    {   icon: `${CONFIG.assetsDir}/assets/icons/ecosystem.png`, name: 'Ecosystem', routing:''},
+    {   icon: `${CONFIG.assetsDir}/assets/icons/ecologic.png`, name: 'Ecologic', routing:''},
 ]
 export default function ApiFormView() {
     const popover = usePopover();
@@ -29,19 +30,13 @@ export default function ApiFormView() {
         </Stack>
 
         <Stack sx={{ p: 3, pb: 2 }}>
-          {/* <Avatar
+          <Stack width={120} height={120}>
+            <Image
             alt={item.name}
             src={item.icon}
-            variant="rounded"
-            sx={{ mb: 2 }}
-          /> */}
-
-          <Image
-          alt={item.name}
-          src={item.icon}
-          ratio="3/2"
-          sx={{ width: "50%"}}
-          />
+            sx={{ width: '100%'}}
+            />
+          </Stack>
 
           <ListItemText
             sx={{ mb: 1 }}
