@@ -3,6 +3,7 @@ import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 
 import { paths } from 'src/routes/paths';
+import { useTheme } from '@mui/material/styles';
 import { RouterLink } from 'src/routes/components';
 
 import { Logo } from 'src/components/logo';
@@ -12,10 +13,12 @@ import { LayoutSection } from '../core/layout-section';
 import { HeaderSection } from '../core/header-section';
 import { SettingsButton } from '../components/settings-button';
 
+
 // ----------------------------------------------------------------------
 
 export function SimpleLayout({ sx, children, header, content }) {
   const layoutQuery = 'md';
+    const theme = useTheme();
 
   return (
     <LayoutSection
@@ -33,7 +36,20 @@ export function SimpleLayout({ sx, children, header, content }) {
                 This is an info Alert.
               </Alert>
             ),
-            leftArea: <></>,
+            leftArea: <>
+            
+            <Box display={{xs: 'none', md:'block'}}>
+                <Logo
+                    sx={{
+                      display: 'none',
+                      [theme.breakpoints.up(layoutQuery)]: {
+                        display: 'inline-flex',
+                      },
+                    }}
+                  />
+                
+                </Box>
+            </>,
             rightArea: (
               <Box display="flex" alignItems="center" gap={{ xs: 1, sm: 1.5 }}>
                 {/* -- Help link -- */}

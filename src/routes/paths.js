@@ -39,7 +39,8 @@ export const paths = {
       updatePassword: `${ROOTS.AUTH}/supabase/update-password`,
       resetPassword: `${ROOTS.AUTH}/supabase/reset-password`,
     },
-  },
+  }, 
+  suivi: '/suivi',
   // DASHBOARD
   dashboard: {
     root: ROOTS.DASHBOARD,

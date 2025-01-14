@@ -10,22 +10,23 @@ import { toast } from 'sonner';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 
 export const UserQuickEditSchema = zod.object({
-    name: zod.string().min(1, { message: 'Name is required!' }),
-    email: zod
-      .string()
-      .min(1, { message: 'Email is required!' })
-      .email({ message: 'Email must be a valid email address!' }),
-    phone: schemaHelper.phoneNumber({ isValidPhoneNumber }),
-    fixNumber: schemaHelper.phoneNumber({ isValidPhoneNumber }),
-    // state: zod.string().min(1, { message: 'State is required!' }),
-    city: zod.string().min(1, { message: 'City is required!' }),
-    address: zod.string().min(1, { message: 'Address is required!' }),
-    zipCode: zod.string().min(1, { message: 'Zip code is required!' }),
-    company: zod.string().min(1, { message: 'Company is required!' }),
-    // role: zod.string().min(1, { message: 'Role is required!' }),
-    // Not required
-    // status: zod.string(),
-  });
+  name: zod.string().min(1, { message: 'Le nom est requis!' }),
+  email: zod
+    .string()
+    .min(1, { message: 'L\'email est requis!' })
+    .email({ message: 'L\'email doit être une adresse email valide!' }),
+  phone: schemaHelper.phoneNumber({ isValidPhoneNumber }),
+  fixNumber: schemaHelper.phoneNumber({ isValidPhoneNumber }),
+  // state: zod.string().min(1, { message: 'L\'état est requis!' }),
+  city: zod.string().min(1, { message: 'La ville est requise!' }),
+  adress: zod.string().min(1, { message: 'L\'adresse est requise!' }),
+  zipCode: zod.string().min(1, { message: 'Le code postal est requis!' }),
+  company: zod.string().min(1, { message: 'La société est requise!' }),
+  // role: zod.string().min(1, { message: 'Le rôle est requis!' }),
+  // Not required
+  // status: zod.string(),
+});
+
 
 export default function FournisseurAddEditForm({ currentFournisseur, open, onClose }) {
 
