@@ -6,13 +6,12 @@ import { paths } from 'src/routes/paths';
 import { useTheme } from '@mui/material/styles';
 import { RouterLink } from 'src/routes/components';
 
-import { Logo } from 'src/components/logo';
+import { LogoSuivre } from 'src/components/logo';
 
 import { Main, CompactContent } from './main';
 import { LayoutSection } from '../core/layout-section';
 import { HeaderSection } from '../core/header-section';
 import { SettingsButton } from '../components/settings-button';
-
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +38,7 @@ export function SimpleLayout({ sx, children, header, content }) {
             leftArea: <>
             
             <Box display={{xs: 'none', md:'block'}}>
-                <Logo
+                <LogoSuivre
                     sx={{
                       display: 'none',
                       [theme.breakpoints.up(layoutQuery)]: {

@@ -1,8 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { CONFIG } from 'src/config-global';
-import SuiviPageView from 'src/sections/suivre/views/suivi-page-view';
 
-const metadata = { title: `Suivi - ${CONFIG.appName}` };
+const metadata = { title: `Admin - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -10,7 +9,6 @@ export default function Page() {
       <Helmet>
         <title>{metadata.title}</title>
       </Helmet>
-      <SuiviPageView />
     </>
   );
 }

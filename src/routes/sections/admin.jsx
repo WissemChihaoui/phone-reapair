@@ -2,30 +2,30 @@ import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { CONFIG } from 'src/config-global';
-import { SimpleLayout } from 'src/layouts/simple';
+import { AdminDashboardLayout } from 'src/layouts/dashboard';
 
 import { LoadingScreen } from 'src/components/loading-screen';
 
 import { AuthGuard } from 'src/auth/guard';
 
-const IndexPage = lazy(() => import('src/pages/suivi/index'));
-const Details = lazy(() => import('src/pages/suivi/details'));
+const IndexPage = lazy(() => import('src/pages/admin/index'));
+const Boutiques = lazy(() => import('src/pages/admin/boutiques/index'));
 
 const layoutContent = (
-  <SimpleLayout>
+  <AdminDashboardLayout>
     <Suspense fallback={<LoadingScreen />}>
       <Outlet />
     </Suspense>
-  </SimpleLayout>
+  </AdminDashboardLayout>
 );
 
-export const suiviRoutes = [
+export const adminRoutes = [
   {
-    path: 'suivi',
+    path: 'admin',
     element: CONFIG.auth.skip ? <>{layoutContent}</> : <AuthGuard>{layoutContent}</AuthGuard>,
     children: [
       { element: <IndexPage />, index: true },
-      { element: <Details />, path: ':id/details' },
+      { element: <Boutiques />, path: 'boutiques' },
     ],
   },
 ];

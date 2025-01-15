@@ -6,6 +6,7 @@ import { authRoutes } from './auth';
 import { mainRoutes } from './main';
 import { dashboardRoutes } from './dashboard';
 import { suiviRoutes } from './suivi';
+import { adminRoutes } from './admin';
 
 // ----------------------------------------------------------------------
 
@@ -20,6 +21,8 @@ export function Router() {
     ...authRoutes,
 
     ...suiviRoutes,
+
+    ...adminRoutes,
 
     // Dashboard
     ...dashboardRoutes,
