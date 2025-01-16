@@ -80,12 +80,12 @@ export const navData = [
       },
       {
         title: 'Materiel',
-        path: paths.admin.draft,
+        path: paths.admin.materials,
         icon: ICONS.repaire,
       },
       {
         title: 'Marque',
-        path: paths.admin.draft,
+        path: paths.admin.marques,
         icon: ICONS.repaire,
       },
       {

@@ -10,6 +10,8 @@ import { AuthGuard } from 'src/auth/guard';
 
 const IndexPage = lazy(() => import('src/pages/admin/index'));
 const Boutiques = lazy(() => import('src/pages/admin/boutiques/index'));
+const Materiels = lazy(() => import('src/pages/admin/materiels/index'));
+const Marques = lazy(() => import('src/pages/admin/marques/index'));
 
 const layoutContent = (
   <AdminDashboardLayout>
@@ -26,6 +28,8 @@ export const adminRoutes = [
     children: [
       { element: <IndexPage />, index: true },
       { element: <Boutiques />, path: 'boutiques' },
+      { element: <Materiels />, path: 'materials' },
+      { element: <Marques />, path: 'marques' },
     ],
   },
 ];

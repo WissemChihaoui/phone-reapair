@@ -28,17 +28,6 @@ export function BoutiquesTableToolbar({ filters, options, onResetPage }) {
     [filters, onResetPage]
   );
 
-  const handleFilterRole = useCallback(
-    (event) => {
-      const newValue =
-        typeof event.target.value === 'string' ? event.target.value.split(',') : event.target.value;
-
-      onResetPage();
-      filters.setState({ role: newValue });
-    },
-    [filters, onResetPage]
-  );
-
   return (
     <>
       <Stack
@@ -83,7 +72,7 @@ export function BoutiquesTableToolbar({ filters, options, onResetPage }) {
             }}
           >
             <Iconify icon="solar:printer-minimalistic-bold" />
-            Print
+            Imprimer
           </MenuItem>
 
           <MenuItem
@@ -92,7 +81,7 @@ export function BoutiquesTableToolbar({ filters, options, onResetPage }) {
             }}
           >
             <Iconify icon="solar:import-bold" />
-            Import
+            Importer
           </MenuItem>
 
           <MenuItem
@@ -101,7 +90,7 @@ export function BoutiquesTableToolbar({ filters, options, onResetPage }) {
             }}
           >
             <Iconify icon="solar:export-bold" />
-            Export
+            Exporter
           </MenuItem>
         </MenuList>
       </CustomPopover>

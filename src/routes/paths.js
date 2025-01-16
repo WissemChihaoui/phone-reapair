@@ -49,7 +49,9 @@ export const paths = {
   admin: {
     root: ROOTS.ADMIN,
     draft: `${ROOTS.ADMIN}/draft`,
-    boutiques: `${ROOTS.ADMIN}/boutiques`
+    boutiques: `${ROOTS.ADMIN}/boutiques`,
+    materials: `${ROOTS.ADMIN}/materials`,
+    marques: `${ROOTS.ADMIN}/marques`,
   },
   // DASHBOARD
   dashboard: {
