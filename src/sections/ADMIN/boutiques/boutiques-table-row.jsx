@@ -18,6 +18,8 @@ import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 import { fDate } from 'src/utils/format-time';
+import { useRouter } from 'src/routes/hooks';
+import { paths } from 'src/routes/paths';
 
 // import { UserQuickEditForm } from './user-quick-edit-form';
 
@@ -29,6 +31,8 @@ export function BoutiquesTableRow({ row, selected, onEditRow, onSelectRow, onDel
   const popover = usePopover();
 
   const quickEdit = useBoolean();
+
+  const router = useRouter()
 
   return (
     <>
@@ -100,10 +104,7 @@ export function BoutiquesTableRow({ row, selected, onEditRow, onSelectRow, onDel
           </MenuItem>
 
           <MenuItem
-            onClick={() => {
-              onEditRow();
-              popover.onClose();
-            }}
+            onClick={() => {router.replace(paths.admin.editBoutique(row.id))}}
           >
             <Iconify icon="solar:pen-bold" />
             Modifier

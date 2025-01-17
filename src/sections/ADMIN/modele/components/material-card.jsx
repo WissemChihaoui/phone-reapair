@@ -1,3 +1,4 @@
+import React, { useCallback, useState } from 'react';
 import {
   Alert,
   Box,
@@ -13,39 +14,44 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import Autocomplete from '@mui/material/Autocomplete';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { Iconify } from 'src/components/iconify';
 import { Image } from 'src/components/image';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { UploadBox } from 'src/components/upload';
-import Autocomplete from '@mui/material/Autocomplete';
 
 export default function MaterialCard({ item, add, openAdd, deleteData, editData }) {
   const openDelete = useBoolean();
   const openEdit = useBoolean();
 
   const [nameField, setNameField] = useState(item?.name || '');
-  const [files, setFiles] = useState(item?.image ? [{ path: item.image }] : null);
+  const [files, setFiles] = useState(item?.image ? [{ path: item.image }] : []);
   const [selectedMaterial, setSelectedMaterial] = useState(
     item?.materiel ? { title: item.materiel } : null
   );
+  const [selectedMarque, setSelectedMarque] = useState(null);
+  const [error, setError] = useState('');
 
   const handleDrop = useCallback((acceptedFiles) => {
     setFiles(acceptedFiles);
   }, []);
 
   const editCassier = () => {
-    if (nameField && selectedMaterial && files && files[0]) {
-      const updatedItem = {
-        id: item.id,
-        name: nameField.trim(),
-        picture: files[0].path,
-        materiel: selectedMaterial.title,
-      };
-      editData(updatedItem);
-      openEdit.onFalse();
+    if (!nameField.trim() || !selectedMaterial || !files || !files[0]) {
+      setError('Veuillez remplir tous les champs obligatoires.');
+      return;
     }
+
+    const updatedItem = {
+      id: item.id,
+      name: nameField.trim(),
+      picture: files[0].path,
+      materiel: selectedMaterial.title,
+    };
+
+    editData(updatedItem);
+    openEdit.onFalse();
   };
 
   return (
@@ -74,19 +80,12 @@ export default function MaterialCard({ item, add, openAdd, deleteData, editData 
             gridTemplateColumns={{
               xs: 'repeat(1, 1fr)',
               sm: 'repeat(2, 1fr)',
-              md: 'repeat(2, 1fr)',
             }}
           >
             <Button color="error" sx={{ borderRadius: '0' }} onClick={openDelete.onTrue}>
               Supprimer
             </Button>
-            <Button
-              variant="contained"
-              onClick={() => {
-                openEdit.onTrue();
-              }}
-              sx={{ borderRadius: '0' }}
-            >
+            <Button variant="contained" onClick={openEdit.onTrue} sx={{ borderRadius: '0' }}>
               Modifier
             </Button>
           </Box>
@@ -113,11 +112,7 @@ export default function MaterialCard({ item, add, openAdd, deleteData, editData 
         open={openDelete.value}
         onClose={openDelete.onFalse}
         title="Supprimer"
-        content={
-          <>
-            Êtes-vous sûr de vouloir supprimer le type <strong>{item?.name}</strong> ?
-          </>
-        }
+        content={`Êtes-vous sûr de vouloir supprimer le type ${item?.name} ?`}
         action={
           <Button
             variant="contained"
@@ -133,21 +128,29 @@ export default function MaterialCard({ item, add, openAdd, deleteData, editData 
       />
 
       <Dialog open={openEdit.value} onClose={openEdit.onFalse}>
-        <DialogTitle>Modifier ce type de matériel</DialogTitle>
-
+        <DialogTitle>Modifier cette modèle</DialogTitle>
         <DialogContent>
-          <Alert sx={{ mb: 2 }} severity="warning">
-            Veuillez vérifier que le libellé de type du matériel n&apos;existe pas.
-          </Alert>
+          {error && <Alert sx={{ mb: 2 }} severity="error">{error}</Alert>}
           <Autocomplete
             fullWidth
             options={top100Films}
             getOptionLabel={(option) => option.title}
             value={selectedMaterial}
             onChange={(event, value) => setSelectedMaterial(value)}
-            sx={{ mb: 2 }}
+            sx={{ my: 2 }}
             renderInput={(params) => (
               <TextField {...params} label="Matériel" placeholder="Type de matériel" />
+            )}
+          />
+          <Autocomplete
+            fullWidth
+            options={top100Films}
+            getOptionLabel={(option) => option.title}
+            value={selectedMarque}
+            onChange={(event, value) => setSelectedMarque(value)}
+            sx={{ mb: 2 }}
+            renderInput={(params) => (
+              <TextField {...params} label="Marque" placeholder="Marque" />
             )}
           />
           <UploadBox
@@ -170,13 +173,7 @@ export default function MaterialCard({ item, add, openAdd, deleteData, editData 
                 </Box>
               )
             }
-            sx={{
-              py: 2.5,
-              width: 'auto',
-              height: 'auto',
-              borderRadius: 1.5,
-              mb: 2,
-            }}
+            sx={{ py: 2.5, width: 'auto', height: 'auto', borderRadius: 1.5, mb: 2 }}
           />
           <TextField
             value={nameField}
@@ -186,9 +183,9 @@ export default function MaterialCard({ item, add, openAdd, deleteData, editData 
             type="text"
             variant="outlined"
             label="Nom du type"
+            sx={{ mb: 2 }}
           />
         </DialogContent>
-
         <DialogActions>
           <Button onClick={openEdit.onFalse} variant="outlined" color="inherit">
             Annuler

@@ -50,8 +50,10 @@ export const paths = {
     root: ROOTS.ADMIN,
     draft: `${ROOTS.ADMIN}/draft`,
     boutiques: `${ROOTS.ADMIN}/boutiques`,
+    editBoutique:(id) => `${ROOTS.ADMIN}/boutiques/${id}/edit`,
     materials: `${ROOTS.ADMIN}/materials`,
     marques: `${ROOTS.ADMIN}/marques`,
+    modele: `${ROOTS.ADMIN}/modele`,
   },
   // DASHBOARD
   dashboard: {

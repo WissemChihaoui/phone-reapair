@@ -13,26 +13,29 @@ import MaterialDnd from '../material-dnd';
 const materialsData = [
   {
     id: 1,
-    name: 'Marque 1',
+    name: 'Modéle 1',
+    marque:'Marque 1',
     materiel: 'Smartphone',
     createdAt: '2024-11-25T12:41:34+01:00',
     image: 'https://images.unsplash.com/photo-1600087626014-e652e18bbff2?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
   },
   {
     id: 2,
-    name: 'Marque 2',
+    marque:'Marque 1',
+    name: 'Modéle 2',
     materiel: 'Ordinateur',
     createdAt: '2024-12-25T12:41:34+01:00',
     image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
   },
 ];
 
-export default function MarquesListView() {
+export default function ModeleListView() {
   const table = useTable({ defaultOrderBy: 'createdAt' });
   const [tableData, setTableData] = useState(materialsData);
   const filters = useSetState({
     name: '',
-    materiel: []
+    materiel: [],
+    marque: [],
   });
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -40,7 +43,7 @@ export default function MarquesListView() {
     filters: filters.state,
   });
 
-  const canReset = !!filters.state.name || filters.state.materiel.length > 0
+  const canReset = !!filters.state.name || filters.state.materiel.length > 0 || filters.state.marque.length > 0
 
   console.log(dataFiltered);
 
@@ -52,7 +55,8 @@ export default function MarquesListView() {
         name: data.name,
         createdAt: today(),
         image: data.picture,
-        materiel: data.materiel
+        materiel: data.materiel,
+        marque: data.marque
       },
     ]);
   };
@@ -68,16 +72,16 @@ export default function MarquesListView() {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Les marques"
+        heading="Les modéles"
         links={[
           { name: 'Tableau de bord', href: paths.admin.root },
-          { name: 'Les marques', href: paths.admin.materials },
+          { name: 'Les modéles', href: paths.admin.materials },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
 
       <Card>
-        <MaterialToolbar filters={filters} onResetPage={table.onResetPage} options={['Smartphone', 'Ordinateur']}/>
+        <MaterialToolbar filters={filters} onResetPage={table.onResetPage} options={['Smartphone', 'Ordinateur']} marques={['Marque 1', 'Marque2']}/>
 
         {canReset && (
           <MaterialFiltersResult
@@ -101,7 +105,7 @@ export default function MarquesListView() {
 }
 
 function applyFilter({ inputData, comparator, filters }) {
-  const { name, materiel } = filters;
+  const { name, materiel, marque } = filters;
 
   // Sort data
   const stabilizedThis = inputData.map((el, index) => [el, index]);
@@ -123,6 +127,12 @@ function applyFilter({ inputData, comparator, filters }) {
   if (materiel.length > 0) {
     inputData = inputData.filter((casier) =>
       materiel.some((item) => casier.materiel?.toLowerCase().includes(item.toLowerCase()))
+    );
+  }
+  // Filter by materiel
+  if (marque.length > 0) {
+    inputData = inputData.filter((casier) =>
+      marque.some((item) => casier.marque?.toLowerCase().includes(item.toLowerCase()))
     );
   }
 

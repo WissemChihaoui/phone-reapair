@@ -90,7 +90,7 @@ export const navData = [
       },
       {
         title: 'Model',
-        path: paths.admin.draft,
+        path: paths.admin.modele,
         icon: ICONS.repaire,
       },
       {

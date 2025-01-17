@@ -22,6 +22,7 @@ export default function MaterialDnd({ deleteData, data, addData, editData }) {
   const [files, setFiles] = useState(null);
   const [addField, setAddField] = useState('');
   const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [selectedMarque, setSelectedMarque] = useState(null);
 
   const addCasier = () => {
     if (addField.trim() && selectedMaterial && files && files[0]) {
@@ -29,6 +30,7 @@ export default function MaterialDnd({ deleteData, data, addData, editData }) {
         name: addField.trim(),
         picture: files[0].path, // Assuming `path` contains the file URL
         materiel: selectedMaterial.title, // Assuming `title` is the desired property
+        marque: selectedMarque.title, // Assuming `title` is the desired property
       };
 
       addData(result); // Add the result object
@@ -36,6 +38,7 @@ export default function MaterialDnd({ deleteData, data, addData, editData }) {
       setAddField('');
       setFiles(null);
       setSelectedMaterial(null);
+      setSelectedMarque(null);
     }
   };
 
@@ -62,11 +65,11 @@ export default function MaterialDnd({ deleteData, data, addData, editData }) {
       </Box>
 
       <Dialog open={openAdd.value} onClose={openAdd.onFalse}>
-        <DialogTitle>Ajouter une marque</DialogTitle>
+        <DialogTitle>Ajouter un modéle</DialogTitle>
 
         <DialogContent>
           <Alert sx={{ mb: 2 }} severity="warning">
-            Veuillez vérifier que le nom de type n&apos;existe pas
+            Veuillez vérifier que le nom de modéle n&apos;existe pas
           </Alert>
           <Autocomplete
             fullWidth
@@ -77,6 +80,22 @@ export default function MaterialDnd({ deleteData, data, addData, editData }) {
             sx={{ mb: 2 }}
             renderInput={(params) => (
               <TextField {...params} label="Matériel" placeholder="Type de matériel" />
+            )}
+            renderOption={(props, option) => (
+              <li {...props} key={option.id}>
+                {option.title}
+              </li>
+            )}
+          />
+          <Autocomplete
+            fullWidth
+            options={top100Films}
+            getOptionLabel={(option) => option.title}
+            value={selectedMarque}
+            onChange={(event, value) => setSelectedMarque(value)}
+            sx={{ mb: 2 }}
+            renderInput={(params) => (
+              <TextField {...params} label="Marque" placeholder="Marque" />
             )}
             renderOption={(props, option) => (
               <li {...props} key={option.id}>
