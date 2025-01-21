@@ -97,7 +97,7 @@ export const navData = [
         children: [
           {title:'Nouvelle vente', path: paths.dashboard.vente.add},
           {title:'Liste des ventes', path: paths.dashboard.vente.root},
-          {title:'Caisse virtuelle', path: paths.dashboard.three},
+          {title:'Caisse virtuelle', path: paths.dashboard.vente.caisse},
         ]
       },
       {

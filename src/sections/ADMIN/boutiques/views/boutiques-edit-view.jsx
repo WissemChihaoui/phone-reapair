@@ -1,6 +1,14 @@
 import { z as zod } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Button, Card, CardContent, CardHeader, Divider, InputAdornment, MenuItem, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  Divider,
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  Stack,
+} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import React from 'react';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
@@ -11,8 +19,7 @@ import { useForm } from 'react-hook-form';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { LoadingButton } from '@mui/lab';
 import { Iconify } from 'src/components/iconify';
-import { fData } from 'src/utils/format-number';
-import { Label } from 'src/components/label';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 const TVA_LIST = [
   { value: '20', label: '20%' },
@@ -46,6 +53,9 @@ export default function BoutiquesEditView() {
     email: '',
     phoneNumber: '',
   };
+  const password = useBoolean();
+  const password1 = useBoolean();
+  const password2 = useBoolean();
   const methods = useForm({
     mode: 'all',
     resolver: zodResolver(BoutiqueSchema),
@@ -57,7 +67,7 @@ export default function BoutiquesEditView() {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-  const colorWatch = watch('color')  
+  const colorWatch = watch('color');
   const onSubmit = handleSubmit(async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -70,51 +80,94 @@ export default function BoutiquesEditView() {
   return (
     <>
       <DashboardContent>
-        <CustomBreadcrumbs
-          heading="Modifier Boutique"
-          links={[
-            { name: 'Tableau de bord', href: paths.admin.root },
-            { name: 'Boutiques', href: paths.admin.boutiques },
-            { name: 'Modifier' },
-          ]}
-          sx={{ mb: { xs: 3, md: 5 } }}
-        />
         <Form methods={methods} onSubmit={onSubmit}>
+          <CustomBreadcrumbs
+            heading="Modifier Boutique"
+            links={[
+              { name: 'Tableau de bord', href: paths.admin.root },
+              { name: 'Boutiques', href: paths.admin.boutiques },
+              { name: 'Modifier' },
+            ]}
+            sx={{ mb: { xs: 3, md: 5 } }}
+            action={
+              <>
+                <Field.Switch label="Active ?" name="isActive" />
+              </>
+            }
+          />
+
           <Grid container spacing={3}>
             <Grid xs={12} md={4}>
-              <Card
-                sx={{
-                  pt: 10,
-                  pb: 5,
-                  px: 3,
-                  height: '100%',
-                  textAlign: 'center',
-                }}
-              >
-                
-
-                {/* <Field.Switch
-              name="isPublic"
-              labelPlacement="start"
-              label="Public profile"
-              sx={{ mt: 5 }}
-            /> */}
-
-                <Field.Text
-                  name="color"
-                  label="Couleur"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Label style={{ background: colorWatch }} />
-                      </InputAdornment>
-                    ),
+              <Card sx={{ p: 3 }}>
+                <Box
+                  rowGap={3}
+                  columnGap={2}
+                  display="grid"
+                  gridTemplateColumns={{
+                    xs: 'repeat(1, 1fr)',
                   }}
-                />
+                >
+                  <Field.Text
+                    name="actualPassword"
+                    label="Mot de passe actuel"
+                    placeholder="6+ characters"
+                    type={password.value ? 'text' : 'password'}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={password.onToggle} edge="end">
+                            <Iconify
+                              icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'}
+                            />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Field.Text
+                    name="newPassword"
+                    label="Nouveau Mot de passe"
+                    placeholder="6+ characters"
+                    type={password1.value ? 'text' : 'password'}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={password1.onToggle} edge="end">
+                            <Iconify
+                              icon={password1.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'}
+                            />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Field.Text
+                    name="confirmPassword"
+                    label="Confirmer Mot de passe"
+                    placeholder="6+ characters"
+                    type={password2.value ? 'text' : 'password'}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={password2.onToggle} edge="end">
+                            <Iconify
+                              icon={password2.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'}
+                            />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
 
-                <Button variant="soft" color="error" sx={{ mt: 3 }}>
-                  Déconnexion
-                </Button>
+                  <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
+                    <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                      Enregistrer Mot de passe
+                    </LoadingButton>
+                  </Stack>
+                </Box>
               </Card>
             </Grid>
 
@@ -169,6 +222,7 @@ export default function BoutiquesEditView() {
                   <Field.Checkbox name="isSms" label="Notification SMS Global" />
                   <Field.Checkbox name="isMail" label="Notification Email Global" />
                   <Field.Text name="expediteur" label="Expéditeur SMS" />
+                  <Field.Text name="smsToken" label="Token SMS" />
                 </Box>
               </Card>
             </Grid>
@@ -190,11 +244,72 @@ export default function BoutiquesEditView() {
                       </MenuItem>
                     ))}
                   </Field.Select>
+                  <Field.Select name="typeClient" label="Type de client">
+                    {['Client'].map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Field.Select>
                 </Box>
               </Card>
             </Grid>
-            
-            
+
+            <Grid xs={12} md={4}>
+              <Card sx={{ p: 3 }}>
+                <Box
+                  rowGap={3}
+                  columnGap={2}
+                  display="grid"
+                  gridTemplateColumns={{
+                    xs: 'repeat(1, 1fr)',
+                  }}
+                >
+                  <Field.Checkbox name="certificat" label="Certificat" />
+                  <Field.DatePicker name="certificationDate" label="Date certification" />
+                </Box>
+              </Card>
+            </Grid>
+
+            <Grid xs={12} md={8}>
+              <Card sx={{ p: 3, height: '100%' }}>
+                <Field.Text
+                  name="commentaire"
+                  label="Commentaire"
+                  InputLabelProps={{ shrink: true }}
+                  multiline
+                  rows={4}
+                />
+              </Card>
+            </Grid>
+
+           
+            <Grid xs={12} md={4}>
+              <Card sx={{ p: 3 }}>
+                <Box
+                  rowGap={3}
+                  columnGap={2}
+                  display="grid"
+                  gridTemplateColumns={{
+                    xs: 'repeat(1, 1fr)',
+                  }}
+                >
+                  <Field.DatePicker name="date_achat" label="Date d'achat" />
+                  <Field.DatePicker name="date_finContract" label="Date fin contrat" />
+                </Box>
+              </Card>
+            </Grid>
+            <Grid xs={12} md={8}>
+              <Card sx={{ p: 3, height: '100%' }}>
+                <Field.Text
+                  name="note"
+                  label="Note"
+                  InputLabelProps={{ shrink: true }}
+                  multiline
+                  rows={4}
+                />
+              </Card>
+            </Grid>
             <Grid xs={12}>
               <Card sx={{ p: 3, height: '100%' }}>
                 <Field.Text
@@ -204,13 +319,14 @@ export default function BoutiquesEditView() {
                   multiline
                   rows={4}
                 />
-
-                <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    Enregistrer
-                  </LoadingButton>
-                </Stack>
               </Card>
+            </Grid>
+            <Grid>
+              <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
+                <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                  Enregistrer
+                </LoadingButton>
+              </Stack>
             </Grid>
           </Grid>
         </Form>
