@@ -5,12 +5,12 @@ import { ProductItem } from './product-item';
 import { ProductSort } from './product-sort';
 
 // Sample categories and subcategories data
-const CATEGORIES = [
+export const CATEGORIES = [
   { id: 'electronics', name: 'Electronics' },
   { id: 'appliances', name: 'Appliances' },
 ];
 
-const SUBCATEGORIES = {
+export const SUBCATEGORIES = {
   electronics: [
     { id: 'phones', name: 'Phones' },
     { id: 'laptops', name: 'Laptops' },

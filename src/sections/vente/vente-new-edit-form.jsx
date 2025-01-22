@@ -128,33 +128,11 @@ export function VenteNewEditForm({ currentInvoice }) {
   const handleSaveAsDraft = handleSubmit(async (data) => {
     loadingSave.onTrue();
     console.log(data);
-    
-
-    // try {
-    //   await new Promise((resolve) => setTimeout(resolve, 500));
-    //   reset();
-    //   loadingSave.onFalse();
-    //   router.push(paths.dashboard.invoice.root);
-    //   console.info('DATA', JSON.stringify(data, null, 2));
-    // } catch (error) {
-    //   console.error(error);
-    //   loadingSave.onFalse();
-    // }
   });
 
   const handleCreateAndSend = handleSubmit(async (data) => {
     loadingSend.onTrue();
     checkout.onTrue();
-    // try {
-    //   await new Promise((resolve) => setTimeout(resolve, 500));
-    //   reset();
-    //   loadingSend.onFalse();
-    //   router.push(paths.dashboard.invoice.root);
-    //   console.info('DATA', JSON.stringify(data, null, 2));
-    // } catch (error) {
-    //   console.error(error);
-    //   loadingSend.onFalse();
-    // }
   });
 
   return (
