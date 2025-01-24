@@ -54,6 +54,9 @@ export const paths = {
     materials: `${ROOTS.ADMIN}/materials`,
     marques: `${ROOTS.ADMIN}/marques`,
     modele: `${ROOTS.ADMIN}/modele`,
+    idee: `${ROOTS.ADMIN}/idee`,
+    support: `${ROOTS.ADMIN}/support`,
+    editSupport: (title) => `${ROOTS.ADMIN}/${title}/edit`
   },
   // DASHBOARD
   dashboard: {

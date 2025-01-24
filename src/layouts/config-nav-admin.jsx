@@ -51,9 +51,7 @@ const ICONS = {
 
 export const navData = [
   {
-    items:[
-      { title: 'Tableau de bord', path: paths.admin.root, icon: ICONS.dashboard },
-    ]
+    items: [{ title: 'Tableau de bord', path: paths.admin.root, icon: ICONS.dashboard }],
   },
   {
     subheader: 'Gestion',
@@ -64,22 +62,22 @@ export const navData = [
         icon: ICONS.boutique,
       },
       {
-        title: 'Configurations',
-        path: paths.admin.draft,
-        icon: ICONS.repaire,
+        title: 'Boite à idée',
+        path: paths.admin.idee,
+        icon: ICONS.idea,
+      },
+      {
+        title: 'Support technique',
+        path: paths.admin.support,
+        icon: ICONS.support,
       },
     ],
   },
   {
-    subheader: 'Sasgestion',
+    subheader: 'Matériel',
     items: [
       {
-        title: 'Boite à idée',
-        path: paths.admin.draft,
-        icon: ICONS.repaire,
-      },
-      {
-        title: 'Materiel',
+        title: 'Matériel',
         path: paths.admin.materials,
         icon: ICONS.repaire,
       },
@@ -93,12 +91,6 @@ export const navData = [
         path: paths.admin.modele,
         icon: ICONS.repaire,
       },
-      {
-        title: 'Support technique',
-        path: paths.admin.draft,
-        icon: ICONS.repaire,
-      },
     ],
   },
-  
 ];

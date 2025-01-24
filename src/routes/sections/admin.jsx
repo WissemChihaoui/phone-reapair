@@ -14,6 +14,9 @@ const EditBoutiques = lazy(() => import('src/pages/admin/boutiques/edit'));
 const Materiels = lazy(() => import('src/pages/admin/materiels/index'));
 const Marques = lazy(() => import('src/pages/admin/marques/index'));
 const Modeles = lazy(() => import('src/pages/admin/model/index'));
+const Idee = lazy(() => import('src/pages/admin/idee/index'));
+const Support = lazy(() => import('src/pages/admin/support/index'));
+const EditSupport = lazy(() => import('src/pages/admin/support/edit'));
 
 const layoutContent = (
   <AdminDashboardLayout>
@@ -39,6 +42,9 @@ export const adminRoutes = [
       { element: <Materiels />, path: 'materials' },
       { element: <Marques />, path: 'marques' },
       { element: <Modeles />, path: 'modele' },
+      { element: <Idee />, path: 'idee' },
+      { element: <Support />, path: 'support' },
+      { element: <EditSupport />, path: ':title/edit' },
     ],
   },
 ];
