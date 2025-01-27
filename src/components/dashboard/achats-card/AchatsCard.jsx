@@ -7,6 +7,7 @@ import { varAlpha, bgGradient } from 'src/theme/styles';
 import { fNumber, fPercent, fShortenNumber } from 'src/utils/format-number';
 import { CONFIG } from 'src/config-global';
 import { CustomPopover } from 'src/components/custom-popover';
+import { paths } from 'src/routes/paths';
 
 export default function AchatsCard({
     color = 'primary',
@@ -50,6 +51,7 @@ export default function AchatsCard({
               onMouseEnter={handleHoverPopoverOpen2}
               onMouseLeave={handleHoverPopoverClose2}
               color={color}
+              href={paths.dashboard.rachat.root}
             >
               <Iconify icon="eva:eye-fill" width={28}/>
             </IconButton>
@@ -81,6 +83,7 @@ export default function AchatsCard({
               onMouseEnter={handleHoverPopoverOpen}
               onMouseLeave={handleHoverPopoverClose}
               color={color}
+              
             >
               <Iconify icon="eva:plus-circle-fill" width={28}/>
             </IconButton>

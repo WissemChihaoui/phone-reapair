@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { fCurrency } from 'src/utils/format-number';
 import { MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -51,11 +52,11 @@ export function CaisseCard({
         {row('Ventes', earning)}
 
         <Box sx={{ gap: 2, display: 'flex' }}>
-          <Button fullWidth variant="contained" color="primary">
+          <Button href={paths.dashboard.reparations.root} fullWidth variant="contained" color="primary">
             Réparations
           </Button>
 
-          <Button fullWidth variant="contained" color="warning">
+          <Button href={paths.dashboard.vente.root} fullWidth variant="contained" color="warning">
             Ventes
           </Button>
         </Box>

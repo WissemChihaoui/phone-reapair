@@ -7,6 +7,7 @@ import { varAlpha, bgGradient } from 'src/theme/styles';
 import { fNumber, fPercent, fShortenNumber } from 'src/utils/format-number';
 import { CONFIG } from 'src/config-global';
 import { CustomPopover } from 'src/components/custom-popover';
+import { paths } from 'src/routes/paths';
 
 export default function VentesCard({
     color = 'primary',
@@ -50,6 +51,7 @@ export default function VentesCard({
               onMouseEnter={handleHoverPopoverOpen2}
               onMouseLeave={handleHoverPopoverClose2}
               color={color}
+              href={paths.dashboard.vente.root}
             >
               <Iconify icon="eva:eye-fill" width={28}/>
             </IconButton>

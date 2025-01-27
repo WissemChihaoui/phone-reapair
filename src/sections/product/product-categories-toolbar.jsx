@@ -37,7 +37,7 @@ export function ProductCategoriesToolbar({ filters, onResetPage, dateError }) {
             fullWidth
             value={filters.state.name}
             onChange={handleFilterName}
-            placeholder="Search customer or order number..."
+            placeholder="Rechercher..."
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

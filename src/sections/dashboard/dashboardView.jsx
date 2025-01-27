@@ -133,7 +133,7 @@ export default function DashboardView() {
         <Grid xs={12} md={6} container>         
          <Grid xs={6} md={3}>
            <Button
-             href={paths.dashboard.two}
+             href={paths.dashboard.caisse.root}
              size="medium"
              color="success"
              variant="outlined"
@@ -146,7 +146,7 @@ export default function DashboardView() {
          </Grid>
          <Grid xs={6} md={3}>
            <Button
-            href={paths.dashboard.two}
+            href={paths.dashboard.calendrier.root}
             size="medium"
             color="warning"
             variant="outlined"
@@ -158,7 +158,7 @@ export default function DashboardView() {
          </Grid>
          <Grid xs={6} md={3}>
            <Button
-            href={paths.dashboard.two}
+            // href={paths.dashboard.two}
             size="medium"
             color="info"
             variant="outlined"
