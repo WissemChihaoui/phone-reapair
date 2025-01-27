@@ -36,16 +36,14 @@ export default function ArticleFormView() {
   // const totalRemise = fields.reduce((sum, field) => sum + (parseFloat(field.totalRemise) || 0), 0);
   const totalRemise = fields.reduce((sum, field) => sum + (parseFloat(field.totalRemise) || 0), 0);
 
-  const setTotalProducts = useCallback(
-    () => {
-      setValue('totalHT',total)
-      setValue('totalRemise',totalRemise)
-      setValue('totalTTC',total-totalRemise)
-    },[setValue,total,totalRemise]
-)
-useEffect(()=> {
-  setTotalProducts()
-},[total, totalRemise, setTotalProducts,watch])
+  const setTotalProducts = useCallback(() => {
+    setValue('totalHT', total);
+    setValue('totalRemise', totalRemise);
+    setValue('totalTTC', total - totalRemise);
+  }, [setValue, total, totalRemise]);
+  useEffect(() => {
+    setTotalProducts();
+  }, [total, totalRemise, setTotalProducts, watch]);
   return (
     <Box sx={{ p: 3, bgcolor: 'background.neutral' }}>
       <Typography variant="h6" sx={{ color: 'text.disabled', mb: 3 }}>
@@ -66,7 +64,7 @@ useEffect(()=> {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography variant="subtitle1">Produit {index + 1}</Typography>
+                <Typography variant="subtitle1">Article {index + 1}</Typography>
                 <Button
                   size="small"
                   color="error"
@@ -78,7 +76,7 @@ useEffect(()=> {
               </Stack>
             </AccordionSummary>
             <AccordionDetails>
-              <SingleArticleForm index={index}/>
+              <SingleArticleForm index={index} />
             </AccordionDetails>
           </Accordion>
         ))}
