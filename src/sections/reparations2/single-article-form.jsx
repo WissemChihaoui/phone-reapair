@@ -11,6 +11,7 @@ import RapportPanneModal from './rapport-panne-modal';
 import LockPadModal from './lock-pad-modal';
 import MarqueAddModal from './marque-add-modal';
 import ModeleAddModal from './model-add-modal';
+import DocumentSectionView from './document/document-section-view';
 
 const Material = ['Article 1'];
 const Marque = ['Article 1'];
@@ -165,12 +166,10 @@ export default function SingleArticleForm({ index }) {
         </Grid>
         <Divider sx={{ my: 1, width: '100%' }} />
         <Grid xs={12}>
-            <PieceFormRepeater index={index}/>
+
+        <DocumentSectionView formIndex={index}/>
         </Grid>
-        <Divider sx={{ my: 1, width: '100%' }} />
-        <Grid xs={12}>
-            <OeuvreFormRepeater index={index}/>
-        </Grid>
+        
       </Grid>
       <RapportPanneModal index={index} open={openRapport.value} onClose={openRapport.onFalse}/>
       <LockPadModal index={index} open={openPad.value} onClose={openPad.onFalse}/>
