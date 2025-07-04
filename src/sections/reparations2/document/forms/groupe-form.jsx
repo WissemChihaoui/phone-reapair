@@ -33,8 +33,7 @@ export default function GroupeForm({ index: formIndex, formId, onRemove }) {
                 {option.label}
               </li>
             )}
-            // If your Field.Autocomplete expects value as an object, 
-            // make sure your form default values have that structure too.
+            
           />
         </Grid>
 
