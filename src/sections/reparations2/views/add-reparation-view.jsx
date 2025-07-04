@@ -25,27 +25,15 @@ export default function AddReparationView() {
       client: {},
       products: [
         {
-          piece: [
-            {
-              nom: '',
-              qte: null,
-              price: null,
-              champ: '',
-              remise: null,
-              totalHT: null /* price x qte */,
-            },
-          ],
-          oeuvre: [
-            {
-              nom: '',
-              price: null,
-              champ: '',
-            },
-          ],
-          totalPiece: null /* SUM(piece.totalHT) */,
-          totalOeuvre: null /* SUM(oeuvre.price) */,
-          totalHT: null /* totalPiece + totalOeuvre */,
-          totalRemise: null /* SUM(piece.remise) */,
+          piece: [],
+          oeuvre: [],
+          service: [],
+          regroupements: [],
+          totalPiece: null,
+          totalOeuvre: null,
+          totalService: null,
+          totalHT: null,
+          totalRemise: null,
           type: '',
           marque: '',
           modele: '',
@@ -62,18 +50,19 @@ export default function AddReparationView() {
           noteInterne: '',
           dateRestitution: null,
           technicien: '',
+          dynamicContent: [], // Holds F1/F2/F3/F4 blocks dynamically
         },
       ],
-      totalHT: null /* SUM(products.totalHT) */,
-      totalRemise: null /* SUM(products.totalRemise) */,
-      totalTTC: null /* this.totalHT - this.totalRemise */,
+      totalHT: null,
+      totalRemise: null,
+      totalTTC: null,
       payment: [
         {
           method: null,
           amount: null,
         },
       ],
-      paid: null /* SUM(payment.amount) */,
+      paid: null,
       settings: {
         notifications: null,
         etat: null,
@@ -101,6 +90,7 @@ export default function AddReparationView() {
     loadingSave.onTrue();
     console.log(data);
   });
+
   return (
     <DashboardContent>
       <CustomBreadcrumbs
@@ -117,6 +107,7 @@ export default function AddReparationView() {
           <ClientFormView />
           <Divider />
           <ArticleFormView />
+          <Divider />
           <PaymentFormView />
         </Card>
         <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
