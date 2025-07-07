@@ -1,34 +1,37 @@
+import React, { useState, useCallback } from 'react';
+
+import Grid from '@mui/material/Unstable_Grid2';
 import {
-  Autocomplete,
-  Avatar,
   Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
   Fab,
-  FormControl,
-  MenuItem,
-  Select,
+  Card,
+  Link,
   Table,
+  Avatar,
+  Button,
+  Divider,
+  TableRow,
   TableBody,
   TableCell,
-  TableRow,
   TextField,
+  CardHeader,
   Typography,
+  CardContent,
+  FormControl,
+  Autocomplete,
 } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-import React, { useCallback, useState } from 'react';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { Field } from 'src/components/hook-form';
+
+import { paths } from 'src/routes/paths';
+
+import { fDate } from 'src/utils/format-time';
+import { fCurrency } from 'src/utils/format-number';
+
+import { DashboardContent } from 'src/layouts/dashboard';
+
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import { TableHeadCustom } from 'src/components/table';
-import { DashboardContent } from 'src/layouts/dashboard';
-import { paths } from 'src/routes/paths';
-import { fCurrency } from 'src/utils/format-number';
-import { fDate } from 'src/utils/format-time';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
 const TABLE_HEAD = [
   { id: 'coverUrl', label: 'Image' },
@@ -170,6 +173,7 @@ export default function ProductCommandeAdd() {
                                 onChange={(_, newValue) => handleArticlesChange(newValue, index)}
                                 renderInput={(params) => <TextField {...params} label="Article" />}
                               />
+                              <Link target="_blank" variant='caption' href="#">Consulter l&apos;article(sur le site du fournisseur)</Link>
                             </FormControl>
                           </TableCell>
                           <TableCell>

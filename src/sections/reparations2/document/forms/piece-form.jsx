@@ -16,11 +16,14 @@ export default function PieceForm({ index: formIndex, formId, onRemove }) {
 
       <Grid container spacing={2}>
         <Grid xs={12} md={4}>
+          <Stack spacing={1.5} direction="row">
           <Field.Text
             size="small"
             name={`products[${formIndex}].piece[${formIndex}].nom`}
             label="Pièce à changer / Article:"
           />
+          <Button variant="contained">+</Button>
+          </Stack>
         </Grid>
         <Grid xs={12} md={4}>
           <Field.Text

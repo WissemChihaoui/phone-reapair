@@ -1,16 +1,19 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import { useFieldArray, useFormContext } from 'react-hook-form';
+
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
+  Stack,
   Button,
   Divider,
-  Stack,
+  Accordion,
   Typography,
+  AccordionDetails,
+  AccordionSummary,
 } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+
 import { Iconify } from 'src/components/iconify';
+
 import SingleArticleForm from '../single-article-form';
 
 export default function ArticleFormView() {

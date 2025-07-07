@@ -2,9 +2,10 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import ProductStockageView from 'src/sections/product/view/stockage/product-stockage-view';
+import RegroupementPageView from 'src/sections/product/view/regroupement/regroupement-page-view';
 
-const metadata = { title: `Casiers de stockage - ${CONFIG.appName}` };
+
+const metadata = { title: `Regroupement - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -12,7 +13,7 @@ export default function Page() {
       <Helmet>
         <title>{metadata.title}</title>
       </Helmet>
-      <ProductStockageView />
+      <RegroupementPageView />
     </>
   );
 }

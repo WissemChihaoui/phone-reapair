@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
-import { ProductCreateView, ProductListView } from 'src/sections/product/view';
-import { UserListView } from 'src/sections/user/view';
+
+import { ProductCreateView } from 'src/sections/product/view';
 
 // import { UserListView } from 'src/sections/user/view';
 

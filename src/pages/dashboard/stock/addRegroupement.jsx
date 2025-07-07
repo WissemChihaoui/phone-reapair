@@ -2,9 +2,9 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import ProductCommandeAdd from 'src/sections/product/view/commandes/product-commande-add';
+import RegroupementAddView from 'src/sections/product/view/regroupement/regroupement-add-view';
 
-const metadata = { title: `Ajouter Commande | Tableau de bord - ${CONFIG.appName}` };
+const metadata = { title: `Ajouter Regroupement | Tableau de bord - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -12,7 +12,7 @@ export default function Page() {
       <Helmet>
         <title> {metadata.title}</title>
       </Helmet>
-      <ProductCommandeAdd />
+      <RegroupementAddView />
     </>
   );
 }

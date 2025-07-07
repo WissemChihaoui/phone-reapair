@@ -14,22 +14,21 @@ import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Form, Field, schemaHelper } from 'src/components/hook-form';
+import { Grid, Table, Button, TableRow, TableBody, TableCell, CardContent } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
+import { fDate, today } from 'src/utils/format-time';
+
 import {
   _tags,
-  
   PRODUCT_CATEGORY_GROUP_OPTIONS,
 } from 'src/_mock';
 
 import { toast } from 'src/components/snackbar';
-import { Button, CardContent, Grid, Table, TableBody, TableCell, TableRow } from '@mui/material';
 import { TableHeadCustom } from 'src/components/table';
-import { fDate, today } from 'src/utils/format-time';
-import { label } from 'yet-another-react-lightbox';
+import { Form, Field, schemaHelper } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -79,6 +78,7 @@ export function ProductNewEditForm({ currentProduct }) {
       refInterne: currentProduct?.refInterne || '',
       refFournisseur: currentProduct?.refFournisseur || '',
       ean: currentProduct?.ean || '',
+      link: currentProduct?.link || '',
       quantity: currentProduct?.quantity || 0,
       garantie: currentProduct?.garantie || 0,
       isGarantieVisible: currentProduct?.isGarantieVisible || false,
@@ -289,7 +289,11 @@ export function ProductNewEditForm({ currentProduct }) {
           <Field.DatePicker name="dateAchat" label="Date d'achat" />
 
           <Field.Text name="facture" label="N° Facture" />
+          
         </Box>
+        <Box >
+            <Field.Text name="link" label="Lien d'article" helperText="Sur le site du fournisseur"/>
+          </Box>
       </Stack>
     </Card>
   );

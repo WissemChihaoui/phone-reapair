@@ -1,21 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 
+import { Fab } from '@mui/material';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import {
   DataGrid,
   gridClasses,
+  GridToolbar,
   GridToolbarExport,
-  GridActionsCellItem,
   GridToolbarContainer,
   GridToolbarQuickFilter,
-  GridToolbarFilterButton,
   GridToolbarColumnsButton,
-  GridFilterInputSingleSelect,
-  GridToolbar,
 } from '@mui/x-data-grid';
-import { Fab } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -35,15 +32,15 @@ import { ConfirmDialog } from 'src/components/custom-dialog';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
 import { ProductTableToolbar } from '../../product-table-toolbar';
+import { ProductQuantityAdjust } from '../../product-quantity-adjust';
 import { ProductTableFiltersResult } from '../../product-table-filters-result';
 import {
   RenderCellStock,
   RenderCellPrice,
-  RenderCellProduct,
   RenderRefInterne,
+  RenderCellProduct,
   RenderCellPriceBuy,
 } from '../../product-table-row';
-import { ProductQuantityAdjust } from '../../product-quantity-adjust';
 
 // ----------------------------------------------------------------------
 
@@ -313,6 +310,7 @@ export function ProductListView() {
             { name: 'Liste des articles' },
           ]}
           action={
+            <Stack spacing={2} flexDirection="row">
             <Button
               component={RouterLink}
               variant="contained"
@@ -321,6 +319,8 @@ export function ProductListView() {
             >
               Ajouter un article
             </Button>
+            <Button variant='outlined' startIcon={<Iconify icon="solar:import-bold" />}>Importer</Button>
+            </Stack>
           }
           sx={{ mb: { xs: 3, md: 5 } }}
         />
