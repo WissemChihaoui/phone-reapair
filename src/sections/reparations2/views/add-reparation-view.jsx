@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { LoadingButton } from '@mui/lab';
-import { Card, Stack, Divider } from '@mui/material';
+import { Card, Stack, Button, Divider } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 
@@ -16,9 +16,12 @@ import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import ClientFormView from '../forms/client-form-view';
 import ArticleFormView from '../forms/article-form-view';
 import PaymentFormView from '../forms/payment-form-view';
+import NotificationsSettingsModal from '../notifications-settings-modal';
 
 export default function AddReparationView() {
   const loadingSave = useBoolean();
+  const openSettings = useBoolean();
+
   const defaultValues = useMemo(
     () => ({
       id: null,
@@ -111,6 +114,9 @@ export default function AddReparationView() {
           <PaymentFormView />
         </Card>
         <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
+          <Button variant="contained" size="large" onClick={() => openSettings.onTrue()}>
+            Paramètres des notifications
+          </Button>
           <LoadingButton
             color="inherit"
             size="large"
@@ -121,6 +127,7 @@ export default function AddReparationView() {
             Enregistrer
           </LoadingButton>
         </Stack>
+        <NotificationsSettingsModal open={openSettings.value} onClose={openSettings.onFalse} />
       </Form>
     </DashboardContent>
   );

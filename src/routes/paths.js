@@ -79,6 +79,7 @@ export const paths = {
     },
     stock: {
       root: `${ROOTS.DASHBOARD}/stock`,
+      import: `${ROOTS.DASHBOARD}/stock/import`,
       categories: `${ROOTS.DASHBOARD}/stock/categories`,
       stockage: `${ROOTS.DASHBOARD}/stock/stockage`,
       fournisseurs: `${ROOTS.DASHBOARD}/stock/fournisseurs`,

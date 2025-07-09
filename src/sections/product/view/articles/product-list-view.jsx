@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { Fab } from '@mui/material';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { Fab, Input, InputLabel, MenuItem, MenuList } from '@mui/material';
 import {
   DataGrid,
   gridClasses,
@@ -30,6 +30,7 @@ import { Iconify } from 'src/components/iconify';
 import { EmptyContent } from 'src/components/empty-content';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 import { ProductTableToolbar } from '../../product-table-toolbar';
 import { ProductQuantityAdjust } from '../../product-quantity-adjust';
@@ -58,6 +59,7 @@ const HIDE_COLUMNS_TOGGLABLE = ['category', 'actions'];
 export function ProductListView() {
   const confirmRows = useBoolean();
   const confirmRow = useBoolean();
+  const popover = usePopover();
 
   const router = useRouter();
 
@@ -198,8 +200,8 @@ export function ProductListView() {
           <Fab
             whileTap="tap"
             whileHover="hover"
-            color='primary'
-            size='small'
+            color="primary"
+            size="small"
             onClick={() => handleEditRow(params.row.id)}
           >
             <Iconify icon="solar:eye-bold" />
@@ -207,8 +209,8 @@ export function ProductListView() {
           <Fab
             whileTap="tap"
             whileHover="hover"
-            color='success'
-            size='small'
+            color="success"
+            size="small"
             onClick={() => handleAdjust(params.row)}
           >
             <Iconify icon="solar:pen-bold" />
@@ -216,8 +218,8 @@ export function ProductListView() {
           <Fab
             whileTap="tap"
             whileHover="hover"
-            color='warning'
-            size='small'
+            color="warning"
+            size="small"
             onClick={() => handleDuplicateRow(params.row.id)}
           >
             <Iconify icon="solar:copy-bold-duotone" />
@@ -225,8 +227,8 @@ export function ProductListView() {
           <Fab
             whileTap="tap"
             whileHover="hover"
-            color='error'
-            size='small'
+            color="error"
+            size="small"
             onClick={() => showDeleteModal(params.row)}
           >
             <Iconify icon="solar:trash-bin-trash-bold" />
@@ -291,13 +293,33 @@ export function ProductListView() {
       editable: true,
       renderCell: (params) => <RenderCellPriceBuy params={params} />,
     },
-    
   ];
 
   const getTogglableColumns = () =>
     columns
       .filter((column) => !HIDE_COLUMNS_TOGGLABLE.includes(column.field))
       .map((column) => column.field);
+
+  const handleCsvDownload = () => {
+    const csvContent = 'category,name,sousCategory,refInterne,inventoryType,price,buy_price\n';
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'template_articles.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleCsvImport = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === 'text/csv') {
+      toast.success(`Fichier CSV "${file.name}" prêt à être importé.`);
+    } else {
+      toast.error('Veuillez sélectionner un fichier CSV valide.');
+    }
+  };
 
   return (
     <>
@@ -311,15 +333,29 @@ export function ProductListView() {
           ]}
           action={
             <Stack spacing={2} flexDirection="row">
-            <Button
-              component={RouterLink}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-              href={paths.dashboard.stock.addArticle}
-            >
-              Ajouter un article
-            </Button>
-            <Button variant='outlined' startIcon={<Iconify icon="solar:import-bold" />}>Importer</Button>
+              <Button
+                component={RouterLink}
+                variant="contained"
+                startIcon={<Iconify icon="mingcute:add-line" />}
+                href={paths.dashboard.stock.addArticle}
+              >
+                Ajouter un article
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={popover.onOpen}
+                startIcon={<Iconify icon="solar:import-bold" />}
+              >
+                Importer CSV
+              </Button>
+              <Button
+                variant="outlined"
+                LinkComponent={RouterLink}
+                href={paths.dashboard.stock.import}
+                startIcon={<Iconify icon="solar:import-bold" />}
+              >
+                Importer
+              </Button>
             </Stack>
           }
           sx={{ mb: { xs: 3, md: 5 } }}
@@ -420,6 +456,24 @@ export function ProductListView() {
           </Button>
         }
       />
+
+      <CustomPopover open={popover.open} anchorEl={popover.anchorEl} onClose={popover.onClose}>
+        <MenuList>
+          <MenuItem onClick={handleCsvDownload}>Télécharger format</MenuItem>
+          <MenuItem>
+            <InputLabel htmlFor="csv-import" style={{ cursor: 'pointer', width: '100%' }}>
+              Importer le fichier CSV
+            </InputLabel>
+            <Input
+              id="csv-import"
+              type="file"
+              inputProps={{ accept: '.csv' }}
+              sx={{ display: 'none' }}
+              onChange={handleCsvImport}
+            />
+          </MenuItem>
+        </MenuList>
+      </CustomPopover>
     </>
   );
 }
@@ -461,7 +515,7 @@ function CustomToolbar({
           )}
 
           <GridToolbarColumnsButton />
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <GridToolbarExport />
+          <GridToolbarExport />
         </Stack>
       </GridToolbarContainer>
 

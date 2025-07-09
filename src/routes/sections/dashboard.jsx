@@ -21,6 +21,7 @@ const UserList = lazy(() => import('src/pages/dashboard/client'));
 const AddUser = lazy(() => import('src/pages/dashboard/client/add'));
 
 const Articles = lazy(() => import('src/pages/dashboard/stock'));
+const ImportArticle = lazy(() => import('src/pages/dashboard/stock/import-article'));
 const AddArticle = lazy(() => import ('src/pages/dashboard/stock/addArticle'));
 const EditArticle = lazy(() => import ('src/pages/dashboard/stock/editArticle'));
 const DuplicateArticle = lazy(() => import ('src/pages/dashboard/stock/duplicateArticle'));
@@ -118,8 +119,8 @@ export const dashboardRoutes = [
         path: 'reparations',
         children: [
           {element:<Reparations />, index: true},
-          {element:<AddReparations />, path: 'add'},
-          {element:<AddReparations2 />, path: 'add2'},
+          {element:<AddReparations />, path: 'add2'},
+          {element:<AddReparations2 />, path: 'add'},
           {element:<DisplayReparations />, path: ':id/display'},
         ]
       },
@@ -134,6 +135,7 @@ export const dashboardRoutes = [
         path: 'stock',
         children: [
           {element: <Articles />, index:true},
+          {element: <ImportArticle />, path: 'import'},
           {element: <AddArticle />, path:'add'},
           {element: <EditArticle />, path:':id/edit'},
           {element: <DuplicateArticle />, path:':id/duplicate'},

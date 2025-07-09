@@ -11,11 +11,8 @@ import { fCurrency } from 'src/utils/format-number';
 import { Field } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
 
-import NotificationsSettingsModal from '../notifications-settings-modal';
-
 const _methodes = ['Virement', 'Éspece'];
 export default function PaymentFormView() {
-  const openSettings = useBoolean();
   const { control } = useFormContext();
 
   const isEligible = useBoolean(false);
@@ -49,35 +46,9 @@ export default function PaymentFormView() {
   };
 
   return (
-    <>
-      <Box sx={{ p: 3, display: 'flex', alignItems: 'flex-start' }}>
-        <Stack spacing={2} alignItems="flex-start" sx={{ textAlign: 'left', typography: 'body2' }}>
-          <Stack direction="row">
-            <Box sx={{ width: 160, color: 'text.secondary' }}>Total</Box>
-            <Box sx={{ typography: 'subtitle2' }}>{fCurrency(totaleHT)}</Box>
-          </Stack>
-
-          <Stack direction="row">
-            <Box sx={{ width: 160, color: 'text.secondary' }}>Remise (€)</Box>
-            <Box sx={{ color: 'error.main' }}>{`- ${fCurrency(totaleRemiseEuros)}`}</Box>
-          </Stack>
-
-          <Stack direction="row">
-            <Box sx={{ width: 160, color: 'text.secondary' }}>Remise (%)</Box>
-            <Box sx={{ color: 'error.main' }}>{`- ${totaleRemisePercent}%`}</Box>
-          </Stack>
-          <Stack direction="row">
-            <Box sx={{ width: 160, color: 'text.secondary' }}>Total aprés remise </Box>
-            <Box sx={{ color: 'error.main' }}>{`- ${totaleRemiseEuros } %`}</Box>
-          </Stack>
-
-          <Stack direction="row" sx={{ typography: 'subtitle1' }}>
-            <Box sx={{ width: 160 }}>Total</Box>
-            <Box>{fCurrency(900)}</Box>
-          </Stack>
-        </Stack>
-        <Divider orientation="vertical" variant="middle" flexItem sx={{ mx: 4 }} />
-        <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, display: 'flex', alignItems: 'flex-start' }}>
+       
+        <Box sx={{ p: 3, flex: 1 }}>
           <FormControlLabel
             control={
               <Checkbox size="small" checked={isEligible.value} onChange={isEligible.onToggle} />
@@ -148,19 +119,26 @@ export default function PaymentFormView() {
           </Stack>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem sx={{ mx: 4 }} />
+         
         <Stack
           spacing={2}
           alignItems="flex-end"
           sx={{ mt: 3, textAlign: 'right', typography: 'body2' }}
         >
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={() => openSettings.onTrue()}
-            sx={{ mb: 2 }}
-          >
-            Paramètres des notifications
-          </Button>
+          <Stack direction="row">
+            <Box sx={{ color: 'text.secondary' }}>Total</Box>
+            <Box sx={{ width: 160 ,typography: 'subtitle2' }}>{fCurrency(totaleHT)}</Box>
+          </Stack>
+
+          <Stack direction="row">
+            <Box sx={{ color: 'text.secondary' }}>Remise (€)</Box>
+            <Box sx={{ width: 160 ,color: 'error.main' }}>{`- ${fCurrency(totaleRemiseEuros)}`} ({`- ${totaleRemisePercent}%`})</Box>
+          </Stack>
+
+          <Stack direction="row">
+            <Box sx={{ color: 'text.secondary' }}>Total aprés remise </Box>
+            <Box sx={{ width: 160 ,color: 'error.main' }}>{`${fCurrency(totaleHT - totaleRemiseEuros) }`}</Box>
+          </Stack>
           <Stack direction="row">
             <Box sx={{ color: 'text.secondary' }}>Montant Payé</Box>
             <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(700) || '-'}</Box>
@@ -171,7 +149,5 @@ export default function PaymentFormView() {
           </Stack>
         </Stack>
       </Box>
-      <NotificationsSettingsModal open={openSettings.value} onClose={openSettings.onFalse} />
-    </>
   );
 }

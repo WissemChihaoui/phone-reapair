@@ -5,7 +5,7 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Field } from 'src/components/hook-form'
 
 export default function NotificationsSettingsModal({ open, onClose}) {
-    const { control, setValue, watch } = useFormContext();
+    // const { control, setValue, watch } = useFormContext();
     
   return (
     <Dialog maxWidth='lg' fullWidth open={open} onClose={onClose}>
