@@ -79,7 +79,7 @@ function AddServiceDialog({ open, onClose }) {
       title: "",
       refInterne :"",
       ean :"",
-      tva :"",
+      tva :"1",
       priceVenteTtc :"",
       priceVenteHt :"",
       valeurTva :"",
@@ -130,30 +130,29 @@ function AddServiceDialog({ open, onClose }) {
           >
             <Stack spacing={2} py={2}>
               <Field.Text label="Libellé" name="title" />
-              {/* <Field.Select name="category" label="Catégorie">
-                <MenuItem value="1">Catégorie 1</MenuItem>
-              </Field.Select> */}
-              {/* <Field.Select name="sousCategory" label="Sous Catégorie">
-                <MenuItem value="1">Sous Catégorie 1</MenuItem>
-              </Field.Select> */}
-              {/* <Field.Select name="fournisseur" label="Fournisseur">
-                <MenuItem value="1">Fournisseur 1</MenuItem>
-              </Field.Select> */}
+              
               <Field.Text label="Réf Interne" name="refInterne" />
-              {/* <Field.Text label="Réf Fournisseur" name="refFournisseur" /> */}
               <Field.Text label="EAN - Code Barre" name="ean" />
               <Field.Select name="tva" label="TVA">
-                <MenuItem value="20">20</MenuItem>
+                
+  <MenuItem value="1">20.00</MenuItem>
+  <MenuItem value="2">10.00</MenuItem>
+  <MenuItem value="3">5.00</MenuItem>
+  <MenuItem value="4">2.00</MenuItem>
+  <MenuItem value="5">8.50</MenuItem>
+  <MenuItem value="6">TVA non applicable</MenuItem>
+  <MenuItem value="9">TVA sur marge</MenuItem>
+  <MenuItem value="10">16.00</MenuItem>
+  <MenuItem value="11">21.00</MenuItem>
+  <MenuItem value="12">7.70</MenuItem>
+  <MenuItem value="13">7.0</MenuItem>
+  <MenuItem value="14">5.50</MenuItem>
               </Field.Select>
             </Stack>
             <Stack spacing={2} py={2}>
               <Field.Text label="Prix Vente TTC" name="priceVenteTtc" />
               <Field.Text label="Prix Vente HT" name="priceVenteHt" />
               <Field.Text label="Valeur du TVA" name="valeurTva" />
-              {/* <Field.Text label="Marge Net" name="margeNet" /> */}
-              {/* <Field.Text label="Quantité" name="qte" /> */}
-              {/* <Field.DatePicker label="Date d'achat" name="date" /> */}
-              {/* <Field.Text label="N° facture" name="facture" /> */}
             </Stack>
           </Box>
         </DialogContent>

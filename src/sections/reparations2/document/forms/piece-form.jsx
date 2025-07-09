@@ -123,7 +123,7 @@ function AddArticleDialog({ open, onClose }) {
       refInterne :"",
       refFournisseur :"",
       ean :"",
-      tva :"",
+      tva :"1",
       priceHtTtc :"",
       priceVenteTtc :"",
       priceVenteHt :"",
@@ -192,7 +192,19 @@ function AddArticleDialog({ open, onClose }) {
               <Field.Text label="Réf Fournisseur" name="refFournisseur" />
               <Field.Text label="EAN - Code Barre" name="ean" />
               <Field.Select name="tva" label="TVA">
-                <MenuItem value="20">20</MenuItem>
+                
+  <MenuItem value="1">20.00</MenuItem>
+  <MenuItem value="2">10.00</MenuItem>
+  <MenuItem value="3">5.00</MenuItem>
+  <MenuItem value="4">2.00</MenuItem>
+  <MenuItem value="5">8.50</MenuItem>
+  <MenuItem value="6">TVA non applicable</MenuItem>
+  <MenuItem value="9">TVA sur marge</MenuItem>
+  <MenuItem value="10">16.00</MenuItem>
+  <MenuItem value="11">21.00</MenuItem>
+  <MenuItem value="12">7.70</MenuItem>
+  <MenuItem value="13">7.0</MenuItem>
+  <MenuItem value="14">5.50</MenuItem>
               </Field.Select>
             </Stack>
             <Stack spacing={2} py={2}>
