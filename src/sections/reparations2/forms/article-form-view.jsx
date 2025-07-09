@@ -19,7 +19,7 @@ import SingleArticleForm from '../single-article-form';
 export default function ArticleFormView() {
   const { control, watch, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({ control, name: 'products' });
-  const [expanded, setExpanded] = useState(null);
+  const [expanded, setExpanded] = useState(`panel0`);
 
   const handleAdd = () => {
     append({});
