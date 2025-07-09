@@ -78,7 +78,7 @@ const FACTURE_TYPE = [
 
 const TABLE_DATA = [
   {
-    id: 1,
+    id: "e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1",
     commande_id: '1',
     client: {
       addressType: 'Home',
@@ -103,7 +103,7 @@ const TABLE_DATA = [
     ],
     date: '2024-12-26T00:00:00+01:00',
     payement: 'Virement',
-    type: 'Réparations',
+    type: 'Vente',
     status: 'Avoir',
   },
   {
@@ -132,7 +132,7 @@ const TABLE_DATA = [
     ],
     date: '2024-12-26T00:00:00+01:00',
     payement: 'Virement',
-    type: 'Réparations',
+    type: 'Reparation',
     status: 'Payé',
   },
 ];

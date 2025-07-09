@@ -47,6 +47,7 @@ const AddRachats = lazy(() => import('src/pages/dashboard/rachat/add'))
 const EditRachats = lazy(() => import('src/pages/dashboard/rachat/edit'))
 
 const Invoice = lazy(() => import('src/pages/dashboard/invoice/index'))
+const InvoicePrint = lazy(() => import('src/pages/dashboard/invoice/print'))
 
 const Caisse = lazy(() => import('src/pages/dashboard/caisse/index'))
 const Depot = lazy(() => import('src/pages/dashboard/caisse/depot'))
@@ -172,7 +173,8 @@ export const dashboardRoutes = [
       {
         path: 'invoice',
         children: [
-          {element: <Invoice />, index: true}
+          {element: <Invoice />, index: true},
+          {element: <InvoicePrint />, path: ':id/print'}
         ]
       },
       {

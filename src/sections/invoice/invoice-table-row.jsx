@@ -2,15 +2,15 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import MenuList from '@mui/material/MenuList';
-import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
+import { Box, Fab, Dialog, Select, Tooltip, TextField, DialogTitle, Autocomplete, DialogActions, DialogContent, OutlinedInput, InputAdornment } from '@mui/material';
+
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
+import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -19,27 +19,30 @@ import { fDate, fTime } from 'src/utils/format-time';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
+import { Scrollbar } from 'src/components/scrollbar';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
-import { Autocomplete, Box, Dialog, DialogActions, DialogContent, DialogTitle, Fab, InputAdornment, OutlinedInput, Select, TextField, Tooltip } from '@mui/material';
-import { Field } from 'src/components/hook-form';
-import { Scrollbar } from 'src/components/scrollbar';
 
 // ----------------------------------------------------------------------
 
-export function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
+export function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow, onPrintRow }) {
   const open = useBoolean();
   const router = useRouter();
+
+  const link = row.type === "Vente" ? paths.dashboard.vente.edit(row.id) : paths.dashboard.reparations.display(row.id)
 
   return (
     <>
       <TableRow hover selected={selected}>
         <TableCell align='right' sx={{ px: 1, whiteSpace: 'nowrap' }}>
             <Stack direction="row" alignItems="center" spacing={1}>
+                <Tooltip title="Imprimer" placement="top" arrow>
+                    <Fab size="small" color="info" href={paths.dashboard.invoice.print(row.id)} LinkComponent={RouterLink}>
+                        <Iconify icon="solar:file-bold" />
+                    </Fab>
+                </Tooltip>
                 <Tooltip title="Modifier" placement="top" arrow>
-                    <Fab size="small" color="warning" onClick={()=>router.push(paths.dashboard.rachat.edit(row.id))}>
+                    <Fab size="small" color="warning" onClick={()=>router.push(link)}>
                         <Iconify icon="solar:pen-bold" />
                     </Fab>
                 </Tooltip>

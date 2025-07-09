@@ -100,120 +100,105 @@ export function InvoicePDF({ invoice, currentStatus }) {
 
   const renderFooter = (
     <View style={[styles.container, styles.footer]} fixed>
-      <View style={{ width: '75%' }}>
-        <Text style={styles.subtitle2}>NOTES</Text>
-        <Text>
-          We appreciate your business. Should you need us to add VAT or extra notes let us know!
-        </Text>
-      </View>
-      <View style={{ width: '25%', textAlign: 'right' }}>
-        <Text style={styles.subtitle2}>Have a question?</Text>
-        <Text>support@abcapp.com</Text>
-      </View>
+      <View style={[styles.footer]} fixed>
+  <Text style={styles.body2}>
+    Je déclare avoir pris connaissance et accepté sans réserves les termes des Conditions Générales de Vente, Prestation et SAV ci-jointes et partie intégrante de la relation contractuelle.
+  </Text>
+</View>
+
+     
     </View>
   );
 
-  const renderInfo = (
-    <View style={[styles.container, styles.mb40]}>
-      <View style={{ width: '50%' }}>
-        <Text style={[styles.subtitle2, styles.mb4]}>Invoice from</Text>
-        <Text style={styles.body2}>{invoiceFrom.name}</Text>
-        <Text style={styles.body2}>{invoiceFrom.fullAddress}</Text>
-        <Text style={styles.body2}>{invoiceFrom.phoneNumber}</Text>
-      </View>
-
-      <View style={{ width: '50%' }}>
-        <Text style={[styles.subtitle2, styles.mb4]}>Invoice to</Text>
-        <Text style={styles.body2}>{invoiceTo.name}</Text>
-        <Text style={styles.body2}>{invoiceTo.fullAddress}</Text>
-        <Text style={styles.body2}>{invoiceTo.phoneNumber}</Text>
-      </View>
+ const renderInfo = (
+  <View style={[styles.container, styles.mb40]}>
+    <View style={{ width: '50%' }}>
+      <Text style={[styles.subtitle2, styles.mb4]}>Entreprise</Text>
+      <Text style={styles.body2}>{invoiceFrom?.name}</Text>
+      <Text style={styles.body2}>{invoiceFrom?.fullAddress}</Text>
+      <Text style={styles.body2}>Phone: {invoiceFrom?.phoneNumber}</Text>
     </View>
-  );
 
-  const renderTime = (
-    <View style={[styles.container, styles.mb40]}>
-      <View style={{ width: '50%' }}>
-        <Text style={[styles.subtitle2, styles.mb4]}>Date create</Text>
-        <Text style={styles.body2}>{fDate(createDate)}</Text>
-      </View>
-      <View style={{ width: '50%' }}>
-        <Text style={[styles.subtitle2, styles.mb4]}>Due date</Text>
-        <Text style={styles.body2}>{fDate(dueDate)}</Text>
-      </View>
+    <View style={{ width: '50%' }}>
+      <Text style={[styles.subtitle2, styles.mb4]}>Informations Client</Text>
+      <Text style={styles.body2}>{invoiceTo?.name}</Text>
+      <Text style={styles.body2}>{invoiceTo?.fullAddress}</Text>
+      <Text style={styles.body2}>Phone: {invoiceTo?.phoneNumber}</Text>
     </View>
-  );
+  </View>
+);
 
-  const renderTable = (
-    <>
-      <Text style={[styles.subtitle1, styles.mb8]}>Invoice details</Text>
+ const renderTime = (
+  <View style={[styles.container, styles.mb40]}>
+    <View style={{ width: '50%' }}>
+      <Text style={[styles.subtitle2, styles.mb4]}>Date</Text>
+      <Text style={styles.body2}>{fDate(createDate)}</Text>
+    </View>
+    <View style={{ width: '50%' }}>
+      {/* Empty or use invoice number, optional */}
+    </View>
+  </View>
+);
 
-      <View style={styles.table}>
-        <View>
-          <View style={styles.row}>
-            <View style={styles.cell_1}>
-              <Text style={styles.subtitle2}>#</Text>
-            </View>
+
+ const renderTable = (
+  <>
+    <Text style={[styles.subtitle1, styles.mb8]}>Détails de la facture</Text>
+
+    <View style={styles.table}>
+      <View>
+        <View style={styles.row}>
+          <View style={styles.cell_1}><Text style={styles.subtitle2}>#</Text></View>
+          <View style={styles.cell_2}><Text style={styles.subtitle2}>Produit</Text></View>
+          <View style={styles.cell_3}><Text style={styles.subtitle2}>Prix HT</Text></View>
+          <View style={styles.cell_4}><Text style={styles.subtitle2}>QTE</Text></View>
+          <View style={styles.cell_4}><Text style={styles.subtitle2}>TVA</Text></View>
+          <View style={[styles.cell_5, { textAlign: 'right' }]}><Text style={styles.subtitle2}>Total TTC</Text></View>
+        </View>
+
+        {items.map((item, index) => (
+          <View key={item.id} style={styles.row}>
+            <View style={styles.cell_1}><Text>{index + 1}</Text></View>
             <View style={styles.cell_2}>
-              <Text style={styles.subtitle2}>Description</Text>
+              <Text style={styles.subtitle2}>{item.title}</Text>
+              <Text>{item.description}</Text>
             </View>
-            <View style={styles.cell_3}>
-              <Text style={styles.subtitle2}>Qty</Text>
-            </View>
-            <View style={styles.cell_4}>
-              <Text style={styles.subtitle2}>Unit price</Text>
-            </View>
+            <View style={styles.cell_3}><Text>{fCurrency(item.price)}</Text></View>
+            <View style={styles.cell_4}><Text>{item.quantity}</Text></View>
+            <View style={styles.cell_4}><Text>{item.tva || '20%'}</Text></View>
             <View style={[styles.cell_5, { textAlign: 'right' }]}>
-              <Text style={styles.subtitle2}>Total</Text>
+              <Text>{fCurrency(item.price * item.quantity)}</Text>
             </View>
           </View>
-        </View>
-
-        <View>
-          {items.map((item, index) => (
-            <View key={item.id} style={styles.row}>
-              <View style={styles.cell_1}>
-                <Text>{index + 1}</Text>
-              </View>
-              <View style={styles.cell_2}>
-                <Text style={styles.subtitle2}>{item.title}</Text>
-                <Text>{item.description}</Text>
-              </View>
-              <View style={styles.cell_3}>
-                <Text>{item.quantity}</Text>
-              </View>
-              <View style={styles.cell_4}>
-                <Text>{item.price}</Text>
-              </View>
-              <View style={[styles.cell_5, { textAlign: 'right' }]}>
-                <Text>{fCurrency(item.price * item.quantity)}</Text>
-              </View>
-            </View>
-          ))}
-
-          {[
-            { name: 'Subtotal', value: subtotal },
-            { name: 'Shipping', value: -shipping },
-            { name: 'Discount', value: -discount },
-            { name: 'Taxes', value: taxes },
-            { name: 'Total', value: totalAmount, styles: styles.h4 },
-          ].map((item) => (
-            <View key={item.name} style={[styles.row, styles.noBorder]}>
-              <View style={styles.cell_1} />
-              <View style={styles.cell_2} />
-              <View style={styles.cell_3} />
-              <View style={styles.cell_4}>
-                <Text style={item.styles}>{item.name}</Text>
-              </View>
-              <View style={[styles.cell_5, { textAlign: 'right' }]}>
-                <Text style={item.styles}>{fCurrency(item.value)}</Text>
-              </View>
-            </View>
-          ))}
-        </View>
+        ))}
       </View>
-    </>
-  );
+
+      {/* Totals */}
+      <View>
+        {[
+          { name: 'Total HT', value: subtotal },
+          { name: 'Total TVA', value: taxes },
+          { name: 'Total TTC', value: totalAmount },
+          { name: 'Règlement Espèce', value: -shipping },
+          { name: 'Total réglé', value: -shipping },
+          { name: 'Total à régler', value: -discount },
+          { name: 'Montant Total', value: totalAmount, styles: styles.h4 },
+        ].map((item) => (
+          <View key={item.name} style={[styles.row, styles.noBorder]}>
+            <View style={styles.cell_1} />
+            <View style={styles.cell_2} />
+            <View style={styles.cell_3} />
+            <View style={styles.cell_4}><Text style={item.styles}>{item.name}</Text></View>
+            <View style={[styles.cell_5, { textAlign: 'right' }]}>
+              <Text style={item.styles}>{fCurrency(item.value)}</Text>
+            </View>
+          </View>
+        ))}
+      </View>
+    </View>
+  </>
+);
+
 
   return (
     <Document>

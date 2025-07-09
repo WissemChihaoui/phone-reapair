@@ -109,7 +109,8 @@ export const paths = {
     },
 
     invoice: {
-      root: `${ROOTS.DASHBOARD}/invoice`
+      root: `${ROOTS.DASHBOARD}/invoice`,
+      print: (id) =>`${ROOTS.DASHBOARD}/invoice/${id}/print`
     },
     caisse: {
       root: `${ROOTS.DASHBOARD}/caisse`,
