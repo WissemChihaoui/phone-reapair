@@ -53,22 +53,26 @@ export default function PaymentFormView() {
       <Box sx={{ p: 3, display: 'flex', alignItems: 'flex-start' }}>
         <Stack spacing={2} alignItems="flex-start" sx={{ textAlign: 'left', typography: 'body2' }}>
           <Stack direction="row">
-            <Box sx={{ width: 160, color: 'text.secondary' }}>Totale HT</Box>
+            <Box sx={{ width: 160, color: 'text.secondary' }}>Total</Box>
             <Box sx={{ typography: 'subtitle2' }}>{fCurrency(totaleHT)}</Box>
           </Stack>
 
           <Stack direction="row">
-            <Box sx={{ width: 160, color: 'text.secondary' }}>Totale Remise (€)</Box>
+            <Box sx={{ width: 160, color: 'text.secondary' }}>Remise (€)</Box>
             <Box sx={{ color: 'error.main' }}>{`- ${fCurrency(totaleRemiseEuros)}`}</Box>
           </Stack>
 
           <Stack direction="row">
-            <Box sx={{ width: 160, color: 'text.secondary' }}>Totale Remise (%)</Box>
+            <Box sx={{ width: 160, color: 'text.secondary' }}>Remise (%)</Box>
             <Box sx={{ color: 'error.main' }}>{`- ${totaleRemisePercent}%`}</Box>
+          </Stack>
+          <Stack direction="row">
+            <Box sx={{ width: 160, color: 'text.secondary' }}>Total aprés remise </Box>
+            <Box sx={{ color: 'error.main' }}>{`- ${totaleRemiseEuros } %`}</Box>
           </Stack>
 
           <Stack direction="row" sx={{ typography: 'subtitle1' }}>
-            <Box sx={{ width: 160 }}>Totale TTC</Box>
+            <Box sx={{ width: 160 }}>Total</Box>
             <Box>{fCurrency(900)}</Box>
           </Stack>
         </Stack>
@@ -162,7 +166,7 @@ export default function PaymentFormView() {
             <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(700) || '-'}</Box>
           </Stack>
           <Stack direction="row" sx={{ typography: 'subtitle1' }}>
-            <div>Rester :</div>
+            <div>Total Restant :</div>
             <Box sx={{ width: 160 }}>{fCurrency(200) || '-'}</Box>
           </Stack>
         </Stack>
