@@ -10,7 +10,7 @@ import { Iconify } from 'src/components/iconify';
 export default function OeuvreForm({ index: formIndex, formId, onRemove }) {
   return (
     <Stack spacing={2}>
-      <Typography variant="subtitle1">Main d&apos;oeuvre</Typography>
+      {/* <Typography variant="subtitle1">Main d&apos;oeuvre</Typography> */}
 
       <Grid container spacing={2} key={formId}>
         <Grid xs={12} md={8}>

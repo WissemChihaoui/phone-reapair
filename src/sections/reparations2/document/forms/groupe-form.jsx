@@ -17,7 +17,7 @@ const OPTIONS = [
 export default function GroupeForm({ index: formIndex, formId, onRemove }) {
   return (
     <Stack spacing={2}>
-      <Typography variant="subtitle1">Regroupement</Typography>
+      {/* <Typography variant="subtitle1">Regroupement</Typography> */}
 
       <Grid container spacing={2} key={formId}>
         <Grid xs={12} md={6}>

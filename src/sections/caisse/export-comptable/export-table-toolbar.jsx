@@ -11,10 +11,15 @@ import { formHelperTextClasses } from '@mui/material/FormHelperText';
 
 import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
-import { FormControl, InputLabel, OutlinedInput, Select } from '@mui/material';
+import { Button, FormControl, InputLabel, OutlinedInput, Select } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
+const listStatus = [
+  { value: 'all', label: 'Tous' },
+  { value: 'Réparation', label: 'Réparation' },
+  { value: 'Vente', label: 'Vente' },
+];
 export function ExportTableToolbar({ filters, onResetPage, dateError }) {
   const popover = usePopover();
 
@@ -67,7 +72,9 @@ export function ExportTableToolbar({ filters, onResetPage, dateError }) {
             textField: {
               fullWidth: true,
               error: dateError,
-              helperText: dateError ? 'La date de fin doit être postérieure à la date de début' : null,
+              helperText: dateError
+                ? 'La date de fin doit être postérieure à la date de début'
+                : null,
             },
           }}
           sx={{
@@ -80,28 +87,30 @@ export function ExportTableToolbar({ filters, onResetPage, dateError }) {
         />
 
         <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
-            <FormControl sx={{ flexShrink: 0, width: { xs: 1} }}>
-                <InputLabel htmlFor="user-filter-role-select-label">Type</InputLabel>
-                <Select
-                    fullWidth
-                    value={filters.state.type}
-                    onChange={handleFilterRole}
-                    input={<OutlinedInput label="Type" />}
-                    renderValue={(selected) => selected}
-                    inputProps={{ id: 'user-filter-role-select-label' }}
-                    MenuProps={{ PaperProps: { sx: { maxHeight: 240 } } }}
-                >
-                    {['Réparation', 'Vente'].map((option) => (
-                        <MenuItem key={option} value={option}>
-                            {option}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+          <FormControl sx={{width: { xs: 1 } }}>
+            <InputLabel htmlFor="user-filter-role-select-label">Type</InputLabel>
+            <Select
+              fullWidth
+              value={filters.state.type}
+              onChange={handleFilterRole}
+              input={<OutlinedInput label="Type" />}
+              renderValue={(selected) => {
+                const selectedOption = listStatus.find((option) => option.value === selected);
+                return selectedOption ? selectedOption.label : '';
+              }}
+              inputProps={{ id: 'user-filter-role-select-label' }}
+              MenuProps={{ PaperProps: { sx: { maxHeight: 240 } } }}
+            >
+              {listStatus.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-          <IconButton onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
+        <IconButton color='primary'><Iconify icon="material-symbols:csv-outline" /></IconButton>
+        <IconButton color='primary'><Iconify icon="tabler:pdf" /></IconButton>
         </Stack>
       </Stack>
 

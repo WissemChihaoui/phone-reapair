@@ -140,7 +140,7 @@ export function ExportListView() {
   console.log(tableData);
 
   const filters = useSetState({
-    type: '',
+    type: 'all',
     status: 'all',
     startDate: null,
     endDate: null,
@@ -158,7 +158,7 @@ export function ExportListView() {
   const dataInPage = rowInPage(dataFiltered, table.page, table.rowsPerPage);
 
   const canReset =
-    !!filters.state.type ||
+    !!filters.state.type !== 'all' ||
     filters.state.status !== 'all' ||
     (!!filters.state.startDate && !!filters.state.endDate);
 
@@ -400,7 +400,7 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
 
   inputData = stabilizedThis.map((el) => el[0]);
 
-  if(type){
+  if(type !== 'all '){
     inputData = inputData.filter((order) => order.type.toLowerCase === type.toLowerCase)
   }
 

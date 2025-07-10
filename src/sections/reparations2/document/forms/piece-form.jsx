@@ -2,7 +2,7 @@ import { z as zod } from 'zod';
 import { toast } from 'sonner';
 import React, { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, useFieldArray, useFormContext } from 'react-hook-form';
+import { useForm, useFormContext } from 'react-hook-form';
 
 import { LoadingButton } from '@mui/lab';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -12,7 +12,6 @@ import {
   Button,
   Dialog,
   MenuItem,
-  Typography,
   DialogTitle,
   DialogContent,
   DialogActions,
@@ -31,7 +30,7 @@ export default function PieceForm({ index: formIndex, formId, onRemove }) {
   return (
     <>
       <Stack spacing={2}>
-        <Typography variant="subtitle1">Piéce à changer</Typography>
+        {/* <Typography variant="subtitle1">Piéce à changer</Typography> */}
 
         <Grid container spacing={2}>
           <Grid xs={12} md={4}>

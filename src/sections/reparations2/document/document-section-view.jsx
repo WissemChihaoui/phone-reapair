@@ -263,12 +263,14 @@ function SubtotalCard({ formId, onRemove }) {
         size="small"
         color="error"
         onClick={() => onRemove(formId)}
-        sx={{ position: 'absolute', top: 8, right: 8 }}
+        sx={{ position: 'absolute', top: 0, left: 8 }}
       >
         <Iconify icon="solar:trash-bin-trash-bold" />
       </IconButton>
 
-      <Typography variant="subtitle2">Sous-total HT : 123,00 €</Typography>
+      <Stack alignItems="flex-end">
+        <Typography variant="subtitle2">Sous-total HT : 123,00 €</Typography>
+      </Stack>
     </Box>
   );
 }
@@ -281,12 +283,13 @@ function TotalCard({ formId, onRemove }) {
         size="small"
         color="error"
         onClick={() => onRemove(formId)}
-        sx={{ position: 'absolute', top: 8, right: 8 }}
+        sx={{ position: 'absolute', top: 0, left: 8 }}
       >
         <Iconify icon="solar:trash-bin-trash-bold" />
       </IconButton>
-
-      <Typography variant="subtitle1">TOTAL : 456,00 €</Typography>
+      <Stack alignItems="flex-end">
+        <Typography variant="subtitle1">TOTAL : 456,00 €</Typography>
+      </Stack>
     </Box>
   );
 }
