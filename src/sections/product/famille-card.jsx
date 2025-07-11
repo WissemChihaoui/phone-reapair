@@ -1,37 +1,14 @@
 import React from 'react';
-
-import {
-  Card, Stack, Button, TextField, IconButton, Typography
-} from '@mui/material';
-
+import { Card, Stack, TextField, IconButton } from '@mui/material';
 import { Iconify } from 'src/components/iconify';
-
-import DenominationItem from './denomination-item';
-
 
 export default function FamilleCard({ data, onChange, onDelete }) {
   const handleNameChange = (e) => {
     onChange({ ...data, name: e.target.value });
   };
 
-  const handleAddDenomination = () => {
-    const updated = {
-      ...data,
-      denominations: [...data.denominations || [], { id: Date.now(), label: '' }]
-    };
-    onChange(updated);
-  };
-
-  const handleUpdateDenomination = (i, newLabel) => {
-    const updatedDenominations = [...data.denominations];
-    updatedDenominations[i].label = newLabel;
-    onChange({ ...data, denominations: updatedDenominations });
-  };
-
-  const handleRemoveDenomination = (i) => {
-    const updatedDenominations = [...data.denominations];
-    updatedDenominations.splice(i, 1);
-    onChange({ ...data, denominations: updatedDenominations });
+  const handleDenominationChange = (e) => {
+    onChange({ ...data, denomination: e.target.value });
   };
 
   return (
@@ -48,20 +25,13 @@ export default function FamilleCard({ data, onChange, onDelete }) {
         </IconButton>
       </Stack>
 
-      <Stack spacing={2} mt={2}>
-        <Typography variant="subtitle2">Dénomination devant le nom du produit</Typography>
-        {data.denominations?.map((item, index) => (
-          <DenominationItem
-            key={item.id}
-            label={item.label}
-            onChange={(val) => handleUpdateDenomination(index, val)}
-            onDelete={() => handleRemoveDenomination(index)}
-          />
-        ))}
-        <Button onClick={handleAddDenomination} variant="outlined">
-          Ajouter une Dénomination
-        </Button>
-      </Stack>
+      <TextField
+        sx={{ mt: 2 }}
+        fullWidth
+        label="Dénomination devant le nom du produit"
+        value={data.denomination || ''}
+        onChange={handleDenominationChange}
+      />
     </Card>
   );
 }
