@@ -89,6 +89,7 @@ export const paths = {
       destockage: `${ROOTS.DASHBOARD}/stock/destockage`,
       alertStock: `${ROOTS.DASHBOARD}/stock/alert-stock`,
       regroupement: `${ROOTS.DASHBOARD}/stock/regroupement`,
+      famille: `${ROOTS.DASHBOARD}/stock/famille`,
       addRegroupement: `${ROOTS.DASHBOARD}/stock/regroupement/add`,
       editRegroupement: (id)=>`${ROOTS.DASHBOARD}/stock/regroupement/${id}/edit`,
       editCommande: (id) => `${ROOTS.DASHBOARD}/stock/commande/${id}/edit`,

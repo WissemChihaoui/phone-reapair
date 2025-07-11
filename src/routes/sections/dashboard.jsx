@@ -34,6 +34,7 @@ const Commandes = lazy(() => import ('src/pages/dashboard/stock/commandes'));
 const EditCommande = lazy(() => import ('src/pages/dashboard/stock/editCommande'));
 const Destockage = lazy(() => import ('src/pages/dashboard/stock/destockage'));
 const Regroupement = lazy(() => import ('src/pages/dashboard/stock/regroupement'));
+const Famille = lazy(() => import ('src/pages/dashboard/stock/famille'));
 const AddRegroupement = lazy(() => import ('src/pages/dashboard/stock/addRegroupement'));
 const EditRegroupement = lazy(() => import ('src/pages/dashboard/stock/editRegroupement'));
 
@@ -148,6 +149,7 @@ export const dashboardRoutes = [
           {element: <Commandes />, path:'commande'},
           {element: <Destockage />, path:'destockage'},
           {element: <Regroupement />, path:'regroupement'},
+          {element: <Famille />, path:'famille'},
           {element: <AddRegroupement />, path:'regroupement/add'},
           {element: <EditRegroupement />, path:'regroupement/:id/edit'},
           {element: <EditCommande />, path:'commande/:id/edit'},

@@ -8,12 +8,12 @@ export default function LockPadModal({ open, onClose, index, onSubmit }) {
     const { setValue } = useFormContext();
 
   const handleFinish = () => {
-    setValue(`products[${index}].schemaVer`, path)
+    setValue(`articles[${index}].schemaVer`, path)
     onClose();
   };
 
   const handleReset = () => {
-    setValue(`products[${index}].schemaVer`, [])
+    setValue(`articles[${index}].schemaVer`, [])
     setPath([])
   }
 

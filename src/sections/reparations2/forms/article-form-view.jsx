@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import {
@@ -9,7 +9,7 @@ import {
   Accordion,
   Typography,
   AccordionDetails,
-  AccordionSummary,
+  AccordionSummary
 } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
@@ -18,44 +18,82 @@ import SingleArticleForm from '../single-article-form';
 
 export default function ArticleFormView() {
   const { control, watch, setValue } = useFormContext();
-  const { fields, append, remove } = useFieldArray({ control, name: 'products' });
-  const [expanded, setExpanded] = useState(`panel0`);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'articles' // Changed from 'products' to 'articles'
+  });
+  const [expanded, setExpanded] = useState('panel0');
 
-  const handleAdd = () => {
-    append({});
-    setExpanded(null); // Collapse all accordions
+  const handleAddArticle = () => {
+    append({
+      type: "",
+      marque: "",
+      modele: "",
+      serie: "",
+      etat: "",
+      accessoire: "",
+      rapport: {
+        items: [],
+        observation: "",
+      },
+      noteClient: "",
+      noteIntervention: "",
+      noteInterne: "",
+      schemaVer: [],
+      dateRestitution: null,
+      technicien: "",
+      documents: [
+        {
+          id: "",
+          type: "",
+          data: {},
+        },
+      ],
+      total: 0,
+    });
+    setExpanded(`panel${fields.length}`);
   };
 
-  const handleRemove = (index) => {
+  const handleRemoveArticle = (index) => {
     remove(index);
-    setExpanded(null); // Optionally collapse all after removal
+    setExpanded(null);
   };
 
-  const handleAccordionChange = (panel) => (event, isExpanded) => {
+  const handleAccordionChange = (panel) => (_, isExpanded) => {
     setExpanded(isExpanded ? panel : null);
   };
 
-  const total = fields.reduce((sum, field) => sum + (field.total || 0), 0);
-  // const totalRemise = fields.reduce((sum, field) => sum + (parseFloat(field.totalRemise) || 0), 0);
-  const totalRemise = fields.reduce((sum, field) => sum + (parseFloat(field.totalRemise) || 0), 0);
+  // Calculate totals across all articles
+  const calculateTotals = useCallback(() => {
+    const articlesTotal = fields.reduce((sum, article) => sum + (article.total || 0), 0);
+    setValue('total', articlesTotal);
+    
+    // Calculate remaining amount if needed
+    const paid = watch('paid') || 0;
+    const remise = watch('remise') || 0;
+    setValue('rest', articlesTotal - paid - remise);
+  }, [fields, setValue, watch]);
 
-  const setTotalProducts = useCallback(() => {
-    setValue('totalHT', total);
-    setValue('totalRemise', totalRemise);
-    setValue('totalTTC', total - totalRemise);
-  }, [setValue, total, totalRemise]);
-  useEffect(() => {
-    setTotalProducts();
-  }, [total, totalRemise, setTotalProducts, watch]);
+  // Watch for changes and recalculate totals
+  React.useEffect(() => {
+    const subscription = watch((_, { name }) => {
+      if (name?.startsWith('articles') || name === 'paid' || name === 'remise') {
+        calculateTotals();
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, calculateTotals]);
+
   return (
     <Box sx={{ p: 3, bgcolor: 'background.neutral' }}>
       <Typography variant="h6" sx={{ color: 'text.disabled', mb: 3 }}>
-        Article à réparer
+        Articles à réparer
       </Typography>
+      
       <Stack divider={<Divider flexItem sx={{ borderStyle: 'dashed' }} />} spacing={3}>
-        {fields.map((_, index) => (
+        {fields.map((field, index) => (
           <Accordion
-            key={index}
+            key={field.id}
             expanded={expanded === `panel${index}`}
             onChange={handleAccordionChange(`panel${index}`)}
           >
@@ -67,22 +105,31 @@ export default function ArticleFormView() {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography variant="subtitle1">Article {index + 1}</Typography>
+                <Typography variant="subtitle1">
+                  {field.type || `Article ${index + 1}`}
+                </Typography>
                 <Button
                   size="small"
                   color="error"
                   startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
-                  onClick={() => handleRemove(index)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemoveArticle(index);
+                  }}
                 >
                   Supprimer
                 </Button>
               </Stack>
             </AccordionSummary>
             <AccordionDetails>
-              <SingleArticleForm index={index} />
+              <SingleArticleForm 
+                articleIndex={index} 
+                onTotalChange={calculateTotals}
+              />
             </AccordionDetails>
           </Accordion>
         ))}
+
         <Stack
           spacing={3}
           direction={{ xs: 'column', md: 'row' }}
@@ -93,7 +140,7 @@ export default function ArticleFormView() {
             color="primary"
             variant="outlined"
             startIcon={<Iconify icon="mingcute:add-line" />}
-            onClick={handleAdd}
+            onClick={handleAddArticle}
             sx={{ flexShrink: 0 }}
           >
             Ajouter Article

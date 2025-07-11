@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 
 import { LoadingButton } from '@mui/lab';
 import { Card, Stack, Button, Divider } from '@mui/material';
@@ -10,7 +10,6 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import { DashboardContent } from 'src/layouts/dashboard';
 
-import { Form } from 'src/components/hook-form';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
 import ClientFormView from '../forms/client-form-view';
@@ -18,81 +17,101 @@ import ArticleFormView from '../forms/article-form-view';
 import PaymentFormView from '../forms/payment-form-view';
 import NotificationsSettingsModal from '../notifications-settings-modal';
 
+const useRepairFormDefaultValues = () => 
+  useMemo(() => ({
+    id: '',
+    client: {
+      id: '',
+      name: '',
+      fullAddress: '',
+      phoneNumber: '',
+      email: '',
+      company: ''
+    },
+    articles: [
+      {
+        type: "",
+        marque: "",
+        modele: "",
+        serie: "",
+        etat: "",
+        accessoire: "",
+        rapport: {
+          items: [],
+          observation: "",
+        },
+        noteClient: "",
+        noteIntervention: "",
+        noteInterne: "",
+        schemaVer: [],
+        dateRestitution: null,
+        technicien: "",
+        documents: [
+          {
+            id: "",
+            type: "",
+            data: {},
+          },
+        ],
+        total: 0,
+      }
+    ],
+    payement: {
+      quali: false,
+      data: [
+        {
+          remboursement: "",
+          amount: 0,
+          methode: "",
+          date: null,
+        },
+      ],
+    },
+    total: 0,
+    remise: 0,
+    paid: 0,
+    rest: 0,
+    notification: {
+      email: false,
+      sms: false,
+      materiel: false,
+      materielTitle: "",
+      etat: "",
+      delai: "",
+      casier: "",
+      devis: "",
+    },
+  }), []);
+
 export default function AddReparationView() {
   const loadingSave = useBoolean();
   const openSettings = useBoolean();
-
-  const defaultValues = useMemo(
-    () => ({
-      id: null,
-      client: {},
-      products: [
-        {
-          piece: [],
-          oeuvre: [],
-          service: [],
-          regroupements: [],
-          totalPiece: null,
-          totalOeuvre: null,
-          totalService: null,
-          totalHT: null,
-          totalRemise: null,
-          type: '',
-          marque: '',
-          modele: '',
-          serie: '0011',
-          rapport: {
-            observation: '',
-            items: [],
-          },
-          etat: '',
-          accessoire: '',
-          noteClient: '',
-          noteIntervention: '',
-          schemaVer: '',
-          noteInterne: '',
-          dateRestitution: null,
-          technicien: '',
-          dynamicContent: [], // Holds F1/F2/F3/F4 blocks dynamically
-        },
-      ],
-      totalHT: null,
-      totalRemise: null,
-      totalTTC: null,
-      payment: [
-        {
-          method: null,
-          amount: null,
-        },
-      ],
-      paid: null,
-      settings: {
-        notifications: null,
-        etat: null,
-        casier: null,
-        isMateriel: false,
-        materiel: null,
-        delai: null,
-        validity: null,
-      },
-    }),
-    []
-  );
+  const defaultValues = useRepairFormDefaultValues();
 
   const methods = useForm({
-    mode: 'all',
-    defaultValues,
+    mode: 'onBlur',
+    defaultValues
   });
-  const {
-    reset,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
 
-  const save = handleSubmit(async (data) => {
+  const { handleSubmit, formState: { isSubmitting }, reset } = methods;
+
+  const onSubmit = handleSubmit(async (data) => {
     loadingSave.onTrue();
-    console.log(data);
+    try {
+      console.log('Form data:', data);
+      // Add your submission logic here
+      // Example API call:
+      // await api.createRepair(data);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      loadingSave.onFalse();
+    }
   });
+
+  const handleReset = () => {
+    reset(defaultValues);
+  };
 
   return (
     <DashboardContent>
@@ -105,30 +124,56 @@ export default function AddReparationView() {
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
-      <Form methods={methods}>
-        <Card>
-          <ClientFormView />
-          <Divider />
-          <ArticleFormView />
-          <Divider />
-          <PaymentFormView />
-        </Card>
-        <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
-          <Button variant="contained" size="large" onClick={() => openSettings.onTrue()}>
-            Paramètres des notifications
-          </Button>
-          <LoadingButton
-            color="inherit"
-            size="large"
-            variant="outlined"
-            loading={loadingSave.value && isSubmitting}
-            onClick={save}
+
+      <FormProvider {...methods}>
+        <form onSubmit={onSubmit}>
+          <Card sx={{ p: 3 }}>
+            <ClientFormView />
+            <Divider sx={{ my: 3 }} />
+            <ArticleFormView />
+            <Divider sx={{ my: 3 }} />
+            <PaymentFormView />
+          </Card>
+
+          <Stack 
+            justifyContent="flex-end" 
+            direction="row" 
+            spacing={2} 
+            sx={{ mt: 3 }}
           >
-            Enregistrer
-          </LoadingButton>
-        </Stack>
-        <NotificationsSettingsModal open={openSettings.value} onClose={openSettings.onFalse} />
-      </Form>
+            <Button 
+              variant="outlined" 
+              size="large"
+              onClick={handleReset}
+            >
+              Réinitialiser
+            </Button>
+            
+            <Button 
+              variant="contained" 
+              size="large" 
+              onClick={openSettings.onTrue}
+            >
+              Paramètres des notifications
+            </Button>
+            
+            <LoadingButton
+              type="submit"
+              color="primary"
+              size="large"
+              variant="contained"
+              loading={loadingSave.value && isSubmitting}
+            >
+              Enregistrer
+            </LoadingButton>
+          </Stack>
+        </form>
+
+        <NotificationsSettingsModal 
+          open={openSettings.value} 
+          onClose={openSettings.onFalse} 
+        />
+      </FormProvider>
     </DashboardContent>
   );
 }

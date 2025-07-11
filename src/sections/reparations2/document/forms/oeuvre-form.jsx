@@ -1,52 +1,67 @@
-import { useFormContext } from 'react-hook-form';
-import React, { useCallback, useEffect } from 'react';
-
-import Grid from '@mui/material/Unstable_Grid2';
-import { Button, Divider, Stack, Typography } from '@mui/material';
-
-import { Field } from 'src/components/hook-form';
+import React from 'react';
+import { Grid, Stack, Divider, TextField, IconButton, Button } from '@mui/material';
 import { Iconify } from 'src/components/iconify';
 
-export default function OeuvreForm({ index: formIndex, formId, onRemove }) {
-  return (
-    <Stack spacing={2}>
-      {/* <Typography variant="subtitle1">Main d&apos;oeuvre</Typography> */}
+export default function OeuvreForm({ data, onUpdate, onRemove }) {
+  const handleChange = (field) => (e) => {
+    const newData = {
+      ...data,
+      [field]: e.target.value,
+    };
 
-      <Grid container spacing={2} key={formId}>
-        <Grid xs={12} md={8}>
-          <Field.Text
+    // Auto-calculate total when price changes
+    if (field === 'price') {
+      const price = parseFloat(newData.price) || 0;
+      newData.total = price.toFixed(2);
+    }
+
+    onUpdate(newData);
+  };
+
+  return (
+    <Stack spacing={2} sx={{ position: 'relative' }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={8}>
+          <TextField
+            fullWidth
             size="small"
-            name={`products[${formIndex}].oeuvre[${formId}].nom`}
             label="Main d'oeuvre"
+            value={data.nom || ''}
+            onChange={handleChange('nom')}
           />
         </Grid>
-        <Grid xs={12} md={4}>
-          <Field.Text
+        <Grid item xs={12} md={4}>
+          <TextField
+            fullWidth
             size="small"
-            name={`products[${formIndex}].oeuvre[${formId}].price`}
             label="Prix"
             type="number"
+            value={data.price || 0}
+            onChange={handleChange('price')}
           />
         </Grid>
-        <Grid xs={12} md={8}>
-          <Field.Text
+        <Grid item xs={12} md={10}>
+          <TextField
+            fullWidth
             size="small"
-            name={`products[${formIndex}].oeuvre[${formId}].champ`}
             label="Champ libre"
+            value={data.champ || ''}
+            onChange={handleChange('champ')}
           />
         </Grid>
-
-        <Grid xs={12} md={4}>
+        <Grid item xs={12} md={2}>
           <Button
-            variant="outlined"
+            variant="contained"
+            size="small"
             color="error"
-            onClick={() => onRemove(formId)}
+            onClick={onRemove}
             startIcon={<Iconify icon="mdi:delete" />}
           >
             Supprimer
           </Button>
         </Grid>
       </Grid>
+      <Divider sx={{ my: 1 }} />
     </Stack>
   );
 }

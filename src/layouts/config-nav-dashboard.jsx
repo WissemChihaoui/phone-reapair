@@ -51,9 +51,7 @@ const ICONS = {
 
 export const navData = [
   {
-    items:[
-      { title: 'Tableau de bord', path: paths.dashboard.root, icon: ICONS.dashboard },
-    ]
+    items: [{ title: 'Tableau de bord', path: paths.dashboard.root, icon: ICONS.dashboard }],
   },
   {
     subheader: 'Gestion',
@@ -64,51 +62,58 @@ export const navData = [
         icon: ICONS.repaire,
         children: [
           { title: 'Nouvelle réparations', path: paths.dashboard.reparations.add },
-          { title: 'Réparation & Devis', path: paths.dashboard.reparations.root }
+          { title: 'Réparation & Devis', path: paths.dashboard.reparations.root },
         ],
       },
-      { 
+      {
         title: 'Clients',
         path: paths.dashboard.client.root,
         icon: ICONS.users,
         children: [
-          { title: 'Nouveau client', path: paths.dashboard.client.add},
-          { title: 'Liste des clients', path: paths.dashboard.client.root},
-        ]
+          { title: 'Nouveau client', path: paths.dashboard.client.add },
+          { title: 'Liste des clients', path: paths.dashboard.client.root },
+        ],
       },
       {
         title: 'Stock',
         path: paths.dashboard.stock.root,
         icon: ICONS.stock,
         children: [
-          { title: 'Articles', path: paths.dashboard.stock.root},
-          { title: 'Alerte stock', path: paths.dashboard.stock.alertStock},
-          { title: 'Catégories articles', path: paths.dashboard.stock.categories},
-          { title: 'Regroupement', path: paths.dashboard.stock.regroupement},
-          { title: 'Lieu de stockage', path: paths.dashboard.stock.stockage},
-          { title: 'Fournisseurs', path: paths.dashboard.stock.fournisseurs},
-          { title: 'Commandes', path: paths.dashboard.stock.commande},
-          { title: 'Déstockage', path: paths.dashboard.stock.destockage},
-        ]
+          { title: 'Articles', path: paths.dashboard.stock.root },
+          { title: 'Alerte stock', path: paths.dashboard.stock.alertStock },
+          { title: 'Commandes', path: paths.dashboard.stock.commande },
+          { title: 'Déstockage', path: paths.dashboard.stock.destockage },
+          {
+            title: 'Paramétrage',
+            path: paths.dashboard.stock.categories,
+            children: [
+              { title: 'Catégories articles', path: paths.dashboard.stock.categories },
+              { title: 'Regroupement', path: paths.dashboard.stock.regroupement },
+              { title: 'Lieu de stockage', path: paths.dashboard.stock.stockage },
+              { title: 'Fournisseurs', path: paths.dashboard.stock.fournisseurs },
+              { title: 'Famille comptable', path: paths.dashboard.stock.famille },
+            ],
+          },
+        ],
       },
       {
         title: 'Ventes',
         path: paths.dashboard.vente.root,
         icon: ICONS.ecommerce,
         children: [
-          {title:'Nouvelle vente', path: paths.dashboard.vente.add},
-          {title:'Liste des ventes', path: paths.dashboard.vente.root},
-          {title:'Caisse virtuelle', path: paths.dashboard.vente.caisse},
-        ]
+          { title: 'Nouvelle vente', path: paths.dashboard.vente.add },
+          { title: 'Liste des ventes', path: paths.dashboard.vente.root },
+          { title: 'Caisse virtuelle', path: paths.dashboard.vente.caisse },
+        ],
       },
       {
         title: 'Rachat',
         path: paths.dashboard.rachat.root,
         icon: ICONS.rachat,
         children: [
-          {title:'Nouveau rachat', path: paths.dashboard.rachat.add},
-          {title:'Liste des rachats', path: paths.dashboard.rachat.root},
-        ]
+          { title: 'Nouveau rachat', path: paths.dashboard.rachat.add },
+          { title: 'Liste des rachats', path: paths.dashboard.rachat.root },
+        ],
       },
       {
         title: 'Nos factures',
@@ -119,52 +124,52 @@ export const navData = [
   },
   {
     subheader: 'Ma boutique',
-    items:[
+    items: [
       {
         title: 'Caisse',
         path: paths.dashboard.caisse.root,
         icon: ICONS.caisse,
         children: [
-          {title:'Caisse', path: paths.dashboard.caisse.root},
-          {title:'Dépôt bancaire', path: paths.dashboard.caisse.depot},
-          {title:'Export comptable', path: paths.dashboard.caisse.exportComptable},
-          {title:'Export comptable marge', path: paths.dashboard.caisse.exportComptableMarge},
-          {title:'Statistique', path: paths.dashboard.caisse.statistiques},
-        ]
+          { title: 'Caisse', path: paths.dashboard.caisse.root },
+          { title: 'Dépôt bancaire', path: paths.dashboard.caisse.depot },
+          { title: 'Export comptable', path: paths.dashboard.caisse.exportComptable },
+          { title: 'Export comptable marge', path: paths.dashboard.caisse.exportComptableMarge },
+          { title: 'Statistique', path: paths.dashboard.caisse.statistiques },
+        ],
       },
       {
         title: 'Ma Boutique',
         path: paths.dashboard.boutique.root,
         icon: ICONS.boutique,
         children: [
-          {title:'Employées', path: paths.dashboard.boutique.root},
-          {title:'Fonction employeur', path: paths.dashboard.boutique.fonctions},
-          {title:'Partenaires', path: paths.dashboard.boutique.partenaires},
-          {title:'Statut', path: paths.dashboard.boutique.status},
-          {title:'Mode paiements', path: paths.dashboard.boutique.methodes},
-          {title:'Type de client', path: paths.dashboard.boutique.types},
-          {title:'Type de matériel', path: paths.dashboard.boutique.materialTypes},
-          {title:'Conditions', path: paths.dashboard.boutique.conditions},
-          {title:'Configurations', path: paths.dashboard.boutique.configurations},
-          {title:'Impression', path: paths.dashboard.boutique.impression},
-          {title:'Casier de rangement', path: paths.dashboard.boutique.cassierRangements},
-        ]
+          { title: 'Employées', path: paths.dashboard.boutique.root },
+          { title: 'Fonction employeur', path: paths.dashboard.boutique.fonctions },
+          { title: 'Partenaires', path: paths.dashboard.boutique.partenaires },
+          { title: 'Statut', path: paths.dashboard.boutique.status },
+          { title: 'Mode paiements', path: paths.dashboard.boutique.methodes },
+          { title: 'Type de client', path: paths.dashboard.boutique.types },
+          { title: 'Type de matériel', path: paths.dashboard.boutique.materialTypes },
+          { title: 'Conditions', path: paths.dashboard.boutique.conditions },
+          { title: 'Configurations', path: paths.dashboard.boutique.configurations },
+          { title: 'Impression', path: paths.dashboard.boutique.impression },
+          { title: 'Casier de rangement', path: paths.dashboard.boutique.cassierRangements },
+        ],
       },
       {
         title: 'Abonnement',
         icon: ICONS.booking,
         path: paths.dashboard.abonnement.root,
         children: [
-          {title:'Mon abonnement', path: paths.dashboard.abonnement.root},
-          {title: 'Parrainage', path: paths.dashboard.abonnement.parrainage}
-        ]
+          { title: 'Mon abonnement', path: paths.dashboard.abonnement.root },
+          { title: 'Parrainage', path: paths.dashboard.abonnement.parrainage },
+        ],
       },
       {
         title: 'Calendrier',
         icon: ICONS.calendar,
         path: paths.dashboard.calendrier.root,
-      }
-    ]
+      },
+    ],
   },
   /**
    * Overview
@@ -192,5 +197,4 @@ export const navData = [
   /**
    * Management
    */
-  
 ];

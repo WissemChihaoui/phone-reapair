@@ -1,362 +1,158 @@
-import React, { useState } from 'react';
-import Grid from '@mui/material/Unstable_Grid2';
+import React from 'react';
+
 import {
   Box,
-  Card,
+  Grid,
   Stack,
   Button,
-  Typography,
-  CardContent,
+  Divider,
   MenuList,
   MenuItem,
-  Divider,
+  Typography,
   IconButton,
-  TextField,
 } from '@mui/material';
 
-import { CustomPopover, usePopover } from 'src/components/custom-popover';
 import { Iconify } from 'src/components/iconify';
-import { useFormContext, Controller } from 'react-hook-form';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
+
 import PieceForm from './forms/piece-form';
 import OeuvreForm from './forms/oeuvre-form';
-import ServiceForm from './forms/service-form';
 import GroupeForm from './forms/groupe-form';
+import ServiceForm from './forms/service-form';
 
-// --- F1 Form: Pieces ---
-// Example fields: piece name, quantity, price
-// function F1Form({ index, formId, onRemove, formIndex }) {
-//   const { control } = useFormContext();
-
-//   return (
-//     <Box position="relative">
-//       <IconButton
-//         size="small"
-//         color="error"
-//         onClick={() => onRemove(formId)}
-//         sx={{ position: 'absolute', top: 8, right: 8 }}
-//       >
-//         <Iconify icon="solar:trash-bin-trash-bold" />
-//       </IconButton>
-
-//       <Card>
-//         <CardContent>
-//           <Typography variant="h6" gutterBottom>
-//             Pièces (F1) - Article #{formIndex + 1}
-//           </Typography>
-
-//           <Stack spacing={2}>
-//             <Controller
-//               name={`products[${formIndex}].pieces[${index}].name`}
-//               control={control}
-//               defaultValue=""
-//               render={({ field }) => (
-//                 <TextField {...field} label="Nom de la pièce" fullWidth />
-//               )}
-//             />
-
-//             <Controller
-//               name={`products[${formIndex}].pieces[${index}].quantity`}
-//               control={control}
-//               defaultValue={1}
-//               render={({ field }) => (
-//                 <TextField
-//                   {...field}
-//                   label="Quantité"
-//                   type="number"
-//                   inputProps={{ min: 1 }}
-//                   fullWidth
-//                 />
-//               )}
-//             />
-
-//             <Controller
-//               name={`products[${formIndex}].pieces[${index}].price`}
-//               control={control}
-//               defaultValue=""
-//               render={({ field }) => (
-//                 <TextField
-//                   {...field}
-//                   label="Prix unitaire (€)"
-//                   type="number"
-//                   inputProps={{ step: 0.01, min: 0 }}
-//                   fullWidth
-//                 />
-//               )}
-//             />
-//           </Stack>
-//         </CardContent>
-//       </Card>
-//     </Box>
-//   );
-// }
-
-// --- F2 Form: Oeuvre ---
-// Example fields: description, hours worked
-// function F2Form({ index, formId, onRemove, formIndex }) {
-//   const { control } = useFormContext();
-
-//   return (
-//     <Box position="relative">
-//       <IconButton
-//         size="small"
-//         color="error"
-//         onClick={() => onRemove(formId)}
-//         sx={{ position: 'absolute', top: 8, right: 8 }}
-//       >
-//         <Iconify icon="solar:trash-bin-trash-bold" />
-//       </IconButton>
-
-//       <Card>
-//         <CardContent>
-//           <Typography variant="h6" gutterBottom>
-//             Oeuvre (F2) - Article #{formIndex + 1}
-//           </Typography>
-
-//           <Stack spacing={2}>
-//             <Controller
-//               name={`products[${formIndex}].oeuvres[${index}].description`}
-//               control={control}
-//               defaultValue=""
-//               render={({ field }) => (
-//                 <TextField {...field} label="Description" multiline rows={3} fullWidth />
-//               )}
-//             />
-
-//             <Controller
-//               name={`products[${formIndex}].oeuvres[${index}].hours`}
-//               control={control}
-//               defaultValue={0}
-//               render={({ field }) => (
-//                 <TextField
-//                   {...field}
-//                   label="Heures travaillées"
-//                   type="number"
-//                   inputProps={{ min: 0, step: 0.1 }}
-//                   fullWidth
-//                 />
-//               )}
-//             />
-//           </Stack>
-//         </CardContent>
-//       </Card>
-//     </Box>
-//   );
-// }
-
-// --- F3 Form: Additional notes or diagnostics ---
-// function F3Form({ index, formId, onRemove, formIndex }) {
-//   const { control } = useFormContext();
-
-//   return (
-//     <Box position="relative">
-//       <IconButton
-//         size="small"
-//         color="error"
-//         onClick={() => onRemove(formId)}
-//         sx={{ position: 'absolute', top: 8, right: 8 }}
-//       >
-//         <Iconify icon="solar:trash-bin-trash-bold" />
-//       </IconButton>
-
-//       <Card>
-//         <CardContent>
-//           <Typography variant="h6" gutterBottom>
-//             Notes / Diagnostic (F3) - Article #{formIndex + 1}
-//           </Typography>
-
-//           <Controller
-//             name={`products[${formIndex}].notes[${index}].content`}
-//             control={control}
-//             defaultValue=""
-//             render={({ field }) => (
-//               <TextField {...field} label="Contenu" multiline rows={4} fullWidth />
-//             )}
-//           />
-//         </CardContent>
-//       </Card>
-//     </Box>
-//   );
-// }
-
-// --- F4 Form: Pricing summary or other info ---
-// function F4Form({ index, formId, onRemove, formIndex }) {
-//   const { control } = useFormContext();
-
-//   return (
-//     <Box position="relative">
-//       <IconButton
-//         size="small"
-//         color="error"
-//         onClick={() => onRemove(formId)}
-//         sx={{ position: 'absolute', top: 8, right: 8 }}
-//       >
-//         <Iconify icon="solar:trash-bin-trash-bold" />
-//       </IconButton>
-
-//       <Card>
-//         <CardContent>
-//           <Typography variant="h6" gutterBottom>
-//             Résumé de prix (F4) - Article #{formIndex + 1}
-//           </Typography>
-
-//           <Controller
-//             name={`products[${formIndex}].pricing[${index}].subtotal`}
-//             control={control}
-//             defaultValue=""
-//             render={({ field }) => (
-//               <TextField
-//                 {...field}
-//                 label="Sous-total (€)"
-//                 type="number"
-//                 inputProps={{ step: 0.01, min: 0 }}
-//                 fullWidth
-//               />
-//             )}
-//           />
-
-//           <Controller
-//             name={`products[${formIndex}].pricing[${index}].tax`}
-//             control={control}
-//             defaultValue=""
-//             render={({ field }) => (
-//               <TextField
-//                 {...field}
-//                 label="TVA (%)"
-//                 type="number"
-//                 inputProps={{ step: 0.01, min: 0 }}
-//                 fullWidth
-//               />
-//             )}
-//           />
-
-//           <Controller
-//             name={`products[${formIndex}].pricing[${index}].total`}
-//             control={control}
-//             defaultValue=""
-//             render={({ field }) => (
-//               <TextField
-//                 {...field}
-//                 label="Total (€)"
-//                 type="number"
-//                 inputProps={{ step: 0.01, min: 0 }}
-//                 fullWidth
-//                 disabled
-//               />
-//             )}
-//           />
-//         </CardContent>
-//       </Card>
-//     </Box>
-//   );
-// }
-
-// Ligne horizontal divider
-function LigneH() {
-  return <Divider sx={{ my: 2 }} />;
-}
-
-// Subtotal card (display only)
-function SubtotalCard({ formId, onRemove }) {
-  return (
+const DocumentComponents = {
+  piece: PieceForm,
+  oeuvre: OeuvreForm,
+  service: ServiceForm,
+  group: GroupeForm,
+  divider: () => <Divider sx={{ my: 2 }} />,
+  subtotal: ({ data, onRemove }) => (
     <Box position="relative">
-      <IconButton
-        size="small"
-        color="error"
-        onClick={() => onRemove(formId)}
-        sx={{ position: 'absolute', top: 0, left: 8 }}
-      >
-        <Iconify icon="solar:trash-bin-trash-bold" />
-      </IconButton>
-
-      <Stack alignItems="flex-end">
-        <Typography variant="subtitle2">Sous-total HT : 123,00 €</Typography>
-      </Stack>
-    </Box>
-  );
-}
-
-// Total card (display only)
-function TotalCard({ formId, onRemove }) {
-  return (
-    <Box position="relative">
-      <IconButton
-        size="small"
-        color="error"
-        onClick={() => onRemove(formId)}
-        sx={{ position: 'absolute', top: 0, left: 8 }}
-      >
+      <IconButton color='error' onClick={onRemove} sx={{ position: 'absolute', left: 8 }}>
         <Iconify icon="solar:trash-bin-trash-bold" />
       </IconButton>
       <Stack alignItems="flex-end">
-        <Typography variant="subtitle1">TOTAL : 456,00 €</Typography>
+        <Typography variant="subtitle2">
+          {data?.label || 'Sous-total HT'}: {data?.value?.toFixed(2) || '0.00'} €
+        </Typography>
       </Stack>
     </Box>
-  );
-}
-
-const formComponents = {
-  F1: PieceForm,
-  F2: OeuvreForm,
-  F3: ServiceForm,
-  F4: GroupeForm,
-  L: LigneH,
-  Subtotal: SubtotalCard,
-  Total: TotalCard,
+  ),
+  total: ({ data, onRemove }) => (
+    <Box position="relative">
+      <IconButton color='error' onClick={onRemove} sx={{ position: 'absolute', left: 8 }}>
+        <Iconify icon="solar:trash-bin-trash-bold" />
+      </IconButton>
+      <Stack alignItems="flex-end">
+        <Typography variant="subtitle1">
+          {data?.label || 'TOTAL'}: {data?.value?.toFixed(2) || '0.00'} €
+        </Typography>
+      </Stack>
+    </Box>
+  ),
 };
 
-export default function DocumentSectionView({ formIndex }) {
+export default function DocumentSectionView({
+  articleIndex,
+  documents = [],
+  onAddDocument,
+  onRemoveDocument,
+  onUpdateDocument,
+  onTotalChange,
+}) {
   const popover = usePopover();
-  const [forms, setForms] = useState([]);
 
-  const handleAddForm = (formKey) => {
-    setForms((prev) => [...prev, { id: Date.now() + Math.random(), type: formKey }]);
+  const calculateDocumentTotal = (doc) => {
+    switch (doc.type) {
+      case 'piece':
+        return doc.data.price * doc.data.qte * (1 - doc.data.remise / 100);
+      case 'oeuvre':
+      case 'service':
+        return doc.data.price || 0;
+      case 'group':
+        return doc.data.items?.reduce((sum, item) => sum + (item.value || 0), 0) || 0;
+      default:
+        return 0;
+    }
   };
 
-  const handleRemoveForm = (id) => {
-    setForms((prev) => prev.filter((form) => form.id !== id));
+  const updateDocumentAndTotals = (index, updatedDoc) => {
+    onUpdateDocument(index, updatedDoc);
+    updateArticleTotal();
+  };
+
+  const updateArticleTotal = () => {
+    const total = documents.reduce((sum, doc) => {
+      if (['piece', 'oeuvre', 'service', 'group'].includes(doc.type)) {
+        return sum + calculateDocumentTotal(doc);
+      }
+      return sum;
+    }, 0);
+
+    onTotalChange(total);
+  };
+
+  const handleAddElement = (type) => {
+    const defaultData = {
+      piece: { nom: '', price: 0, qte: 1, remise: 0 },
+      oeuvre: { nom: '', price: 0 },
+      service: { nom: '', price: 0 },
+      group: { nom: '', items: [] },
+      subtotal: { label: 'Sous-total HT', value: 0 },
+      total: { label: 'TOTAL', value: 0 },
+    };
+
+    const newDoc = {
+      id: Date.now().toString(),
+      type,
+      data: defaultData[type] || {},
+    };
+
+    onAddDocument(newDoc);
+
+    // Update totals if adding a priced element
+    if (['piece', 'oeuvre', 'service', 'group'].includes(type)) {
+      setTimeout(updateArticleTotal, 100); // Small delay to ensure state updates
+    }
+
+    popover.onClose();
+  };
+
+  const handleRemoveElement = (index) => {
+    const doc = documents[index];
+    onRemoveDocument(index);
+
+    // Update totals if removing a priced element
+    if (['piece', 'oeuvre', 'service', 'group'].includes(doc?.type)) {
+      setTimeout(updateArticleTotal, 100);
+    }
   };
 
   return (
     <>
-      <Grid container spacing={2} sx={{ position: 'relative' }}>
+      <Grid container spacing={2}>
         <Grid xs={12} md={2}>
-          <Box
-            sx={{
-              position: 'sticky',
-              top: 100,
-              zIndex: 10,
-              bgcolor: 'background.paper',
-              borderRadius: 1,
-              p: 1,
-              boxShadow: (theme) => theme.shadows[1],
-            }}
-          >
+          <Box p={4}>
             <Stack spacing={2}>
-              <Stack spacing={1} width="100%">
-                {[
-                  { label: 'Piéce à changer', value: 'F1' },
-                  { label: "Main d'oeuvre", value: 'F2' },
-                  { label: 'Service', value: 'F3' },
-                  { label: 'Regroupement', value: 'F4' },
-                ].map((key) => (
-                  <Button
-                    key={key.value}
-                    onClick={() => handleAddForm(key.value)}
-                    color="primary"
-                    variant="contained"
-                    fullWidth
-                  >
-                    {key.label}
-                  </Button>
-                ))}
-              </Stack>
+              {['piece', 'oeuvre', 'service', 'group'].map((type) => (
+                <Button
+                  key={type}
+                  onClick={() => handleAddElement(type)}
+                  variant="contained"
+                  sx={{ textTransform: 'capitalize' }}
+                >
+                  {type === 'piece' && 'Pièce à changer'}
+                  {type === 'oeuvre' && "Main d'oeuvre"}
+                  {type === 'service' && 'Service'}
+                  {type === 'group' && 'Regroupement'}
+                </Button>
+              ))}
               <Button
                 onClick={popover.onOpen}
-                color="warning"
-                variant="outlined"
                 startIcon={<Iconify icon="mdi:plus" />}
+                variant="outlined"
               >
-                Ajouter
+                Ajouter élément
               </Button>
             </Stack>
           </Box>
@@ -364,20 +160,21 @@ export default function DocumentSectionView({ formIndex }) {
 
         <Grid xs={12} md={10}>
           <Stack spacing={3}>
-            {forms.map((form, idx) => {
-              const FormComponent = formComponents[form.type];
-              if (!FormComponent) return null;
-
-              // LigneH has no props or remove button
-              if (form.type === 'L') return <FormComponent key={form.id} />;
+            {documents.map((doc, index) => {
+              const Component = DocumentComponents[doc.type];
+              if (!Component) return null;
 
               return (
-                <FormComponent
-                  key={form.id}
-                  index={idx}
-                  formId={form.id}
-                  onRemove={handleRemoveForm}
-                  formIndex={formIndex}
+                <Component
+                  key={doc.id}
+                  data={doc.data}
+                  onUpdate={(newData) =>
+                    updateDocumentAndTotals(index, {
+                      ...doc,
+                      data: { ...doc.data, ...newData },
+                    })
+                  }
+                  onRemove={() => handleRemoveElement(index)}
                 />
               );
             })}
@@ -387,30 +184,18 @@ export default function DocumentSectionView({ formIndex }) {
 
       <CustomPopover open={popover.open} anchorEl={popover.anchorEl} onClose={popover.onClose}>
         <MenuList>
-          <MenuItem
-            onClick={() => {
-              handleAddForm('Subtotal');
-              popover.onClose();
-            }}
-          >
-            Sous-total (Total HT)
+          <MenuItem onClick={() => handleAddElement('subtotal')}>
+            <Iconify icon="mdi:calculator" width={20} sx={{ mr: 1 }} />
+            Sous-total
           </MenuItem>
-          <MenuItem
-            onClick={() => {
-              handleAddForm('Total');
-              popover.onClose();
-            }}
-          >
-            Total général
+          <MenuItem onClick={() => handleAddElement('total')}>
+            <Iconify icon="mdi:calculator-variant" width={20} sx={{ mr: 1 }} />
+            Total
           </MenuItem>
           <Divider />
-          <MenuItem
-            onClick={() => {
-              handleAddForm('L');
-              popover.onClose();
-            }}
-          >
-            Ligne horizontale
+          <MenuItem onClick={() => handleAddElement('divider')}>
+            <Iconify icon="mdi:minus" width={20} sx={{ mr: 1 }} />
+            Ligne de séparation
           </MenuItem>
         </MenuList>
       </CustomPopover>

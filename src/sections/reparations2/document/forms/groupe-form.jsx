@@ -1,63 +1,157 @@
+import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import React from 'react';
 
-import Grid from '@mui/material/Unstable_Grid2';
-import { Button, Stack, Typography } from '@mui/material';
+import {
+  Grid,
+  Stack,
+  Button,
+  Divider,
+  TextField,
+  IconButton,
+  Typography,
+  Autocomplete,
+} from '@mui/material';
 
-import { Field } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
 
-// Example options for Autocomplete - replace with your actual data
-const OPTIONS = [
-  { value: 'regroup1', label: 'Regroupement 1' },
-  { value: 'regroup2', label: 'Regroupement 2' },
-  { value: 'regroup3', label: 'Regroupement 3' },
+import PieceForm from './piece-form';
+
+const GROUP_OPTIONS = [
+  {
+    value: 'group1',
+    label: 'Smartphone Repair Kit',
+    pieces: [
+      { nom: 'Screen', qte: 1, price: 89.99 },
+      { nom: 'Battery', qte: 1, price: 39.99 },
+    ],
+  },
+  {
+    value: 'group2',
+    label: 'Laptop Maintenance Pack',
+    pieces: [{ nom: 'Thermal Paste', qte: 1, price: 12.99 }],
+  },
 ];
 
-export default function GroupeForm({ index: formIndex, formId, onRemove }) {
+export default function GroupeForm({ data, onUpdate, onRemove }) {
+  const { setValue } = useFormContext();
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [pieces, setPieces] = useState(data.pieces || []);
+
+  const calculateTotal = (piecesArray) =>
+    piecesArray
+      .reduce((sum, piece) => {
+        const price = parseFloat(piece.price) || 0;
+        const qte = parseInt(piece.qte, 10) || 1;
+        return sum + price * qte;
+      }, 0)
+      .toFixed(2);
+
+  const handleGroupChange = (_, newValue) => {
+    setSelectedGroup(newValue);
+    const newPieces = newValue?.pieces || [];
+    setPieces(newPieces);
+    onUpdate({
+      nom: newValue?.label || '',
+      pieces: newPieces,
+      price: calculateTotal(newPieces),
+    });
+  };
+
+  const handlePieceUpdate = (index, newData) => {
+    const updatedPieces = [...pieces];
+    updatedPieces[index] = newData;
+    setPieces(updatedPieces);
+    onUpdate({
+      pieces: updatedPieces,
+      price: calculateTotal(updatedPieces),
+    });
+  };
+
+  const handleAddPiece = () => {
+    const newPiece = { nom: '', qte: 1, price: 0 };
+    const updatedPieces = [...pieces, newPiece];
+    setPieces(updatedPieces);
+    onUpdate({ pieces: updatedPieces });
+  };
+
+  const handleRemovePiece = (index) => {
+    const updatedPieces = pieces.filter((_, i) => i !== index);
+    setPieces(updatedPieces);
+    onUpdate({
+      pieces: updatedPieces,
+      price: calculateTotal(updatedPieces),
+    });
+  };
+
   return (
-    <Stack spacing={2}>
-      {/* <Typography variant="subtitle1">Regroupement</Typography> */}
+    <Stack spacing={2} sx={{ position: 'relative' }}>
+      {/* <IconButton
+        size="small"
+        color="error"
+        onClick={onRemove}
+        sx={{ position: 'absolute', right: 0, top: 0 }}
+      >
+        <Iconify icon="mdi:delete" />
+      </IconButton> */}
 
-      <Grid container spacing={2} key={formId}>
-        <Grid xs={12} md={6}>
-          <Field.Autocomplete
-            size="small"
-            name={`products[${formIndex}].oeuvre[${formId}].nom`}
-            label="Regroupement"
-            options={OPTIONS}
-            getOptionLabel={(option) => option.label || ''}
-            isOptionEqualToValue={(option, value) => option.value === value?.value}
-            renderOption={(props, option) => (
-              <li {...props} key={option.value}>
-                {option.label}
-              </li>
-            )}
-            
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <Autocomplete
+            options={GROUP_OPTIONS}
+            value={selectedGroup}
+            onChange={handleGroupChange}
+            getOptionLabel={(option) => option.label}
+            renderInput={(params) => <TextField {...params} label="Regroupement" size="small" />}
           />
         </Grid>
-
-        <Grid xs={12} md={4}>
-          <Field.Text
-            size="small"
-            name={`products[${formIndex}].oeuvre[${formId}].price`}
-            label="Prix"
-            type="number"
-          />
-        </Grid>
-
-        <Grid xs={12} md={2}>
-          <Button
-            variant="outlined"
+        <Grid item xs={12} md={4}>
+          <TextField
             fullWidth
+            size="small"
+            label="Prix Total"
+            type="number"
+            value={data.price || 0}
+            InputProps={{ readOnly: true }}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={2}>
+          <Button
+            variant="contained"
+            size="small"
             color="error"
-            onClick={() => onRemove(formId)}
+            onClick={onRemove}
             startIcon={<Iconify icon="mdi:delete" />}
           >
             Supprimer
           </Button>
         </Grid>
       </Grid>
+
+      {pieces.length > 0 && (
+        <>
+          <Typography variant="subtitle2">Pièces incluses:</Typography>
+          <Stack spacing={2} sx={{ pl: 2, borderLeft: '2px dashed', borderColor: 'divider' }}>
+            {pieces.map((piece, index) => (
+              <PieceForm
+                key={index}
+                data={piece}
+                onUpdate={(newData) => handlePieceUpdate(index, newData)}
+                onRemove={() => handleRemovePiece(index)}
+              />
+            ))}
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<Iconify icon="mingcute:add-line" />}
+              onClick={handleAddPiece}
+            >
+              Ajouter Pièce
+            </Button>
+          </Stack>
+        </>
+      )}
+      <Divider sx={{ my: 1 }} />
     </Stack>
   );
 }

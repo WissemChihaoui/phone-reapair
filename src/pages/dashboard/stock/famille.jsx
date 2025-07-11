@@ -2,11 +2,11 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import ConfigurationsPageView from 'src/sections/boutique/configuration/view/configuration-page-view';
+import FamillePageView from 'src/sections/product/view/famille/famille-page-view';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Configurations - ${CONFIG.appName}` };
+const metadata = { title: `Famille comptable - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -14,7 +14,7 @@ export default function Page() {
       <Helmet>
         <title> {metadata.title}</title>
       </Helmet>
-      <ConfigurationsPageView />
+      <FamillePageView />
     </>
   );
 }

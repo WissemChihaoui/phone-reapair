@@ -1,47 +1,110 @@
-import { Button, Divider, Stack } from '@mui/material';
+import { useFieldArray, useFormContext } from 'react-hook-form';
+
 import Grid from '@mui/material/Unstable_Grid2';
-import React from 'react';
+import { Stack, Button, Divider } from '@mui/material';
+
 import { useBoolean } from 'src/hooks/use-boolean';
-import { Field } from 'src/components/hook-form';
-import { useFormContext } from 'react-hook-form';
+
 import { Iconify } from 'src/components/iconify';
-import RapportPanneModal from './rapport-panne-modal';
+import { Field } from 'src/components/hook-form';
+
 import LockPadModal from './lock-pad-modal';
-import MarqueAddModal from './marque-add-modal';
 import ModeleAddModal from './model-add-modal';
+import MarqueAddModal from './marque-add-modal';
+import RapportPanneModal from './rapport-panne-modal';
 import DocumentSectionView from './document/document-section-view';
 
-const Material = ['Article 1'];
-const Marque = ['Article 1'];
-const Modele = ['Article 1'];
-const Techniciens = ['Technicien'];
-const Etat = ['Comme neuf', 'Très bon état', 'Bon état', 'Correct', 'Endommagé'];
+const MATERIAL_TYPES = [
+  { value: 'smartphone', label: 'Smartphone' },
+  { value: 'tablet', label: 'Tablet' },
+  { value: 'laptop', label: 'Laptop' }
+];
 
-export default function SingleArticleForm({ index }) {
-  const { control } = useFormContext();
+const BRANDS = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'samsung', label: 'Samsung' }
+];
+
+const MODELS = [
+  { value: 'iphone13', label: 'iPhone 13' },
+  { value: 'galaxy22', label: 'Galaxy S22' }
+];
+
+const TECHNICIANS = [
+  { value: 'tech1', label: 'Jean Dupont' },
+  { value: 'tech2', label: 'Marie Martin' }
+];
+
+const CONDITIONS = [
+  { value: 'new', label: 'Comme neuf' },
+  { value: 'good', label: 'Bon état' }
+];
+
+export default function SingleArticleForm({ articleIndex, onTotalChange }) {
+  const { control, watch, setValue } = useFormContext();
+  const { fields: documents, append, remove, update } = useFieldArray({
+    control,
+    name: `articles[${articleIndex}].documents`
+  });
+
   const openRapport = useBoolean();
   const openPad = useBoolean();
   const openAddMarque = useBoolean();
   const openAddModele = useBoolean();
 
+  const currentValues = watch(`articles[${articleIndex}]`);
+
+  const handleAddDocument = (newDoc) => {
+    append({ ...newDoc, id: Date.now().toString() });
+  };
+
+  const handleRemoveDocument = (index) => {
+    remove(index);
+  };
+
+  const handleUpdateDocument = (index, updatedDoc) => {
+    update(index, updatedDoc);
+  };
+
+  const handleUpdateTotal = (newTotal) => {
+    setValue(`articles[${articleIndex}].total`, newTotal);
+    onTotalChange();
+  };
+
+  // Get current values for proper Autocomplete handling
+  const currentMaterial = MATERIAL_TYPES.find(opt => opt.value === currentValues?.type);
+  const currentBrand = BRANDS.find(opt => opt.value === currentValues?.marque);
+  const currentModel = MODELS.find(opt => opt.value === currentValues?.modele);
+  const currentCondition = CONDITIONS.find(opt => opt.value === currentValues?.etat);
+  const currentTechnician = TECHNICIANS.find(opt => opt.value === currentValues?.technicien);
+
   return (
     <>
       <Grid container spacing={2}>
+        {/* Article Identification Section */}
         <Grid xs={12} md={6} lg={4}>
           <Field.Autocomplete
+            control={control}
+            name={`articles[${articleIndex}].type`}
             label="Type de matériel"
-            name={`products[${index}].type`}
-            options={Material}
+            options={MATERIAL_TYPES}
+            getOptionLabel={(option) => option.label}
+            isOptionEqualToValue={(option, value) => option.value === value?.value}
+            // value={currentMaterial || null}
           />
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
           <Stack spacing={1.5} direction="row">
             <Field.Autocomplete
+              control={control}
               sx={{ width: '100%' }}
+              name={`articles[${articleIndex}].marque`}
               label="Marque"
-              name={`products[${index}].marque`}
-              options={Marque}
+              options={BRANDS}
+              getOptionLabel={(option) => option.label}
+              isOptionEqualToValue={(option, value) => option.value === value?.value}
+              // value={currentBrand || null}
             />
             <Button variant="contained" onClick={openAddMarque.onTrue}>+</Button>
           </Stack>
@@ -50,31 +113,49 @@ export default function SingleArticleForm({ index }) {
         <Grid xs={12} md={6} lg={4}>
           <Stack spacing={1.5} direction="row">
             <Field.Autocomplete
+              control={control}
               sx={{ width: '100%' }}
-              label="Modéle"
-              name={`products[${index}].modele`}
-              options={Modele}
+              name={`articles[${articleIndex}].modele`}
+              label="Modèle"
+              options={MODELS}
+              getOptionLabel={(option) => option.label}
+              isOptionEqualToValue={(option, value) => option.value === value?.value}
+              // value={currentModel || null}
             />
             <Button variant="contained" onClick={openAddModele.onTrue}>+</Button>
           </Stack>
         </Grid>
 
+        {/* Article Details Section */}
         <Grid xs={12} lg={8}>
-          <Field.Text name={`products[${index}].serie`} label="N° Série / IMEI" />
+          <Field.Text 
+            control={control}
+            name={`articles[${articleIndex}].serie`} 
+            label="N° Série / IMEI" 
+          />
         </Grid>
 
         <Grid xs={12} md={4}>
           <Field.Autocomplete
+            control={control}
+            name={`articles[${articleIndex}].etat`}
             label="État"
-            name={`products[${index}].etat`}
-            options={Etat}
+            options={CONDITIONS}
+            getOptionLabel={(option) => option.label}
+            isOptionEqualToValue={(option, value) => option.value === value?.value}
+            // value={currentCondition || null}
           />
         </Grid>
 
         <Grid xs={12} lg={8}>
-          <Field.Text name={`products[${index}].accessoire`} label="Accessoire" />
+          <Field.Text 
+            control={control}
+            name={`articles[${articleIndex}].accessoire`} 
+            label="Accessoire" 
+          />
         </Grid>
 
+        {/* Rapport Section */}
         <Grid xs={12} md={4}>
           <Button
             fullWidth
@@ -86,18 +167,38 @@ export default function SingleArticleForm({ index }) {
           </Button>
         </Grid>
 
+        {/* Notes Section */}
         <Grid xs={12} md={4}>
-          <Field.Text name={`products[${index}].noteClient`} label="Note Client" />
+          <Field.Text 
+            control={control}
+            name={`articles[${articleIndex}].noteClient`} 
+            label="Note Client" 
+            multiline
+            rows={2}
+          />
         </Grid>
 
         <Grid xs={12} md={4}>
-          <Field.Text name={`products[${index}].noteIntervention`} label="Note intervention" />
+          <Field.Text 
+            control={control}
+            name={`articles[${articleIndex}].noteIntervention`} 
+            label="Note intervention" 
+            multiline
+            rows={2}
+          />
         </Grid>
 
         <Grid xs={12} md={4}>
-          <Field.Text name={`products[${index}].noteInterne`} label="Note interne" />
+          <Field.Text 
+            control={control}
+            name={`articles[${articleIndex}].noteInterne`} 
+            label="Note interne" 
+            multiline
+            rows={2}
+          />
         </Grid>
 
+        {/* Additional Actions */}
         <Grid xs={12} md={4}>
           <Button
             fullWidth
@@ -110,28 +211,61 @@ export default function SingleArticleForm({ index }) {
         </Grid>
 
         <Grid xs={12} md={4}>
-          <Field.DatePicker name={`products[${index}].dateRestitution`} label="Date de restitution" />
+          <Field.DatePicker
+            control={control}
+            name={`articles[${articleIndex}].dateRestitution`}
+            label="Date de restitution"
+          />
         </Grid>
 
         <Grid xs={12} md={4}>
           <Field.Autocomplete
+            control={control}
+            name={`articles[${articleIndex}].technicien`}
             label="Technicien"
-            name={`products[${index}].technicien`}
-            options={Techniciens}
+            options={TECHNICIANS}
+            getOptionLabel={(option) => option.label}
+            isOptionEqualToValue={(option, value) => option.value === value?.value}
+            // value={currentTechnician || null}
           />
         </Grid>
 
-        <Divider sx={{ my: 1, width: '100%' }} />
-
         <Grid xs={12}>
-          <DocumentSectionView formIndex={index} />
+          <Divider sx={{ my: 2 }} />
+        </Grid>
+
+        {/* Documents Section */}
+        <Grid xs={12}>
+          <DocumentSectionView 
+            articleIndex={articleIndex}
+            documents={documents}
+            onAddDocument={handleAddDocument}
+            onRemoveDocument={handleRemoveDocument} 
+            onUpdateDocument={handleUpdateDocument}
+            onTotalChange={handleUpdateTotal}
+          />
         </Grid>
       </Grid>
 
-      <RapportPanneModal index={index} open={openRapport.value} onClose={openRapport.onFalse} />
-      <LockPadModal index={index} open={openPad.value} onClose={openPad.onFalse} />
-      <MarqueAddModal open={openAddMarque.value} onClose={openAddMarque.onFalse} />
-      <ModeleAddModal open={openAddModele.value} onClose={openAddModele.onFalse} />
+      {/* Modals */}
+      <RapportPanneModal 
+        index={articleIndex} 
+        open={openRapport.value} 
+        onClose={openRapport.onFalse} 
+      />
+      <LockPadModal 
+        index={articleIndex} 
+        open={openPad.value} 
+        onClose={openPad.onFalse} 
+      />
+      <MarqueAddModal 
+        open={openAddMarque.value} 
+        onClose={openAddMarque.onFalse} 
+      />
+      <ModeleAddModal 
+        open={openAddModele.value} 
+        onClose={openAddModele.onFalse} 
+      />
     </>
   );
 }

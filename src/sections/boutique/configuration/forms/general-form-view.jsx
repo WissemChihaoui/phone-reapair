@@ -89,8 +89,6 @@ export function GeneralFormView() {
     defaultValues,
   });
 
-
-
   const {
     handleSubmit,
     setValue,
@@ -206,7 +204,15 @@ export function GeneralFormView() {
               <Field.Text name="siret" label="Siret" />
               <Field.Text name="rcs" label="Numéro RCS" />
               <Field.Text name="tva" label="Numéro TVA INTRA" />
-              <Field.Checkbox name="caisse" label="Utilisation Caisse" />
+              <Field.Select name="formJuridique" label="Forme juridique">
+                <MenuItem value="1">Entreprise individuelle(EI)</MenuItem>
+                <MenuItem value="2">Entreprise unipersonnelle à responsabilité limitée (SARL unipersonnelle)(EURL)</MenuItem>
+                <MenuItem value="3">Société à responsabilité limitée(SARL)</MenuItem>
+                <MenuItem value="4">Société anonyme(SA)</MenuItem>
+                <MenuItem value="5">Société par actions simplifiée(SAS)</MenuItem>
+                <MenuItem value="6">Société par actions simplifiée unipersonnelle(SASU)</MenuItem>
+              </Field.Select>
+              <Field.Switch name="caisse" label="Utilisation Caisse" />
             </Box>
           </Card>
         </Grid>

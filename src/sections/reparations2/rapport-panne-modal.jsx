@@ -9,7 +9,7 @@ const Screen_Issues = [
 ];
 
 export default function RapportPanneModal({ index, open, onClose }) {
-  const rapport = `products[${index}].rapport`;
+  const rapport = `articles[${index}].rapport`;
   
   const handleClose = () => {
     onClose();
