@@ -5,11 +5,12 @@ import { Box, Stack, Table, Button, Tooltip, TableBody, IconButton } from '@mui/
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
+import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
-import { fIsAfter, fIsBetween, today } from 'src/utils/format-time';
+import { today, fIsAfter, fIsBetween } from 'src/utils/format-time';
 
 import { DashboardContent } from 'src/layouts/dashboard';
 
@@ -146,7 +147,7 @@ export default function InventaireListView() {
         sx={{ mb: { xs: 3, md: 5 } }}
         action={
           <Stack direction="row" spacing={2}>
-            <Button variant="contained">Ajouter</Button>
+            <Button variant="contained" href={paths.dashboard.stock.addInventaire} LinkComponent={RouterLink}>Ajouter</Button>
           </Stack>
         }
       />

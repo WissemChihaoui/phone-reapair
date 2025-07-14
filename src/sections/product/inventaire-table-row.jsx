@@ -97,7 +97,7 @@ export default function InventaireTableRow({
          <Box sx={{ height: 1, display: 'flex', flexDirection: 'column' }}>
           <DialogActions sx={{ p: 1.5 }}>
             <Button color="inherit" variant="contained" onClick={view.onFalse}>
-              Close
+              Fermer
             </Button>
           </DialogActions>
 
