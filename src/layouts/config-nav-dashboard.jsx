@@ -80,6 +80,7 @@ export const navData = [
         icon: ICONS.stock,
         children: [
           { title: 'Articles', path: paths.dashboard.stock.root },
+          { title: 'Inventaire', path: paths.dashboard.stock.inventaire },
           { title: 'Alerte stock', path: paths.dashboard.stock.alertStock },
           { title: 'Commandes', path: paths.dashboard.stock.commande },
           { title: 'Déstockage', path: paths.dashboard.stock.destockage },
