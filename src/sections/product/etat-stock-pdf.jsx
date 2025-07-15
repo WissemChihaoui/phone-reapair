@@ -1,6 +1,5 @@
 import { Page, View, Text, Font, Document, StyleSheet } from '@react-pdf/renderer';
-
-import { fDate, today } from 'src/utils/format-time';
+// import logo from '/public/logo/myphone-logo.png';
 
 Font.register({
   family: 'Roboto',
@@ -20,7 +19,6 @@ const styles = StyleSheet.create({
   },
   logo: { width: 100, marginBottom: 10 },
   header: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
-  section: { marginBottom: 10 },
   bold: { fontWeight: 'bold' },
   table: { display: 'table', width: 'auto', marginTop: 10 },
   tableRow: {
@@ -32,38 +30,20 @@ const styles = StyleSheet.create({
   },
   tableHeader: { fontWeight: 'bold', backgroundColor: '#eee' },
   col1: { width: '5%' },
-  col2: { width: '45%' },
-  col3: { width: '20%' },
+  col2: { width: '35%' },
+  col3: { width: '10%' },
   col4: { width: '15%' },
   col5: { width: '15%' },
+  col6: { width: '10%' },
+  col7: { width: '10%' },
 });
 
-export function InventairePDF() {
-  const inventaire = {
-    inventaireId: '1',
-    createdBy: 'triosteck',
-    note: 'test',
-    createdAt: today(),
-    confirmed: false,
-    items: [
-      { title: 'Engine Oil', crmQty: 5, realQty: 4 },
-      { title: 'Air Filter', crmQty: 10, realQty: 9 },
-      { title: 'Brake Pads', crmQty: 8, realQty: 8 },
-    ],
-    company: {
-      name: 'demo reparateur',
-      address: 'Rue Général Delacroix - Bazin\n97139 Les Abymes',
-      phone: '0690751575',
-      siret: '',
-      tva: '',
-    },
-  };
-
-  const { createdBy, createdAt, items = [], company } = inventaire;
-
+export default function EtatStockPdf({ data, company }) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        <Text style={[styles.bold, { fontSize: 16, marginBottom: 10 }]}>Inventaire</Text>
+
         {/* Header */}
         <View style={styles.header}>
           <View>
@@ -74,12 +54,6 @@ export function InventairePDF() {
             <Text>SIRET: {company?.siret}</Text>
             <Text>N°TVA Intracom : {company?.tva}</Text>
           </View>
-          <View>
-            <Text style={styles.bold}>Créer par:</Text>
-            <Text>{createdBy}</Text>
-            <Text style={[styles.bold, { marginTop: 8 }]}>Date de l&apos;inventaire:</Text>
-            <Text>{fDate(createdAt)}</Text>
-          </View>
         </View>
 
         {/* Table */}
@@ -87,20 +61,22 @@ export function InventairePDF() {
           <View style={[styles.tableRow, styles.tableHeader]}>
             <Text style={styles.col1}>#</Text>
             <Text style={styles.col2}>Non du produit</Text>
-            <Text style={styles.col3}>EAN</Text>
-            <Text style={styles.col4}>QTE</Text>
-            <Text style={styles.col4}>QTE Réel</Text>
-            <Text style={styles.col5}>Ecart</Text>
+            <Text style={styles.col3}>QTE</Text>
+            <Text style={styles.col4}>Prix achat UHT</Text>
+            <Text style={styles.col5}>Prix de vente UHT</Text>
+            <Text style={styles.col6}>Total prix achat HT</Text>
+            <Text style={styles.col7}>Total prix de vente HT</Text>
           </View>
 
-          {items.map((item, index) => (
+          {data.map((item, index) => (
             <View key={index} style={styles.tableRow}>
               <Text style={styles.col1}>{index + 1}</Text>
               <Text style={styles.col2}>{item.title}</Text>
-              <Text style={styles.col3}>-</Text>
-              <Text style={styles.col4}>{item.crmQty}</Text>
-              <Text style={styles.col4}>{item.realQty}</Text>
-              <Text style={styles.col5}>{Math.abs(item.crmQty - item.realQty)}</Text>
+              <Text style={styles.col3}>{item.qty}</Text>
+              <Text style={styles.col4}>{item.buyPrice}€</Text>
+              <Text style={styles.col5}>{item.sellPrice}€</Text>
+              <Text style={styles.col6}>{(item.buyPrice * item.qty).toFixed(2)}€</Text>
+              <Text style={styles.col7}>{(item.sellPrice * item.qty).toFixed(2)}€</Text>
             </View>
           ))}
         </View>

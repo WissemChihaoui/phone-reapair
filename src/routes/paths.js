@@ -93,6 +93,7 @@ export const paths = {
       inventaire: `${ROOTS.DASHBOARD}/stock/inventaire`,
       addInventaire: `${ROOTS.DASHBOARD}/stock/inventaire/add`,
       addRegroupement: `${ROOTS.DASHBOARD}/stock/regroupement/add`,
+      etatStock: `${ROOTS.DASHBOARD}/stock/etat-stock`,
       editRegroupement: (id)=>`${ROOTS.DASHBOARD}/stock/regroupement/${id}/edit`,
       editInventaire: (id)=>`${ROOTS.DASHBOARD}/stock/inventaire/${id}/edit`,
       editCommande: (id) => `${ROOTS.DASHBOARD}/stock/commande/${id}/edit`,
@@ -160,6 +161,9 @@ export const paths = {
     },
     ecologic: {
       add: (id) => `${ROOTS.DASHBOARD}/ecologic/${id}/add`,
+    },
+    achats: {
+      root: `${ROOTS.DASHBOARD}/achats`
     }
   },
 };

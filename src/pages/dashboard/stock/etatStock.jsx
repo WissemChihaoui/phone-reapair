@@ -2,11 +2,11 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import ConditionsTableList from 'src/sections/boutique/conditions/view/conditions-table-list';
+import FamillePageView from 'src/sections/product/view/famille/famille-page-view';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Les conditions - ${CONFIG.appName}` };
+const metadata = { title: `Etat de stock - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -14,7 +14,7 @@ export default function Page() {
       <Helmet>
         <title> {metadata.title}</title>
       </Helmet>
-      <ConditionsTableList />
+      <FamillePageView />
     </>
   );
 }

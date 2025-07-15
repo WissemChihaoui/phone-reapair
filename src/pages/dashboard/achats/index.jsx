@@ -1,12 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
+import AchatsPageView from 'src/sections/achats/views/achats-page-view';
 
-import ConditionsTableList from 'src/sections/boutique/conditions/view/conditions-table-list';
+import { BlankView } from 'src/sections/blank/view';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Les conditions - ${CONFIG.appName}` };
+const metadata = { title: `Dépenses - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -14,7 +15,7 @@ export default function Page() {
       <Helmet>
         <title> {metadata.title}</title>
       </Helmet>
-      <ConditionsTableList />
+      <AchatsPageView />
     </>
   );
 }

@@ -139,6 +139,11 @@ export const navData = [
         ],
       },
       {
+        title: 'Achats/Dépenses',
+        path: paths.dashboard.achats.root,
+        icon: ICONS.file
+      },
+      {
         title: 'Ma Boutique',
         path: paths.dashboard.boutique.root,
         icon: ICONS.boutique,

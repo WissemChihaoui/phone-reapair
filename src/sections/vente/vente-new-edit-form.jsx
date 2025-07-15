@@ -7,7 +7,6 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -17,10 +16,11 @@ import { today, fIsAfter } from 'src/utils/format-time';
 import { _addressBooks } from 'src/_mock';
 
 import { Form, schemaHelper } from 'src/components/hook-form';
+
+import VenteNewEditCheckout from './vente-new-edit-checkout';
 import { VenteNewEditDetails } from './vente-new-edit-details';
 import { VenteNewEditAddress } from './vente-new-edit-address';
 import { VenteNewEditStatusDate } from './vente-new-edit-status';
-import VenteNewEditCheckout from './vente-new-edit-checkout';
 
 // import { InvoiceNewEditDetails } from './invoice-new-edit-details';
 // import { InvoiceNewEditAddress } from './invoice-new-edit-address';

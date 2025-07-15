@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 
-import { Card, Stack, Button, IconButton, Chip } from '@mui/material';
+import { Card, Chip, Stack, Button, IconButton } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 import { Form, Field } from 'src/components/hook-form';
 
-// Mock data for autocomplete options
 const _inventoryItems = [
   'Engine Oil',
   'Air Filter',

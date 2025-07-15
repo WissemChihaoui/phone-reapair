@@ -40,6 +40,8 @@ const Regroupement = lazy(() => import ('src/pages/dashboard/stock/regroupement'
 const Famille = lazy(() => import ('src/pages/dashboard/stock/famille'));
 const AddRegroupement = lazy(() => import ('src/pages/dashboard/stock/addRegroupement'));
 const EditRegroupement = lazy(() => import ('src/pages/dashboard/stock/editRegroupement'));
+const EtatStock = lazy(() => import('src/pages/dashboard/stock/etatStock'))
+
 
 const Ventes = lazy(() => import('src/pages/dashboard/ventes/index'))
 const AddVente = lazy(() => import('src/pages/dashboard/ventes/add'))
@@ -93,6 +95,8 @@ const ViewNews = lazy(() => import('src/pages/dashboard/news/view'))
 
 const Ecosystem = lazy(() => import('src/pages/dashboard/ecosystem/add'))
 const Ecologic = lazy(() => import('src/pages/dashboard/ecologic/add'))
+
+const Achats = lazy(() => import('src/pages/dashboard/achats/index'))
 
 // ----------------------------------------------------------------------
 
@@ -159,6 +163,7 @@ export const dashboardRoutes = [
           {element: <AddRegroupement />, path:'regroupement/add'},
           {element: <EditRegroupement />, path:'regroupement/:id/edit'},
           {element: <EditCommande />, path:'commande/:id/edit'},
+          {element: <EtatStock />, path:'etat-stock'},
         ]
       },
       {
@@ -222,6 +227,12 @@ export const dashboardRoutes = [
         path:'calendrier',
         children: [
           {element: <Calendar />, index: true}
+        ]
+      },
+      {
+        path:'achats',
+        children: [
+          {element: <Achats />, index: true}
         ]
       },
       {

@@ -1,7 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 
-import { CONFIG } from 'src/config-global';
 import { useParams } from 'src/routes/hooks';
+
+import { CONFIG } from 'src/config-global';
 
 import InventaireEditView from 'src/sections/product/view/inventaire/inventaire-edit-view';
 

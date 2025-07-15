@@ -1,6 +1,10 @@
 import React from 'react';
+import { PDFViewer } from '@react-pdf/renderer';
 
-import { Box, Checkbox, TableRow, TableCell, IconButton, Button, Dialog, DialogActions } from '@mui/material';
+import { Box, Button, Dialog, Checkbox, TableRow, TableCell, IconButton, DialogActions } from '@mui/material';
+
+import { paths } from 'src/routes/paths';
+import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -8,10 +12,7 @@ import { fDate } from 'src/utils/format-time';
 
 import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
-import { PDFViewer } from '@react-pdf/renderer';
-import { InvoicePDF } from '../invoice/invoice-pdf';
+
 import { InventairePDF } from './inventaire-pdf';
 
 export default function InventaireTableRow({
@@ -82,8 +83,8 @@ export default function InventaireTableRow({
         action={
           <Button
             onClick={() => {
-              onValidateRow?.(); // ✅ call validation handler
-              valider.onFalse(); // ✅ close the dialog
+              onValidateRow?.();
+              valider.onFalse();
             }}
             variant="contained"
             color="success"

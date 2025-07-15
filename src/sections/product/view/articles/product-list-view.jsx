@@ -1,9 +1,10 @@
+import { PDFViewer } from '@react-pdf/renderer';
 import { useState, useEffect, useCallback } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { Fab, Input, InputLabel, MenuItem, MenuList } from '@mui/material';
+import { Box, Fab, Input, Dialog, MenuItem, MenuList, InputLabel, DialogActions } from '@mui/material';
 import {
   DataGrid,
   gridClasses,
@@ -42,6 +43,7 @@ import {
   RenderCellProduct,
   RenderCellPriceBuy,
 } from '../../product-table-row';
+import EtatStockPdf from '../../etat-stock-pdf';
 
 // ----------------------------------------------------------------------
 
@@ -59,11 +61,12 @@ const HIDE_COLUMNS_TOGGLABLE = ['category', 'actions'];
 export function ProductListView() {
   const confirmRows = useBoolean();
   const confirmRow = useBoolean();
+  const view = useBoolean();
+
   const popover = usePopover();
 
   const router = useRouter();
 
-  // const { products, productsLoading } = useGetProducts();
   const categoryOptions = ['Ecran', 'Furniture', 'Clothing'];
   const sousCategoryOptions = ['Ecran LCD', 'Tables', 'Shirts'];
   const newCategories = [
@@ -350,11 +353,21 @@ export function ProductListView() {
               </Button>
               <Button
                 variant="outlined"
+                onClick={view.onTrue}
+                // href={paths.dashboard.stock.etatStock}
+                // target='_blank'
+                // LinkComponent={RouterLink}
+                startIcon={<Iconify icon="solar:import-bold" />}
+              >
+                Etat du stock
+              </Button>
+              <Button
+                variant="outlined"
                 LinkComponent={RouterLink}
                 href={paths.dashboard.stock.import}
                 startIcon={<Iconify icon="solar:import-bold" />}
               >
-                Importer
+                Importer une facture
               </Button>
             </Stack>
           }
@@ -474,6 +487,34 @@ export function ProductListView() {
           </MenuItem>
         </MenuList>
       </CustomPopover>
+
+      <Dialog fullScreen open={view.value}>
+        <Box sx={{ height: 1, display: 'flex', flexDirection: 'column' }}>
+          <DialogActions sx={{ p: 1.5 }}>
+            <Button color="inherit" variant="contained" onClick={view.onFalse}>
+              Close
+            </Button>
+          </DialogActions>
+
+          <Box sx={{ flexGrow: 1, height: 1, overflow: 'hidden' }}>
+            <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
+              <EtatStockPdf
+  data={[
+    { title: 'article 1', qty: 10, buyPrice: 5, sellPrice: 6 },
+    // ...
+  ]}
+  company={{
+    name: 'demo reparateur',
+    address: 'Rue Général Delacroix - Bazin\n97139 Les Abymes',
+    phone: '0690751575',
+    siret: '',
+    tva: '',
+  }}
+/>
+            </PDFViewer>
+          </Box>
+        </Box>
+      </Dialog>
     </>
   );
 }

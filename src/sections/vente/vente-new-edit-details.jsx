@@ -1,7 +1,8 @@
-import { useEffect, useCallback } from 'react';
-import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { useWatch, useFieldArray, useFormContext } from 'react-hook-form';
 
 import Box from '@mui/material/Box';
+// import { Link } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -13,18 +14,35 @@ import { fCurrency } from 'src/utils/format-number';
 
 import { Field } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
+import { Link } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
 const _roles = ['article 1', 'article 2'];
 
 const articles = [
-    { id: '1', name: 'Ecran LCD T44', price: 82, tva: 20, stock: 30 },
-    { id: '2', name: 'Ecran LED T55', price: 100, tva: 18, stock: 10 },
-  ];
+  {
+    id: '1',
+    name: 'Ecran LCD T44',
+    price: 82,
+    tva: 20,
+    stock: 30,
+    suggest: ['Ecran LED T55', 'Article 2'],
+  },
+  {
+    id: '2',
+    name: 'Ecran LED T55',
+    price: 100,
+    tva: 18,
+    stock: 10,
+    suggest: ['Ecran LCD T44', 'Article 2'],
+  },
+];
 
 export function VenteNewEditDetails() {
   const { control, setValue, watch } = useFormContext();
+
+  const [suggestList, setSuggestList] = useState([]);
 
   const { fields, append, remove } = useFieldArray({ control, name: 'items' });
 
@@ -40,30 +58,29 @@ export function VenteNewEditDetails() {
     const price = field === 'price' ? value : item.price || 0;
     const remise = field === 'remise' ? value : item.remise || 0;
     const tva = item.tva || 0;
-  
+
     const priceHT = price * quantity - (price * quantity * tva) / 100;
     const priceTTC = price * quantity - remise;
-  
+
     setValue(`items[${index}].${field}`, value);
     setValue(`items[${index}].priceht`, priceHT.toFixed(2));
     setValue(`items[${index}].pricettc`, priceTTC.toFixed(2));
   };
   useEffect(() => {
     fields.forEach((field, index) => {
-      const selectedArticle = articles.find(
-        (article) => article.name === selectedArticles[index]
-      );
-  
+      const selectedArticle = articles.find((article) => article.name === selectedArticles[index]);
+
       if (selectedArticle) {
         const quantity = values.items[index]?.quantity || 1;
-        const price = selectedArticle.price;
-        const tva = selectedArticle.tva;
+        const { price } = selectedArticle;
+        const { tva } = selectedArticle;
         const remise = values.items[index]?.remise || 0;
-  
+        setSuggestList(selectedArticle.suggest);
+
         const priceHT = price * quantity - (price * quantity * tva) / 100;
         const priceTTC = price * quantity - remise;
-        
-        setValue(`items[${index}].articleId`, selectedArticle.id)
+
+        setValue(`items[${index}].articleId`, selectedArticle.id);
         setValue(`items[${index}].price`, price);
         setValue(`items[${index}].tva`, tva);
         setValue(`items[${index}].quantity`, quantity);
@@ -76,48 +93,46 @@ export function VenteNewEditDetails() {
 
   const totalOnRow = values.items.map((item) => item.quantity * item.price);
 
-  const totalDiscounted = values.items.map((item) => (item.quantity * item.price)-item.remise);
+  const totalDiscounted = values.items.map((item) => item.quantity * item.price - item.remise);
 
-  const totalHt = values.items.map((item)=> Number(item.priceht))
+  const totalHt = values.items.map((item) => Number(item.priceht));
 
-  const totalHtAmount = totalHt.reduce((acc, num) => acc + num, 0)
-  
+  const totalHtAmount = totalHt.reduce((acc, num) => acc + num, 0);
+
   const totalDiscount = values.items.map((item) => item.remise);
-  
+
   const subtotal = totalOnRow.reduce((acc, num) => acc + num, 0);
 
   const totalAmount = totalDiscounted.reduce((acc, num) => acc + num, 0);
-  
+
   const discountAmount = totalDiscount.reduce((acc, num) => acc + num, 0);
 
-
+  // console.log("selectedArticles =>",selectedArticle)
 
   useEffect(() => {
     setValue('totalAmount', totalAmount);
     setValue('discount', discountAmount);
     setValue('totalSs', subtotal);
     setValue('totalHt', totalHtAmount);
-  }, [setValue, totalAmount,discountAmount,subtotal,totalHtAmount]);
+  }, [setValue, totalAmount, discountAmount, subtotal, totalHtAmount]);
 
-
-  const handleAdd = () => {
+  const handleAdd = ({ data }) => {
     append({
-      articleId:null,
-      articleName: '',
-      description: '',
-      quantity: 1,
-      price: 0,
-      priceht: 0,
-      remise: 0,
-      pricettc:0,
-      total: 0,
+      articleId: data?.articleId || null,
+      articleName: data?.articleName || '',
+      description: data?.description || '',
+      quantity: data?.quantity || 1,
+      price: data?.price || 0,
+      priceht: data?.priceht || 0,
+      remise: data?.remise || 0,
+      pricettc: data?.pricettc || 0,
+      total: data?.total || 0,
     });
   };
 
   const handleRemove = (index) => {
     remove(index);
   };
-
 
   const handleChangeQuantity = (event, index) => {
     updateFieldValues(index, 'quantity', Number(event.target.value));
@@ -249,7 +264,6 @@ export function VenteNewEditDetails() {
                     name={`items[${index}].priceht`}
                     label="Prix HT"
                     placeholder="0.00"
-                   
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -311,15 +325,59 @@ export function VenteNewEditDetails() {
                 </Stack>
               </Stack>
             </Stack>
-
-            <Button
-              size="small"
-              color="error"
-              startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
-              onClick={() => handleRemove(index)}
+            <Stack
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
+              sx={{ width: 1 }}
             >
-              Supprimer
-            </Button>
+              <Stack display="flex" flexDirection="row" gap={1} flexWrap="wrap">
+                {values.items[index]?.articleName &&
+                  articles
+                    .find((a) => a.name === values.items[index].articleName)
+                    ?.suggest.map((suggestName, i) => {
+                      const suggestData = articles.find((a) => a.name === suggestName);
+                      return (
+                        <Link
+                          onClick={() => {
+                            if (suggestData) {
+                              handleAdd({
+                                data: {
+                                  articleId: suggestData.id,
+                                  articleName: suggestData.name,
+                                  quantity: 1,
+                                  price: suggestData.price,
+                                  tva: suggestData.tva,
+                                  remise: 0,
+                                  priceht: (
+                                    suggestData.price * 1 -
+                                    (suggestData.price * suggestData.tva) / 100
+                                  ).toFixed(2),
+                                  pricettc: suggestData.price.toFixed(2),
+                                },
+                              });
+                            }
+                          }}
+                          key={i}
+                          color="primary"
+                          variant="caption"
+                          sx={{ cursor: 'pointer' }}
+                        >
+                          {suggestName}
+                        </Link>
+                      );
+                    })}
+              </Stack>
+              <Button
+                size="small"
+                color="error"
+                startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
+                onClick={() => handleRemove(index)}
+              >
+                Supprimer
+              </Button>
+            </Stack>
           </Stack>
         ))}
       </Stack>
@@ -334,7 +392,7 @@ export function VenteNewEditDetails() {
         <Button
           size="small"
           color="primary"
-          variant='outlined'
+          variant="outlined"
           startIcon={<Iconify icon="mingcute:add-line" />}
           onClick={handleAdd}
           sx={{ flexShrink: 0 }}

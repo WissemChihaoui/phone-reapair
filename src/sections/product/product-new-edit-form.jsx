@@ -14,21 +14,39 @@ import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Grid, Table, Button, TableRow, TableBody, TableCell, CardContent } from '@mui/material';
+import {
+  Grid,
+  Table,
+  Button,
+  TableRow,
+  TableBody,
+  TableCell,
+  CardContent,
+} from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
 import { fDate, today } from 'src/utils/format-time';
 
-import {
-  _tags,
-  PRODUCT_CATEGORY_GROUP_OPTIONS,
-} from 'src/_mock';
+import { _tags, JOB_WORKING_SCHEDULE_OPTIONS, PRODUCT_CATEGORY_GROUP_OPTIONS } from 'src/_mock';
 
 import { toast } from 'src/components/snackbar';
 import { TableHeadCustom } from 'src/components/table';
 import { Form, Field, schemaHelper } from 'src/components/hook-form';
+
+export const telephonicArticles = [
+  { id: 1, title: 'iPhone 14 Pro Max' },
+  { id: 2, title: 'Samsung Galaxy S23 Ultra' },
+  { id: 3, title: 'Xiaomi Redmi Note 12' },
+  { id: 4, title: 'OnePlus 11' },
+  { id: 5, title: 'Huawei P60 Pro' },
+  { id: 6, title: 'Oppo Find X6' },
+  { id: 7, title: 'Google Pixel 8 Pro' },
+  { id: 8, title: 'Realme GT Neo 5' },
+  { id: 9, title: 'Sony Xperia 1 V' },
+  { id: 10, title: 'Motorola Edge 40 Pro' },
+];
 
 // ----------------------------------------------------------------------
 
@@ -51,13 +69,19 @@ export const NewProductSchema = zod.object({
   taxes: zod.number(),
   saleLabel: zod.object({ enabled: zod.boolean(), content: zod.string() }),
   newLabel: zod.object({ enabled: zod.boolean(), content: zod.string() }),
+  suggested: zod
+    .array(
+      zod.object({
+        title: zod.string(),
+      })
+    )
+    .optional(),
 });
 
 // ----------------------------------------------------------------------
 
 export function ProductNewEditForm({ currentProduct }) {
   const router = useRouter();
-
 
   const [includeTaxes, setIncludeTaxes] = useState(false);
 
@@ -83,9 +107,9 @@ export function ProductNewEditForm({ currentProduct }) {
       garantie: currentProduct?.garantie || 0,
       isGarantieVisible: currentProduct?.isGarantieVisible || false,
       dateAchat: currentProduct?.dateAchat || null,
-      facture: currentProduct?.facture || "",
+      facture: currentProduct?.facture || '',
       multiple: currentProduct?.multiple || false,
-      imei: currentProduct?.imei || "",
+      imei: currentProduct?.imei || '',
       tauxTva: currentProduct?.tauxTva || 0,
       sellPriceHt: currentProduct?.sellPriceHt || 0,
       buyPriceHt: currentProduct?.buyPriceHt || 0,
@@ -95,6 +119,7 @@ export function ProductNewEditForm({ currentProduct }) {
       tva: currentProduct?.tva || 0,
       margeBrute: currentProduct?.margeBrute || 0,
       tauxDeMarque: currentProduct?.tauxDeMarque || 0,
+      suggested: currentProduct?.suggested || [],
     }),
     [currentProduct]
   );
@@ -112,13 +137,12 @@ export function ProductNewEditForm({ currentProduct }) {
     formState: { isSubmitting },
   } = methods;
 
-  const quantityWatch = watch("quantity");
-  const multipleWatch = watch("multiple")
+  const quantityWatch = watch('quantity');
+  const multipleWatch = watch('multiple');
 
-  useEffect(()=> {
+  useEffect(() => {
     console.log(multipleWatch);
-    
-  },[multipleWatch])
+  }, [multipleWatch]);
 
   useEffect(() => {
     if (currentProduct) {
@@ -163,15 +187,23 @@ export function ProductNewEditForm({ currentProduct }) {
         <Field.Text name="description" label="Description" multiline rows={4} />
 
         <Stack spacing={1.5}>
-          <Stack display="flex" flexDirection="row" alignItems='center' justifyContent='space-between'>
+          <Stack
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Typography variant="subtitle2">Image Couverture</Typography>
             <FormControlLabel
-        control={<Switch checked={imageExist} onChange={()=> setImageExist((prev)=> !prev)} />}
-        label="Contient l'image"
-      />
-            
+              control={
+                <Switch checked={imageExist} onChange={() => setImageExist((prev) => !prev)} />
+              }
+              label="Contient l'image"
+            />
           </Stack>
-          {imageExist && <Field.Upload name="coverUrl" maxSize={3145728} onDelete={handleRemoveFile} />}
+          {imageExist && (
+            <Field.Upload name="coverUrl" maxSize={3145728} onDelete={handleRemoveFile} />
+          )}
         </Stack>
         <Box
           columnGap={2}
@@ -179,33 +211,33 @@ export function ProductNewEditForm({ currentProduct }) {
           display="grid"
           gridTemplateColumns={{ xs: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
         >
-        <Field.Select native name="category" label="Catégorie" InputLabelProps={{ shrink: true }}>
-          {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
-            <optgroup key={category.group} label={category.group}>
-              {category.classify.map((classify) => (
-                <option key={classify} value={classify}>
-                  {classify}
-                </option>
-              ))}
-            </optgroup>
-          ))}
-        </Field.Select>
-        <Field.Select
-          native
-          name="sousCategory"
-          label="Sous Catégorie"
-          InputLabelProps={{ shrink: true }}
-        >
-          {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
-            <optgroup key={category.group} label={category.group}>
-              {category.classify.map((classify) => (
-                <option key={classify} value={classify}>
-                  {classify}
-                </option>
-              ))}
-            </optgroup>
-          ))}
-        </Field.Select>
+          <Field.Select native name="category" label="Catégorie" InputLabelProps={{ shrink: true }}>
+            {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
+              <optgroup key={category.group} label={category.group}>
+                {category.classify.map((classify) => (
+                  <option key={classify} value={classify}>
+                    {classify}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </Field.Select>
+          <Field.Select
+            native
+            name="sousCategory"
+            label="Sous Catégorie"
+            InputLabelProps={{ shrink: true }}
+          >
+            {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
+              <optgroup key={category.group} label={category.group}>
+                {category.classify.map((classify) => (
+                  <option key={classify} value={classify}>
+                    {classify}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </Field.Select>
         </Box>
       </Stack>
     </Card>
@@ -260,12 +292,7 @@ export function ProductNewEditForm({ currentProduct }) {
             type="number"
             InputLabelProps={{ shrink: true }}
           />
-          <Field.Select
-            native
-            name="garantie"
-            label="Garantie"
-            InputLabelProps={{ shrink: true }}
-          >
+          <Field.Select native name="garantie" label="Garantie" InputLabelProps={{ shrink: true }}>
             {[
               'Pas de garantie',
               '1 Mois',
@@ -289,11 +316,10 @@ export function ProductNewEditForm({ currentProduct }) {
           <Field.DatePicker name="dateAchat" label="Date d'achat" />
 
           <Field.Text name="facture" label="N° Facture" />
-          
         </Box>
-        <Box >
-            <Field.Text name="link" label="Lien d'article" helperText="Sur le site du fournisseur"/>
-          </Box>
+        <Box>
+          <Field.Text name="link" label="Lien d'article" helperText="Sur le site du fournisseur" />
+        </Box>
       </Stack>
     </Card>
   );
@@ -304,21 +330,17 @@ export function ProductNewEditForm({ currentProduct }) {
       <Divider />
       <Stack spacing={3} sx={{ p: 3 }}>
         <Stack direction="row" alignItems="center" spacing={3}>
-          <Field.Switch 
-            name="multiple" 
-            label={null} 
-            sx={{ m: 0 }} 
-          />
+          <Field.Switch name="multiple" label={null} sx={{ m: 0 }} />
           <Typography variant="body">Multiple</Typography>
         </Stack>
-        
+
         {multipleWatch ? (
           // Render multiple IMEI fields based on the quantity
           Array.from({ length: quantityWatch }).map((_, index) => (
             <Field.Text
               key={index}
-              name={`imei[${index}]`}  // Dynamically name each IMEI field
-              label={`IMEI/N° Série ${index + 1}`}  // Label the IMEI field based on index
+              name={`imei[${index}]`} // Dynamically name each IMEI field
+              label={`IMEI/N° Série ${index + 1}`} // Label the IMEI field based on index
             />
           ))
         ) : (
@@ -503,80 +525,139 @@ export function ProductNewEditForm({ currentProduct }) {
             ),
           }}
         />
+      </Stack>
+    </Card>
+  );
 
+  const renderSuggestions = (
+    <Card>
+      <CardHeader
+        title="Produits suggérés"
+        subheader="Ajouter des articles similaires ou associés"
+      />
+      <Divider /> 
+      <Stack spacing={3} sx={{ p: 3 }}>
+        <Field.Autocomplete
+            name="workingSchedule"
+            placeholder="Produits suggérés"
+            multiple
+            disableCloseOnSelect
+            options={telephonicArticles.map((option) => option.title)}
+            getOptionLabel={(option) => option}
+            renderOption={(props, option) => (
+              <li {...props} key={option}>
+                {option}
+              </li>
+            )}
+            renderTags={(selected, getTagProps) =>
+              selected.map((option, index) => (
+                <Chip
+                  {...getTagProps({ index })}
+                  key={option}
+                  label={option}
+                  size="small"
+                  color="info"
+                  variant="soft"
+                />
+              ))
+            }
+          />
       </Stack>
     </Card>
   );
 
   const renderActions = (
-    <Stack mt={3} spacing={3} direction="row" width='100%' display="flex" justifyContent="flex-end" alignItems="center" flexWrap="wrap">
-      <Button variant='outlined' size="large" onClick={()=>router.push(paths.dashboard.stock.root)}>Annuler</Button>
-      <LoadingButton type="submit" variant="contained" size="large" color='primary' loading={isSubmitting}>
+    <Stack
+      mt={3}
+      spacing={3}
+      direction="row"
+      width="100%"
+      display="flex"
+      justifyContent="flex-end"
+      alignItems="center"
+      flexWrap="wrap"
+    >
+      <Button
+        variant="outlined"
+        size="large"
+        onClick={() => router.push(paths.dashboard.stock.root)}
+      >
+        Annuler
+      </Button>
+      <LoadingButton
+        type="submit"
+        variant="contained"
+        size="large"
+        color="primary"
+        loading={isSubmitting}
+      >
         {!currentProduct ? 'Créer Article' : 'Modifier'}
       </LoadingButton>
     </Stack>
   );
 
-  const TABLE_HEAD= [
-    { id: 'raison', label: 'Raison'},
-    { id: 'adjust', label: 'Ajustement'},
-    { id: 'prevQte', label: 'Ancienne Quantité'},
-    { id: 'newQte', label: 'Nouvelle Quantité'},
-    { id: 'date', label: 'Date'},
-    { id: 'note', label: 'Note'},
-    { id: 'fournisseur', label: 'Fournisseur'},
-  ]
+  const TABLE_HEAD = [
+    { id: 'raison', label: 'Raison' },
+    { id: 'adjust', label: 'Ajustement' },
+    { id: 'prevQte', label: 'Ancienne Quantité' },
+    { id: 'newQte', label: 'Nouvelle Quantité' },
+    { id: 'date', label: 'Date' },
+    { id: 'note', label: 'Note' },
+    { id: 'fournisseur', label: 'Fournisseur' },
+  ];
 
   const TABLE_DATA = [
     {
       id: 1,
-      raison:'Entreé',
-      adjust:'Rachat',
+      raison: 'Entreé',
+      adjust: 'Rachat',
       prevQte: 80,
       newQte: 90,
-      date:today(),
+      date: today(),
       note: 'Dis qc',
-      fournisseur:'Wissem Chihaoui',
-    }
-  ]
+      fournisseur: 'Wissem Chihaoui',
+    },
+  ];
 
   const renderAdjustTable = (
-   <Card sx={{ my:{ xs: 3, md: 5 } }}>
-    <CardHeader
+    <Card sx={{ my: { xs: 3, md: 5 } }}>
+      <CardHeader
         title="Les entrées/sorties"
         subheader="Historique ajustement des entrées et des sorties"
         sx={{ mb: 3 }}
       />
       <CardContent>
-      <Table>
-      <TableHeadCustom headLabel={TABLE_HEAD}/>
-      <TableBody>
-        {TABLE_DATA.map((row) => (
-          <TableRow key={row.id}>
-            <TableCell>{row.raison}</TableCell>
-            <TableCell>{row.adjust}</TableCell>
-            <TableCell>{row.prevQte}</TableCell>
-            <TableCell>{row.newQte}</TableCell>
-            <TableCell>{fDate(row.date)}</TableCell>
-            <TableCell>{row.note}</TableCell>
-            <TableCell>{row.fournisseur}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        <Table>
+          <TableHeadCustom headLabel={TABLE_HEAD} />
+          <TableBody>
+            {TABLE_DATA.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>{row.raison}</TableCell>
+                <TableCell>{row.adjust}</TableCell>
+                <TableCell>{row.prevQte}</TableCell>
+                <TableCell>{row.newQte}</TableCell>
+                <TableCell>{fDate(row.date)}</TableCell>
+                <TableCell>{row.note}</TableCell>
+                <TableCell>{row.fournisseur}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </CardContent>
-     
-   </Card>
-  )
+    </Card>
+  );
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>
-      <Stack display="grid" 
-        gridTemplateColumns={{  
+      <Stack
+        display="grid"
+        gridTemplateColumns={{
           sm: 'repeat(1, 1fr)',
           md: 'repeat(2, 1fr)',
-        }} 
-        spacing={{ xs: 3, md: 5 }} sx={{ mx: 'auto' }}>
+        }}
+        spacing={{ xs: 3, md: 5 }}
+        sx={{ mx: 'auto' }}
+      >
         {renderDetails}
 
         {renderProperties}
@@ -584,11 +665,11 @@ export function ProductNewEditForm({ currentProduct }) {
         {renderImei}
 
         {renderPricing}
-        </Stack>
-        {currentProduct && renderAdjustTable}
-        {renderActions}
-      
-      
+
+        {renderSuggestions}
+      </Stack>
+      {currentProduct && renderAdjustTable}
+      {renderActions}
     </Form>
   );
 }
