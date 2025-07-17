@@ -163,7 +163,9 @@ export const paths = {
       add: (id) => `${ROOTS.DASHBOARD}/ecologic/${id}/add`,
     },
     achats: {
-      root: `${ROOTS.DASHBOARD}/achats`
+      root: `${ROOTS.DASHBOARD}/achats`,
+      add: `${ROOTS.DASHBOARD}/achats/add`,
+      edit: (id) => `${ROOTS.DASHBOARD}/achats/${id}/edit`,
     }
   },
 };

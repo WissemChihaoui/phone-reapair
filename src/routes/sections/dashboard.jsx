@@ -97,6 +97,8 @@ const Ecosystem = lazy(() => import('src/pages/dashboard/ecosystem/add'))
 const Ecologic = lazy(() => import('src/pages/dashboard/ecologic/add'))
 
 const Achats = lazy(() => import('src/pages/dashboard/achats/index'))
+const AddAchats = lazy(() => import('src/pages/dashboard/achats/add'))
+const EditAchats = lazy(() => import('src/pages/dashboard/achats/edit'));
 
 // ----------------------------------------------------------------------
 
@@ -232,7 +234,9 @@ export const dashboardRoutes = [
       {
         path:'achats',
         children: [
-          {element: <Achats />, index: true}
+          {element: <Achats />, index: true},
+          {element: <AddAchats />, path: 'add'},
+          {element: <EditAchats />, path: ':id/edit'},
         ]
       },
       {

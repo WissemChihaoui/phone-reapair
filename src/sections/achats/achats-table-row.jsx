@@ -1,8 +1,20 @@
 import React from 'react';
 
-import { Box, Stack, Tooltip, Checkbox, TableRow, TableCell, IconButton, Button } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Button,
+  Tooltip,
+  Checkbox,
+  TableRow,
+  TableCell,
+  IconButton,
+} from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
+
+import { fDate } from 'src/utils/format-time';
+import { fCurrency } from 'src/utils/format-number';
 
 import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
@@ -37,10 +49,10 @@ export default function AchatsTableRow({ row, selected, onSelectRow, onViewRow, 
           </Box>
         </TableCell>
 
-        <TableCell>{row.ht.toFixed(2)}</TableCell>
-        <TableCell>{row.ttc.toFixed(2)}</TableCell>
+        <TableCell>{fCurrency(row.ht)}</TableCell>
+        <TableCell>{fCurrency(row.ttc)}</TableCell>
         <TableCell>{row.facture}</TableCell>
-        <TableCell>{row.date}</TableCell>
+        <TableCell>{fDate(row.date)}</TableCell>
 
         <TableCell>
           {row.fix && (
@@ -70,7 +82,7 @@ export default function AchatsTableRow({ row, selected, onSelectRow, onViewRow, 
             </Tooltip>
 
             <Tooltip title="Supprimer">
-              <IconButton color="error" onClick={confirm.onTrue}>
+              <IconButton color="error" onClick={() => confirm.onTrue()}>
                 <Iconify icon="solar:trash-bin-trash-bold" />
               </IconButton>
             </Tooltip>

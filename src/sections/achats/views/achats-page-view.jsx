@@ -1,26 +1,16 @@
 import { toast } from 'sonner';
-import React, { useCallback, useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
-import {
-  Stack,
-  Button,
-  Box,
-  Tooltip,
-  IconButton,
-  Table,
-  TableBody,
-  Card,
-  TableCell,
-  TableRow,
-} from '@mui/material';
+import { Box, Card, Stack, Table, Button, Tooltip, TableBody, IconButton } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
+import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
-import { fIsAfter, fIsBetween } from 'src/utils/format-time';
+import { fIsAfter, fIsBetween, today } from 'src/utils/format-time';
 
 import { DashboardContent } from 'src/layouts/dashboard';
 
@@ -39,6 +29,10 @@ import {
 } from 'src/components/table';
 
 import AchatsTableRow from '../achats-table-row';
+import { AchatsTableToolbar } from '../achats-table-toolbar';
+import { AchatsFiltersResult } from '../achats-filters-result';
+import OrganismeDialog from '../organisme-dialog';
+// import AchatsTableToolbar from '../achats-table-toolbar';
 
 const TABLE_HEAD = [
   { id: 'organisme', label: 'Organisme' },
@@ -57,7 +51,7 @@ const data = [
     ht: 65.0,
     ttc: 78.0,
     facture: 'F-0254',
-    date: '2020-04-30',
+    date: today(),
     fix: false,
   },
   {
@@ -66,7 +60,7 @@ const data = [
     ht: 12.5,
     ttc: 15.0,
     facture: 'd5f65f6d',
-    date: '2025-05-01',
+    date: '2025-07-16T00:00:00+01:00',
     fix: false,
   },
   {
@@ -75,7 +69,7 @@ const data = [
     ht: 65.0,
     ttc: 89.0,
     facture: 'sdfsdf5',
-    date: '2025-04-23',
+    date: '2025-04-23T00:00:00+01:00',
     fix: true,
   },
   {
@@ -84,12 +78,13 @@ const data = [
     ht: 25.0,
     ttc: 30.0,
     facture: 'F-6955',
-    date: '2025-04-10',
+    date: '2025-04-10T00:00:00+01:00',
     fix: false,
   },
 ];
 
 export default function AchatsPageView() {
+  const org = useBoolean();
   const table = useTable({ defaultOrderBy: 'orderNumber' });
   const router = useRouter();
 
@@ -99,7 +94,7 @@ export default function AchatsPageView() {
 
   const filters = useSetState({
     name: '',
-    status: 'all',
+    fix: false,
     startDate: null,
     endDate: null,
   });
@@ -117,7 +112,7 @@ export default function AchatsPageView() {
 
   const canReset =
     !!filters.state.name ||
-    filters.state.status !== 'all' ||
+    filters.state.fix !== false ||
     (!!filters.state.startDate && !!filters.state.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
@@ -150,7 +145,7 @@ export default function AchatsPageView() {
 
   const handleViewRow = useCallback(
     (id) => {
-      router.push(paths.dashboard.order.details(id));
+      router.push(paths.dashboard.achats.edit(id));
     },
     [router]
   );
@@ -162,100 +157,122 @@ export default function AchatsPageView() {
     },
     [filters, table]
   );
-  return (
-    <DashboardContent>
-      <CustomBreadcrumbs
-        heading="Ma Boutique"
-        links={[
-          { name: 'Tableau du bord', href: paths.dashboard.root },
-          { name: 'Achats & Dépenses', href: paths.dashboard.achats.root },
-          { name: 'Liste' },
-        ]}
-        sx={{ mb: { xs: 3, md: 5 } }}
-        action={
-          <Stack gap={1} display="flex" flexDirection="row">
-            <Button variant="outlined" color="primary">
-              Mes organismes
-            </Button>
-            <Button variant="contained" color="primary">
-              Ajouter une dépense
-            </Button>
-          </Stack>
-        }
-      />
-      <Card>
-        {/* toolbar  */}
 
-        <Box sx={{ position: 'relative' }}>
-          <TableSelectedAction
-            dense={table.dense}
-            numSelected={table.selected.length}
-            rowCount={dataFiltered.length}
-            onSelectAllRows={(checked) =>
-              table.onSelectAllRows(
-                checked,
-                dataFiltered.map((row) => row.id)
-              )
-            }
-            action={
-              <Tooltip title="Delete">
-                <IconButton color="primary" onClick={confirm.onTrue}>
-                  <Iconify icon="solar:trash-bin-trash-bold" />
-                </IconButton>
-              </Tooltip>
-            }
+  return (
+    <>
+      <DashboardContent>
+        <CustomBreadcrumbs
+          heading="Liste des Dépenses"
+          links={[
+            { name: 'Tableau du bord', href: paths.dashboard.root },
+            { name: 'Achats & Dépenses', href: paths.dashboard.achats.root },
+            { name: 'Liste' },
+          ]}
+          sx={{ mb: { xs: 3, md: 5 } }}
+          action={
+            <Stack gap={1} display="flex" flexDirection="row">
+              <Button variant="outlined" color="primary" onClick={org.onTrue}>
+                Mes organismes
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                href={paths.dashboard.achats.add}
+                LinkComponent={RouterLink}
+              >
+                Ajouter une dépense
+              </Button>
+            </Stack>
+          }
+        />
+        <Card>
+          {/* toolbar  */}
+          <AchatsTableToolbar
+            filters={filters}
+            onResetPage={table.onResetPage}
+            dateError={dateError}
           />
 
-          <Scrollbar sx={{ minHeight: 444 }}>
-            <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-              <TableHeadCustom
-                order={table.order}
-                orderBy={table.orderBy}
-                headLabel={TABLE_HEAD}
-                rowCount={dataFiltered.length}
-                numSelected={table.selected.length}
-                onSort={table.onSort}
-                onSelectAllRows={(checked) =>
-                  table.onSelectAllRows(
-                    checked,
-                    dataFiltered.map((row) => row.id)
-                  )
-                }
-              />
+          {canReset && (
+            <AchatsFiltersResult
+              filters={filters}
+              totalResults={dataFiltered.length}
+              onResetPage={table.onResetPage}
+              sx={{ p: 2.5, pt: 0 }}
+            />
+          )}
 
-              <TableBody>
-                {dataFiltered
-                  .slice(
-                    table.page * table.rowsPerPage,
-                    table.page * table.rowsPerPage + table.rowsPerPage
-                  )
-                  .map((row) => (
-                    <AchatsTableRow
-                      row={row}
-                      selected={table.selected.includes(row.id)}
-                      onSelectRow={() => table.onSelectRow(row.id)}
-                      onDeleteRow={() => handleDeleteRow(row.id)}
-                      onViewRow={() => handleViewRow(row.id)}
-                    />
-                  ))}
+          <Box sx={{ position: 'relative' }}>
+            <TableSelectedAction
+              dense={table.dense}
+              numSelected={table.selected.length}
+              rowCount={dataFiltered.length}
+              onSelectAllRows={(checked) =>
+                table.onSelectAllRows(
+                  checked,
+                  dataFiltered.map((row) => row.id)
+                )
+              }
+              action={
+                <Tooltip title="Delete">
+                  <IconButton color="primary" onClick={confirm.onTrue}>
+                    <Iconify icon="solar:trash-bin-trash-bold" />
+                  </IconButton>
+                </Tooltip>
+              }
+            />
 
-                <TableEmptyRows
-                  height={table.dense ? 56 : 56 + 20}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
+            <Scrollbar sx={{ minHeight: 444 }}>
+              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
+                <TableHeadCustom
+                  order={table.order}
+                  orderBy={table.orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={dataFiltered.length}
+                  numSelected={table.selected.length}
+                  onSort={table.onSort}
+                  onSelectAllRows={(checked) =>
+                    table.onSelectAllRows(
+                      checked,
+                      dataFiltered.map((row) => row.id)
+                    )
+                  }
                 />
 
-                <TableNoData notFound={notFound} />
-              </TableBody>
-            </Table>
-          </Scrollbar>
-        </Box>
-        {/* filterResult */}
-      </Card>
-    </DashboardContent>
+                <TableBody>
+                  {dataFiltered
+                    .slice(
+                      table.page * table.rowsPerPage,
+                      table.page * table.rowsPerPage + table.rowsPerPage
+                    )
+                    .map((row) => (
+                      <AchatsTableRow
+                        row={row}
+                        selected={table.selected.includes(row.id)}
+                        onSelectRow={() => table.onSelectRow(row.id)}
+                        onDeleteRow={() => handleDeleteRow(row.id)}
+                        onViewRow={() => handleViewRow(row.id)}
+                      />
+                    ))}
+
+                  <TableEmptyRows
+                    height={table.dense ? 56 : 56 + 20}
+                    emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
+                  />
+
+                  <TableNoData notFound={notFound} />
+                </TableBody>
+              </Table>
+            </Scrollbar>
+          </Box>
+        </Card>
+      </DashboardContent>
+      <OrganismeDialog open={org.value} onClose={org.onFalse} />
+    </>
   );
 }
 function applyFilter({ inputData, comparator, filters, dateError }) {
-  const { status, name, startDate, endDate } = filters;
+  const { fix, name, startDate, endDate } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -270,19 +287,18 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
   if (name) {
     inputData = inputData.filter(
       (order) =>
-        order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        order.organisme.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+        order.facture.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 
-  if (status !== 'all') {
-    inputData = inputData.filter((order) => order.status === status);
+  if (fix !== false) {
+    inputData = inputData.filter((order) => order.fix === fix);
   }
 
   if (!dateError) {
     if (startDate && endDate) {
-      inputData = inputData.filter((order) => fIsBetween(order.createdAt, startDate, endDate));
+      inputData = inputData.filter((order) => fIsBetween(order.date, startDate, endDate));
     }
   }
 
