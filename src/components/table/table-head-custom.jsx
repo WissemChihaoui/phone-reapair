@@ -4,6 +4,7 @@ import Checkbox from '@mui/material/Checkbox';
 import TableHead from '@mui/material/TableHead';
 import TableCell from '@mui/material/TableCell';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import { useTheme } from '@emotion/react';
 
 // ----------------------------------------------------------------------
 
@@ -31,11 +32,12 @@ export function TableHeadCustom({
   numSelected = 0,
   onSelectAllRows,
 }) {
+  const theme = useTheme();
   return (
     <TableHead sx={sx}>
       <TableRow>
         {onSelectAllRows && (
-          <TableCell padding="checkbox">
+          <TableCell padding="checkbox" sx={{ backgroundColor: theme.palette.primary.light }}>
             <Checkbox
               indeterminate={!!numSelected && numSelected < rowCount}
               checked={!!rowCount && numSelected === rowCount}
@@ -53,7 +55,16 @@ export function TableHeadCustom({
             key={headCell.id}
             align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ width: headCell.width, minWidth: headCell.minWidth }}
+            sx={{
+              width: headCell.width,
+              minWidth: headCell.minWidth,
+              backgroundColor: theme.palette.primary.light,
+              color: theme.palette.primary.contrastText,
+              fontWeight: 'bold',
+              '&:hover': {
+                color: theme.palette.primary.main, // or any color you want on hover
+              },
+            }}
           >
             {onSort ? (
               <TableSortLabel
@@ -61,6 +72,11 @@ export function TableHeadCustom({
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : 'asc'}
                 onClick={() => onSort(headCell.id)}
+                sx={{
+                  '&:hover': {
+                    color: theme.palette.primary.main, // or any color you want on hover
+                  },
+                }}
               >
                 {headCell.label}
 

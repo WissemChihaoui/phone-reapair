@@ -1,12 +1,18 @@
-import { LoadingButton } from '@mui/lab';
-import { Card, Divider, Stack } from '@mui/material';
 import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { Form } from 'src/components/hook-form';
-import { useBoolean } from 'src/hooks/use-boolean';
-import { DashboardContent } from 'src/layouts/dashboard';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+
+import { LoadingButton } from '@mui/lab';
+import { Card, Stack, Divider } from '@mui/material';
+
 import { paths } from 'src/routes/paths';
+
+import { useBoolean } from 'src/hooks/use-boolean';
+
+import { DashboardContent } from 'src/layouts/dashboard';
+
+import { Form } from 'src/components/hook-form';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+
 import ClientFormView from '../forms/client-form-view';
 import ArticleFormView from '../forms/article-form-view';
 import PaymentFormView from '../forms/payment-form-view';
@@ -26,7 +32,7 @@ export default function AddReparationView() {
               price: null,
               champ: '',
               remise: null,
-              totalHT: null, /* price x qte */
+              totalHT: null /* price x qte */,
             },
           ],
           oeuvre: [
@@ -36,10 +42,10 @@ export default function AddReparationView() {
               champ: '',
             },
           ],
-          totalPiece:null, /* SUM(piece.totalHT) */
-          totalOeuvre:null, /* SUM(oeuvre.price) */
-          totalHT: null, /* totalPiece + totalOeuvre */
-          totalRemise: null, /* SUM(piece.remise) */
+          totalPiece: null /* SUM(piece.totalHT) */,
+          totalOeuvre: null /* SUM(oeuvre.price) */,
+          totalHT: null /* totalPiece + totalOeuvre */,
+          totalRemise: null /* SUM(piece.remise) */,
           type: '',
           marque: '',
           modele: '',
@@ -58,16 +64,16 @@ export default function AddReparationView() {
           technicien: '',
         },
       ],
-      totalHT:null, /* SUM(products.totalHT) */
-      totalRemise:null, /* SUM(products.totalRemise) */
-      totalTTC:null, /* this.totalHT - this.totalRemise */
-      payment : [
+      totalHT: null /* SUM(products.totalHT) */,
+      totalRemise: null /* SUM(products.totalRemise) */,
+      totalTTC: null /* this.totalHT - this.totalRemise */,
+      payment: [
         {
           method: null,
-          amount: null
+          amount: null,
         },
       ],
-      paid: null, /* SUM(payment.amount) */
+      paid: null /* SUM(payment.amount) */,
       settings: {
         notifications: null,
         etat: null,
@@ -75,8 +81,8 @@ export default function AddReparationView() {
         isMateriel: false,
         materiel: null,
         delai: null,
-        validity: null
-      }
+        validity: null,
+      },
     }),
     []
   );
@@ -94,38 +100,37 @@ export default function AddReparationView() {
   const save = handleSubmit(async (data) => {
     loadingSave.onTrue();
     console.log(data);
-  })
+  });
   return (
     <DashboardContent>
-          <CustomBreadcrumbs
-            heading="Créer une nouvelle réparation"
-            links={[
-              { name: 'Tableau de bord', href: paths.dashboard.root },
-              { name: 'Réparation', href: paths.dashboard.vente.root },
-              { name: 'Ajouter' },
-            ]}
-            sx={{ mb: { xs: 3, md: 5 } }}
-          />
-          <Form methods={methods}>
-      <Card>
-        <ClientFormView />
-        <Divider />
-        <ArticleFormView />
-        <PaymentFormView />
-      </Card>
-      <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
-        <LoadingButton
-          color="inherit"
-          size="large"
-          variant="outlined"
-          loading={loadingSave.value && isSubmitting}
-          onClick={save}
-        >
-          Enregistrer
-        </LoadingButton>
-      </Stack>
-    </Form>
-        </DashboardContent>
-    
+      <CustomBreadcrumbs
+        heading="Créer une nouvelle réparation"
+        links={[
+          { name: 'Tableau de bord', href: paths.dashboard.root },
+          { name: 'Réparation', href: paths.dashboard.vente.root },
+          { name: 'Ajouter' },
+        ]}
+        sx={{ mb: { xs: 3, md: 5 } }}
+      />
+      <Form methods={methods}>
+        <Card>
+          <ClientFormView />
+          <Divider />
+          <ArticleFormView />
+          <PaymentFormView />
+        </Card>
+        <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
+          <LoadingButton
+            color="inherit"
+            size="large"
+            variant="outlined"
+            loading={loadingSave.value && isSubmitting}
+            onClick={save}
+          >
+            Enregistrer
+          </LoadingButton>
+        </Stack>
+      </Form>
+    </DashboardContent>
   );
 }

@@ -1,16 +1,22 @@
-import { Button, Tab, Tabs } from '@mui/material';
 import React from 'react'
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { useTabs } from 'src/hooks/use-tabs';
-import { CustomTabs } from 'src/components/custom-tabs';
-import { DashboardContent } from 'src/layouts/dashboard';
-import { Iconify } from 'src/components/iconify';
-import { RouterLink } from 'src/routes/components';
+
+import { Tab, Button } from '@mui/material';
+
 import { paths } from 'src/routes/paths';
-import { ReparationListView } from './reparation-list-view';
+import { RouterLink } from 'src/routes/components';
+
+import { useTabs } from 'src/hooks/use-tabs';
+
+import { DashboardContent } from 'src/layouts/dashboard';
+
+import { Iconify } from 'src/components/iconify';
+import { CustomTabs } from 'src/components/custom-tabs';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+
 import { DevisListView } from './devis-list-view';
-import { ReparationExtListView } from './reparation-externe-list-view';
 import { ArchiveListView } from './archive-list-view';
+import { ReparationListView } from './reparation-list-view';
+import { ReparationExtListView } from './reparation-externe-list-view';
 
 const REP_DEVIS = [
     { label: 'Réparation', value: 'rep' },
@@ -37,7 +43,6 @@ export default function ReparationDevisView() {
       );
     
   return (
-    <>
     <DashboardContent>
         <CustomBreadcrumbs
           heading="Réparation & Devis"
@@ -58,6 +63,5 @@ export default function ReparationDevisView() {
     {tabs.value === 'rep-e' && <ReparationExtListView />}
     {tabs.value === 'archive' && <ArchiveListView />}
     </DashboardContent>
-    </>
   )
 }

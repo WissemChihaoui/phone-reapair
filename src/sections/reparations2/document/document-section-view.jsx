@@ -134,23 +134,43 @@ export default function DocumentSectionView({
         <Grid xs={12} md={2}>
           <Box p={4}>
             <Stack spacing={2}>
-              {['piece', 'oeuvre', 'service', 'group'].map((type) => (
-                <Button
-                  key={type}
-                  onClick={() => handleAddElement(type)}
-                  variant="contained"
-                  sx={{ textTransform: 'capitalize' }}
-                >
-                  {type === 'piece' && 'Pièce à changer'}
-                  {type === 'oeuvre' && "Main d'oeuvre"}
-                  {type === 'service' && 'Service'}
-                  {type === 'group' && 'Regroupement'}
-                </Button>
-              ))}
+              <Button
+                onClick={() => handleAddElement('piece')}
+                variant="contained"
+                color="primary"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                Pièce à changer
+              </Button>
+              <Button
+                onClick={() => handleAddElement('oeuvre')}
+                variant="contained"
+                color="secondary"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                Main d&apos;oeuvre
+              </Button>
+              <Button
+                onClick={() => handleAddElement('service')}
+                variant="contained"
+                color="success"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                Service
+              </Button>
+              <Button
+                onClick={() => handleAddElement('group')}
+                variant="contained"
+                color="warning"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                Regroupement
+              </Button>
               <Button
                 onClick={popover.onOpen}
                 startIcon={<Iconify icon="mdi:plus" />}
                 variant="outlined"
+                color="info"
               >
                 Ajouter élément
               </Button>

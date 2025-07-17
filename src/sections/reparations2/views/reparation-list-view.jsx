@@ -36,10 +36,7 @@ import { ReparationTableToolbar } from '../reparation-table-toolbar';
 import { ReparationTableFiltersResult } from '../reparation-table-filter-result';
 import { ReparationTableRow } from '../reparation-table-row';
 
-
 // ----------------------------------------------------------------------
-
-
 
 const TABLE_HEAD = [
   { id: '', label: 'Actions', width: 88 },
@@ -56,7 +53,7 @@ const TABLE_HEAD = [
 
 const TABLE_DATA = [
   {
-    orderNumber:'R85-9-88',
+    orderNumber: 'R85-9-88',
     name: 'Technicien 1',
     rep: 'Réparation 1',
     piece: 'Piéce 1',
@@ -65,9 +62,9 @@ const TABLE_DATA = [
     createdAt: '2024-11-25T12:41:34+01:00',
     totalAmount: 288,
     status: 'Prise en charge',
-    id: 'e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1'
-  }
-]
+    id: 'e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1',
+  },
+];
 
 // ----------------------------------------------------------------------
 
@@ -81,7 +78,6 @@ export function ReparationListView() {
   const [tableData, setTableData] = useState(TABLE_DATA);
 
   console.log(tableData);
-  
 
   const filters = useSetState({
     name: '',
@@ -150,103 +146,113 @@ export function ReparationListView() {
   );
 
   console.log(filters);
-  
 
   return (
     <>
-        <Card>
-         
-          <ReparationTableToolbar
+      <Card>
+        <ReparationTableToolbar
+          filters={filters}
+          onResetPage={table.onResetPage}
+          dateError={dateError}
+        />
+
+        {canReset && (
+          <ReparationTableFiltersResult
             filters={filters}
+            totalResults={dataFiltered.length}
             onResetPage={table.onResetPage}
-            dateError={dateError}
+            sx={{ p: 2.5, pt: 0 }}
+          />
+        )}
+
+        <Box sx={{ position: 'relative' }}>
+          <TableSelectedAction
+            dense={table.dense}
+            numSelected={table.selected.length}
+            rowCount={dataFiltered.length}
+            onSelectAllRows={(checked) =>
+              table.onSelectAllRows(
+                checked,
+                dataFiltered.map((row) => row.id)
+              )
+            }
+            action={
+              <Tooltip title="Supprimer">
+                <IconButton color="primary" onClick={confirm.onTrue}>
+                  <Iconify icon="solar:trash-bin-trash-bold" />
+                </IconButton>
+              </Tooltip>
+            }
           />
 
-          {canReset && (
-            <ReparationTableFiltersResult
-              filters={filters}
-              totalResults={dataFiltered.length}
-              onResetPage={table.onResetPage}
-              sx={{ p: 2.5, pt: 0 }}
-            />
-          )}
+          <Scrollbar sx={{ minHeight: 444 }}>
+            <Table
+              size={table.dense ? 'small' : 'medium'}
+              sx={{
+                minWidth: 960,
+                '& thead th': {
+                  backgroundColor: '#f5f5f5',
+                },
+              }}
+            >
+              <TableHeadCustom
+                order={table.order}
+                orderBy={table.orderBy}
+                headLabel={TABLE_HEAD}
+                rowCount={dataFiltered.length}
+                numSelected={table.selected.length}
+                onSort={table.onSort}
+                onSelectAllRows={(checked) =>
+                  table.onSelectAllRows(
+                    checked,
+                    dataFiltered.map((row) => row.id)
+                  )
+                }
+                sx={{
+                  '& .MuiTableCell-head': {
+                    backgroundColor: '#F00!important', // Change this to your desired color
+                  },
+                }}
+              />
 
-          <Box sx={{ position: 'relative' }}>
-            <TableSelectedAction
-              dense={table.dense}
-              numSelected={table.selected.length}
-              rowCount={dataFiltered.length}
-              onSelectAllRows={(checked) =>
-                table.onSelectAllRows(
-                  checked,
-                  dataFiltered.map((row) => row.id)
-                )
-              }
-              action={
-                <Tooltip title="Supprimer">
-                  <IconButton color="primary" onClick={confirm.onTrue}>
-                    <Iconify icon="solar:trash-bin-trash-bold" />
-                  </IconButton>
-                </Tooltip>
-              }
-            />
+              <TableBody>
+                {dataFiltered
+                  .slice(
+                    table.page * table.rowsPerPage,
+                    table.page * table.rowsPerPage + table.rowsPerPage
+                  )
+                  .map((row) => (
+                    <ReparationTableRow
+                      key={row.id}
+                      row={row}
+                      selected={table.selected.includes(row.id)}
+                      onSelectRow={() => table.onSelectRow(row.id)}
+                      onDeleteRow={() => handleDeleteRow(row.id)}
+                      onViewRow={() => handleViewRow(row.id)}
+                    />
+                  ))}
 
-            <Scrollbar sx={{ minHeight: 444 }}>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-                <TableHeadCustom
-                  order={table.order}
-                  orderBy={table.orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={dataFiltered.length}
-                  numSelected={table.selected.length}
-                  onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      dataFiltered.map((row) => row.id)
-                    )
-                  }
+                <TableEmptyRows
+                  height={table.dense ? 56 : 56 + 20}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
                 />
 
-                <TableBody>
-                  {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
-                    .map((row) => (
-                      <ReparationTableRow
-                        key={row.id}
-                        row={row}
-                        selected={table.selected.includes(row.id)}
-                        onSelectRow={() => table.onSelectRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        onViewRow={() => handleViewRow(row.id)}
-                      />
-                    ))}
+                <TableNoData notFound={notFound} />
+              </TableBody>
+            </Table>
+          </Scrollbar>
+        </Box>
 
-                  <TableEmptyRows
-                    height={table.dense ? 56 : 56 + 20}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
-                  />
-
-                  <TableNoData notFound={notFound} />
-                </TableBody>
-              </Table>
-            </Scrollbar>
-          </Box>
-
-          <TablePaginationCustom
-            page={table.page}
-            dense={table.dense}
-            count={dataFiltered.length}
-            rowsPerPage={table.rowsPerPage}
-            onPageChange={table.onChangePage}
-            onChangeDense={table.onChangeDense}
-            onRowsPerPageChange={table.onChangeRowsPerPage}
-          />
-        </Card>
-      
+        <TablePaginationCustom
+          page={table.page}
+          dense={table.dense}
+          count={dataFiltered.length}
+          rowsPerPage={table.rowsPerPage}
+          onPageChange={table.onChangePage}
+          onChangeDense={table.onChangeDense}
+          onRowsPerPageChange={table.onChangeRowsPerPage}
+        />
+      </Card>
 
       <ConfirmDialog
         open={confirm.value}

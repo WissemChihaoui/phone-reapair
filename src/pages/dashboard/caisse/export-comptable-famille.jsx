@@ -2,11 +2,11 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import ReparationDevisView from 'src/sections/reparations/views/reparation-devis-view';
+import { ExportMargeFamille } from 'src/sections/caisse/export-comptable-famille/view/export-marge-famille';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Liste des réparations - ${CONFIG.appName}` };
+const metadata = { title: `Export comptable/famille - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -14,7 +14,7 @@ export default function Page() {
       <Helmet>
         <title> {metadata.title}</title>
       </Helmet>
-      <ReparationDevisView />
+      <ExportMargeFamille />
     </>
   );
 }

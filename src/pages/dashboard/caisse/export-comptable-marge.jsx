@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
+
 import { ExportMargeListView } from 'src/sections/caisse/export-comptable-marge/view/export-marge-list-view';
 
 // ----------------------------------------------------------------------

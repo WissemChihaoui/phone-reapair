@@ -15,27 +15,32 @@ import RapportPanneModal from './rapport-panne-modal';
 import DocumentSectionView from './document/document-section-view';
 
 const MATERIAL_TYPES = [
+  { value: '', label: 'Choisir ...' },
   { value: 'smartphone', label: 'Smartphone' },
   { value: 'tablet', label: 'Tablet' },
   { value: 'laptop', label: 'Laptop' }
 ];
 
 const BRANDS = [
+  { value: '', label: 'Choisir ...' },
   { value: 'apple', label: 'Apple' },
   { value: 'samsung', label: 'Samsung' }
 ];
 
 const MODELS = [
+  { value: '', label: 'Choisir ...' },
   { value: 'iphone13', label: 'iPhone 13' },
   { value: 'galaxy22', label: 'Galaxy S22' }
 ];
 
 const TECHNICIANS = [
+  { value: '', label: 'Choisir ...' },
   { value: 'tech1', label: 'Jean Dupont' },
   { value: 'tech2', label: 'Marie Martin' }
 ];
 
 const CONDITIONS = [
+  { value: '', label: 'Choisir ...' },
   { value: 'new', label: 'Comme neuf' },
   { value: 'good', label: 'Bon état' }
 ];
@@ -72,11 +77,11 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
   };
 
   // Get current values for proper Autocomplete handling
-  const currentMaterial = MATERIAL_TYPES.find(opt => opt.value === currentValues?.type);
-  const currentBrand = BRANDS.find(opt => opt.value === currentValues?.marque);
-  const currentModel = MODELS.find(opt => opt.value === currentValues?.modele);
-  const currentCondition = CONDITIONS.find(opt => opt.value === currentValues?.etat);
-  const currentTechnician = TECHNICIANS.find(opt => opt.value === currentValues?.technicien);
+  const currentMaterial = MATERIAL_TYPES.find(opt => opt.value === currentValues?.type) || MATERIAL_TYPES[0];
+  const currentBrand = BRANDS.find(opt => opt.value === currentValues?.marque) || BRANDS[0];
+  const currentModel = MODELS.find(opt => opt.value === currentValues?.modele) || MODELS[0];
+  const currentCondition = CONDITIONS.find(opt => opt.value === currentValues?.etat) || CONDITIONS[0];
+  const currentTechnician = TECHNICIANS.find(opt => opt.value === currentValues?.technicien) || TECHNICIANS[0];
 
   return (
     <>
@@ -90,7 +95,7 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
             options={MATERIAL_TYPES}
             getOptionLabel={(option) => option.label}
             isOptionEqualToValue={(option, value) => option.value === value?.value}
-            // value={currentMaterial || null}
+            value={currentMaterial}
           />
         </Grid>
 
@@ -104,9 +109,9 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
               options={BRANDS}
               getOptionLabel={(option) => option.label}
               isOptionEqualToValue={(option, value) => option.value === value?.value}
-              // value={currentBrand || null}
+              value={currentBrand}
             />
-            <Button variant="contained" onClick={openAddMarque.onTrue}>+</Button>
+            <Button color='success' variant="contained" onClick={openAddMarque.onTrue}>+</Button>
           </Stack>
         </Grid>
 
@@ -120,9 +125,9 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
               options={MODELS}
               getOptionLabel={(option) => option.label}
               isOptionEqualToValue={(option, value) => option.value === value?.value}
-              // value={currentModel || null}
+              value={currentModel}
             />
-            <Button variant="contained" onClick={openAddModele.onTrue}>+</Button>
+            <Button color='success' variant="contained" onClick={openAddModele.onTrue}>+</Button>
           </Stack>
         </Grid>
 
@@ -143,7 +148,7 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
             options={CONDITIONS}
             getOptionLabel={(option) => option.label}
             isOptionEqualToValue={(option, value) => option.value === value?.value}
-            // value={currentCondition || null}
+            value={currentCondition}
           />
         </Grid>
 
@@ -158,6 +163,8 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
         {/* Rapport Section */}
         <Grid xs={12} md={4}>
           <Button
+            sx={{ height: '100%' }}
+            color='warning'
             fullWidth
             variant="contained"
             onClick={openRapport.onTrue}
@@ -201,6 +208,8 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
         {/* Additional Actions */}
         <Grid xs={12} md={4}>
           <Button
+            sx={{ height: '100%' }}
+            color='warning'
             fullWidth
             variant="contained"
             onClick={openPad.onTrue}
@@ -226,7 +235,7 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
             options={TECHNICIANS}
             getOptionLabel={(option) => option.label}
             isOptionEqualToValue={(option, value) => option.value === value?.value}
-            // value={currentTechnician || null}
+            value={currentTechnician}
           />
         </Grid>
 

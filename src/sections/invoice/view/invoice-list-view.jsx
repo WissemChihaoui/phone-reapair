@@ -49,6 +49,7 @@ import { InvoiceAnalytic } from '../invoice-analytic';
 import { InvoiceTableRow } from '../invoice-table-row';
 import { InvoiceTableToolbar } from '../invoice-table-toolbar';
 import { InvoiceTableFiltersResult } from '../invoice-table-filters-result';
+import InvoiceExport from '../invoice-export';
 
 // ----------------------------------------------------------------------
 
@@ -322,6 +323,8 @@ export function InvoiceListView() {
             </Stack>
           </Scrollbar>
         </Card>
+
+        <InvoiceExport />
 
         <Card>
           <Tabs

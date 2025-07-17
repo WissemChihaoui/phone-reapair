@@ -17,6 +17,11 @@ import { Iconify } from 'src/components/iconify';
 
 import VenteNewEditAddClient from 'src/sections/vente/vente-new-edit-add-client';
 
+// import { AddressListDialog } from '../address';
+// import VenteNewEditAddClient from './vente-new-edit-add-client';
+
+// ----------------------------------------------------------------------
+
 export default function ClientFormView() {
   const {
     watch,
@@ -25,11 +30,14 @@ export default function ClientFormView() {
   } = useFormContext();
 
   const mdUp = useResponsive('up', 'md');
-  const addClient = useBoolean();
-  const [clientTo, setClientTo] = useState(null);
 
   const values = watch();
+
+  const [clientTo, setClientTo] = useState();
+
   const { client } = values;
+
+  const addClient = useBoolean();
 
   const handlePassager = () => {
     setValue('client', {
@@ -37,37 +45,12 @@ export default function ClientFormView() {
       name: 'Client Passager',
       fullAddress: '123, Passager',
       phoneNumber: '',
-      email: '',
-      company: ''
     });
     setClientTo(null);
   };
 
   const handleSelectAddress = (option) => {
-    if (option) {
-      setValue('client', { 
-        id: option.id,
-        name: option.name,
-        fullAddress: option.fullAddress,
-        phoneNumber: option.phoneNumber,
-        email: option.email,
-        company: option.company
-      });
-    } else {
-      setValue('client', {
-        id: '',
-        name: '',
-        fullAddress: '',
-        phoneNumber: '',
-        email: '',
-        company: ''
-      });
-    }
-  };
-
-  const handleAddClientSuccess = (newClient) => {
-    setValue('client', newClient);
-    addClient.onFalse();
+    setValue('client', { ...option });
   };
 
   return (
@@ -85,13 +68,13 @@ export default function ClientFormView() {
         sx={{ p: 3 }}
       >
         <Stack sx={{ width: 1 }}>
-          <Stack direction="row" alignItems="center" sx={{ mb: 2 }}>
+          <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
             <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
               Choisir Client
             </Typography>
           </Stack>
 
-          <Stack spacing={2}>
+          <Stack>
             <Autocomplete
               value={clientTo}
               fullWidth
@@ -100,20 +83,12 @@ export default function ClientFormView() {
                 setClientTo(option);
                 handleSelectAddress(option);
               }}
-              getOptionLabel={(option) => option?.name || ''}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              renderInput={(params) => (
-                <TextField 
-                  {...params} 
-                  label="Client" 
-                  margin="none" 
-                  error={!!errors.client}
-                  helperText={errors.client?.message}
-                />
-              )}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => <TextField {...params} label="Client" margin="none" />}
               renderOption={(props, option) => (
-                <li {...props} key={option.id}>
+                <li {...props} key={option.name}>
                   <Stack
+                    key={option.id}
                     sx={{
                       py: 1,
                       my: 0.5,
@@ -148,76 +123,67 @@ export default function ClientFormView() {
               )}
             />
 
-            <Box display="flex" gap={2} width={1}>
+            <Box display="flex" gap={1} width={1} mt={3}>
               <Button
-                fullWidth
-                variant="contained"
                 startIcon={<Iconify icon="mingcute:add-line" />}
-                onClick={addClient.onTrue}
+                sx={{ alignSelf: 'flex-end', width: '100%' }}
+                variant="contained"
+                color="primary"
+                onClick={() => addClient.onTrue()}
               >
-                Créer client
+                Creér client
               </Button>
               <Button
-                fullWidth
-                variant="outlined"
                 startIcon={<Iconify icon="mingcute:user-1-line" />}
-                onClick={handlePassager}
+                sx={{ alignSelf: 'flex-end', width: '100%' }}
+                onClick={() => handlePassager()}
+                variant="outlined"
               >
-                Client Passager
+                Client Passager aze
               </Button>
             </Box>
           </Stack>
         </Stack>
-
         <Stack sx={{ width: 1 }}>
-          <Stack direction="row" alignItems="center" sx={{ mb: 2 }}>
+          <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
             <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
-              Informations Client
+              Client:
             </Typography>
           </Stack>
 
-          {client?.name ? (
-            <Stack spacing={1.5}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                {client.name}
-              </Typography>
-              {client.company && (
-                <Typography variant="body2" sx={{ color: 'primary.main' }}>
-                  {client.company}
-                </Typography>
-              )}
-              {client.fullAddress && (
-                <Typography variant="body2">
-                  <Iconify icon="mingcute:location-line" width={16} sx={{ mr: 1 }} />
-                  {client.fullAddress}
-                </Typography>
-              )}
-              {client.phoneNumber && (
-                <Typography variant="body2">
-                  <Iconify icon="mingcute:phone-line" width={16} sx={{ mr: 1 }} />
-                  {client.phoneNumber}
-                </Typography>
-              )}
-              {client.email && (
-                <Typography variant="body2">
-                  <Iconify icon="mingcute:mail-line" width={16} sx={{ mr: 1 }} />
-                  {client.email}
-                </Typography>
-              )}
-            </Stack>
-          ) : (
-            <Typography variant="body2" sx={{ color: 'text.disabled' }}>
-              Aucun client sélectionné
+          <Stack spacing={1}>
+           <Typography variant="subtitle2">{client?.name}</Typography>
+            <Typography variant="caption" sx={{ color: 'primary.main' }}>
+              {client?.company}
             </Typography>
-          )}
+            <TextField
+              label="Adresse"
+              value={client?.fullAddress || ''}
+              onChange={(e) => setValue('client.fullAddress', e.target.value)}
+              size="small"
+              fullWidth
+              margin="dense"
+            />
+            <TextField
+              label="Téléphone"
+              value={client?.phoneNumber || ''}
+              onChange={(e) => setValue('client.phoneNumber', e.target.value)}
+              size="small"
+              fullWidth
+              margin="dense"
+            />
+            <TextField
+              label="Email"
+              value={client?.email || ''}
+              onChange={(e) => setValue('client.email', e.target.value)}
+              size="small"
+              fullWidth
+              margin="dense"
+            />
+          </Stack>
         </Stack>
       </Stack>
-
-      <VenteNewEditAddClient 
-        open={addClient.value} 
-        onClose={addClient.onFalse}
-        onSuccess={handleAddClientSuccess}
-      />
+      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse} />
     </>
   );
 }

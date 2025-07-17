@@ -59,6 +59,7 @@ const Caisse = lazy(() => import('src/pages/dashboard/caisse/index'))
 const Depot = lazy(() => import('src/pages/dashboard/caisse/depot'))
 const ExportComptable = lazy(() => import('src/pages/dashboard/caisse/export-comptable'))
 const ExportComptableMarge = lazy(() => import('src/pages/dashboard/caisse/export-comptable-marge'))
+const ExportComptableFamille = lazy(() => import('src/pages/dashboard/caisse/export-comptable-famille'))
 const Statistics = lazy(() => import('src/pages/dashboard/caisse/statistics'))
 
 const Employees = lazy(() => import('src/pages/dashboard/boutique/employees'))
@@ -199,6 +200,7 @@ export const dashboardRoutes = [
           {element: <Depot />, path: 'depot'},
           {element: <ExportComptable />, path: 'export-comptable'},
           {element: <ExportComptableMarge />, path: 'export-comptable-marge'},
+          {element: <ExportComptableFamille />, path: 'export-comptable-famille'},
           {element: <Statistics />, path: 'statistics'},
         ]
       },
