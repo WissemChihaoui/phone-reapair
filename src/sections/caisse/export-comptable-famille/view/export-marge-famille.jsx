@@ -15,7 +15,6 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
-import { useSetState } from 'src/hooks/use-set-state';
 
 import { today, fIsAfter, fIsBetween } from 'src/utils/format-time';
 
@@ -33,17 +32,13 @@ import {
   emptyRows,
   rowInPage,
   TableNoData,
-  getComparator,
   TableEmptyRows,
   TableHeadCustom,
   TableSelectedAction,
   TablePaginationCustom,
 } from 'src/components/table';
-import { ExportFamilleTableRow } from '../export-famille-table-row';
 
-// import { ExportMargeTableRow } from '../export-marge-table-row';
-// import { ExportMargeTableFiltersResult } from '../export-marge-table-filters-result';
-// import { ExportMargeTableToolbar } from '../export-marge-table-toolbar';
+import { ExportFamilleTableRow } from '../export-famille-table-row';
 
 // ----------------------------------------------------------------------
 
@@ -55,95 +50,79 @@ const STATUS_OPTIONS = [
 ];
 
 const TABLE_HEAD = [
-  { id: 'orderNumber', label: '#Facture', width: 100 },
-  { id: 'ref', label: 'Référence' },
-  { id: 'products', label: 'Articles' },
-  { id: 'ht', label: 'HT', width: 80, align: 'center' },
-  { id: 'taux', label: 'TAUX', width: 80, align: 'center' },
-  { id: 'tva', label: 'TVA', width: 80, align: 'center' },
-  { id: 'ttc', label: 'TTC', width: 80, align: 'center' },
-  { id: 'totalTva', label: 'total TVA', width: 100, align: 'center' },
-  { id: 'totalHt', label: 'total HT', width: 100, align: 'center' },
-  { id: 'totalTtc', label: 'total TTC', width: 100, align: 'center' },
-  { id: 'createdAt', label: 'Date', width: 120 },
+  { id: 'orderNumber', label: 'N°Facture', width: 120 },
+  { id: 'famille', label: 'Famille', width: 120 },
+  { id: 'ref', label: 'Référence', width: 120 },
+  { id: 'articles', label: 'Articles' },
+  { id: 'totalTva', label: 'Total TVA', width: 120, align: 'center' },
+  { id: 'totalHt', label: 'Total HT', width: 120, align: 'center' },
+  { id: 'totalTtc', label: 'Total TTC', width: 120, align: 'center' },
 ];
 
-
+// Example TABLE_DATA with articles array containing required fields
 const TABLE_DATA = [
   {
     id: 5488,
     orderNumber: 'F111220241',
+    famille: 'Famille A',
     ref: 'v258446',
     type: 'vente',
-    date: today(),
     status: 'avoir',
-    marge: 20,
-    items : [
+    date: today(),
+    articles: [
       {
-        id: 1,
-        article: 'article with quarantie',
-        priceHt: 16.67,
-        tvaPercent: 20,
+        name: 'Article 1',
+        ht: 16.67,
+        taux: 20,
+        tva: 3.33,
+        ttc: 20,
+        date: today(),
+        type: 'typeA',
       },
       {
-        id: 2,
-        article: 'article with quarantie',
-        priceHt: 20,
-        tvaPercent: 10,
+        name: 'Article 2',
+        ht: 20,
+        taux: 10,
+        tva: 2,
+        ttc: 22,
+        date: today(),
+        type: 'typeB',
       },
     ],
-    payement: [
-      {amount: 10, methode: "Paypal"},
-      {amount: 10, methode: "Virement"}
-    ]
   },
   {
-    id: 5488,
-    orderNumber: 'F111220241',
-    ref: 'v258446',
-    type: 'vente',
+    id: 5489,
+    orderNumber: 'F111220242',
+    famille: 'Famille B',
+    ref: 'v258447',
+    type: 'achat',
+    status: 'facture',
     date: today(),
-    status: 'avoir',
-    marge: 20,
-    items : [
+    articles: [
       {
-        id: 1,
-        article: 'article with quarantie',
-        priceHt: 16.67,
-        tvaPercent: 20,
-      },
-      {
-        id: 2,
-        article: 'article with quarantie',
-        priceHt: 20,
-        tvaPercent: 10,
+        name: 'Article 3',
+        ht: 10,
+        taux: 5,
+        tva: 0.5,
+        ttc: 10.5,
+        date: today(),
+        type: 'typeA',
       },
     ],
-    payement: [
-      {amount: 10, methode: "Paypal"},
-      {amount: 10, methode: "Virement"}
-    ]
   },
-]
+];
 
-// ----------------------------------------------------------------------
-function calculateTotals (data){
-  return data.reduce(
-    (totals, row) => {
-      row.items.forEach((item) => {
-        const tvaValue = (item.priceHt * item.tvaPercent) / 100; // TVA value
-        totals.totalHT += item.priceHt;
-        totals.totalTVA += tvaValue;
-        totals.totalTTC += item.priceHt + tvaValue;
-      });
+// Calculate totals for each row
+function calculateRowTotals(articles) {
+  return articles.reduce(
+    (totals, art) => {
+      totals.totalHT += art.ht;
+      totals.totalTVA += art.tva;
+      totals.totalTTC += art.ttc;
       return totals;
     },
     { totalHT: 0, totalTVA: 0, totalTTC: 0 }
   );
-};
-
-function calculateTotalMarge(data) {
-  return data.reduce((total, row) => total + (row.marge || 0), 0);
 }
 
 export function ExportMargeFamille() {
@@ -157,28 +136,34 @@ export function ExportMargeFamille() {
 
   console.log(tableData);
 
-  const filters = useSetState({
+  const [filters, setFilters] = useState({
     type: '',
-    status: 'all',
+    articleType: '',
     startDate: null,
     endDate: null,
   });
 
-  const dateError = fIsAfter(filters.state.startDate, filters.state.endDate);
+  const dateError = fIsAfter(filters.startDate, filters.endDate);
 
-  const dataFiltered = applyFilter({
-    inputData: tableData,
-    comparator: getComparator(table.order, table.orderBy),
-    filters: filters.state,
-    dateError,
+  // Filtering logic
+  const dataFiltered = tableData.filter((row) => {
+    // Filter by type
+    if (filters.type && row.type !== filters.type) return false;
+    // Filter by date
+    if (filters.startDate && filters.endDate) {
+      if (!fIsBetween(row.date, filters.startDate, filters.endDate)) return false;
+    }
+    // Filter by article type
+    if (filters.articleType) {
+      if (!row.articles.some((a) => a.type === filters.articleType)) return false;
+    }
+    return true;
   });
 
   const dataInPage = rowInPage(dataFiltered, table.page, table.rowsPerPage);
 
   const canReset =
-    !!filters.state.type ||
-    filters.state.status !== 'all' ||
-    (!!filters.state.startDate && !!filters.state.endDate);
+    !!filters.type || filters.status !== 'all' || (!!filters.startDate && !!filters.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
@@ -223,8 +208,7 @@ export function ExportMargeFamille() {
     [filters, table]
   );
 
-  const totals = calculateTotals(dataFiltered);
-  const totalMarge = calculateTotalMarge(TABLE_DATA);
+  const totals = calculateRowTotals(dataFiltered);
 
   return (
     <>
@@ -241,7 +225,7 @@ export function ExportMargeFamille() {
 
         <Card>
           <Tabs
-            value={filters.state.status}
+            value={filters.status}
             onChange={handleFilterStatus}
             sx={{
               px: 2.5,
@@ -258,8 +242,7 @@ export function ExportMargeFamille() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === filters.state.status) && 'filled') ||
-                      'soft'
+                      ((tab.value === 'all' || tab.value === filters.status) && 'filled') || 'soft'
                     }
                     color={
                       (tab.value === 'avoir' && 'success') ||
@@ -321,7 +304,6 @@ export function ExportMargeFamille() {
                   rowCount={dataFiltered.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
-                  
                 />
 
                 <TableBody>
@@ -340,33 +322,29 @@ export function ExportMargeFamille() {
                         onViewRow={() => handleViewRow(row.id)}
                       />
                     ))}
-
                   <TableEmptyRows
-                    height={table.dense ? 56 : 56 + 20}
+                    height={table.dense ? 56 : 76}
                     emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
                   />
 
                   <TableNoData notFound={notFound} />
                 </TableBody>
                 <TableFooter>
-    <TableRow>
-      <TableCell colSpan={5} align="right" sx={{ fontWeight: 'bold' }}>
-        Totals
-      </TableCell>
-      <TableCell align="center" sx={{ fontWeight: 'bold' }}>
-        {totals.totalTVA.toFixed(2)} €
-      </TableCell>
-      <TableCell align="center" sx={{ fontWeight: 'bold' }}>
-        {totals.totalHT.toFixed(2)} €
-      </TableCell>
-      <TableCell align="center" sx={{ fontWeight: 'bold' }}>
-        {totals.totalTTC.toFixed(2)} €
-      </TableCell>
-      <TableCell align="center" sx={{ fontWeight: 'bold' }}>
-        {totalMarge.toFixed(2)} €
-      </TableCell>
-    </TableRow>
-  </TableFooter>
+                  <TableRow>
+                    <TableCell colSpan={4} align="right" sx={{ fontWeight: 'bold' }}>
+                      Totals
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+                      {totals.totalTVA.toFixed(2)} €
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+                      {totals.totalHT.toFixed(2)} €
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+                      {totals.totalTTC.toFixed(2)} €
+                    </TableCell>
+                  </TableRow>
+                </TableFooter>
               </Table>
             </Scrollbar>
           </Box>
@@ -422,8 +400,8 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
 
   inputData = stabilizedThis.map((el) => el[0]);
 
-  if(type){
-    inputData = inputData.filter((order) => order.type.toLowerCase === type.toLowerCase)
+  if (type) {
+    inputData = inputData.filter((order) => order.type.toLowerCase === type.toLowerCase);
   }
 
   if (status !== 'all') {
@@ -438,5 +416,3 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
 
   return inputData;
 }
-
-
