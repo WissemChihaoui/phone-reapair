@@ -15,6 +15,7 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
+import { useSetState } from 'src/hooks/use-set-state';
 
 import { today, fIsAfter, fIsBetween } from 'src/utils/format-time';
 
@@ -38,7 +39,9 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
+import { ExportTableToolbar } from '../export-table-toolbar';
 import { ExportFamilleTableRow } from '../export-famille-table-row';
+import { ExportFamilleFiltersResult } from '../export-famille-filters-result';
 
 // ----------------------------------------------------------------------
 
@@ -59,7 +62,6 @@ const TABLE_HEAD = [
   { id: 'totalTtc', label: 'Total TTC', width: 120, align: 'center' },
 ];
 
-// Example TABLE_DATA with articles array containing required fields
 const TABLE_DATA = [
   {
     id: 5488,
@@ -125,6 +127,26 @@ function calculateRowTotals(articles) {
   );
 }
 
+// Filtering function
+function applyFilter({ inputData, filters }) {
+  const { status, type, articleType, startDate, endDate } = filters;
+  let filtered = [...inputData];
+
+  if (type) {
+    filtered = filtered.filter((row) => row.famille === type);
+  }
+  if (status && status !== 'all') {
+    filtered = filtered.filter((row) => row.status === status);
+  }
+  if (startDate && endDate) {
+    filtered = filtered.filter((row) => fIsBetween(row.date, startDate, endDate));
+  }
+  if (articleType) {
+    filtered = filtered.filter((row) => row.articles.some((a) => a.type === articleType));
+  }
+  return filtered;
+}
+
 export function ExportMargeFamille() {
   const table = useTable({ defaultOrderBy: 'orderNumber' });
 
@@ -134,36 +156,26 @@ export function ExportMargeFamille() {
 
   const [tableData, setTableData] = useState(TABLE_DATA);
 
-  console.log(tableData);
-
-  const [filters, setFilters] = useState({
+  const filters= useSetState({
     type: '',
+    status: 'all',
     articleType: '',
     startDate: null,
     endDate: null,
   });
 
-  const dateError = fIsAfter(filters.startDate, filters.endDate);
+  const dateError = fIsAfter(filters.state.startDate, filters.state.endDate);
 
-  // Filtering logic
-  const dataFiltered = tableData.filter((row) => {
-    // Filter by type
-    if (filters.type && row.type !== filters.type) return false;
-    // Filter by date
-    if (filters.startDate && filters.endDate) {
-      if (!fIsBetween(row.date, filters.startDate, filters.endDate)) return false;
-    }
-    // Filter by article type
-    if (filters.articleType) {
-      if (!row.articles.some((a) => a.type === filters.articleType)) return false;
-    }
-    return true;
-  });
+  // Use applyFilter for filtering
+  const dataFiltered = applyFilter({ inputData: tableData, filters: filters.state });
 
   const dataInPage = rowInPage(dataFiltered, table.page, table.rowsPerPage);
 
   const canReset =
-    !!filters.type || filters.status !== 'all' || (!!filters.startDate && !!filters.endDate);
+    !!filters.state.type ||
+    filters.state.status !== 'all' ||
+    !!filters.state.articleType ||
+    (!!filters.state.startDate && !!filters.state.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
@@ -208,24 +220,25 @@ export function ExportMargeFamille() {
     [filters, table]
   );
 
-  const totals = calculateRowTotals(dataFiltered);
+  const totals = calculateRowTotals(dataFiltered.flatMap((row) => row.articles));
 
   return (
     <>
       <DashboardContent>
         <CustomBreadcrumbs
-          heading="Liste des exports comptable marge"
+          heading="Liste des export comptable famille"
           links={[
             { name: 'Tableau de bord', href: paths.dashboard.root },
-            { name: 'Export Comptable', href: paths.dashboard.caisse.exportComptable },
+            { name: 'Export Comptable Famille', href: paths.dashboard.caisse.exportComptable },
             { name: 'Liste' },
           ]}
+       
           sx={{ mb: { xs: 3, md: 5 } }}
         />
 
         <Card>
           <Tabs
-            value={filters.status}
+            value={filters.state.status}
             onChange={handleFilterStatus}
             sx={{
               px: 2.5,
@@ -260,20 +273,20 @@ export function ExportMargeFamille() {
             ))}
           </Tabs>
 
-          {/* <ExportMargeTableToolbar
-            filters={filters}
+          <ExportTableToolbar
             onResetPage={table.onResetPage}
             dateError={dateError}
-          /> */}
+            filters={filters}
+          />
 
-          {/* {canReset && (
-            <ExportMargeTableFiltersResult
+          {canReset && (
+            <ExportFamilleFiltersResult
               filters={filters}
               totalResults={dataFiltered.length}
               onResetPage={table.onResetPage}
               sx={{ p: 2.5, pt: 0 }}
             />
-          )} */}
+          )}
 
           <Box sx={{ position: 'relative' }}>
             <TableSelectedAction
@@ -385,34 +398,4 @@ export function ExportMargeFamille() {
       />
     </>
   );
-}
-
-function applyFilter({ inputData, comparator, filters, dateError }) {
-  const { status, type, startDate, endDate } = filters;
-
-  const stabilizedThis = inputData.map((el, index) => [el, index]);
-
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-
-  inputData = stabilizedThis.map((el) => el[0]);
-
-  if (type) {
-    inputData = inputData.filter((order) => order.type.toLowerCase === type.toLowerCase);
-  }
-
-  if (status !== 'all') {
-    inputData = inputData.filter((order) => order.status === status);
-  }
-
-  if (!dateError) {
-    if (startDate && endDate) {
-      inputData = inputData.filter((order) => fIsBetween(order.createdAt, startDate, endDate));
-    }
-  }
-
-  return inputData;
 }

@@ -1,20 +1,28 @@
-import { CONFIG } from 'src/config-global';
-import { Box, Button, Card, IconButton, Tab, Table, TableBody, Tabs, Tooltip } from '@mui/material';
-import React, { useCallback, useState } from 'react';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { Iconify } from 'src/components/iconify';
-import { Label } from 'src/components/label';
-import { emptyRows, getComparator, TableEmptyRows, TableHeadCustom, TableNoData, TableSelectedAction, useTable } from 'src/components/table';
-import { useSetState } from 'src/hooks/use-set-state';
-import { Scrollbar } from 'src/components/scrollbar';
-import { DashboardContent } from 'src/layouts/dashboard';
+import React, { useState, useCallback } from 'react';
+
+import { Box, Tab, Card, Tabs, Table, Button, TableBody, Stack, MenuItem } from '@mui/material';
+
 import { paths } from 'src/routes/paths';
-import { varAlpha } from 'src/theme/styles';
-import { fIsAfter, fIsBetween, today } from 'src/utils/format-time';
 import { RouterLink } from 'src/routes/components';
+
+import { useSetState } from 'src/hooks/use-set-state';
+
+import { fIsAfter, fIsBetween } from 'src/utils/format-time';
+
+import { CONFIG } from 'src/config-global';
+import { varAlpha } from 'src/theme/styles';
+import { DashboardContent } from 'src/layouts/dashboard';
+
+import { Label } from 'src/components/label';
+import { Iconify } from 'src/components/iconify';
+import { Scrollbar } from 'src/components/scrollbar';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { useTable, emptyRows, TableNoData, getComparator, TableEmptyRows, TableHeadCustom } from 'src/components/table';
+
+import { RachatTableRow } from '../rachat-table-row';
 import { RachatTableToolbar } from '../rachat-table-toolbar';
 import {RachatTableFiltersResult} from '../rachat-table-filters-result';
-import { RachatTableRow } from '../rachat-table-row';
 
 
 const _ETAT_OPTIONS = [
@@ -57,6 +65,8 @@ const TABLE_HEAD = [
 export default function RachatListView() {
   const table = useTable({ defaultOrderBy: 'date' });
 
+  const popover = usePopover();
+
   const [tableData, setTableData] = useState(_orders);
 
   const filters = useSetState({
@@ -90,8 +100,7 @@ export default function RachatListView() {
     [filters, table]
   );
   return (
-    <>
-      <DashboardContent>
+    <DashboardContent>
         <CustomBreadcrumbs
           heading="Liste des rachats"
           links={[
@@ -100,6 +109,10 @@ export default function RachatListView() {
             { name: 'Liste' },
           ]}
           action={
+            <Stack direction="row" spacing={1} alignItems="center">
+            <Button onClick={popover.onOpen} variant="outlined" startIcon={<Iconify icon="solar:export-bold" />}>
+              Exporter
+            </Button>
             <Button
               component={RouterLink}
               variant="contained"
@@ -108,6 +121,23 @@ export default function RachatListView() {
             >
               Ajouter Rachat
             </Button>
+
+            <CustomPopover
+              open={popover.open}
+              onClose={popover.onClose}
+              anchorEl={popover.anchorEl}
+              title="Exporter"
+            >
+              <Stack spacing={1}>
+                <MenuItem startIcon={<Iconify icon="solar:csv" />}>
+                  Exporter en CSV
+                </MenuItem>
+                <MenuItem startIcon={<Iconify icon="solar:xlsx" />}>
+                  Exporter en PDF
+                </MenuItem>
+              </Stack>
+            </CustomPopover>
+            </Stack>
           }
           sx={{ mb: { xs: 3, md: 5 } }}
         />
@@ -204,7 +234,6 @@ export default function RachatListView() {
             </Box>
         </Card>
       </DashboardContent>
-    </>
   );
 }
 

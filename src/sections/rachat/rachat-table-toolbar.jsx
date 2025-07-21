@@ -95,24 +95,7 @@ export function RachatTableToolbar({ filters, onResetPage, dateError }) {
             }}
           />
 
-          <Button
-            sx={{ px: 4 }}
-            size="large"
-            color="primary"
-            variant="outlined"
-            startIcon={<Iconify icon="foundation:page-export-csv" />}
-          >
-            CSV
-          </Button>
-          <Button
-            sx={{ px: 4 }}
-            size="large"
-            color="success"
-            variant="outlined"
-            startIcon={<Iconify icon="foundation:page-export-pdf" />}
-          >
-            Imprimer
-          </Button>
+        
         </Stack>
       </Stack>
 

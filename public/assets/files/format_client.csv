@@ -1,0 +1,3 @@
+nom & prenom;societe;email;telephone;fix;adresse;code postale;ville;genre(0:homme-1:femme);type client(particulier/entreprise);siret;numero tva;gerant
+test importation;;test@importation.com;123456789;9876543210;adresse;75015;ville;0;particulier;;;
+nom de la societe ;societe;ste@gmail.com;698520325;236985;adresse societe;75015;ville;0;entreprise;FR025863256;tva12563;nom de la gerant

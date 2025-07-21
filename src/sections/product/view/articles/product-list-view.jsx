@@ -4,7 +4,16 @@ import { useState, useEffect, useCallback } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { Box, Fab, Input, Dialog, MenuItem, MenuList, InputLabel, DialogActions } from '@mui/material';
+import {
+  Box,
+  Fab,
+  Input,
+  Dialog,
+  MenuItem,
+  MenuList,
+  InputLabel,
+  DialogActions,
+} from '@mui/material';
 import {
   DataGrid,
   gridClasses,
@@ -64,6 +73,7 @@ export function ProductListView() {
   const view = useBoolean();
 
   const popover = usePopover();
+  const stock = usePopover();
 
   const router = useRouter();
 
@@ -353,10 +363,7 @@ export function ProductListView() {
               </Button>
               <Button
                 variant="outlined"
-                onClick={view.onTrue}
-                // href={paths.dashboard.stock.etatStock}
-                // target='_blank'
-                // LinkComponent={RouterLink}
+                onClick={stock.onOpen}
                 startIcon={<Iconify icon="solar:import-bold" />}
               >
                 Etat du stock
@@ -488,6 +495,17 @@ export function ProductListView() {
         </MenuList>
       </CustomPopover>
 
+      <CustomPopover open={stock.open} anchorEl={stock.anchorEl} onClose={stock.onClose}>
+        <MenuList>
+          <MenuItem onClick={() => {
+            view.onTrue();
+            stock.onClose();
+          }}>PDF</MenuItem>
+          <MenuItem onClick={stock.onClose}>CSV</MenuItem>
+        </MenuList>
+
+      </CustomPopover>
+
       <Dialog fullScreen open={view.value}>
         <Box sx={{ height: 1, display: 'flex', flexDirection: 'column' }}>
           <DialogActions sx={{ p: 1.5 }}>
@@ -499,18 +517,18 @@ export function ProductListView() {
           <Box sx={{ flexGrow: 1, height: 1, overflow: 'hidden' }}>
             <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
               <EtatStockPdf
-  data={[
-    { title: 'article 1', qty: 10, buyPrice: 5, sellPrice: 6 },
-    // ...
-  ]}
-  company={{
-    name: 'demo reparateur',
-    address: 'Rue Général Delacroix - Bazin\n97139 Les Abymes',
-    phone: '0690751575',
-    siret: '',
-    tva: '',
-  }}
-/>
+                data={[
+                  { title: 'article 1', qty: 10, buyPrice: 5, sellPrice: 6 },
+                  // ...
+                ]}
+                company={{
+                  name: 'demo reparateur',
+                  address: 'Rue Général Delacroix - Bazin\n97139 Les Abymes',
+                  phone: '0690751575',
+                  siret: '',
+                  tva: '',
+                }}
+              />
             </PDFViewer>
           </Box>
         </Box>
@@ -554,9 +572,9 @@ function CustomToolbar({
               Supprimer ({selectedRowIds.length})
             </Button>
           )}
-
+{/* 
           <GridToolbarColumnsButton />
-          <GridToolbarExport />
+          <GridToolbarExport /> */}
         </Stack>
       </GridToolbarContainer>
 

@@ -6,6 +6,7 @@ import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import TableBody from '@mui/material/TableBody';
+import { Input, InputLabel, MenuItem, Stack } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 
 import { paths } from 'src/routes/paths';
@@ -13,16 +14,17 @@ import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
-import { useSetState } from 'src/hooks/use-set-state'; 
+import { useSetState } from 'src/hooks/use-set-state';
 
 import { DashboardContent } from 'src/layouts/dashboard';
-import { _clientList , USER_STATUS_OPTIONS, _clientTypes } from 'src/_mock';
+import { _clientList, _clientTypes, USER_STATUS_OPTIONS } from 'src/_mock';
 
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
 import {
   useTable,
   emptyRows,
@@ -38,7 +40,6 @@ import {
 import { UserTableRow } from '../user-table-row';
 import { UserTableToolbar } from '../user-table-toolbar';
 import { UserTableFiltersResult } from '../user-table-filters-result';
-
 
 // ----------------------------------------------------------------------
 
@@ -58,15 +59,14 @@ const TABLE_HEAD = [
 export function UserListView() {
   const table = useTable({ defaultDense: true });
 
+  const popover = usePopover();
+
   const router = useRouter();
 
   const confirm = useBoolean();
 
   const [tableData, setTableData] = useState(_clientList);
 
-
-  console.log((tableData));
-  
   const filters = useSetState({ name: '', type: [], status: 'all' });
 
   const dataFiltered = applyFilter({
@@ -123,6 +123,59 @@ export function UserListView() {
     [filters, table]
   );
 
+  const handleDownloadFormat = () => {
+    const link = document.createElement('a');
+    link.href = '/assets/files/format_client.csv';
+    link.setAttribute('download', 'format_client.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    popover.onClose();
+  };
+
+  const handleTriggerFileInput = () => {
+    const fileInput = document.getElementById('csv-upload-input');
+    if (fileInput) {
+      fileInput.value = ''; // reset in case same file selected again
+      fileInput.click();
+    }
+    popover.onClose();
+  };
+
+  // const handleFileUpload = (event) => {
+  //   const file = event.target.files?.[0];
+  //   console.log(file)
+  //   if (!file) return;
+
+  //   const fileName = file.name.toLowerCase();
+  //   const isCSV = fileName.endsWith('.csv');
+
+  //   if (!isCSV) {
+  //     toast.error('Veuillez sélectionner un fichier CSV valide.');
+  //     return;
+  //   }
+
+  //   // Optional: parse or send to backend
+  //   toast.success(`Fichier "${file.name}" importé avec succès.`);
+
+  //   // Example: Just reading content
+  //   const reader = new FileReader();
+  //   reader.onload = (e) => {
+  //     const text = e.target.result;
+  //     console.log('Contenu du fichier CSV :', text);
+  //     // You can parse the CSV here using PapaParse or manual parsing
+  //   };
+  //   reader.readAsText(file);
+  // };
+
+  const handleCsvImport = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === 'text/csv') {
+      toast.success(`Fichier CSV "${file.name}" prêt à être importé.`);
+    } else {
+      toast.error('Veuillez sélectionner un fichier CSV valide.');
+    }
+  };
   return (
     <>
       <DashboardContent>
@@ -134,14 +187,46 @@ export function UserListView() {
             { name: 'Liste' },
           ]}
           action={
-            <Button
-              component={RouterLink}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-              href={paths.dashboard.client.add}
-            >
-              Ajouter Client
-            </Button>
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Button
+                onClick={popover.onOpen}
+                variant="outlined"
+                startIcon={<Iconify icon="material-symbols:upload-rounded" />}
+              >
+                Importer
+              </Button>
+              <Button
+                component={RouterLink}
+                variant="contained"
+                startIcon={<Iconify icon="mingcute:add-line" />}
+                href={paths.dashboard.client.add}
+              >
+                Ajouter Client
+              </Button>
+
+              <CustomPopover
+                open={popover.open}
+                onClose={popover.onClose}
+                anchorEl={popover.anchorEl}
+              >
+                <Box sx={{ p: 1 }}>
+                  <MenuItem onClick={handleDownloadFormat}>Format</MenuItem>
+
+                  <MenuItem>
+                    <InputLabel htmlFor="csv-import" style={{ cursor: 'pointer', width: '100%' }}>
+                      Importer le fichier CSV
+                    </InputLabel>
+                    <Input
+                      id="csv-import"
+                      type="file"
+                      inputProps={{ accept: '.csv' }}
+                      sx={{ display: 'none' }}
+                      onChange={handleCsvImport}
+                    />
+                  </MenuItem>
+                </Box>
+              </CustomPopover>
+            </Stack>
           }
           sx={{ mb: { xs: 3, md: 5 } }}
         />

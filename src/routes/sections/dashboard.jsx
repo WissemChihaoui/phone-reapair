@@ -101,6 +101,8 @@ const Achats = lazy(() => import('src/pages/dashboard/achats/index'))
 const AddAchats = lazy(() => import('src/pages/dashboard/achats/add'))
 const EditAchats = lazy(() => import('src/pages/dashboard/achats/edit'));
 
+const SAV = lazy(() => import('src/pages/dashboard/sav/index'));
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -191,6 +193,12 @@ export const dashboardRoutes = [
         children: [
           {element: <Invoice />, index: true},
           {element: <InvoicePrint />, path: ':id/print'}
+        ]
+      },
+      {
+        path: 'sav',
+        children: [
+          {element: <SAV />, index: true},
         ]
       },
       {

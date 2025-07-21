@@ -126,9 +126,9 @@ export function ReparationDetailsInfo({ customer, delivery, payment, shippingAdd
       {renderCustomer}
       <Divider sx={{ borderStyle: 'dashed' }} />
 
-      {renderShipping}
+      {/* {renderShipping} */}
 
-      <Divider sx={{ borderStyle: 'dashed' }} />
+      {/* <Divider sx={{ borderStyle: 'dashed' }} /> */}
 
       {renderDelivery}
 

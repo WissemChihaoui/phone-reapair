@@ -8,10 +8,10 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { formHelperTextClasses } from '@mui/material/FormHelperText';
+import { Button, FormControl, InputLabel, OutlinedInput, Select } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
-import { Button, FormControl, InputLabel, OutlinedInput, Select } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -108,9 +108,6 @@ export function ExportTableToolbar({ filters, onResetPage, dateError }) {
               ))}
             </Select>
           </FormControl>
-
-        <IconButton color='primary'><Iconify icon="material-symbols:csv-outline" /></IconButton>
-        <IconButton color='primary'><Iconify icon="tabler:pdf" /></IconButton>
         </Stack>
       </Stack>
 

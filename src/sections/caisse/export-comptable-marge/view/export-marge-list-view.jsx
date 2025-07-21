@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { PDFViewer } from '@react-pdf/renderer';
 
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -9,6 +10,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import TableBody from '@mui/material/TableBody';
 import IconButton from '@mui/material/IconButton';
+import { Stack, Dialog, MenuItem, TableRow, TableCell, TableFooter, DialogActions } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -16,11 +18,10 @@ import { useRouter } from 'src/routes/hooks';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
-import { fIsAfter, fIsBetween, today } from 'src/utils/format-time';
+import { today, fIsAfter, fIsBetween } from 'src/utils/format-time';
 
 import { varAlpha } from 'src/theme/styles';
 import { DashboardContent } from 'src/layouts/dashboard';
-import { _orders, ORDER_STATUS_OPTIONS } from 'src/_mock';
 
 import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
@@ -28,6 +29,7 @@ import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
 import {
   useTable,
   emptyRows,
@@ -39,11 +41,11 @@ import {
   TableSelectedAction,
   TablePaginationCustom,
 } from 'src/components/table';
-import { TableCell, TableFooter, TableRow } from '@mui/material';
 
+import { ExportMargePDF } from '../export-marge-pdf';
 import { ExportMargeTableRow } from '../export-marge-table-row';
-import { ExportMargeTableFiltersResult } from '../export-marge-table-filters-result';
 import { ExportMargeTableToolbar } from '../export-marge-table-toolbar';
+import { ExportMargeTableFiltersResult } from '../export-marge-table-filters-result';
 
 // ----------------------------------------------------------------------
 
@@ -95,7 +97,7 @@ const TABLE_DATA = [
     date: today(),
     status: 'avoir',
     marge: 20,
-    items : [
+    items: [
       {
         id: 1,
         article: 'article with quarantie',
@@ -110,9 +112,9 @@ const TABLE_DATA = [
       },
     ],
     payement: [
-      {amount: 10, methode: "Paypal"},
-      {amount: 10, methode: "Virement"}
-    ]
+      { amount: 10, methode: 'Paypal' },
+      { amount: 10, methode: 'Virement' },
+    ],
   },
   {
     id: 5488,
@@ -122,7 +124,7 @@ const TABLE_DATA = [
     date: today(),
     status: 'avoir',
     marge: 20,
-    items : [
+    items: [
       {
         id: 1,
         article: 'article with quarantie',
@@ -137,14 +139,43 @@ const TABLE_DATA = [
       },
     ],
     payement: [
-      {amount: 10, methode: "Paypal"},
-      {amount: 10, methode: "Virement"}
-    ]
+      { amount: 10, methode: 'Paypal' },
+      { amount: 10, methode: 'Virement' },
+    ],
   },
-]
+];
+
+const invoice = {
+  invoiceFrom: {
+    name: 'demo reparateur',
+    fullAddress: 'Rue Général Delacroix - Bazin\n97139 Les Abymes',
+    phoneNumber: '0690751575',
+  },
+  period: {
+    start: '2025-07-01',
+    end: '2025-07-21',
+  },
+  items: [
+    {
+      id: '1',
+      numero: 'F2025-0595',
+      paiements: [
+        { amount: 45.0, method: 'Espèce' },
+        { amount: 10.0, method: 'Espèce' },
+      ],
+      priceHT: 45.83,
+      tauxTVA: 20,
+      totalTVA: 9.17,
+      totalTTC: 55.0,
+      marge: 26.83,
+      date: '2025-07-04T09:19:00',
+    },
+  ],
+};
+
 
 // ----------------------------------------------------------------------
-function calculateTotals (data){
+function calculateTotals(data) {
   return data.reduce(
     (totals, row) => {
       row.items.forEach((item) => {
@@ -157,7 +188,7 @@ function calculateTotals (data){
     },
     { totalHT: 0, totalTVA: 0, totalTTC: 0 }
   );
-};
+}
 
 function calculateTotalMarge(data) {
   return data.reduce((total, row) => total + (row.marge || 0), 0);
@@ -166,13 +197,15 @@ function calculateTotalMarge(data) {
 export function ExportMargeListView() {
   const table = useTable({ defaultOrderBy: 'orderNumber' });
 
+  const view = useBoolean();
+
+  const popover = usePopover();
+
   const router = useRouter();
 
   const confirm = useBoolean();
 
   const [tableData, setTableData] = useState(TABLE_DATA);
-
-  console.log(tableData);
 
   const filters = useSetState({
     type: '',
@@ -253,6 +286,28 @@ export function ExportMargeListView() {
             { name: 'Export Comptable', href: paths.dashboard.caisse.exportComptable },
             { name: 'Liste' },
           ]}
+          action={
+            <>
+              <Button
+                onClick={popover.onOpen}
+                variant="outlined"
+                startIcon={<Iconify icon="solar:export-bold" />}
+              >
+                Exporter
+              </Button>
+              <CustomPopover
+                open={popover.open}
+                onClose={popover.onClose}
+                anchorEl={popover.anchorEl}
+                title="Exporter"
+              >
+                <Stack spacing={1}>
+                  <MenuItem startIcon={<Iconify icon="solar:csv" />}>Exporter en CSV</MenuItem>
+                  <MenuItem onClick={view.onTrue} startIcon={<Iconify icon="solar:xlsx" />}>Exporter en PDF</MenuItem>
+                </Stack>
+              </CustomPopover>
+            </>
+          }
           sx={{ mb: { xs: 3, md: 5 } }}
         />
 
@@ -338,7 +393,6 @@ export function ExportMargeListView() {
                   rowCount={dataFiltered.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
-                  
                 />
 
                 <TableBody>
@@ -366,24 +420,24 @@ export function ExportMargeListView() {
                   <TableNoData notFound={notFound} />
                 </TableBody>
                 <TableFooter>
-    <TableRow>
-      <TableCell colSpan={5} align="right" sx={{ fontWeight: 'bold' }}>
-        Totals
-      </TableCell>
-      <TableCell align="center" sx={{ fontWeight: 'bold' }}>
-        {totals.totalTVA.toFixed(2)} €
-      </TableCell>
-      <TableCell align="center" sx={{ fontWeight: 'bold' }}>
-        {totals.totalHT.toFixed(2)} €
-      </TableCell>
-      <TableCell align="center" sx={{ fontWeight: 'bold' }}>
-        {totals.totalTTC.toFixed(2)} €
-      </TableCell>
-      <TableCell align="center" sx={{ fontWeight: 'bold' }}>
-        {totalMarge.toFixed(2)} €
-      </TableCell>
-    </TableRow>
-  </TableFooter>
+                  <TableRow>
+                    <TableCell colSpan={5} align="right" sx={{ fontWeight: 'bold' }}>
+                      Totals
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+                      {totals.totalTVA.toFixed(2)} €
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+                      {totals.totalHT.toFixed(2)} €
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+                      {totals.totalTTC.toFixed(2)} €
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontWeight: 'bold' }}>
+                      {totalMarge.toFixed(2)} €
+                    </TableCell>
+                  </TableRow>
+                </TableFooter>
               </Table>
             </Scrollbar>
           </Box>
@@ -422,6 +476,22 @@ export function ExportMargeListView() {
           </Button>
         }
       />
+
+      <Dialog fullScreen open={view.value}>
+              <Box sx={{ height: 1, display: 'flex', flexDirection: 'column' }}>
+                <DialogActions sx={{ p: 1.5 }}>
+                  <Button color="inherit" variant="contained" onClick={view.onFalse}>
+                    Fermer
+                  </Button>
+                </DialogActions>
+      
+                <Box sx={{ flexGrow: 1, height: 1, overflow: 'hidden' }}>
+                  <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
+                    {invoice && <ExportMargePDF invoice={invoice}/>}
+                  </PDFViewer>
+                </Box>
+              </Box>
+            </Dialog>
     </>
   );
 }
@@ -439,8 +509,8 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
 
   inputData = stabilizedThis.map((el) => el[0]);
 
-  if(type){
-    inputData = inputData.filter((order) => order.type.toLowerCase === type.toLowerCase)
+  if (type) {
+    inputData = inputData.filter((order) => order.type.toLowerCase === type.toLowerCase);
   }
 
   if (status !== 'all') {
@@ -455,5 +525,3 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
 
   return inputData;
 }
-
-

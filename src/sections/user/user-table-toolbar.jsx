@@ -14,6 +14,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { Button, Fab } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -85,10 +86,11 @@ export function UserTableToolbar({ filters, options, onResetPage }) {
               ),
             }}
           />
+            
 
-          <IconButton onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
+          <Button variant='contained' onClick={popover.onOpen} startIcon={<Iconify icon="material-symbols-light:download" />}>
+            Exporter
+          </Button>
         </Stack>
       </Stack>
 
@@ -104,8 +106,8 @@ export function UserTableToolbar({ filters, options, onResetPage }) {
               popover.onClose();
             }}
           >
-            <Iconify icon="solar:printer-minimalistic-bold" />
-            Imprimer
+            <Iconify icon="tabler:csv" />
+            CSV
           </MenuItem>
 
           <MenuItem
@@ -113,8 +115,8 @@ export function UserTableToolbar({ filters, options, onResetPage }) {
               popover.onClose();
             }}
           >
-            <Iconify icon="solar:import-bold" />
-            Importer
+            <Iconify icon="tabler:pdf" />
+            PDF
           </MenuItem>
 
           <MenuItem
@@ -122,8 +124,8 @@ export function UserTableToolbar({ filters, options, onResetPage }) {
               popover.onClose();
             }}
           >
-            <Iconify icon="solar:export-bold" />
-            Exporter CSV
+            <Iconify icon="prime:file-excel" />
+            Excel
           </MenuItem>
         </MenuList>
       </CustomPopover>

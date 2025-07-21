@@ -8,30 +8,34 @@ import { chipProps, FiltersBlock, FiltersResult } from 'src/components/filters-r
 
 // ----------------------------------------------------------------------
 
-export function ExportTableFiltersResult({ filters, totalResults, onResetPage, sx }) {
-  const handleRemoveKeyword = useCallback(() => {
+export function ExportFamilleFiltersResult({ filters, setFilters, totalResults, onResetPage, sx }) {
+  const handleRemoveFamille = useCallback(() => {
     onResetPage();
-    filters.setState({ type: 'all' });
-  }, [filters, onResetPage]);
+    filters.setState(prev => ({ ...prev, type: '' }));
+  }, [onResetPage, filters]);
 
   const handleRemoveStatus = useCallback(() => {
     onResetPage();
-    filters.setState({ status: 'all' });
-  }, [filters, onResetPage]);
+    filters.setState(prev => ({ ...prev, status: 'all' }));
+  }, [onResetPage, filters]);
 
   const handleRemoveDate = useCallback(() => {
     onResetPage();
-    filters.setState({ startDate: null, endDate: null });
-  }, [filters, onResetPage]);
+    filters.setState(prev => ({ ...prev, startDate: null, endDate: null }));
+  }, [onResetPage, filters]);
 
   const handleReset = useCallback(() => {
     onResetPage();
-    filters.onResetState();
-  }, [filters, onResetPage]);
+    filters.setState({ type: '', status: 'all', startDate: null, endDate: null });
+  }, [onResetPage, filters]);
 
   return (
     <FiltersResult totalResults={totalResults} onReset={handleReset} sx={sx}>
-      <FiltersBlock label="Statut:" isShow={filters.state.status !== 'all'}>
+      <FiltersBlock label="Famille:" isShow={!!filters.state.type}>
+        <Chip {...chipProps} label={filters.state.type} onDelete={handleRemoveFamille} />
+      </FiltersBlock>
+
+      <FiltersBlock label="Status:" isShow={filters.state.status !== 'all'}>
         <Chip
           {...chipProps}
           label={filters.state.status}
@@ -40,19 +44,12 @@ export function ExportTableFiltersResult({ filters, totalResults, onResetPage, s
         />
       </FiltersBlock>
 
-      <FiltersBlock
-        label="Date:"
-        isShow={Boolean(filters.state.startDate && filters.state.endDate)}
-      >
+      <FiltersBlock label="Date:" isShow={Boolean(filters.state.startDate && filters.state.endDate)}>
         <Chip
           {...chipProps}
           label={fDateRangeShortLabel(filters.state.startDate, filters.state.endDate)}
           onDelete={handleRemoveDate}
         />
-      </FiltersBlock>
-
-      <FiltersBlock label="Type:" isShow={filters.state.type !== 'all'}>
-        <Chip {...chipProps} label={filters.state.type} onDelete={handleRemoveKeyword} />
       </FiltersBlock>
     </FiltersResult>
   );

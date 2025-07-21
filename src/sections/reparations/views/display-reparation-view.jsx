@@ -20,8 +20,7 @@ export default function DisplayReparationView({order}) {
     setStatus(newValue);
   }, []);
   return (
-    <>
-      <DashboardContent>
+    <DashboardContent>
         <DisplayDetailsToolbar
           backLink={paths.dashboard.reparations.root}
           orderNumber={order?.orderNumber}
@@ -59,6 +58,5 @@ export default function DisplayReparationView({order}) {
           </Grid>
         </Grid>
       </DashboardContent>
-    </>
   );
 }

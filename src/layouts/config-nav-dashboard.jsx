@@ -107,6 +107,7 @@ export const navData = [
           { title: 'Caisse virtuelle', path: paths.dashboard.vente.caisse },
         ],
       },
+      
       {
         title: 'Rachat',
         path: paths.dashboard.rachat.root,
@@ -119,6 +120,12 @@ export const navData = [
       {
         title: 'Nos factures',
         path: paths.dashboard.invoice.root,
+        icon: ICONS.invoice,
+      },
+
+      {
+        title: "Liste des SAV",
+        path: paths.dashboard.sav.root,
         icon: ICONS.invoice,
       },
     ],
@@ -162,15 +169,15 @@ export const navData = [
           { title: 'Casier de rangement', path: paths.dashboard.boutique.cassierRangements },
         ],
       },
-      {
-        title: 'Abonnement',
-        icon: ICONS.booking,
-        path: paths.dashboard.abonnement.root,
-        children: [
-          { title: 'Mon abonnement', path: paths.dashboard.abonnement.root },
-          { title: 'Parrainage', path: paths.dashboard.abonnement.parrainage },
-        ],
-      },
+      // {
+      //   title: 'Abonnement',
+      //   icon: ICONS.booking,
+      //   path: paths.dashboard.abonnement.root,
+      //   children: [
+      //     { title: 'Mon abonnement', path: paths.dashboard.abonnement.root },
+      //     { title: 'Parrainage', path: paths.dashboard.abonnement.parrainage },
+      //   ],
+      // },
       {
         title: 'Calendrier',
         icon: ICONS.calendar,
@@ -181,26 +188,26 @@ export const navData = [
   /**
    * Overview
    */
-  {
-    subheader: 'Sasgestion',
-    items: [
-      {
-        title: 'Boité à idée',
-        icon: ICONS.idea,
-        path: paths.dashboard.idee.root,
-      },
-      {
-        title: 'Support technique',
-        icon: ICONS.support,
-        path: paths.dashboard.support.root,
-      },
-      {
-        title: 'Nouveautés',
-        icon: ICONS.news,
-        path: paths.dashboard.news.root,
-      },
-    ],
-  },
+  // {
+  //   subheader: 'Sasgestion',
+  //   items: [
+  //     {
+  //       title: 'Boité à idée',
+  //       icon: ICONS.idea,
+  //       path: paths.dashboard.idee.root,
+  //     },
+  //     {
+  //       title: 'Support technique',
+  //       icon: ICONS.support,
+  //       path: paths.dashboard.support.root,
+  //     },
+  //     {
+  //       title: 'Nouveautés',
+  //       icon: ICONS.news,
+  //       path: paths.dashboard.news.root,
+  //     },
+  //   ],
+  // },
   /**
    * Management
    */

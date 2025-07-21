@@ -46,7 +46,7 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
       </TableCell>
 
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
-        <Stack spacing={1} display="flex" flexDirection="row">
+        <Stack spacing={1} display="flex" flexDirection="row" alignItems="center" >
           <Tooltip title="Modifier" placement="top" arrow>
             <Fab size="small" color="warning">
               <Iconify icon="solar:pen-bold" />
@@ -67,6 +67,11 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
               }}
             >
               <Iconify icon="solar:trash-bin-trash-bold" />
+            </Fab>
+          </Tooltip>
+          <Tooltip title="Voir" placement="top" arrow>
+            <Fab onClick={()=> display()} size="small" color="info">
+              <Iconify icon="solar:solar:info-circle-bold" />
             </Fab>
           </Tooltip>
         </Stack>
