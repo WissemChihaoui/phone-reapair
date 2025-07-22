@@ -6,7 +6,20 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
-import { Box, Fab, Dialog, Select, Tooltip, TextField, DialogTitle, Autocomplete, DialogActions, DialogContent, OutlinedInput, InputAdornment } from '@mui/material';
+import {
+  Box,
+  Fab,
+  Dialog,
+  Select,
+  Tooltip,
+  TextField,
+  DialogTitle,
+  Autocomplete,
+  DialogActions,
+  DialogContent,
+  OutlinedInput,
+  InputAdornment,
+} from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -25,40 +38,65 @@ import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
-export function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow, onPrintRow }) {
+export function InvoiceTableRow({
+  row,
+  selected,
+  onSelectRow,
+  onViewRow,
+  onEditRow,
+  onDeleteRow,
+  onPrintRow,
+}) {
   const open = useBoolean();
   const router = useRouter();
 
-  const link = row.type === "Vente" ? paths.dashboard.vente.edit(row.id) : paths.dashboard.reparations.display(row.id)
+  const link =
+    row.type === 'Vente'
+      ? paths.dashboard.vente.edit(row.id)
+      : paths.dashboard.reparations.display(row.id);
 
   return (
     <>
       <TableRow hover selected={selected}>
-        <TableCell align='right' sx={{ px: 1, whiteSpace: 'nowrap' }}>
-            <Stack direction="row" alignItems="center" spacing={1}>
-                <Tooltip title="Imprimer" placement="top" arrow>
-                    <Fab size="small" color="info" href={paths.dashboard.invoice.print(row.id)} LinkComponent={RouterLink}>
-                        <Iconify icon="solar:file-bold" />
-                    </Fab>
-                </Tooltip>
-                <Tooltip title="Modifier" placement="top" arrow>
-                    <Fab size="small" color="warning" onClick={()=>router.push(link)}>
-                        <Iconify icon="solar:pen-bold" />
-                    </Fab>
-                </Tooltip>
-                {row.status !== "Avoir" && 
-                  <Tooltip title="Avoir" placement="top" arrow>
-                    <Fab size="small" color="success" onClick={()=>open.onTrue()}>
-                        <Iconify icon="solar:wad-of-money-bold" />
-                    </Fab>
-                  </Tooltip>
-                }
+        <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
+          <Stack spacing={1} direction="column">
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Tooltip title="Imprimer" placement="top" arrow>
+              <Fab
+                size="small"
+                color="info"
+                href={paths.dashboard.invoice.print(row.id)}
+                LinkComponent={RouterLink}
+              >
+                <Iconify icon="solar:file-bold" />
+              </Fab>
+            </Tooltip>
+            <Tooltip title="Modifier" placement="top" arrow>
+              <Fab size="small" color="warning" onClick={() => router.push(link)}>
+                <Iconify icon="solar:pen-bold" />
+              </Fab>
+            </Tooltip>
             </Stack>
+            <Stack direction="row" alignItems="center" spacing={1}>
+            {row.status !== 'Avoir' && (
+              <>
+              <Tooltip title="Avoir" placement="top" arrow>
+                <Fab size="small" color="success" onClick={() => open.onTrue()}>
+                  <Iconify icon="solar:wad-of-money-bold" />
+                </Fab>
+              </Tooltip>
+              <Tooltip title="SAV" placement="top" arrow>
+                <Fab size="small" color="primary" onClick={() => router.push(paths.dashboard.sav.edit(row.id))}>
+                  <Iconify icon="mdi:invoice-send" />
+                </Fab>
+              </Tooltip>
+              </>
+            )}
+          </Stack>
+          </Stack>
         </TableCell>
 
-        <TableCell>
-          #{row.id}
-        </TableCell>
+        <TableCell>#{row.id}</TableCell>
 
         <TableCell>
           <Stack spacing={2} direction="row" alignItems="center">
@@ -111,83 +149,80 @@ export function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditR
             {row.status}
           </Label>
         </TableCell>
-
       </TableRow>
 
       <Dialog maxWidth="sm" fullWidth open={open.value} onClose={open.onFalse}>
-        
-          <DialogTitle>Avoir #{row.id}</DialogTitle>
-          <Scrollbar sx={{ p: 3, bgcolor: 'background.neutral' }}>
-            <Stack spacing={3}>
-              <Typography variant='h6'>{row.client.name}</Typography>
-              <Autocomplete
-                fullWidth
-                options={row.product}
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => <TextField {...params} label="Produit" margin="none" />}
-              />
-              <TextField 
-                label='Total Facture' 
-                value={row.amount} 
-                disabled 
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="start">
-                      <Box component="span" sx={{ color: 'text.disabled' }}>
-                        €
-                      </Box>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField 
-                label='Total Payé' 
-                value={row.amount} 
-                disabled 
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="start">
-                      <Box component="span" sx={{ color: 'text.disabled' }}>
-                        €
-                      </Box>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField 
-                label='Montant' 
-                value={row.amount}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="start">
-                      <Box component="span" sx={{ color: 'text.disabled' }}>
-                        €
-                      </Box>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Autocomplete
-                fullWidth
-                options={['Virement', 'Espece']}
-                getOptionLabel={(option) => option}
-                renderInput={(params) => <TextField {...params} label="Type de paiement" margin="none" />}
-              />
+        <DialogTitle>Avoir #{row.id}</DialogTitle>
+        <Scrollbar sx={{ p: 3, bgcolor: 'background.neutral' }}>
+          <Stack spacing={3}>
+            <Typography variant="h6">{row.client.name}</Typography>
+            <Autocomplete
+              fullWidth
+              options={row.product}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => <TextField {...params} label="Produit" margin="none" />}
+            />
+            <TextField
+              label="Total Facture"
+              value={row.amount}
+              disabled
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <Box component="span" sx={{ color: 'text.disabled' }}>
+                      €
+                    </Box>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              label="Total Payé"
+              value={row.amount}
+              disabled
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <Box component="span" sx={{ color: 'text.disabled' }}>
+                      €
+                    </Box>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              label="Montant"
+              value={row.amount}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <Box component="span" sx={{ color: 'text.disabled' }}>
+                      €
+                    </Box>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Autocomplete
+              fullWidth
+              options={['Virement', 'Espece']}
+              getOptionLabel={(option) => option}
+              renderInput={(params) => (
+                <TextField {...params} label="Type de paiement" margin="none" />
+              )}
+            />
 
-        <TextField
-          rows={4}
-          fullWidth
-          multiline
-          label="Notation interne"
-        
-        />
-            </Stack>
-          </Scrollbar>
-          <DialogActions>
-            <Button variant='outlined' onClick={()=> open.onFalse()}>Annuler</Button>
-            <Button variant='contained' color='primary'>Valider</Button>
-          </DialogActions>
-        
+            <TextField rows={4} fullWidth multiline label="Notation interne" />
+          </Stack>
+        </Scrollbar>
+        <DialogActions>
+          <Button variant="outlined" onClick={() => open.onFalse()}>
+            Annuler
+          </Button>
+          <Button variant="contained" color="primary">
+            Valider
+          </Button>
+        </DialogActions>
       </Dialog>
     </>
   );

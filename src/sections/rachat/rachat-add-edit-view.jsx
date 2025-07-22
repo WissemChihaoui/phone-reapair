@@ -28,7 +28,7 @@ export default function RachatAddEditView({ currentInvoice }) {
       );
 
     const methods = useForm({
-        mode: 'all',
+       mode: 'all',
         // resolver: zodResolver(NewInvoiceSchema),
         defaultValues,
       });
@@ -37,7 +37,7 @@ export default function RachatAddEditView({ currentInvoice }) {
         reset,
         handleSubmit,
         formState: { isSubmitting },
-      } = methods;
+      } = methods; 
 
       const loadingSend = useBoolean();
 

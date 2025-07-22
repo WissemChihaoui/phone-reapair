@@ -102,6 +102,8 @@ const AddAchats = lazy(() => import('src/pages/dashboard/achats/add'))
 const EditAchats = lazy(() => import('src/pages/dashboard/achats/edit'));
 
 const SAV = lazy(() => import('src/pages/dashboard/sav/index'));
+const AddSAV = lazy(() => import('src/pages/dashboard/sav/add'));
+const EditSAV = lazy(() => import('src/pages/dashboard/sav/edit'));
 
 // ----------------------------------------------------------------------
 
@@ -199,6 +201,8 @@ export const dashboardRoutes = [
         path: 'sav',
         children: [
           {element: <SAV />, index: true},
+          {element: <AddSAV />, path: 'add'},
+          {element: <EditSAV />, path: ':id/edit'},
         ]
       },
       {

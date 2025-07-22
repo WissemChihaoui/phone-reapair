@@ -119,6 +119,8 @@ export const paths = {
     },
     sav: {
       root: `${ROOTS.DASHBOARD}/sav`,
+      add: `${ROOTS.DASHBOARD}/sav/add`,
+      edit: (id) => `${ROOTS.DASHBOARD}/sav/${id}/edit`,
     },  
     caisse: {
       root: `${ROOTS.DASHBOARD}/caisse`,
