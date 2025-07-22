@@ -1,17 +1,20 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState, useCallback } from 'react';
+
+import { Stack } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+
+import { paths } from 'src/routes/paths';
+
 import { ORDER_STATUS_OPTIONS } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
-import Grid from '@mui/material/Unstable_Grid2';
-import { today } from 'src/utils/format-time';
-import { paths } from 'src/routes/paths';
-import { Stack } from '@mui/material';
-import { DisplayDetailsToolbar } from '../display/display-details-toolbar';
-import { OrderDetailsItems } from '../display/reparation-details-items';
-import {ReparationsDetailsHistory} from '../display/reparation-details-history';
-import { ReparationDetailsInfo } from '../display/reparation-details-info';
-import ReparationDetailsNotes from '../display/reparation-details-notes';
-import ReparationDetailsSignature from '../display/reparation-details-signature';
+
 import ReparationDetailsCode from '../display/reparation-details-code';
+import { OrderDetailsItems } from '../display/reparation-details-items';
+import ReparationDetailsNotes from '../display/reparation-details-notes';
+import { DisplayDetailsToolbar } from '../display/display-details-toolbar';
+import { ReparationDetailsInfo } from '../display/reparation-details-info';
+import {ReparationsDetailsHistory} from '../display/reparation-details-history';
+import ReparationDetailsSignature from '../display/reparation-details-signature';
 
 export default function DisplayReparationView({order}) {
   const [status, setStatus] = useState(order?.status);
@@ -20,8 +23,7 @@ export default function DisplayReparationView({order}) {
     setStatus(newValue);
   }, []);
   return (
-    <>
-      <DashboardContent>
+    <DashboardContent>
         <DisplayDetailsToolbar
           backLink={paths.dashboard.reparations.root}
           orderNumber={order?.orderNumber}
@@ -59,6 +61,5 @@ export default function DisplayReparationView({order}) {
           </Grid>
         </Grid>
       </DashboardContent>
-    </>
   );
 }

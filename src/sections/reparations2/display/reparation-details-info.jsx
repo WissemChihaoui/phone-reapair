@@ -16,6 +16,7 @@ import { CardActions, FormControl, InputLabel, MenuItem, Select } from '@mui/mat
 import { useBoolean } from 'src/hooks/use-boolean';
 import DisplayPayementModal from './display-payement-modal';
 import DisplaySendSmsModal from './display-sendSms-modal';
+import ReparationDetailsCode from './reparation-details-code';
 
 // ----------------------------------------------------------------------
 
@@ -130,7 +131,7 @@ export function ReparationDetailsInfo({ customer, delivery, payment, shippingAdd
 
       <Divider sx={{ borderStyle: 'dashed' }} />
 
-      {renderDelivery}
+      <ReparationDetailsCode />
 
 
       <Divider sx={{ borderStyle: 'dashed' }} />

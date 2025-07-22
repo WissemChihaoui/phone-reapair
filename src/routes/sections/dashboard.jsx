@@ -89,6 +89,7 @@ const Reparations = lazy(() => import('src/pages/dashboard/reparations/index'))
 const AddReparations = lazy(() => import('src/pages/dashboard/reparations/add'))
 const AddReparations2 = lazy(() => import('src/pages/dashboard/reparations/add2'))
 const DisplayReparations = lazy(() => import('src/pages/dashboard/reparations/display'))
+const EditReparations = lazy(() => import('src/pages/dashboard/reparations/edit'))
 
 const News = lazy(() => import('src/pages/dashboard/news/index'))
 const ViewNews = lazy(() => import('src/pages/dashboard/news/view'))
@@ -138,6 +139,7 @@ export const dashboardRoutes = [
           {element:<AddReparations />, path: 'add2'},
           {element:<AddReparations2 />, path: 'add'},
           {element:<DisplayReparations />, path: ':id/display'},
+          {element:<EditReparations />, path: ':id/edit'},
         ]
       },
       {

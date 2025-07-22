@@ -1,109 +1,158 @@
 import { useMemo } from 'react';
-import { Page, View, Text, Font, Image, Document, StyleSheet } from '@react-pdf/renderer';
+import { Page, View, Text, Font, Document, StyleSheet } from '@react-pdf/renderer';
 
 import { fDate } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
 
-
 Font.register({
   family: 'Roboto',
-  fonts: [{ src: '/fonts/Roboto-Regular.ttf' }, { src: '/fonts/Roboto-Bold.ttf' }],
+  fonts: [
+    { src: '/fonts/Roboto-Regular.ttf' },
+    { src: '/fonts/Roboto-Bold.ttf', fontWeight: 'bold' },
+  ],
 });
 
 const useStyles = () =>
   useMemo(
     () =>
       StyleSheet.create({
-        // layout
         page: {
           fontSize: 9,
-          lineHeight: 1.6,
           fontFamily: 'Roboto',
           backgroundColor: '#FFFFFF',
-          padding: '40px 24px 120px 24px',
-        },
-        footer: {
-          left: 0,
-          right: 0,
-          bottom: 0,
-          padding: 24,
-          margin: 'auto',
-          borderTopWidth: 1,
-          borderStyle: 'solid',
-          position: 'absolute',
-          borderColor: '#e9ecef',
+          padding: '40px 40px 60px 40px',
         },
         container: {
           flexDirection: 'row',
           justifyContent: 'space-between',
+          marginBottom: 20,
         },
-        // margin
-        mb4: { marginBottom: 4 },
-        mb8: { marginBottom: 8 },
-        mb40: { marginBottom: 40 },
-        // text
-        h3: { fontSize: 16, fontWeight: 700 },
-        h4: { fontSize: 13, fontWeight: 700 },
-        body1: { fontSize: 10 },
-        subtitle1: { fontSize: 10, fontWeight: 700 },
-        body2: { fontSize: 9 },
-        subtitle2: { fontSize: 9, fontWeight: 700 },
-        // table
-        table: { display: 'flex', width: '100%' },
-        row: {
-          padding: '10px 0 8px 0',
+        title: {
+          fontSize: 16,
+          fontWeight: 'bold',
+          textAlign: 'center',
+          marginBottom: 20,
+        },
+        subtitle: {
+          fontSize: 12,
+          fontWeight: 'bold',
+          marginBottom: 4,
+        },
+        text: {
+          fontSize: 10,
+          marginBottom: 2,
+        },
+        headerRow: {
+          flexDirection: 'row',
+          backgroundColor: '#F48023',
+          color: '#fff',
+          paddingVertical: 6,
+          paddingHorizontal: 10,
+        },
+        dataRow: {
+          flexDirection: 'row',
+          paddingVertical: 6,
+          paddingHorizontal: 10,
+          borderBottomWidth: 1,
+          borderBottomColor: '#e9ecef',
+        },
+        tableHeader: {
+          flexDirection: 'row',
+          backgroundColor: '#F48023',
+          color: '#fff',
+          padding: 6,
+        },
+        tableRow: {
           flexDirection: 'row',
           borderBottomWidth: 1,
-          borderStyle: 'solid',
-          borderColor: '#e9ecef',
+          borderBottomColor: '#e9ecef',
+          padding: 6,
         },
-        cell_1: { width: '5%' },
-        cell_2: { width: '50%' },
-        cell_3: { width: '15%', paddingLeft: 32 },
-        cell_4: { width: '15%', paddingLeft: 8 },
-        cell_5: { width: '15%' },
-        cell_org: { width: '20%' },
-        cell_num: { width: '10%' },
-        cell_ref: { width: '12%' },
-        cell_art: { width: '16%' },
-        cell_ht: { width: '6%', textAlign: 'right' },
-        cell_taux: { width: '6%', textAlign: 'right' },
-        cell_tva: { width: '6%', textAlign: 'right' },
-        cell_ttc: { width: '6%', textAlign: 'right' },
-        cell_total: { width: '8%', textAlign: 'right' },
-        cell_date: { width: '12%', textAlign: 'right' },
-
-        noBorder: { paddingTop: '10px', paddingBottom: 0, borderBottomWidth: 0 },
+        colProduit: { width: '30%' },
+        colAccessoire: { width: '20%' },
+        colSerie: { width: '20%' },
+        colEtat: { width: '15%', textAlign: 'center' },
+        colPrix: { width: '15%', textAlign: 'right' },
+        footer: {
+          marginTop: 40,
+        },
+        signature: {
+          marginTop: 60,
+        },
       }),
     []
   );
+
 export default function RachatSinglePDF({ rachat }) {
-    console.log('RachatSinglePDF', rachat)
+  const styles = useStyles();
 
-    const styles = useStyles();
-
-    const renderHeader = (
-        <View style={[styles.container, styles.mb40]}>
-          <View>
-            <Image source="/logo/logo.png" style={{ width: 100 }} />
-            <Text style={[styles.subtitle2, styles.mb4]}>{rachat.invoiceNumber}</Text>
-            <Text style={styles.body2}>{rachat.client}</Text>
-            {/* <Text style={styles.body2}>Tél.: {rachat.invoiceFrom.phoneNumber}</Text> */}
-            <Text style={styles.body2}>SIRET :</Text>
-            <Text style={styles.body2}>N°TVA Intracom :</Text>
-          </View>
-          <View style={{ width: '40%', alignItems: 'flex-end' }}>
-            <Text style={styles.body2}>
-              Rachat de {fDate(rachat.date)}
-            </Text>
-          </View>
-        </View>
-      );
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {renderHeader}
+        {/* Title */}
+        <Text style={styles.title}>RACHAT</Text>
+
+        {/* Repairer and Client Info */}
+        <View style={styles.container}>
+          <View>
+            <Text style={styles.subtitle}>demo reparateur</Text>
+            <Text style={styles.text}>Rue Général Delacroix - Bazin</Text>
+            <Text style={styles.text}>97139 Les Abymes</Text>
+            <Text style={styles.text}>Tél.: 0690751575</Text>
+            <Text style={styles.text}>SIRET :</Text>
+            <Text style={styles.text}>N°TVA Intracom :</Text>
+          </View>
+          <View>
+            <Text style={styles.subtitle}>Client</Text>
+            <Text style={styles.text}>{rachat.client?.name || ''}</Text>
+            <Text style={styles.text}>{rachat.client?.address || ''}</Text>
+            <Text style={styles.text}>{rachat.client?.city || ''}</Text>
+            <Text style={styles.text}>Tel : {rachat.client?.phone || ''}</Text>
+            <Text style={styles.text}>CIN : {rachat.client?.cin || ''}</Text>
+          </View>
+        </View>
+
+        {/* Rachat Number and Date */}
+        <View style={{ marginBottom: 20 }}>
+          <View style={styles.headerRow}>
+            <Text style={{ width: '50%', fontWeight: 'bold' }}>RACHAT</Text>
+            <Text style={{ width: '50%', fontWeight: 'bold' }}>Date</Text>
+          </View>
+          <View style={styles.dataRow}>
+            <Text style={{ width: '50%', fontWeight: 'bold' }}>{rachat.invoiceNumber}</Text>
+            <Text style={{ width: '50%', fontWeight: 'bold' }}>
+              {fDate(rachat.date, 'dd/MM/yyyy HH:mm')}
+            </Text>
+          </View>
+        </View>
+
+        {/* Product Table */}
+        <View>
+          <View style={styles.tableHeader}>
+            <Text style={styles.colProduit}>PRODUIT</Text>
+            <Text style={styles.colAccessoire}>ACCESSOIRE</Text>
+            <Text style={styles.colSerie}>N° serie</Text>
+            <Text style={styles.colEtat}>Etat</Text>
+            <Text style={styles.colPrix}>Prix rachat</Text>
+          </View>
+
+          <View style={styles.tableRow}>
+            <Text style={styles.colProduit}>{rachat.product?.title || ''}</Text>
+            <Text style={styles.colAccessoire}>{rachat.accessory || ''}</Text>
+            <Text style={styles.colSerie}>{rachat.serialNumber || ''}</Text>
+            <Text style={styles.colEtat}>{rachat.state || ''}</Text>
+            <Text style={styles.colPrix}>{fCurrency(rachat.price || 0)}</Text>
+          </View>
+        </View>
+
+        {/* Payment and Signature */}
+        <View style={styles.footer}>
+          <Text style={styles.text}>
+            Règlement Espèce le {fDate(rachat.date, 'dd/MM/yyyy HH:mm')}
+          </Text>
+          <Text style={styles.signature}>Signature</Text>
+        </View>
       </Page>
     </Document>
-  )
+  );
 }

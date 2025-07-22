@@ -1,5 +1,4 @@
 import { Page, View, Text, Font, Document, StyleSheet } from '@react-pdf/renderer';
-// import logo from '/public/logo/myphone-logo.png';
 
 Font.register({
   family: 'Roboto',
@@ -36,9 +35,32 @@ const styles = StyleSheet.create({
   col5: { width: '15%' },
   col6: { width: '10%' },
   col7: { width: '10%' },
+  footerRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    backgroundColor: '#eee',
+    paddingVertical: 4,
+    borderTopWidth: 1,
+    borderTopColor: '#000',
+    borderTopStyle: 'solid',
+  },
+  footerTextLabel: {
+    width: '70%',
+    textAlign: 'right',
+    paddingRight: 10,
+    fontWeight: 'bold',
+  },
+  footerTextValue: {
+    width: '30%',
+    textAlign: 'right',
+    fontWeight: 'bold',
+  },
 });
 
 export default function EtatStockPdf({ data, company }) {
+  const totalAchat = data.reduce((sum, item) => sum + item.buyPrice * item.qty, 0);
+  const totalVente = data.reduce((sum, item) => sum + item.sellPrice * item.qty, 0);
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -47,7 +69,6 @@ export default function EtatStockPdf({ data, company }) {
         {/* Header */}
         <View style={styles.header}>
           <View>
-            {/* <Image src={logo} style={styles.logo} /> */}
             <Text style={styles.bold}>{company?.name}</Text>
             <Text>{company?.address}</Text>
             <Text>Tél.: {company?.phone}</Text>
@@ -60,7 +81,7 @@ export default function EtatStockPdf({ data, company }) {
         <View style={styles.table}>
           <View style={[styles.tableRow, styles.tableHeader]}>
             <Text style={styles.col1}>#</Text>
-            <Text style={styles.col2}>Non du produit</Text>
+            <Text style={styles.col2}>Nom du produit</Text>
             <Text style={styles.col3}>QTE</Text>
             <Text style={styles.col4}>Prix achat UHT</Text>
             <Text style={styles.col5}>Prix de vente UHT</Text>
@@ -73,12 +94,22 @@ export default function EtatStockPdf({ data, company }) {
               <Text style={styles.col1}>{index + 1}</Text>
               <Text style={styles.col2}>{item.title}</Text>
               <Text style={styles.col3}>{item.qty}</Text>
-              <Text style={styles.col4}>{item.buyPrice}€</Text>
-              <Text style={styles.col5}>{item.sellPrice}€</Text>
+              <Text style={styles.col4}>{item.buyPrice.toFixed(2)}€</Text>
+              <Text style={styles.col5}>{item.sellPrice.toFixed(2)}€</Text>
               <Text style={styles.col6}>{(item.buyPrice * item.qty).toFixed(2)}€</Text>
               <Text style={styles.col7}>{(item.sellPrice * item.qty).toFixed(2)}€</Text>
             </View>
           ))}
+        </View>
+
+        {/* Footer Totals */}
+        <View style={styles.footerRow}>
+          <Text style={styles.footerTextLabel}>TOTAL ACHAT HT</Text>
+          <Text style={styles.footerTextValue}>{totalAchat.toFixed(2)} €</Text>
+        </View>
+        <View style={styles.footerRow}>
+          <Text style={styles.footerTextLabel}>TOTAL VENTE HT</Text>
+          <Text style={styles.footerTextValue}>{totalVente.toFixed(2)} €</Text>
         </View>
       </Page>
     </Document>

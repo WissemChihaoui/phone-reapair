@@ -82,7 +82,7 @@ export function ReparationTableToolbar({ filters, onResetPage, dateError }) {
             fullWidth
             value={filters.state.name}
             onChange={handleFilterName}
-            placeholder="Rechrecher par Réf, Nom Technicien, ou Client..."
+            placeholder="Rechercher par Réf, Nom Technicien, ou Client..."
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -113,8 +113,6 @@ export function ReparationTableToolbar({ filters, onResetPage, dateError }) {
             <Iconify icon="solar:printer-minimalistic-bold" />
             Imprimer
           </MenuItem>
-
-        
 
           <MenuItem
             onClick={() => {

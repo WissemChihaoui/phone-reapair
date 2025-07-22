@@ -1,4 +1,3 @@
-
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 import TableRow from '@mui/material/TableRow';
@@ -32,6 +31,9 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
   const display = () => {
     router.replace(paths.dashboard.reparations.display(row.id));
   };
+  const goToEdit = () => {
+    router.replace(paths.dashboard.reparations.edit(row.id));
+  };
 
   const renderPrimary = (
     <TableRow hover selected={selected}>
@@ -47,7 +49,7 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
         <Stack spacing={1} direction="column">
           <Stack spacing={1} direction="row">
             <Tooltip title="Modifier" placement="top" arrow>
-              <Fab size="small" color="warning">
+              <Fab size="small" color="warning" onClick={() => goToEdit()}>
                 <Iconify icon="solar:pen-bold" />
               </Fab>
             </Tooltip>

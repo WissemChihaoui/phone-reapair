@@ -1,22 +1,25 @@
-import { Card, CardHeader, IconButton, Stack } from '@mui/material'
 import React from 'react'
-import { Iconify } from 'src/components/iconify'
-import { CONFIG } from 'src/config-global'
+
+import { Card, Stack, Button, Select, MenuItem, CardHeader, CardActions, FormControl } from '@mui/material'
 
 export default function ReparationDetailsCode() {
   return (
     <Card>
-        <CardHeader
-        title="Code à barre "
-        action={
-          <IconButton>
-            <Iconify icon="material-symbols:print" />
-          </IconButton>
-        }
-      />
-        <Stack sx={{ p:3 }}>
-            <img alt="Barre à code" src={`${CONFIG.assetsDir}/assets/images/barCode.png`}/>
-        </Stack>
+        <>
+              <CardHeader
+                title="Casier de rangement"
+              />
+              <Stack spacing={1.5} sx={{ p: 3, typography: 'body2' }}>
+              <FormControl>
+                <Select>
+                    <MenuItem value="casier 1">Casier 1</MenuItem>
+                </Select>
+              </FormControl>
+              </Stack>
+              <CardActions sx={{justifyContent:'flex-end', display: 'flex', p:2}}>
+                <Button variant='contained'>Enregistrer</Button>
+              </CardActions>
+            </>
     </Card>
   )
 }

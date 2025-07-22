@@ -43,8 +43,22 @@ export function RachatTableRow({ row, selected, onViewRow, onSelectRow, onDelete
   const showFacture = useBoolean();
 
   const invoice = {
-    ...row,
-    invoiceNumber: `RACHAT-${row.id}`,
+    invoiceNumber: 'R2025-19',
+  date: '2025-04-11T10:32:00Z',
+  client: {
+    name: 'test dsfsdf',
+    address: 'test, fsdfsdfsdf',
+    city: '1000 Bruxe sousse',
+    phone: '0125478963',
+    cin: '', // empty in your current document
+  },
+  product: {
+    title: 'dfqsdf qsdfsqdf',
+  },
+  accessory: '', // none in your document example
+  serialNumber: '', // none in your document example
+  state: 'excellent',
+  price: 22.0,
   };
   return (
     <>

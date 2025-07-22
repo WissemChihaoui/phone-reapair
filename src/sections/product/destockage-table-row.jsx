@@ -15,8 +15,7 @@ import { Label } from 'src/components/label';
 export function DestockageTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
 
   return (
-    <>
-      <TableRow hover selected={selected}>
+    <TableRow hover selected={selected}>
        
         <TableCell>
             #{row.destockage}
@@ -75,6 +74,5 @@ export function DestockageTableRow({ row, selected, onSelectRow, onViewRow, onEd
 
         <TableCell>{row.admin}</TableCell>
       </TableRow>
-    </>
   );
 }

@@ -19,51 +19,62 @@ import NotificationsSettingsModal from '../notifications-settings-modal';
 
 const useRepairFormDefaultValues = () => 
   useMemo(() => ({
-    id: '',
+    id: '', // remains empty as in data
     client: {
-      id: '',
-      name: '',
-      fullAddress: '',
-      phoneNumber: '',
-      email: '',
-      company: ''
+      id: "e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1",
+      name: "Jayvion Simon",
+      fullAddress: "19034 Verna Unions Apt. 164 - Honolulu, RI / 87535",
+      phoneNumber: "+1 202-555-0143",
+      email: "ashlynn.ohara62@gmail.com",
+      company: "Gleichner, Mueller and Tromp"
     },
     articles: [
       {
-        type: "",
-        marque: "",
-        modele: "",
-        serie: "",
-        etat: "",
-        accessoire: "",
+        // type: { value: "tablet", label: "Tablet" },
+        // marque: { value: "samsung", label: "Samsung" },
+        // modele: { value: "iphone13", label: "iPhone 13" },
+        serie: "azeazeaze",
+        // etat: { value: "new", label: "Comme neuf" },
+        accessoire: "azeaze",
         rapport: {
-          items: [],
-          observation: "",
+          items: [], // from data rapport.items
+          observation: "", // from data rapport.observation
         },
-        noteClient: "",
-        noteIntervention: "",
-        noteInterne: "",
-        schemaVer: [],
-        dateRestitution: null,
-        technicien: "",
-        documents: [
-          {
-            id: "",
-            type: "",
-            data: {},
-          },
-        ],
-        total: 0,
+        noteClient: "aze",
+        noteIntervention: "aze",
+        noteInterne: "aze",
+        schemaVer: [6, 4, 2, 5, 8],
+        dateRestitution: "2025-07-11T00:00:00+01:00",
+        technicien: { value: "tech2", label: "Marie Martin" },
+        // documents: [
+        //   {
+        //     id: "",
+        //     type: "",
+        //     data: {},
+        //   },
+        //   {
+        //     id: "cedb3c47-37a1-4119-9bb9-9fcc597d7d77",
+        //     type: "piece",
+        //     data: {
+        //       nom: "aaa",
+        //       price: "50",
+        //       qte: "10",
+        //       remise: "20",
+        //       total: "480.00",
+        //     },
+        //   },
+        // ],
+        total: 490,
       }
     ],
     payement: {
-      quali: false,
+      quali: false, // from data
       data: [
         {
           remboursement: "",
-          amount: 0,
-          methode: "",
-          date: null,
+          amount: 50,
+          methode: { value: "Éspece", label: "Éspece" },
+          date: "2025-07-22T00:00:00+01:00",
         },
       ],
     },
@@ -83,7 +94,8 @@ const useRepairFormDefaultValues = () =>
     },
   }), []);
 
-export default function AddReparationView() {
+
+export default function EditReparationView() {
   const loadingSave = useBoolean();
   const openSettings = useBoolean();
   const defaultValues = useRepairFormDefaultValues();
@@ -99,9 +111,6 @@ export default function AddReparationView() {
     loadingSave.onTrue();
     try {
       console.log('Form data:', data);
-      // Add your submission logic here
-      // Example API call:
-      // await api.createRepair(data);
     } catch (error) {
       console.error('Error submitting form:', error);
     } finally {
@@ -116,11 +125,11 @@ export default function AddReparationView() {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Créer une nouvelle réparation"
+        heading="Modifier réparation"
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },
-          { name: 'Réparation', href: paths.dashboard.reparations.root },
-          { name: 'Ajouter' },
+          { name: 'Réparation', href: paths.dashboard.vente.root },
+          { name: 'Modifier' },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />

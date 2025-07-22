@@ -1,104 +1,135 @@
+import React from 'react';
+
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+import Tab from '@mui/material/Tab';
 import Card from '@mui/material/Card';
+import Tabs from '@mui/material/Tabs';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 
-import { Iconify } from 'src/components/iconify';
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
-import { CardActions, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+
 import { useBoolean } from 'src/hooks/use-boolean';
-import DisplayPayementModal from './display-payement-modal';
+
+import { CONFIG } from 'src/config-global';
+
+import { Iconify } from 'src/components/iconify';
+
 import DisplaySendSmsModal from './display-sendSms-modal';
+import DisplayPayementModal from './display-payement-modal';
 
-// ----------------------------------------------------------------------
+export function ReparationDetailsInfo({ customer, shippingAddress }) {
+  const openPayment = useBoolean();
+  const openSMS = useBoolean();
+  const [tabValue, setTabValue] = React.useState(0);
 
-export function ReparationDetailsInfo({ customer, delivery, payment, shippingAddress }) {
-    console.log(customer);
-    const openPayment = useBoolean()
-    const openSMS = useBoolean()
-    
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
+
   const renderCustomer = (
     <>
       <CardHeader
         title="Client"
         action={
-          <IconButton href={paths.dashboard.client.add} LinkComponent={RouterLink}>
-            <Iconify icon="solar:pen-bold" />
-          </IconButton>
+          <Stack direction="row">
+            <IconButton>
+              <Iconify icon="logos:whatsapp-icon" />
+            </IconButton>
+            <IconButton>
+              <Iconify icon="material-icon-theme:email" />
+            </IconButton>
+            <IconButton>
+              <Iconify icon="flat-color-icons:sms" />
+            </IconButton>
+            <IconButton href={paths.dashboard.client.add} LinkComponent={RouterLink}>
+              <Iconify icon="solar:pen-bold" />
+            </IconButton>
+          </Stack>
         }
       />
-        <Stack spacing={0.5} alignItems="flex-start" sx={{ typography: 'body2',p: 3 }}>
-          <Typography variant="subtitle2">{customer?.name}</Typography>
-
-          <Box sx={{ color: 'text.secondary' }}>{customer?.email}</Box>
-
+      <Stack spacing={0.5} alignItems="flex-start" sx={{ typography: 'body2', p: 3 }}>
+        <Typography variant="subtitle2">{customer?.name}</Typography>
+        <Box sx={{ color: 'text.secondary' }}>{customer?.email}</Box>
         <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
-            #877-87-877
+          #877-87-877
         </Box>
-        </Stack>
-    </>
-  );
-
-  const renderDelivery = (
-    <>
-      <CardHeader
-        title="Casier de rangement"
-      />
-      <Stack spacing={1.5} sx={{ p: 3, typography: 'body2' }}>
-      <FormControl>
-        <Select>
-            <MenuItem value="casier 1">Casier 1</MenuItem>
-        </Select>
-      </FormControl>
       </Stack>
-      <CardActions sx={{justifyContent:'flex-end', display: 'flex', p:2}}>
-        <Button variant='contained'>Enregistrer</Button>
-      </CardActions>
     </>
   );
 
-  const renderShipping = (
+  const renderTickets = (
     <>
-      <CardHeader
-        title="Contact"
-        action={
-          <IconButton>
-            <Iconify icon="solar:pen-bold" />
-          </IconButton>
-        }
-      />
-      <Stack spacing={1.5} sx={{ p: 3, typography: 'body2' }}>
-        <Stack direction="row">
-          <Box component="span" sx={{ color: 'text.secondary', width: 120, flexShrink: 0 }}>
-            Adresse
-          </Box>
-          {shippingAddress?.fullAddress}
-        </Stack>
+      <Tabs value={tabValue} onChange={handleTabChange} centered>
+        <Tab label="Réçu" />
+        <Tab label="Réçu atelier" />
+      </Tabs>
+      <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Stack direction="row">
-          <Box component="span" sx={{ color: 'text.secondary', width: 120, flexShrink: 0 }}>
-           Numéro de téléphone
-          </Box>
-          {shippingAddress?.phoneNumber}
-        </Stack>
-        <Button
-            size="small"
+      {tabValue === 0 && (
+        <Box sx={{ p: 3 }}>
+          <Button
+            variant="contained"
             color="primary"
-            startIcon={<Iconify icon="material-symbols:sms-outline" />}
-            sx={{ mt: 1 }}
-            variant='contained'
-            onClick={() => openSMS.onTrue()}
+            startIcon={<Iconify icon="material-symbols:print" />}
+            onClick={() => window.print()}
+            sx={{ mb: 2 }}
           >
-            Envoyer SMS
+            Imprimer
           </Button>
-      </Stack>
+
+          <Typography variant="h6" align="center">
+            Réçu de dépôt
+          </Typography>
+
+          <Typography>N°: R07-25-627 / emp12032533</Typography>
+          <Typography>Date: 22-07-2025 14:13:17</Typography>
+          <Typography>Client: 86-00003-hlel khalifa khalifa</Typography>
+
+          <Divider sx={{ my: 1 }} />
+
+          <Typography><strong>Désignation:</strong> alcatel|ALCATEL 3V</Typography>
+          <Typography><strong>État de dépôt:</strong> Comme neuf</Typography>
+
+          <Divider sx={{ my: 1 }} />
+
+          <Typography><strong>Panne:</strong> ecran iphone 7 blancfdfdf | <strong>Prix:</strong> 100.00 €</Typography>
+          <Typography><strong>Panne:</strong> ecran iphone 7 blancfdfdf | <strong>Prix:</strong> 100.00 €</Typography>
+          <Typography><strong>Panne:</strong> sfsdfdsf | <strong>Prix:</strong> 36.00 €</Typography>
+          <Typography><strong>Panne:</strong> top top | <strong>Prix:</strong> 59.00 €</Typography>
+
+          <Divider sx={{ my: 1 }} />
+
+          <Typography><strong>Total:</strong> 295.00 €</Typography>
+          <Typography><strong>Acompte:</strong> 0.00 €</Typography>
+          <Typography><strong>Reste:</strong> 295.00 €</Typography>
+        </Box>
+      )}
+
+      {tabValue === 1 && (
+        <Box sx={{ p: 3 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Iconify icon="material-symbols:print" />}
+            onClick={() => window.print()}
+            sx={{ mb: 2 }}
+          >
+            Imprimer
+          </Button>
+
+          <Typography variant="h6" align="center">
+            Réçu Atelier
+          </Typography>
+
+          <Typography>Contenu de l&apos;atelier à compléter...</Typography>
+        </Box>
+      )}
     </>
   );
 
@@ -107,14 +138,12 @@ export function ReparationDetailsInfo({ customer, delivery, payment, shippingAdd
       <CardHeader
         title="Paiement"
         action={
-          <IconButton onClick={()=> openPayment.onTrue()}>
+          <IconButton onClick={() => openPayment.onTrue()}>
             <Iconify icon="solar:pen-bold" />
           </IconButton>
         }
       />
-      <Box
-        sx={{ p: 3, gap: 0.5, typography: 'body2' }}
-      >
+      <Box sx={{ p: 3, gap: 0.5, typography: 'body2' }}>
         Le client n&apos;a pas payé 15€
       </Box>
     </>
@@ -122,23 +151,32 @@ export function ReparationDetailsInfo({ customer, delivery, payment, shippingAdd
 
   return (
     <>
-    <Card>
-      {renderCustomer}
-      <Divider sx={{ borderStyle: 'dashed' }} />
+      <Card>
+        {renderCustomer}
+        <Divider sx={{ borderStyle: 'dashed' }} />
 
-      {/* {renderShipping} */}
+        <CardHeader
+          title="Code à barre "
+          action={
+            <IconButton>
+              <Iconify icon="material-symbols:print" />
+            </IconButton>
+          }
+        />
+        <Stack sx={{ p: 3 }} alignItems="center">
+          <img alt="Barre à code" src={`${CONFIG.assetsDir}/assets/images/barCode.png`} width={250} />
+        </Stack>
 
-      {/* <Divider sx={{ borderStyle: 'dashed' }} /> */}
+        <Divider sx={{ borderStyle: 'dashed' }} />
 
-      {renderDelivery}
+        {renderTickets}
 
+        <Divider sx={{ borderStyle: 'dashed' }} />
 
-      <Divider sx={{ borderStyle: 'dashed' }} />
-
-      {renderPayment}
-    </Card>
-    <DisplayPayementModal open={openPayment.value} onClose={openPayment.onFalse} />
-    <DisplaySendSmsModal open={openSMS.value} onClose={openSMS.onFalse} />
+        {renderPayment}
+      </Card>
+      <DisplayPayementModal open={openPayment.value} onClose={openPayment.onFalse} />
+      <DisplaySendSmsModal open={openSMS.value} onClose={openSMS.onFalse} />
     </>
   );
 }

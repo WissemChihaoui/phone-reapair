@@ -63,7 +63,7 @@ export default function PaymentFormView() {
           control={
             <Checkbox size="small" checked={isEligible.value} onChange={isEligible.onToggle} />
           }
-          label="Réparation éligible qualirepa"
+          label="Réparation éligible qualirepar"
         />
         {fields.map((item, index) => (
           <Box

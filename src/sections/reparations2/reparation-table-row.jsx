@@ -21,6 +21,7 @@ import { Fab, Stack, Tooltip, Typography } from '@mui/material';
 import { Path } from '@react-pdf/renderer';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
+import { RouterLink } from 'src/routes/components';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +34,9 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
 
   const display = () => {
     router.replace(paths.dashboard.reparations.display(row.id))
+  }
+  const goToEdit = () => {
+    router.replace(paths.dashboard.reparations.edit(row.id))
   }
 
   const renderPrimary = (
@@ -48,7 +52,7 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
         <Stack spacing={1} display="flex" flexDirection="row" alignItems="center" >
           <Tooltip title="Modifier" placement="top" arrow>
-            <Fab size="small" color="warning">
+            <Fab size="small" color="warning" onClick={()=> goToEdit()}>
               <Iconify icon="solar:pen-bold" />
             </Fab>
           </Tooltip>
