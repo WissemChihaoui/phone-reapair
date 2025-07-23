@@ -1,15 +1,20 @@
-import { Autocomplete, Box, Button, Divider, Stack, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { _addressBooks } from 'src/_mock';
-import { Iconify } from 'src/components/iconify';
-import { Label } from 'src/components/label';
+
+import { Box, Stack, Button, Divider, TextField, Typography, Autocomplete } from '@mui/material';
+
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
+
+import { _addressBooks } from 'src/_mock';
+
+import { Label } from 'src/components/label';
+import { Iconify } from 'src/components/iconify';
+
 import VenteNewEditAddClient from 'src/sections/vente/vente-new-edit-add-client';
 
 export default function ClientCart() {
-    const {
+  const {
     watch,
     setValue,
     formState: { errors },
@@ -23,7 +28,7 @@ export default function ClientCart() {
 
   const { client } = values;
 
-  const addClient = useBoolean()
+  const addClient = useBoolean();
 
   const handlePassager = () => {
     setValue('client', {
@@ -39,8 +44,8 @@ export default function ClientCart() {
     setValue('client', { ...option });
   };
   return (
-   <>
-   <Stack
+    <>
+      <Stack
         spacing={{ xs: 3, md: 5 }}
         direction={{ xs: 'column', md: 'row' }}
         divider={
@@ -53,11 +58,11 @@ export default function ClientCart() {
         sx={{ p: 3 }}
       >
         <Stack sx={{ width: 1 }}>
-          <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
+          {/* <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
             <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
               Choisir Client
             </Typography>
-          </Stack>
+          </Stack> */}
 
           <Stack>
             <Autocomplete
@@ -65,7 +70,7 @@ export default function ClientCart() {
               fullWidth
               options={_addressBooks}
               onChange={(event, option) => {
-                setClientTo(option); 
+                setClientTo(option);
                 handleSelectAddress(option);
               }}
               getOptionLabel={(option) => option.name}
@@ -113,16 +118,16 @@ export default function ClientCart() {
                 startIcon={<Iconify icon="mingcute:add-line" />}
                 sx={{ alignSelf: 'flex-end', width: '100%' }}
                 variant="contained"
-                color='primary'
-                onClick={()=>addClient.onTrue()}
+                color="primary"
+                onClick={() => addClient.onTrue()}
               >
-                Creér client
+                Créer client
               </Button>
               <Button
                 startIcon={<Iconify icon="mingcute:user-1-line" />}
                 sx={{ alignSelf: 'flex-end', width: '100%' }}
                 onClick={() => handlePassager()}
-                variant='outlined'
+                variant="outlined"
               >
                 Client Passager
               </Button>
@@ -130,11 +135,11 @@ export default function ClientCart() {
           </Stack>
         </Stack>
         <Stack sx={{ width: 1 }}>
-          <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
+          {/* <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
             <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
               Client:
             </Typography>
-          </Stack>
+          </Stack> */}
 
           <Stack spacing={1}>
             <Typography variant="subtitle2">{client?.name}</Typography>
@@ -147,7 +152,7 @@ export default function ClientCart() {
           </Stack>
         </Stack>
       </Stack>
-      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse}/>
-   </>
-  )
+      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse} />
+    </>
+  );
 }

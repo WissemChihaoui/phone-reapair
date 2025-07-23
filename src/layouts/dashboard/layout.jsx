@@ -31,6 +31,7 @@ import { ContactsPopover } from '../components/contacts-popover';
 import { WorkspacesPopover } from '../components/workspaces-popover';
 import { navData as dashboardNavData } from '../config-nav-dashboard';
 import { NotificationsDrawer } from '../components/notifications-drawer';
+import Shortcuts from '../components/shortcuts';
 
 // ----------------------------------------------------------------------
 
@@ -161,6 +162,8 @@ export function DashboardLayout({ sx, children, header, data }) {
             ),
             rightArea: (
               <Box display="flex" alignItems="center" gap={{ xs: 0, sm: 0.75 }}>
+                <Shortcuts />
+
                <Alert severity='warning' icon={false} sx={{fontWeight: 'bold'}}>
                {dateTime}
                </Alert>

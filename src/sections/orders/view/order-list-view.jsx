@@ -60,11 +60,11 @@ const TABLE_HEAD = [
   { id: 'createdAt', label: 'Date', width: 140 },
   {
     id: 'totalQuantity',
-    label: 'Totale Quantité',
+    label: 'Total Quantité',
     width: 120,
     align: 'center',
   },
-  { id: 'totalAmount', label: 'Totale', width: 140 },
+  { id: 'totalAmount', label: 'Total', width: 140 },
   { id: 'status', label: 'Status', width: 110 },
 ];
 

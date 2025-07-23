@@ -30,29 +30,31 @@ import { StepOne, Stepper, StepThree, StepTwo } from './jwt-sign-up-form';
 const STEPS = ['Données de boutique', 'Données personelles', 'Authentification'];
 
 const StepOneSchema = zod.object({
-  codeParrainage: zod.string().min(1, {message: 'Code de parrainage de la boutique est requis'}),
-  nomBoutique: zod.string().min(1, { message: 'Nom de la boutique est requis!'}),
-  emailBoutique: zod.string().min(1, { message: 'Nom de la boutique est requis!'}),
+  codeParrainage: zod.string().min(1, { message: 'Code de parrainage de la boutique est requis' }),
+  nomBoutique: zod.string().min(1, { message: 'Nom de la boutique est requis!' }),
+  emailBoutique: zod.string().min(1, { message: 'Nom de la boutique est requis!' }),
 });
 
 const StepTwoSchema = zod.object({
-  nomClient: zod.string().min(1, { message: 'Nom de client est requis!'}),
-  prenomClient: zod.string().min(1, {message: 'Prénom de client est requis!'}),
-  adresseClient: zod.string().min(1, { message: 'Adresse de client est requis!'}),
-  codePostal : zod.string()
-                  .min(1, { message: 'Code postal est requis!'})
-                  .min(6, { message: "Code postale n'est pas valide"}),
-  villeClient : zod.string().min(1, { message: "Ville est requis"}),
-  telephone : zod.string()
-                  .min(1, { message: 'Téléphone de client est requis!'})
-                  .min(6, { message: "Téléphone n'est pas valide!"})
+  nomClient: zod.string().min(1, { message: 'Nom de client est requis!' }),
+  prenomClient: zod.string().min(1, { message: 'Prénom de client est requis!' }),
+  adresseClient: zod.string().min(1, { message: 'Adresse de client est requis!' }),
+  codePostal: zod
+    .string()
+    .min(1, { message: 'Code postal est requis!' })
+    .min(6, { message: "Code postal n'est pas valide" }),
+  villeClient: zod.string().min(1, { message: 'Ville est requis' }),
+  telephone: zod
+    .string()
+    .min(1, { message: 'Téléphone de client est requis!' })
+    .min(6, { message: "Téléphone n'est pas valide!" }),
 });
 
 const StepThreeSchema = zod.object({
-  adminEmail : zod 
-                .string()
-                .min(1, { message: 'Email est requis'})
-                .email({message: "Email n'est pas valide!"}),
+  adminEmail: zod
+    .string()
+    .min(1, { message: 'Email est requis' })
+    .email({ message: "Email n'est pas valide!" }),
   password: zod
     .string()
     .min(1, { message: 'Mot de pass est requis!' })
@@ -67,10 +69,17 @@ const WizardSchema = zod.object({
 });
 
 const defaultValues = {
-  stepOne : { codeParrainage: '',nomBoutique: '', emailBoutique:''},
-  stepTwo : { nomClient: '', prenomClient:'', adresseClient:'', codePostal: null,villeClient:'', telephone:null},
-  stepThree : { adminEmail:'', password:'', confirmPassword:''}
-}
+  stepOne: { codeParrainage: '', nomBoutique: '', emailBoutique: '' },
+  stepTwo: {
+    nomClient: '',
+    prenomClient: '',
+    adresseClient: '',
+    codePostal: null,
+    villeClient: '',
+    telephone: null,
+  },
+  stepThree: { adminEmail: '', password: '', confirmPassword: '' },
+};
 // ----------------------------------------------------------------------
 
 export function JwtSignUpView() {
@@ -139,7 +148,6 @@ export function JwtSignUpView() {
   }, [reset]);
 
   const completedStep = activeStep === STEPS.length;
- 
 
   return (
     <>
@@ -197,7 +205,7 @@ export function JwtSignUpView() {
           </Box>
         )}
       </Form>
-      
+
       <SignUpTerms />
     </>
   );

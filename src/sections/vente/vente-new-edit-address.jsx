@@ -21,8 +21,8 @@ import VenteNewEditAddClient from './vente-new-edit-add-client';
 
 export function VenteNewEditAddress() {
   const filterOptions = createFilterOptions({
-  stringify: (option) => `${option.name} ${option.phoneNumber}`,
-});
+    stringify: (option) => `${option.name} ${option.phoneNumber}`,
+  });
   const {
     watch,
     setValue,
@@ -37,7 +37,7 @@ export function VenteNewEditAddress() {
 
   const { client } = values;
 
-  const addClient = useBoolean()
+  const addClient = useBoolean();
 
   const handlePassager = () => {
     setValue('client', {
@@ -70,70 +70,69 @@ export function VenteNewEditAddress() {
         <Stack sx={{ width: 1 }}>
           <Stack>
             <Autocomplete
-  value={clientTo}
-  fullWidth
-  options={_addressBooks}
-  filterOptions={filterOptions}
-  onChange={(event, option) => {
-    setClientTo(option);
-    handleSelectAddress(option);
-  }}
-  getOptionLabel={(option) => option.name || option.phoneNumber}
-  renderInput={(params) => <TextField {...params} label="Client" margin="none" />}
-  renderOption={(props, option) => (
-    <li {...props} key={option.id}>
-      <Stack
-        key={option.id}
-        sx={{
-          py: 1,
-          my: 0.5,
-          px: 1.5,
-          gap: 0.5,
-          width: 1,
-          borderRadius: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-        }}
-      >
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Typography variant="subtitle2">{option.name}</Typography>
-          {option.primary && <Label color="info">Default</Label>}
-        </Stack>
-        {option.company && (
-          <Box sx={{ color: 'primary.main', typography: 'caption' }}>
-            {option.company}
-          </Box>
-        )}
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {option.fullAddress}
-        </Typography>
-        {option.phoneNumber && (
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {option.phoneNumber}
-          </Typography>
-        )}
-      </Stack>
-    </li>
-  )}
-/>
-
+              value={clientTo}
+              fullWidth
+              options={_addressBooks}
+              filterOptions={filterOptions}
+              onChange={(event, option) => {
+                setClientTo(option);
+                handleSelectAddress(option);
+              }}
+              getOptionLabel={(option) => option.name || option.phoneNumber}
+              renderInput={(params) => <TextField {...params} label="Client" margin="none" />}
+              renderOption={(props, option) => (
+                <li {...props} key={option.id}>
+                  <Stack
+                    key={option.id}
+                    sx={{
+                      py: 1,
+                      my: 0.5,
+                      px: 1.5,
+                      gap: 0.5,
+                      width: 1,
+                      borderRadius: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <Typography variant="subtitle2">{option.name}</Typography>
+                      {option.primary && <Label color="info">Default</Label>}
+                    </Stack>
+                    {option.company && (
+                      <Box sx={{ color: 'primary.main', typography: 'caption' }}>
+                        {option.company}
+                      </Box>
+                    )}
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      {option.fullAddress}
+                    </Typography>
+                    {option.phoneNumber && (
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        {option.phoneNumber}
+                      </Typography>
+                    )}
+                  </Stack>
+                </li>
+              )}
+            />
 
             <Box display="flex" gap={1} width={1} mt={3}>
               <Button
                 startIcon={<Iconify icon="mingcute:add-line" />}
                 sx={{ alignSelf: 'flex-end', width: '100%' }}
                 variant="contained"
-                color='primary'
-                onClick={()=>addClient.onTrue()}
+                color="primary"
+                onClick={() => addClient.onTrue()}
               >
-                Creér client
+                Créer client
               </Button>
               <Button
                 startIcon={<Iconify icon="mingcute:user-1-line" />}
                 sx={{ alignSelf: 'flex-end', width: '100%' }}
                 onClick={() => handlePassager()}
-                variant='outlined'
+                variant="outlined"
               >
                 Client Passager
               </Button>
@@ -158,7 +157,7 @@ export function VenteNewEditAddress() {
           </Stack>
         </Stack>
       </Stack>
-      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse}/>
+      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse} />
     </>
   );
 }

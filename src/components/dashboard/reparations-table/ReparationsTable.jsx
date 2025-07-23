@@ -1,42 +1,90 @@
+import React, { useMemo, useState } from 'react';
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
-import MenuList from '@mui/material/MenuList';
-import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
+import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material/styles';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
 import CardHeader from '@mui/material/CardHeader';
 import ListItemText from '@mui/material/ListItemText';
-import Badge, { badgeClasses } from '@mui/material/Badge';
-
-import { fCurrency } from 'src/utils/format-number';
-import { fDate, fTime } from 'src/utils/format-time';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
-import { usePopover, CustomPopover } from 'src/components/custom-popover';
 import { TableHeadCustom } from 'src/components/table';
-
-// ----------------------------------------------------------------------
+import { RouterLink } from 'src/routes/components';
+import { paths } from 'src/routes/paths';
 
 export function ReparationsTable({ title, subheader, tableData, headLabel, ...other }) {
+  const [statusFilter, setStatusFilter] = useState('');
+  const [technicienSearch, setTechnicienSearch] = useState('');
+
+  const filteredData = useMemo(
+    () =>
+      tableData.filter((row) => {
+        const matchesStatus = statusFilter ? row.status === statusFilter : true;
+        const matchesTechnicien = technicienSearch
+          ? row.technicien?.toLowerCase().includes(technicienSearch.toLowerCase())
+          : true;
+        return matchesStatus && matchesTechnicien;
+      }),
+    [tableData, statusFilter, technicienSearch]
+  );
+
+  const statusOptions = [
+    'Devis approuvé',
+    'En attente devis',
+    'Réparation en cours',
+    'Attente validation devis',
+    'Annulé',
+  ];
+
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} sx={{ mb: 3 }} />
+
+      {/* Filters */}
+      <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ px: 3, mb: 2 }}>
+        <TextField
+          label="Filtrer par technicien"
+          variant="outlined"
+          size="small"
+          value={technicienSearch}
+          onChange={(e) => setTechnicienSearch(e.target.value)}
+          fullWidth
+        />
+
+        <TextField
+          label="Filtrer par status"
+          variant="outlined"
+          size="small"
+          select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          fullWidth
+        >
+          <MenuItem value="">Tous</MenuItem>
+          {statusOptions.map((status) => (
+            <MenuItem key={status} value={status}>
+              {status}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Stack>
 
       <Scrollbar>
         <Table sx={{ minWidth: 720 }}>
           <TableHeadCustom headLabel={headLabel} />
 
           <TableBody>
-            {tableData.map((row) => (
+            {filteredData.map((row) => (
               <RowItem key={row.id} row={row} />
             ))}
           </TableBody>
@@ -47,6 +95,8 @@ export function ReparationsTable({ title, subheader, tableData, headLabel, ...ot
 
       <Box sx={{ p: 2, textAlign: 'right' }}>
         <Button
+          LinkComponent={RouterLink}
+          href={paths.dashboard.reparations.root}
           size="small"
           color="inherit"
           endIcon={<Iconify icon="eva:arrow-ios-forward-fill" width={18} sx={{ ml: -0.5 }} />}
@@ -61,55 +111,56 @@ export function ReparationsTable({ title, subheader, tableData, headLabel, ...ot
 // ----------------------------------------------------------------------
 
 function RowItem({ row }) {
-    const theme = useTheme();
-
+  const theme = useTheme();
   const lightMode = theme.palette.mode === 'light';
+
   return (
-    <>
-      <TableRow>
-       
-        <TableCell>
-          <ListItemText
-            primary={fDate(row.date)}
-            primaryTypographyProps={{ typography: 'body2' }}
-            secondaryTypographyProps={{ mt: 0.5, component: 'span', typography: 'caption' }}
-          />
-        </TableCell>
+    <TableRow>
+      <TableCell>
+        <Button size="small" variant="outlined" startIcon={<Iconify icon="eva:eye-outline" />}>
+          {row.actions}
+        </Button>
+      </TableCell>
 
-        
+      <TableCell>
+        <ListItemText primary={row.technicien} primaryTypographyProps={{ typography: 'body2' }} />
+      </TableCell>
 
-        <TableCell>
-        <ListItemText
-            primary={row.modele}
-            primaryTypographyProps={{ typography: 'body2' }}
-            secondaryTypographyProps={{ mt: 0.5, component: 'span', typography: 'caption' }}
-          />
-        </TableCell>
-        <TableCell>
+      <TableCell>
+        <ListItemText primary={row.reparation} primaryTypographyProps={{ typography: 'body2' }} />
+      </TableCell>
+
+      <TableCell>
+        <ListItemText primary={row.piece} primaryTypographyProps={{ typography: 'body2' }} />
+      </TableCell>
+
+      <TableCell>
+        <ListItemText primary={row.ref} primaryTypographyProps={{ typography: 'body2' }} />
+      </TableCell>
+
+      <TableCell>
+        <ListItemText primary={row.client} primaryTypographyProps={{ typography: 'body2' }} />
+      </TableCell>
+
+      <TableCell>
+        <ListItemText primary={row.produit} primaryTypographyProps={{ typography: 'body2' }} />
+      </TableCell>
+
+      <TableCell>
         <Label
-            variant={lightMode ? 'soft' : 'filled'}
-            color={
-              (row.status === 'Devis approuvé' && 'success') ||
-              (row.status === 'En attente devis' && 'warning') ||
-              (row.status === 'Réparation en cours' && 'info') ||
-              (row.status === 'Attente validation devis' && 'secondary') ||
-              'error'
-            }
-            sx={{ textTransform: 'capitalize' }}
-          >
-            {row.status}
-          </Label>
-        </TableCell>
-        <TableCell>
-        <ListItemText
-            primary={row.reparation}
-            primaryTypographyProps={{ typography: 'body2' }}
-            secondaryTypographyProps={{ mt: 0.5, component: 'span', typography: 'caption' }}
-          />
-        </TableCell>
-      </TableRow>
-
-     
-    </>
+          variant={lightMode ? 'soft' : 'filled'}
+          color={
+            (row.status === 'Devis approuvé' && 'success') ||
+            (row.status === 'En attente devis' && 'warning') ||
+            (row.status === 'Réparation en cours' && 'info') ||
+            (row.status === 'Attente validation devis' && 'secondary') ||
+            'error'
+          }
+          sx={{ textTransform: 'capitalize' }}
+        >
+          {row.status}
+        </Label>
+      </TableCell>
+    </TableRow>
   );
 }

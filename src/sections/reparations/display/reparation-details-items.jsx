@@ -1,36 +1,27 @@
+import { useState } from 'react';
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import CardHeader from '@mui/material/CardHeader';
-import IconButton from '@mui/material/IconButton';
+import Grid from '@mui/material/Unstable_Grid2';
 import ListItemText from '@mui/material/ListItemText';
+import { Button, Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+
+import { useBoolean } from 'src/hooks/use-boolean';
 
 import { fCurrency } from 'src/utils/format-number';
+import { fDate, today } from 'src/utils/format-time';
 
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
-import { Accordion, AccordionDetails, AccordionSummary, Button } from '@mui/material';
-import { accordion } from 'src/theme/core/components/accordion';
-import { useState } from 'react';
-import Grid from '@mui/material/Unstable_Grid2';
-import { fDate, today } from 'src/utils/format-time';
-import { useBoolean } from 'src/hooks/use-boolean';
-import RapportPanneModal from '../rapport-panne-modal';
+
+import DisplaySchemaModal from './display-schema-modal';
 import DisplayRapportAvant from './display-rapport-avant';
 import DisplayAttestaionModal from './display-attestation-modal';
-import DisplaySchemaModal from './display-schema-modal';
 
 // ----------------------------------------------------------------------
 
-export function OrderDetailsItems({
-  taxes,
-  shipping,
-  discount,
-  subtotal,
-  items = [],
-  totalAmount,
-}) {
+export function OrderDetailsItems({ items = [] }) {
  const [controlled, setControlled] = useState(0);
 
   const handleChangeControlled = (panel) => (event, isExpanded) => {
@@ -43,11 +34,10 @@ export function OrderDetailsItems({
 
   return (
     <Card>
-      <CardHeader title="Details" />
-
       <Scrollbar>
         {items.map((item, index) => (
           <Accordion
+          sx={{ bgcolor: "#f0f0f0"}}
             key={index}
             onChange={handleChangeControlled(index)}
             expanded={controlled === index}
@@ -63,7 +53,7 @@ export function OrderDetailsItems({
                 }}
               >
                 <ListItemText
-                  primary={item.name}
+                  primary="Smartphone - Apple - Iphone 11"
                   primaryTypographyProps={{ typography: 'body2' }}
                   secondaryTypographyProps={{
                     component: 'span',
@@ -79,9 +69,9 @@ export function OrderDetailsItems({
                 </Box>
               </Stack>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails >
               <Grid container spacing={3}>
-                <Grid xs={12} md={4}>
+                {/* <Grid xs={12} md={4}>
                   <Stack direction="row" alignItems="center" fontSize="12px">
                     <Box
                       component="span"
@@ -113,7 +103,7 @@ export function OrderDetailsItems({
                     </Box>
                     Iphone 11
                   </Stack>
-                </Grid>
+                </Grid> */}
                 <Grid xs={12} lg={6}>
                   <Stack direction="row" alignItems="center" fontSize="12px">
                     <Box
@@ -196,7 +186,7 @@ export function OrderDetailsItems({
                     <Button variant='contained' color='success' onClick={()=> openSchema.onTrue()}>Schéma</Button>
                     <Button variant='contained' color='primary' onClick={()=> openRapport.onTrue()}>Rapport Avant</Button>
                     <Button variant='contained' color='primary' onClick={()=> openRapport.onTrue()}>Rapport Aprés</Button>
-                    <Button variant='contained' color='primary' onClick={()=> openAttestation.onTrue()}>Attestation d&apos;irréparabilité</Button>
+                    <Button variant='contained' color='info' onClick={()=> openAttestation.onTrue()}>Attestation d&apos;irréparabilité</Button>
                   </Stack>
                 </Grid>
               </Grid>

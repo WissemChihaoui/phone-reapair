@@ -1,21 +1,23 @@
-import { useCallback, useState } from 'react';
-import { paths } from 'src/routes/paths';
 import { z as zod } from 'zod';
 import { useForm } from 'react-hook-form';
-
-import { DashboardContent } from 'src/layouts/dashboard';
+import { useState, useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { LoadingButton } from '@mui/lab';
+import { Card, Stack } from '@mui/material';
+
+import { paths } from 'src/routes/paths';
+
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { Card, Stack } from '@mui/material';
+import { DashboardContent } from 'src/layouts/dashboard';
+
 import { Form } from 'src/components/hook-form';
-import { StepOne, StepThree, StepTwo } from '../create-steps';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+
+import { StepOne, StepTwo, StepThree } from '../create-steps';
 
 // ----------------------------------------------------------------------
-
 
 const StepUserData = zod.object({
   id: zod.string().min(1, { message: '' }),
@@ -28,7 +30,7 @@ const StepUserData = zod.object({
   type: zod.string().min(1, { message: 'Type de client est requis!' }),
   country: zod.string().min(1, { message: 'Ville est requis!' }),
   address: zod.string().min(1, { message: 'Adress est requis!' }),
-  zipCode: zod.number().min(1, { message: 'Code postale est requis!' }),
+  zipCode: zod.number().min(1, { message: 'Code postal est requis!' }),
 });
 
 const StepCompanyData = zod.object({
@@ -44,7 +46,7 @@ const StepCompanyData = zod.object({
   tva: zod.string().min(1, { message: 'TVA est requis!' }),
   country: zod.string().min(1, { message: 'Ville est requis!' }),
   address: zod.string().min(1, { message: 'Adress est requis!' }),
-  zipCode: zod.number().min(1, { message: 'Code postale est requis!' }),
+  zipCode: zod.number().min(1, { message: 'Code postal est requis!' }),
 });
 
 const WizardSchema = zod.object({
@@ -126,11 +128,11 @@ export function UserCreateView() {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Creér un client"
+        heading="Créer un client"
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },
           { name: 'Clients', href: paths.dashboard.client.root },
-          { name: 'Creér' },
+          { name: 'Créer' },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
@@ -140,7 +142,7 @@ export function UserCreateView() {
           {isIndividual.value ? <StepTwo /> : <StepThree />}
 
           <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-            <LoadingButton type="submit" color='primary' variant="contained" loading={isSubmitting}>
+            <LoadingButton type="submit" color="primary" variant="contained" loading={isSubmitting}>
               Enregistrer
             </LoadingButton>
           </Stack>

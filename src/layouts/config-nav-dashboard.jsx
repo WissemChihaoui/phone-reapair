@@ -89,7 +89,7 @@ export const navData = [
             path: paths.dashboard.stock.categories,
             children: [
               { title: 'Catégories articles', path: paths.dashboard.stock.categories },
-              { title: 'Regroupement', path: paths.dashboard.stock.regroupement },
+              { title: "Regroupement d'articles" , path: paths.dashboard.stock.regroupement },
               { title: 'Lieu de stockage', path: paths.dashboard.stock.stockage },
               { title: 'Fournisseurs', path: paths.dashboard.stock.fournisseurs },
               { title: 'Famille comptable', path: paths.dashboard.stock.famille },

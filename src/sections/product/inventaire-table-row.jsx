@@ -35,26 +35,7 @@ export default function InventaireTableRow({
             inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
           />
         </TableCell>
-
-        <TableCell>
-          <Box component="span">#{row.inventaireId}</Box>
-        </TableCell>
-        <TableCell>
-          <Box component="span" sx={{ typography: 'body2' }}>
-            {row.createdBy}
-          </Box>
-        </TableCell>
-        <TableCell>
-          <Box component="span" sx={{ typography: 'body2' }}>
-            {row.note}
-          </Box>
-        </TableCell>
-        <TableCell>
-          <Box component="span" sx={{ typography: 'body2' }}>
-            {fDate(row.createdAt)}
-          </Box>
-        </TableCell>
-        <TableCell sx={{ px: 1, whiteSpace: 'nowrap' }}>
+<TableCell sx={{ px: 1, whiteSpace: 'nowrap' }}>
           {!row.confirmed && (
             <IconButton
               color="default"
@@ -73,6 +54,25 @@ export default function InventaireTableRow({
             </IconButton>
           )}
         </TableCell>
+        <TableCell>
+          <Box component="span">#{row.inventaireId}</Box>
+        </TableCell>
+        <TableCell>
+          <Box component="span" sx={{ typography: 'body2' }}>
+            {row.createdBy}
+          </Box>
+        </TableCell>
+        <TableCell>
+          <Box component="span" sx={{ typography: 'body2' }}>
+            {row.note}
+          </Box>
+        </TableCell>
+        <TableCell>
+          <Box component="span" sx={{ typography: 'body2' }}>
+            {fDate(row.createdAt)}
+          </Box>
+        </TableCell>
+        
       </TableRow>
 
       <ConfirmDialog

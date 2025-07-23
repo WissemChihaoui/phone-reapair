@@ -4,9 +4,8 @@ import { useFormContext } from 'react-hook-form';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { Autocomplete, Box, ButtonBase, TextField } from '@mui/material';
+import { Box, TextField, Autocomplete } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
@@ -14,10 +13,8 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { _addressBooks } from 'src/_mock';
 
 import { Label } from 'src/components/label';
-import { Field } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
 
-import { AddressListDialog } from '../address';
 import VenteNewEditAddClient from '../vente/vente-new-edit-add-client';
 // import VenteNewEditAddClient from './vente-new-edit-add-client';
 
@@ -38,9 +35,8 @@ export function RachatAddEditClient() {
 
   const { client } = values;
 
-  const addClient = useBoolean()
+  const addClient = useBoolean();
 
-  
   const handleSelectAddress = (option) => {
     setValue('client', { ...option, ...values.client });
   };
@@ -58,13 +54,13 @@ export function RachatAddEditClient() {
           />
         }
         sx={{ p: 3 }}
-        >
+      >
         <Stack sx={{ width: 1 }}>
-          <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
+          {/* <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
             <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
               Choisir Client
             </Typography>
-          </Stack>
+          </Stack> */}
 
           <Stack>
             <Autocomplete
@@ -72,7 +68,7 @@ export function RachatAddEditClient() {
               fullWidth
               options={_addressBooks}
               onChange={(event, option) => {
-                setClientTo(option); 
+                setClientTo(option);
                 handleSelectAddress(option);
               }}
               getOptionLabel={(option) => option.name}
@@ -118,22 +114,22 @@ export function RachatAddEditClient() {
             <Box display="flex" gap={1} width={1} mt={3}>
               <Button
                 startIcon={<Iconify icon="mingcute:add-line" />}
-                sx={{ alignSelf: 'flex-end', width: { xs :'100%', md: '50%'} }}
+                sx={{ alignSelf: 'flex-end', width: { xs: '100%', md: '50%' } }}
                 variant="contained"
-                color='primary'
-                onClick={()=>addClient.onTrue()}
+                color="primary"
+                onClick={() => addClient.onTrue()}
               >
-                Creér client
+                Créer client
               </Button>
             </Box>
           </Stack>
         </Stack>
         <Stack sx={{ width: 1 }}>
-          <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
+          {/* <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
             <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
               Client:
             </Typography>
-          </Stack>
+          </Stack> */}
 
           <Stack spacing={1}>
             <Typography variant="subtitle2">{client?.name}</Typography>
@@ -146,7 +142,7 @@ export function RachatAddEditClient() {
           </Stack>
         </Stack>
       </Stack>
-      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse}/>
+      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse} />
     </>
   );
 }

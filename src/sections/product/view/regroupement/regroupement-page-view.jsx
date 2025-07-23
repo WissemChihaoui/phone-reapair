@@ -33,8 +33,8 @@ import RegroupementTableFilterResult from '../../regroupement-table-filter-resul
 const TABLE_HEAD = [
   { id: '', label: 'Actions' },
   { id: 'groupe', label: 'Regroupement' },
-  { id: 'price', label: 'Prix totale' },
-  { id: 'products', label: 'Piéce à changer' },
+  { id: 'price', label: 'Prix total' },
+  { id: 'products', label: 'Liste des articles' },
 ];
 
 const data = [
@@ -109,7 +109,7 @@ export default function RegroupementPageView() {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Regroupement"
+        heading="Regroupement d'articles"
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },
           { name: 'Stock', href: paths.dashboard.stock.root },
@@ -125,7 +125,7 @@ export default function RegroupementPageView() {
               href={paths.dashboard.stock.addRegroupement}
               color='primary'
             >
-              Ajouter Regroupement
+              Ajouter un regroupement d&apos;articles
             </Button>
           </Box>
         }

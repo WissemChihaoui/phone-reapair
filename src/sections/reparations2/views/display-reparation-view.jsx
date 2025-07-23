@@ -8,6 +8,8 @@ import { paths } from 'src/routes/paths';
 import { ORDER_STATUS_OPTIONS } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+
 import ReparationDetailsCode from '../display/reparation-details-code';
 import { OrderDetailsItems } from '../display/reparation-details-items';
 import ReparationDetailsNotes from '../display/reparation-details-notes';
@@ -24,6 +26,7 @@ export default function DisplayReparationView({order}) {
   }, []);
   return (
     <DashboardContent>
+      
         <DisplayDetailsToolbar
           backLink={paths.dashboard.reparations.root}
           orderNumber={order?.orderNumber}

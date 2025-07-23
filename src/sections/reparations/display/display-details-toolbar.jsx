@@ -39,7 +39,7 @@ export function DisplayDetailsToolbar({
 
           <Stack spacing={0.5}>
             <Stack spacing={1} direction="row" alignItems="center">
-              <Typography variant="h4"> Réparation {orderNumber} </Typography>
+              <Typography variant="h6"> Réparation {orderNumber} </Typography>
               <Label
                 variant="soft"
                 color={

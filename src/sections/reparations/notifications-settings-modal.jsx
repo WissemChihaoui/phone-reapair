@@ -1,8 +1,11 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, MenuItem, Stack, Typography } from '@mui/material'
-import Grid from '@mui/material/Unstable_Grid2';
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form';
+
+import Grid from '@mui/material/Unstable_Grid2';
+import { Box, Stack, Button, Dialog, Divider, MenuItem, Typography, DialogTitle, DialogActions, DialogContent } from '@mui/material'
+
 import { Field } from 'src/components/hook-form'
+import { _etat } from 'src/_mock/_rep';
 
 export default function NotificationsSettingsModal({ open, onClose}) {
     const { control, setValue, watch } = useFormContext();
@@ -21,6 +24,9 @@ export default function NotificationsSettingsModal({ open, onClose}) {
                     <Typography>Etat :</Typography>
                     <Field.Select name='settings.etat'>
                         <MenuItem value='none'>No Value</MenuItem>
+                        {_etat.map((etat) => (
+                            <MenuItem key={etat.value} value={etat.value}>{etat.label}</MenuItem>
+                        ))}
                     </Field.Select>
                 </Grid>
                 <Grid xs={12} md={4}>

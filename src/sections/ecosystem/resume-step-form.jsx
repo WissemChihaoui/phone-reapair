@@ -85,13 +85,15 @@ export default function ResumeStepForm({ setActiveStep }) {
           </Stack>
           <Stack direction="row" alignItems="center">
             <Box component="span" sx={{ color: 'text.secondary', width: 120, flexShrink: 0 }}>
-              Code postale:
+              Code postal:
             </Box>
             {values.stepThree.zipCode}
           </Stack>
         </Box>
         <Stack m={2} display="flex" alignItems="flex-end">
-          <Button onClick={()=>setActiveStep(2)} variant="contained">Modifier</Button>
+          <Button onClick={() => setActiveStep(2)} variant="contained">
+            Modifier
+          </Button>
         </Stack>
       </AccordionDetails>
     </Accordion>
@@ -116,7 +118,7 @@ export default function ResumeStepForm({ setActiveStep }) {
         >
           <Stack direction="row" alignItems="center">
             <Box component="span" sx={{ color: 'text.secondary', width: 120, flexShrink: 0 }}>
-            Produit
+              Produit
             </Box>
             {values.stepTwo.produit}
           </Stack>
@@ -146,18 +148,19 @@ export default function ResumeStepForm({ setActiveStep }) {
           </Stack>
           <Stack direction="row" alignItems="center">
             <Box component="span" sx={{ color: 'text.secondary', width: 120, flexShrink: 0 }}>
-            Code IRIS:
+              Code IRIS:
             </Box>
             {values.stepTwo.iris}
           </Stack>
-         
         </Box>
         <Stack m={2} display="flex" alignItems="flex-end">
-          <Button onClick={()=>setActiveStep(1)} variant="contained">Modifier</Button>
+          <Button onClick={() => setActiveStep(1)} variant="contained">
+            Modifier
+          </Button>
         </Stack>
       </AccordionDetails>
     </Accordion>
-  )
+  );
 
   const renderReparation = (
     <Accordion expanded={controlled === 3} onChange={handleChangeControlled(3)}>
@@ -178,31 +181,31 @@ export default function ResumeStepForm({ setActiveStep }) {
         >
           <Stack direction="row" alignItems="center">
             <Box component="span" sx={{ color: 'text.secondary', width: 120, flexShrink: 0 }}>
-            Date de la réparation
+              Date de la réparation
             </Box>
             {fDate(values.stepOne.date)}
           </Stack>
           <Stack direction="row" alignItems="center">
             <Box component="span" sx={{ color: 'text.secondary', width: 120, flexShrink: 0 }}>
-            Référence de réparation:
+              Référence de réparation:
             </Box>
             {values.stepOne.refe}
           </Stack>
           <Stack direction="row" alignItems="center">
             <Box component="span" sx={{ color: 'text.secondary', width: 120, flexShrink: 0 }}>
-            Type d&apos;intervention:
+              Type d&apos;intervention:
             </Box>
             {values.stepOne.type}
           </Stack>
-          
-         
         </Box>
         <Stack m={2} display="flex" alignItems="flex-end">
-          <Button onClick={()=>setActiveStep(0)} variant="contained">Modifier</Button>
+          <Button onClick={() => setActiveStep(0)} variant="contained">
+            Modifier
+          </Button>
         </Stack>
       </AccordionDetails>
     </Accordion>
-  )
+  );
   const renderFacture = (
     <Accordion expanded={controlled === 4} onChange={handleChangeControlled(4)}>
       <AccordionSummary
@@ -222,30 +225,31 @@ export default function ResumeStepForm({ setActiveStep }) {
         >
           <Stack direction="row" alignItems="center">
             <Box component="span" sx={{ color: 'text.secondary', flexShrink: 0 }}>
-            Montant T.T.C avant déduction du Bonus réparation
+              Montant T.T.C avant déduction du Bonus réparation
             </Box>
             {fCurrency(values.stepFour.amount)}
           </Stack>
           <Stack direction="row" alignItems="center">
             <Box component="span" sx={{ color: 'text.secondary', flexShrink: 0 }}>
-            Bonus réparation
+              Bonus réparation
             </Box>
             {fCurrency(values.stepFour.bonus)}
           </Stack>
-         
         </Box>
         <Stack m={2} display="flex" alignItems="flex-end">
-          <Button onClick={()=>setActiveStep(3)} variant="contained">Modifier</Button>
+          <Button onClick={() => setActiveStep(3)} variant="contained">
+            Modifier
+          </Button>
         </Stack>
       </AccordionDetails>
     </Accordion>
-  )
-  return( 
+  );
+  return (
     <>
-        {renderClient}
-        {renderProduct}
-        {renderReparation}
-        {renderFacture}
+      {renderClient}
+      {renderProduct}
+      {renderReparation}
+      {renderFacture}
     </>
   );
 }

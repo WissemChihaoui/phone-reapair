@@ -89,7 +89,9 @@ export function InvoicePDF({ invoice, currentStatus }) {
 
   const renderHeader = (
     <View style={[styles.container, styles.mb40]}>
-      <Image source="/logo/logo.png" style={{ width: 48, height: 48 }} />
+      <View>
+        <Image source="/logo/logo.png" style={{ width: 100 }} />
+      </View>
       <View style={{ alignItems: 'flex-end' }}>
         <Text style={[styles.h3, { textTransform: 'capitalize' }]}>Facture</Text>
         <Text>{invoiceNumber}</Text>
@@ -102,8 +104,9 @@ export function InvoicePDF({ invoice, currentStatus }) {
   const renderFooter = (
     <View style={[styles.footer]} fixed>
       <Text style={styles.body2}>
-        Je déclare avoir pris connaissance et accepté sans réserves les termes des Conditions Générales de Vente,
-        Prestation et SAV ci-jointes et partie intégrante de la relation contractuelle.
+        Je déclare avoir pris connaissance et accepté sans réserves les termes des Conditions
+        Générales de Vente, Prestation et SAV ci-jointes et partie intégrante de la relation
+        contractuelle.
       </Text>
     </View>
   );
@@ -132,24 +135,44 @@ export function InvoicePDF({ invoice, currentStatus }) {
       <View style={styles.table}>
         <View>
           <View style={styles.row}>
-            <View style={styles.cell_1}><Text style={styles.subtitle2}>#</Text></View>
-            <View style={styles.cell_2}><Text style={styles.subtitle2}>Produit</Text></View>
-            <View style={styles.cell_3}><Text style={styles.subtitle2}>Prix HT</Text></View>
-            <View style={styles.cell_4}><Text style={styles.subtitle2}>QTE</Text></View>
-            <View style={styles.cell_4}><Text style={styles.subtitle2}>TVA</Text></View>
-            <View style={[styles.cell_5, { textAlign: 'right' }]}><Text style={styles.subtitle2}>Total TTC</Text></View>
+            <View style={styles.cell_1}>
+              <Text style={styles.subtitle2}>#</Text>
+            </View>
+            <View style={styles.cell_2}>
+              <Text style={styles.subtitle2}>Produit</Text>
+            </View>
+            <View style={styles.cell_3}>
+              <Text style={styles.subtitle2}>Prix HT</Text>
+            </View>
+            <View style={styles.cell_4}>
+              <Text style={styles.subtitle2}>QTE</Text>
+            </View>
+            <View style={styles.cell_4}>
+              <Text style={styles.subtitle2}>TVA</Text>
+            </View>
+            <View style={[styles.cell_5, { textAlign: 'right' }]}>
+              <Text style={styles.subtitle2}>Total TTC</Text>
+            </View>
           </View>
 
           {items.map((item, index) => (
             <View key={item.id} style={styles.row}>
-              <View style={styles.cell_1}><Text>{index + 1}</Text></View>
+              <View style={styles.cell_1}>
+                <Text>{index + 1}</Text>
+              </View>
               <View style={styles.cell_2}>
                 <Text style={styles.subtitle2}>{item.title}</Text>
                 <Text>{item.description}</Text>
               </View>
-              <View style={styles.cell_3}><Text>{fCurrency(item.price)}</Text></View>
-              <View style={styles.cell_4}><Text>{item.quantity}</Text></View>
-              <View style={styles.cell_4}><Text>{item.tva || '20%'}</Text></View>
+              <View style={styles.cell_3}>
+                <Text>{fCurrency(item.price)}</Text>
+              </View>
+              <View style={styles.cell_4}>
+                <Text>{item.quantity}</Text>
+              </View>
+              <View style={styles.cell_4}>
+                <Text>{item.tva || '20%'}</Text>
+              </View>
               <View style={[styles.cell_5, { textAlign: 'right' }]}>
                 <Text>{fCurrency(item.price * item.quantity)}</Text>
               </View>
@@ -169,7 +192,9 @@ export function InvoicePDF({ invoice, currentStatus }) {
               <View style={styles.cell_1} />
               <View style={styles.cell_2} />
               <View style={styles.cell_3} />
-              <View style={styles.cell_4}><Text style={item.styles}>{item.name}</Text></View>
+              <View style={styles.cell_4}>
+                <Text style={item.styles}>{item.name}</Text>
+              </View>
               <View style={[styles.cell_5, { textAlign: 'right' }]}>
                 <Text style={item.styles}>{fCurrency(item.value)}</Text>
               </View>
@@ -191,4 +216,3 @@ export function InvoicePDF({ invoice, currentStatus }) {
     </Document>
   );
 }
-

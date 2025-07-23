@@ -1,12 +1,16 @@
-import { Box, Button, Card, Dialog, DialogContent, Stack } from '@mui/material';
-import React, { useCallback, useState } from 'react';
 import { z as zod } from 'zod';
-import { Form } from 'src/components/hook-form';
-import { LoadingButton } from '@mui/lab';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import React, { useState, useCallback } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { LoadingButton } from '@mui/lab';
+import { Box, Stack, Button, Dialog, DialogContent } from '@mui/material';
+
 import { useBoolean } from 'src/hooks/use-boolean';
-import { StepOne, StepThree, StepTwo } from '../user/create-steps';
+
+import { Form } from 'src/components/hook-form';
+
+import { StepOne, StepTwo, StepThree } from '../user/create-steps';
 
 const StepUserData = zod.object({
   id: zod.string().min(1, { message: '' }),
@@ -19,7 +23,7 @@ const StepUserData = zod.object({
   type: zod.string().min(1, { message: 'Type de client est requis!' }),
   country: zod.string().min(1, { message: 'Ville est requis!' }),
   address: zod.string().min(1, { message: 'Adress est requis!' }),
-  zipCode: zod.number().min(1, { message: 'Code postale est requis!' }),
+  zipCode: zod.number().min(1, { message: 'Code postal est requis!' }),
 });
 
 const StepCompanyData = zod.object({
@@ -35,7 +39,7 @@ const StepCompanyData = zod.object({
   tva: zod.string().min(1, { message: 'TVA est requis!' }),
   country: zod.string().min(1, { message: 'Ville est requis!' }),
   address: zod.string().min(1, { message: 'Adress est requis!' }),
-  zipCode: zod.number().min(1, { message: 'Code postale est requis!' }),
+  zipCode: zod.number().min(1, { message: 'Code postal est requis!' }),
 });
 const WizardSchema = zod.object({
   stepTwo: StepUserData,

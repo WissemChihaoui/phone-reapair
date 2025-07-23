@@ -32,6 +32,7 @@ export function DisplayDetailsToolbar({
   return (
     <>
       <Stack spacing={3} direction={{ xs: 'column', md: 'row' }} sx={{ mb: { xs: 3, md: 5 } }}>
+        <Typography variant="h4"> Réparation {orderNumber} </Typography>
         <Stack spacing={1} direction="row" alignItems="flex-start">
           <IconButton component={RouterLink} href={backLink}>
             <Iconify icon="eva:arrow-ios-back-fill" />

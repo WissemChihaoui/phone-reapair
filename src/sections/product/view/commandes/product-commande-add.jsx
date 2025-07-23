@@ -268,7 +268,7 @@ export default function ProductCommandeAdd() {
                 <Divider sx={{ borderStyle: 'dashed' }} />
                 <Box display="flex">
                   <Typography component="span" variant="subtitle1" sx={{ flexGrow: 1 }}>
-                    Totale
+                    Total
                   </Typography>
                   <Box sx={{ textAlign: 'right' }}>
                     <Typography

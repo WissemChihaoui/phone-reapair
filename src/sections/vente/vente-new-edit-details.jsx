@@ -157,12 +157,12 @@ export function VenteNewEditDetails() {
         <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(totalHtAmount) || '-'}</Box>
       </Stack>
       <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Ss Total</Box>
+        <Box sx={{ color: 'text.secondary' }}>Sous Total</Box>
         <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(subtotal) || '-'}</Box>
       </Stack>
 
       <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Remise totale</Box>
+        <Box sx={{ color: 'text.secondary' }}>Remise total</Box>
         <Box sx={{ width: 160, ...(discountAmount && { color: 'error.main' }) }}>
           {discountAmount ? `- ${fCurrency(discountAmount)}` : '-'}
         </Box>

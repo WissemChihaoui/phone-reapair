@@ -1,40 +1,45 @@
-import { Box, Button, Card, IconButton, Table, TableBody, Tooltip } from '@mui/material';
-import React, { useCallback, useState } from 'react';
 import { toast } from 'sonner';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { Iconify } from 'src/components/iconify';
-import { Scrollbar } from 'src/components/scrollbar';
-import {
-  emptyRows,
-  getComparator,
-  rowInPage,
-  TableEmptyRows,
-  TableHeadCustom,
-  TableNoData,
-  TablePaginationCustom,
-  TableSelectedAction,
-  useTable,
-} from 'src/components/table';
+import React, { useState, useCallback } from 'react';
+
+import { Box, Card, Table, Button, Tooltip, TableBody, IconButton } from '@mui/material';
+
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
+import { RouterLink } from 'src/routes/components';
+
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
+
 import { DashboardContent } from 'src/layouts/dashboard';
-import { RouterLink } from 'src/routes/components';
-import { useRouter } from 'src/routes/hooks';
-import { paths } from 'src/routes/paths';
+
+import { Iconify } from 'src/components/iconify';
+import { Scrollbar } from 'src/components/scrollbar';
+import { ConfirmDialog } from 'src/components/custom-dialog';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import {
+  useTable,
+  emptyRows,
+  rowInPage,
+  TableNoData,
+  getComparator,
+  TableEmptyRows,
+  TableHeadCustom,
+  TableSelectedAction,
+  TablePaginationCustom,
+} from 'src/components/table';
+
 import { UserTableFiltersResult } from 'src/sections/user/user-table-filters-result';
-import { UserTableRow } from 'src/sections/user/user-table-row';
-import { UserTableToolbar } from 'src/sections/user/user-table-toolbar';
+
+import FournisseurAddEditForm from '../../FournisseurAddEditForm';
 import { FournisseurTableRow } from '../../fournisseur-table-row';
 import { FournisseurTableToolbar } from '../../fournisseur-table-toolbar';
-import FournisseurAddEditForm from '../../FournisseurAddEditForm';
 
 const TABLE_HEAD = [
   { id: 'actions', label: '' },
   { id: 'name', label: 'Nom' },
   { id: 'phone', label: 'Téléphone' },
   { id: 'email', label: 'E-mail' },
-  { id: 'adress', label: 'Addresse' },
+  { id: 'adress', label: 'Adresse' },
 ];
 
 const FournisseursList = [

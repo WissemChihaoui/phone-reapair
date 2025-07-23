@@ -1,28 +1,25 @@
-import { Alert, Box, Button, Fab, IconButton, MenuItem, Select, Typography } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-import { CONFIG } from 'src/config-global';
+import React, { useRef } from 'react';
 
-import React, { useRef, useState } from 'react';
-import ReparationCard from 'src/components/dashboard/reparation-card/ReparationCard';
-import SearchReparation from 'src/components/dashboard/search-reparation/SearchReparation';
-import SearchVente from 'src/components/dashboard/search-vente/SearchVente';
-import { DashboardContent } from 'src/layouts/dashboard';
-import { Iconify } from 'src/components/iconify';
-import VentesCard from 'src/components/dashboard/ventes-card/VentesCard';
-import DevisCard from 'src/components/dashboard/devis-card/DevisCard';
-import DemandeDevisCard from 'src/components/dashboard/demande-devis-card/DemandeDevisCard';
-import { CaisseCard } from 'src/components/dashboard/caisse-card/CaisseCard';
-import AchatsCard from 'src/components/dashboard/achats-card/AchatsCard';
-import { StockChart } from 'src/components/dashboard/stock-chart/StockChart';
-import { TransactionsTable } from 'src/components/dashboard/transactions-table/TransactionsTable';
-import { _bankingRecentTransitions } from 'src/_mock';
-import { ReparationsTable } from 'src/components/dashboard/reparations-table/ReparationsTable';
-import { CustomPopover } from 'src/components/custom-popover';
-import { StockWidget } from 'src/components/dashboard/stock-widget/StockWidget';
+import Grid from '@mui/material/Unstable_Grid2';
+import { Box, Alert, Button, Typography } from '@mui/material';
+
 import { paths } from 'src/routes/paths';
 
+import { CONFIG } from 'src/config-global';
+import { DashboardContent } from 'src/layouts/dashboard';
+
+import { Iconify } from 'src/components/iconify';
+import DevisCard from 'src/components/dashboard/devis-card/DevisCard';
+import VentesCard from 'src/components/dashboard/ventes-card/VentesCard';
+import AchatsCard from 'src/components/dashboard/achats-card/AchatsCard';
+import { CaisseCard } from 'src/components/dashboard/caisse-card/CaisseCard';
+import { StockWidget } from 'src/components/dashboard/stock-widget/StockWidget';
+import ReparationCard from 'src/components/dashboard/reparation-card/ReparationCard';
+import SearchReparation from 'src/components/dashboard/search-reparation/SearchReparation';
+import { ReparationsTable } from 'src/components/dashboard/reparations-table/ReparationsTable';
+import SearchVente from 'src/components/dashboard/search-vente/SearchVente';
+
 export default function DashboardView() {
-  // const periods= ["today", "month"]
   const transactionsData = [
     {
       id: 1,
@@ -66,138 +63,37 @@ export default function DashboardView() {
     },
   ];
   const reparationsData = [
-    {
-      id: 1,
-      date: '01/11/2024',
-      modele: 'Macbook',
-      status: 'En attente devis',
-      reparation: 'IR_PC000245',
-    },
-    {
-      id: 2,
-      date: '02/11/2024',
-      modele: 'iPhone 12',
-      status: 'Attente validation devis',
-      reparation: 'IR_PC000246',
-    },
-    {
-      id: 3,
-      date: '03/11/2024',
-      modele: 'Samsung Galaxy S21',
-      status: 'Réparation en cours',
-      reparation: 'IR_PC000247',
-    },
-    {
-      id: 4,
-      date: '04/11/2024',
-      modele: 'Dell XPS 13',
-      status: 'En attente devis',
-      reparation: 'IR_PC000248',
-    },
-    {
-      id: 5,
-      date: '05/11/2024',
-      modele: 'HP Pavilion',
-      status: 'Devis approuvé',
-      reparation: 'IR_PC000249',
-    },
-  ];
+  {
+    id: 1,
+    actions: 'View', // placeholder for actions column
+    technicien: 'Marie Martin',
+    reparation: 'IR_PC000245',
+    piece: 'Ecran iPhone 7',
+    ref: 'PC-245',
+    client: 'Hlel Khalifa',
+    produit: 'Macbook',
+    status: 'En attente devis',
+  },
+];
 
-  
   const hoverPopoverRef = useRef(null);
-
-  
 
   return (
     <DashboardContent maxWidth="xl">
-      <Box
-        display="flex"
-        alignItems="space-between"
-        width="100%"
-        flexDirection={{xs: 'column', md:'row'}}
-        sx={{ mb: { xs: 3, md: 5 } }}
-      >
-       <></>
-      </Box>
       <Grid container spacing={3}>
-        <Grid xs={12} md={6} container>
         <Grid xs={12}>
-        <Alert severity="info" >
-          Date expiration abonnement : <strong>31-12-2025</strong> | Solde SMS restants : <strong>0 SMS</strong>
-        </Alert>
+          <Alert severity="info" sx={{ textAlign: 'center' }}>
+            Date expiration abonnement : <strong>31-12-2025</strong> | Solde SMS restants :{' '}
+            <strong>0 SMS</strong>
+          </Alert>
         </Grid>
+        <Grid xs={12} md={6} container>
           <Grid xs={12}>
             <SearchReparation />
           </Grid>
         </Grid>
-        <Grid xs={12} md={6} container>         
-         <Grid xs={6} md={3}>
-           <Button
-             href={paths.dashboard.caisse.root}
-             size="medium"
-             color="success"
-             variant="outlined"
-             
-             sx={{display: 'flex', flexDirection: 'column', height:'100%', width:'100%'}}
-           >
-              <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/caisse.png`} width={60}/>
-              <Typography variant='Button'>Caisse</Typography>
-           </Button>
-         </Grid>
-         <Grid xs={6} md={3}>
-           <Button
-            href={paths.dashboard.calendrier.root}
-            size="medium"
-            color="warning"
-            variant="outlined"
-            sx={{display: 'flex', flexDirection: 'column', height:'100%', width:'100%'}}
-           >
-              <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/calendrier-hebdomadaire.png`} width={60}/>
-              <Typography variant='Button'>Calendrier</Typography>
-           </Button>
-         </Grid>
-         <Grid xs={6} md={3}>
-           <Button
-            // href={paths.dashboard.two}
-            size="medium"
-            color="info"
-            variant="outlined"
-            sx={{display: 'flex', flexDirection: 'column', height:'100%', width:'100%'}}
-           >
-              <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/caisse-fond.png`} width={60}/>
-              <Typography variant='Button'>Fond de caisse</Typography>
-           </Button>
-         </Grid>
-        <Grid xs={6} md={3} container spacing={1}>
-        <Grid xs={12}>
-         <Button
-              href={paths.dashboard.two}
-              variant="contained"
-              color="primary"
-              sx={{ height: '100%' }}
-              fullWidth
-            >
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <Iconify width={36} icon="ic:outline-sms" />
-                Envoyer SMS
-              </Box>
-            </Button>
-         </Grid>
-         <Grid xs={12}>
-         <Button
-              href={paths.dashboard.two}
-              variant="contained"
-              color="success"
-              sx={{ height: '100%'}}
-              fullWidth
-            >
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <Iconify width={36} icon="ic:outline-mail" />
-                Envoyer Email
-              </Box>
-            </Button>
-         </Grid>
-        </Grid>
+        <Grid xs={12} md={6}>
+          <SearchVente />
         </Grid>
         <Grid xs={12} md={6} container>
           <Grid xs={12} md={6}>
@@ -244,24 +140,29 @@ export default function DashboardView() {
         </Grid>
         <Grid xs={12} md={6} container>
           <Grid xs={12}>
-            <CaisseCard title="Caisse" earning={25500} orderTotal={287650} currentBalance={187650} />
+            <CaisseCard
+              title="Caisse"
+              earning={25500}
+              orderTotal={287650}
+              currentBalance={187650}
+            />
           </Grid>
           <Grid xs={12} container>
-              <Grid xs={12} md={6}>
+            <Grid xs={12} md={6}>
               <StockWidget
-              title="Stock Faible"
-              total={6}
-              icon={`${CONFIG.assetsDir}/assets/icons/mise-en-garde.png`}
-            />
-              </Grid>
-              <Grid xs={12} md={6}>
+                title="Stock Faible"
+                total={6}
+                icon={`${CONFIG.assetsDir}/assets/icons/mise-en-garde.png`}
+              />
+            </Grid>
+            <Grid xs={12} md={6}>
               <StockWidget
-              title="Stock Epuisé"
-              total={4}
-              icon={`${CONFIG.assetsDir}/assets/icons/attention.png`}
-              color='error'
-            />
-              </Grid>
+                title="Stock Epuisé"
+                total={4}
+                icon={`${CONFIG.assetsDir}/assets/icons/attention.png`}
+                color="error"
+              />
+            </Grid>
           </Grid>
         </Grid>
         {/* <Grid xs={12} md={8}>
@@ -317,13 +218,17 @@ export default function DashboardView() {
         </Grid> */}
         <Grid xs={12}>
           <ReparationsTable
-            title="Dernières Réparations"
+            title="Liste des interventions"
             tableData={reparationsData}
             headLabel={[
-              { id: 'date', label: 'Date' },
-              { id: 'modele', label: 'Modèle' },
-              { id: 'status', label: 'Statut' },
+              { id: 'actions', label: 'Actions' },
+              { id: 'technicien', label: 'Technicien' },
               { id: 'reparation', label: 'Réparation' },
+              { id: 'piece', label: 'Piéce' },
+              { id: 'ref', label: 'Réf' },
+              { id: 'client', label: 'Client' },
+              { id: 'produit', label: 'Produit' },
+              { id: 'status', label: 'Status' },
             ]}
           />
         </Grid>

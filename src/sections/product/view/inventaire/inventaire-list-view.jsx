@@ -31,11 +31,11 @@ import {
 import InventaireTableRow from '../../inventaire-table-row';
 
 const TABLE_HEAD = [
+  { id: '', label: 'Actions', width: 180 },
   { id: 'inventaireId', label: 'Id', width: 88 },
   { id: 'createdBy', label: 'Crée par' },
   { id: 'note', label: 'Note' },
   { id: 'createdAt', label: 'Date' },
-  { id: '', label: 'Actions', width: 180 },
 ];
 
 const data = [

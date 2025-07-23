@@ -253,6 +253,12 @@ export function ProductAlertStockView() {
       filterable: false,
       disableColumnMenu: true,
       getActions: (params) => [
+         <GridActionsCellItem
+          showInMenu
+          icon={<Iconify icon="solar:copy-bold-duotone" />}
+          label="Dupliquer"
+          onClick={() => handleDuplicateRow(params.row.id)}
+        />,
         <GridActionsCellItem
           showInMenu
           icon={<Iconify icon="solar:eye-bold" />}
@@ -264,12 +270,6 @@ export function ProductAlertStockView() {
           icon={<Iconify icon="solar:pen-bold" />}
           label="Adjustement Quantité"
           onClick={() => handleAdjust(params.row)}
-        />,
-        <GridActionsCellItem
-          showInMenu
-          icon={<Iconify icon="solar:copy-bold-duotone" />}
-          label="Dupliquer"
-          onClick={() => handleDuplicateRow(params.row.id)}
         />,
         <GridActionsCellItem
           showInMenu

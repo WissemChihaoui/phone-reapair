@@ -2,7 +2,7 @@ import React from 'react';
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import { Fab, MenuItem, MenuList } from '@mui/material';
+import { Fab, MenuItem, MenuList, Tooltip } from '@mui/material';
 import Card from '@mui/material/Card';
 import Tabs from '@mui/material/Tabs';
 import Stack from '@mui/material/Stack';
@@ -26,7 +26,7 @@ import DisplaySendSmsModal from './display-sendSms-modal';
 import DisplayPayementModal from './display-payement-modal';
 
 export function ReparationDetailsInfo({ customer, shippingAddress }) {
-  const popover = usePopover()
+  const popover = usePopover();
   const openPayment = useBoolean();
   const openSMS = useBoolean();
   const [tabValue, setTabValue] = React.useState(0);
@@ -41,15 +41,21 @@ export function ReparationDetailsInfo({ customer, shippingAddress }) {
         title="Client"
         action={
           <Stack direction="row" spacing={1}>
-            <Fab size='small'>
-              <Iconify icon="logos:whatsapp-icon" width={24}/>
-            </Fab>
-            <Fab size='small'>
-              <Iconify icon="material-icon-theme:email" width={24}/>
-            </Fab>
-            <Fab size='small'>
-              <Iconify icon="flat-color-icons:sms" width={24}/>
-            </Fab>
+            <Tooltip title="Whatsapp" arrow>
+              <Fab variant="outlined" color="success" size="small">
+                <Iconify icon="logos:whatsapp-icon" width={24} />
+              </Fab>
+            </Tooltip>
+            <Tooltip title="Email" arrow>
+              <Fab variant="outlined" color="success" size="small">
+                <Iconify icon="material-icon-theme:email" width={24} />
+              </Fab>
+            </Tooltip>
+            <Tooltip title="SMS" arrow>
+              <Fab variant="outlined" color="success" size="small">
+                <Iconify icon="flat-color-icons:sms" width={24} />
+              </Fab>
+            </Tooltip>
             <IconButton href={paths.dashboard.client.add} LinkComponent={RouterLink}>
               <Iconify icon="solar:pen-bold" />
             </IconButton>
@@ -62,14 +68,27 @@ export function ReparationDetailsInfo({ customer, shippingAddress }) {
         <Box component="span" sx={{ color: 'text.secondary', ml: 0.25, mb: 2 }}>
           #877-87-877
         </Box>
-        <Button onClick={popover.onOpen} variant='outlined' startIcon={<Iconify icon="material-symbols:star-outline-rounded" />}>
+        <Button
+          onClick={popover.onOpen}
+          variant="outlined"
+          startIcon={<Iconify icon="material-symbols:star-outline-rounded" />}
+        >
           Avis Client
         </Button>
         <CustomPopover anchorEl={popover.anchorEl} open={popover.open} onClose={popover.onClose}>
           <MenuList>
-            <MenuItem><Iconify icon="ic:outline-email" />Email</MenuItem>
-            <MenuItem><Iconify icon="material-symbols:sms-outline" />SMS</MenuItem>
-            <MenuItem><Iconify icon="ic:round-whatsapp" />Whatsapp</MenuItem>
+            <MenuItem>
+              <Iconify icon="ic:outline-email" />
+              Email
+            </MenuItem>
+            <MenuItem>
+              <Iconify icon="material-symbols:sms-outline" />
+              SMS
+            </MenuItem>
+            <MenuItem>
+              <Iconify icon="ic:round-whatsapp" />
+              Whatsapp
+            </MenuItem>
           </MenuList>
         </CustomPopover>
       </Stack>
@@ -186,13 +205,13 @@ export function ReparationDetailsInfo({ customer, shippingAddress }) {
           >
             Imprimer
           </Button>
-        <Stack sx={{ p: 3 }} alignItems="center">
-          <img
-            alt="Barre à code"
-            src={`${CONFIG.assetsDir}/assets/images/barCode.png`}
-            width={250}
-          />
-        </Stack>
+          <Stack sx={{ p: 3 }} alignItems="center">
+            <img
+              alt="Barre à code"
+              src={`${CONFIG.assetsDir}/assets/images/barCode.png`}
+              width={250}
+            />
+          </Stack>
         </Box>
       )}
 

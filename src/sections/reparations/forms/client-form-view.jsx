@@ -1,25 +1,21 @@
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { Autocomplete, Box, ButtonBase, TextField } from '@mui/material';
+import { Box, TextField, Autocomplete } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
 
 import { _addressBooks } from 'src/_mock';
 
-import { useState } from 'react';
 import { Label } from 'src/components/label';
-import { Field } from 'src/components/hook-form';
 import { Iconify } from 'src/components/iconify';
+
 import VenteNewEditAddClient from 'src/sections/vente/vente-new-edit-add-client';
-import { DashboardContent } from 'src/layouts/dashboard';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { paths } from 'src/routes/paths';
 
 // import { AddressListDialog } from '../address';
 // import VenteNewEditAddClient from './vente-new-edit-add-client';
@@ -41,7 +37,7 @@ export default function ClientFormView() {
 
   const { client } = values;
 
-  const addClient = useBoolean()
+  const addClient = useBoolean();
 
   const handlePassager = () => {
     setValue('client', {
@@ -59,7 +55,6 @@ export default function ClientFormView() {
 
   return (
     <>
-    
       <Stack
         spacing={{ xs: 3, md: 5 }}
         direction={{ xs: 'column', md: 'row' }}
@@ -73,11 +68,11 @@ export default function ClientFormView() {
         sx={{ p: 3 }}
       >
         <Stack sx={{ width: 1 }}>
-          <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
+          {/* <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
             <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
               Choisir Client
             </Typography>
-          </Stack>
+          </Stack> */}
 
           <Stack>
             <Autocomplete
@@ -85,7 +80,7 @@ export default function ClientFormView() {
               fullWidth
               options={_addressBooks}
               onChange={(event, option) => {
-                setClientTo(option); 
+                setClientTo(option);
                 handleSelectAddress(option);
               }}
               getOptionLabel={(option) => option.name}
@@ -133,16 +128,16 @@ export default function ClientFormView() {
                 startIcon={<Iconify icon="mingcute:add-line" />}
                 sx={{ alignSelf: 'flex-end', width: '100%' }}
                 variant="contained"
-                color='primary'
-                onClick={()=>addClient.onTrue()}
+                color="primary"
+                onClick={() => addClient.onTrue()}
               >
-                Creér client
+                Créer client
               </Button>
               <Button
                 startIcon={<Iconify icon="mingcute:user-1-line" />}
                 sx={{ alignSelf: 'flex-end', width: '100%' }}
                 onClick={() => handlePassager()}
-                variant='outlined'
+                variant="outlined"
               >
                 Client Passager
               </Button>
@@ -150,11 +145,11 @@ export default function ClientFormView() {
           </Stack>
         </Stack>
         <Stack sx={{ width: 1 }}>
-          <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
+          {/* <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
             <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
               Client:
             </Typography>
-          </Stack>
+          </Stack> */}
 
           <Stack spacing={1}>
             <Typography variant="subtitle2">{client?.name}</Typography>
@@ -167,7 +162,7 @@ export default function ClientFormView() {
           </Stack>
         </Stack>
       </Stack>
-      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse}/>
+      <VenteNewEditAddClient open={addClient.value} onClose={addClient.onFalse} />
     </>
   );
 }
