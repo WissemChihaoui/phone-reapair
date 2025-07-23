@@ -131,6 +131,7 @@ export function EmployeesListView() {
               onClick={()=>addDialog.onTrue()}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
+              color='primary'
             >
               Nouveau Employée
             </Button>

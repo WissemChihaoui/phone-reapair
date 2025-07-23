@@ -233,7 +233,7 @@ export default function ProductCommandeAdd() {
                       ))}
                       <TableRow>
                         <TableCell align="right" colSpan={6}>
-                          <Button onClick={handleAddRow} variant="contained">
+                          <Button color='primary' onClick={handleAddRow} variant="contained">
                             Ajouter un article
                           </Button>
                         </TableCell>

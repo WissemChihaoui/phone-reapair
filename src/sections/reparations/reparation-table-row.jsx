@@ -72,7 +72,7 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
                 <Iconify icon="solar:trash-bin-trash-bold" />
               </Fab>
             </Tooltip>
-            <Tooltip title="Voir" placement="top" arrow>
+            <Tooltip title={`${row.client} - ${ row.orderNumber}`} placement="top" arrow>
               <Fab onClick={() => display()} size="small" color="info">
                 <Iconify icon="solar:info-circle-bold" />
               </Fab>

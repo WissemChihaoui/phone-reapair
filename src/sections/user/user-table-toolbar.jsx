@@ -88,7 +88,7 @@ export function UserTableToolbar({ filters, options, onResetPage }) {
           />
             
 
-          <Button variant='contained' onClick={popover.onOpen} startIcon={<Iconify icon="material-symbols-light:download" />}>
+          <Button variant='contained' color='primary' onClick={popover.onOpen} startIcon={<Iconify icon="material-symbols-light:download" />}>
             Exporter
           </Button>
         </Stack>

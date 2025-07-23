@@ -19,10 +19,10 @@ import { ReparationListView } from './reparation-list-view';
 import { ReparationExtListView } from './reparation-externe-list-view';
 
 const REP_DEVIS = [
-    { label: 'Réparation', value: 'rep' },
-    { label: 'Devis', value: 'devis' },
-    { label: 'Réparation Externe', value: 'rep-e' },
-    { label: 'Archive', value: 'archive' },
+    { label: 'Réparation', value: 'rep', icon : <Iconify icon="hugeicons:repair" /> },
+    { label: 'Devis', value: 'devis', icon : <Iconify icon="mingcute:bill-line" /> },
+    { label: 'Réparation Externe', value: 'rep-e', icon : <Iconify icon="fluent-mdl2:repair" /> },
+    { label: 'Archive', value: 'archive', icon : <Iconify icon="material-symbols:archive-outline" /> },
   ];
 export default function ReparationDevisView() {
     const tabs = useTabs('rep');
@@ -34,7 +34,7 @@ export default function ReparationDevisView() {
             <Tab
               key={tab.value}
               iconPosition="start"
-              icon={<Iconify icon="material-symbols:list-rounded" width={24} />}
+              icon={tab.icon}
               value={tab.value}
               label={tab.label}
             />
@@ -53,7 +53,7 @@ export default function ReparationDevisView() {
           ]}
           sx={{ mb: { xs: 3, md: 5 } }}
           action={
-            <Button variant='contained' href={paths.dashboard.reparations.add} LinkComponent={RouterLink}>Ajouter une réparation</Button>
+            <Button variant='contained' color='primary' href={paths.dashboard.reparations.add} LinkComponent={RouterLink}>Ajouter une réparation</Button>
           }
         />
     {renderTabs}

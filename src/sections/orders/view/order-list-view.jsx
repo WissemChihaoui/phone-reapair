@@ -159,7 +159,7 @@ export function OrderListView() {
           ]}
           sx={{ mb: { xs: 3, md: 5 } }}
           action={
-            <Button variant='contained' onClick={()=>router.push(paths.dashboard.stock.addCommande)}>Ajouter une commande</Button>
+            <Button color='primary' variant='contained' onClick={()=>router.push(paths.dashboard.stock.addCommande)}>Ajouter une commande</Button>
           }
         />
 

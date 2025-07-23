@@ -147,7 +147,7 @@ export default function InventaireListView() {
         sx={{ mb: { xs: 3, md: 5 } }}
         action={
           <Stack direction="row" spacing={2}>
-            <Button variant="contained" href={paths.dashboard.stock.addInventaire} LinkComponent={RouterLink}>Ajouter</Button>
+            <Button variant="contained" href={paths.dashboard.stock.addInventaire} LinkComponent={RouterLink} color='primary'>Ajouter</Button>
           </Stack>
         }
       />

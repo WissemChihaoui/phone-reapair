@@ -123,6 +123,7 @@ export default function RegroupementPageView() {
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
               href={paths.dashboard.stock.addRegroupement}
+              color='primary'
             >
               Ajouter Regroupement
             </Button>

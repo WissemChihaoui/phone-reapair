@@ -116,6 +116,7 @@ export default function SavListView() {
             startIcon={<Iconify icon="mingcute:add-line" />}
             href={paths.dashboard.sav.add}
             LinkComponent={RouterLink}
+            color='primary'
           >
             Ajouter un SAV
           </Button>

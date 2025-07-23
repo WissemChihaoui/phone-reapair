@@ -17,7 +17,7 @@ export default function ReparationDetailsCode() {
               </FormControl>
               </Stack>
               <CardActions sx={{justifyContent:'flex-end', display: 'flex', p:2}}>
-                <Button variant='contained'>Enregistrer</Button>
+                <Button variant='contained' color='primary'>Enregistrer</Button>
               </CardActions>
             </>
     </Card>

@@ -17,8 +17,7 @@ export default function CaissePageView() {
   const tabs = useTabs("fond")
 
   return (
-    <>
-      <DashboardContent>
+    <DashboardContent>
         <CustomBreadcrumbs
           heading="Caisse"
           links={[
@@ -85,6 +84,5 @@ export default function CaissePageView() {
         </Grid>
 
       </DashboardContent>
-    </>
   );
 }

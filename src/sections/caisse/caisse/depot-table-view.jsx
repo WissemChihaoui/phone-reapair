@@ -41,7 +41,7 @@ export default function DepotTableView() {
         <CardHeader
           title="Dépot / Retrait"
           action={
-            <Button onClick={()=> add.onTrue()} variant="contained" startIcon={<Iconify icon="material-symbols:add-rounded" />}>
+            <Button color='primary' onClick={()=> add.onTrue()} variant="contained" startIcon={<Iconify icon="material-symbols:add-rounded" />}>
               Ajouter dépot / retrait
             </Button>
           }

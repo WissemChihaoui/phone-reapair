@@ -67,7 +67,7 @@ export function DisplayDetailsToolbar({
           justifyContent="flex-end"
         >
           <Button
-            color="inherit"
+            color="primary"
             variant="outlined"
             endIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
             onClick={popover.onOpen}
@@ -77,7 +77,7 @@ export function DisplayDetailsToolbar({
           </Button>
 
           <Button
-            color="inherit"
+            color="primary"
             variant="outlined"
             startIcon={<Iconify icon="solar:printer-minimalistic-bold" />}
             endIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}
@@ -86,10 +86,10 @@ export function DisplayDetailsToolbar({
             Imprimer
           </Button>
 
-          <Button color="inherit" variant="contained" startIcon={<Iconify icon="solar:pen-bold" />}>
+          <Button color="primary" variant="contained" startIcon={<Iconify icon="solar:pen-bold" />}>
             Modifier
           </Button>
-          <Button onClick={()=>openPanel.onTrue()} color="inherit" variant="contained" startIcon={<Iconify icon="tdesign:setting-filled" />}>
+          <Button onClick={()=>openPanel.onTrue()} color="primary" variant="contained" startIcon={<Iconify icon="tdesign:setting-filled" />}>
           panneau de contrôle
           </Button>
         </Stack>

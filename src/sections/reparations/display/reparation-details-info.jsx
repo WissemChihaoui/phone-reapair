@@ -2,6 +2,7 @@ import React from 'react';
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
+import { Fab, MenuItem, MenuList } from '@mui/material';
 import Card from '@mui/material/Card';
 import Tabs from '@mui/material/Tabs';
 import Stack from '@mui/material/Stack';
@@ -19,11 +20,13 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { CONFIG } from 'src/config-global';
 
 import { Iconify } from 'src/components/iconify';
+import { CustomPopover, usePopover } from 'src/components/custom-popover';
 
 import DisplaySendSmsModal from './display-sendSms-modal';
 import DisplayPayementModal from './display-payement-modal';
 
 export function ReparationDetailsInfo({ customer, shippingAddress }) {
+  const popover = usePopover()
   const openPayment = useBoolean();
   const openSMS = useBoolean();
   const [tabValue, setTabValue] = React.useState(0);
@@ -37,16 +40,16 @@ export function ReparationDetailsInfo({ customer, shippingAddress }) {
       <CardHeader
         title="Client"
         action={
-          <Stack direction="row">
-            <IconButton>
-              <Iconify icon="logos:whatsapp-icon" />
-            </IconButton>
-            <IconButton>
-              <Iconify icon="material-icon-theme:email" />
-            </IconButton>
-            <IconButton>
-              <Iconify icon="flat-color-icons:sms" />
-            </IconButton>
+          <Stack direction="row" spacing={1}>
+            <Fab size='small'>
+              <Iconify icon="logos:whatsapp-icon" width={24}/>
+            </Fab>
+            <Fab size='small'>
+              <Iconify icon="material-icon-theme:email" width={24}/>
+            </Fab>
+            <Fab size='small'>
+              <Iconify icon="flat-color-icons:sms" width={24}/>
+            </Fab>
             <IconButton href={paths.dashboard.client.add} LinkComponent={RouterLink}>
               <Iconify icon="solar:pen-bold" />
             </IconButton>
@@ -56,9 +59,19 @@ export function ReparationDetailsInfo({ customer, shippingAddress }) {
       <Stack spacing={0.5} alignItems="flex-start" sx={{ typography: 'body2', p: 3 }}>
         <Typography variant="subtitle2">{customer?.name}</Typography>
         <Box sx={{ color: 'text.secondary' }}>{customer?.email}</Box>
-        <Box component="span" sx={{ color: 'text.secondary', ml: 0.25 }}>
+        <Box component="span" sx={{ color: 'text.secondary', ml: 0.25, mb: 2 }}>
           #877-87-877
         </Box>
+        <Button onClick={popover.onOpen} variant='outlined' startIcon={<Iconify icon="material-symbols:star-outline-rounded" />}>
+          Avis Client
+        </Button>
+        <CustomPopover anchorEl={popover.anchorEl} open={popover.open} onClose={popover.onClose}>
+          <MenuList>
+            <MenuItem><Iconify icon="ic:outline-email" />Email</MenuItem>
+            <MenuItem><Iconify icon="material-symbols:sms-outline" />SMS</MenuItem>
+            <MenuItem><Iconify icon="ic:round-whatsapp" />Whatsapp</MenuItem>
+          </MenuList>
+        </CustomPopover>
       </Stack>
     </>
   );
@@ -67,12 +80,14 @@ export function ReparationDetailsInfo({ customer, shippingAddress }) {
     <>
       <Tabs value={tabValue} onChange={handleTabChange} centered>
         <Tab label="Réçu" />
+        <Tab label="Impr. étiquette" />
         <Tab label="Réçu atelier" />
       </Tabs>
       <Divider sx={{ borderStyle: 'dashed' }} />
 
       {tabValue === 0 && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 3 }} border={1} m={2}>
+          {/* Print Button */}
           <Button
             variant="contained"
             color="primary"
@@ -83,36 +98,107 @@ export function ReparationDetailsInfo({ customer, shippingAddress }) {
             Imprimer
           </Button>
 
-          <Typography variant="h6" align="center">
+          {/* Header: Number and Date */}
+          <Typography variant="subtitle2">
+            N°: R07-25-627 / emp12032533 date: 22-07-2025 14:13:17
+          </Typography>
+
+          {/* Title */}
+          <Typography
+            variant="h6"
+            align="center"
+            sx={{ textDecoration: 'underline', fontWeight: 'bold', my: 1 }}
+          >
             Réçu de dépôt
           </Typography>
 
-          <Typography>N°: R07-25-627 / emp12032533</Typography>
-          <Typography>Date: 22-07-2025 14:13:17</Typography>
-          <Typography>Client: 86-00003-hlel khalifa khalifa</Typography>
+          {/* Client Info */}
+          <Typography>
+            <strong>Client:</strong> 86-00003-hlel khalifa khalifa
+          </Typography>
+          {/* Add phone if needed */}
+          {/* <Typography><strong>Téléphone:</strong> 0633265523</Typography> */}
 
           <Divider sx={{ my: 1 }} />
 
-          <Typography><strong>Désignation:</strong> alcatel|ALCATEL 3V</Typography>
-          <Typography><strong>État de dépôt:</strong> Comme neuf</Typography>
+          {/* Product Info */}
+          <Typography>
+            <strong>Désignation:</strong> alcatel|ALCATEL 3V
+          </Typography>
+          <Typography>
+            <strong>État de dépôt:</strong> Comme neuf
+          </Typography>
 
           <Divider sx={{ my: 1 }} />
 
-          <Typography><strong>Panne:</strong> ecran iphone 7 blancfdfdf | <strong>Prix:</strong> 100.00 €</Typography>
-          <Typography><strong>Panne:</strong> ecran iphone 7 blancfdfdf | <strong>Prix:</strong> 100.00 €</Typography>
-          <Typography><strong>Panne:</strong> sfsdfdsf | <strong>Prix:</strong> 36.00 €</Typography>
-          <Typography><strong>Panne:</strong> top top | <strong>Prix:</strong> 59.00 €</Typography>
+          {/* Pannes */}
+          <Typography>
+            <strong>Panne:</strong> ecran iphone 7 blancfdfdf
+          </Typography>
+          <Typography>
+            <strong>Prix:</strong> 100.00 €
+          </Typography>
+
+          <Typography>
+            <strong>Panne:</strong> ecran iphone 7 blancfdfdf
+          </Typography>
+          <Typography>
+            <strong>Prix:</strong> 100.00 €
+          </Typography>
+
+          <Typography>
+            <strong>Panne:</strong> sfsdfdsf
+          </Typography>
+          <Typography>
+            <strong>Prix:</strong> 36.00 €
+          </Typography>
+
+          <Typography>
+            <strong>Panne:</strong> top top
+          </Typography>
+          <Typography>
+            <strong>Prix:</strong> 59.00 €
+          </Typography>
 
           <Divider sx={{ my: 1 }} />
 
-          <Typography><strong>Total:</strong> 295.00 €</Typography>
-          <Typography><strong>Acompte:</strong> 0.00 €</Typography>
-          <Typography><strong>Reste:</strong> 295.00 €</Typography>
+          {/* Totals */}
+          <Typography>
+            <strong>Total:</strong> 295.00 €
+          </Typography>
+          <Typography>
+            <strong>Acompte:</strong> 0.00 €
+          </Typography>
+          <Typography>
+            <strong>Reste:</strong> 295.00 €
+          </Typography>
         </Box>
       )}
 
       {tabValue === 1 && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 3 }} border={1} m={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Iconify icon="material-symbols:print" />}
+            onClick={() => window.print()}
+            sx={{ mb: 2 }}
+          >
+            Imprimer
+          </Button>
+        <Stack sx={{ p: 3 }} alignItems="center">
+          <img
+            alt="Barre à code"
+            src={`${CONFIG.assetsDir}/assets/images/barCode.png`}
+            width={250}
+          />
+        </Stack>
+        </Box>
+      )}
+
+      {tabValue === 2 && (
+        <Box sx={{ p: 3 }} border={1} m={2}>
+          {/* Print Button */}
           <Button
             variant="contained"
             color="primary"
@@ -123,11 +209,87 @@ export function ReparationDetailsInfo({ customer, shippingAddress }) {
             Imprimer
           </Button>
 
-          <Typography variant="h6" align="center">
-            Réçu Atelier
+          {/* Header: Number and Date */}
+          <Typography variant="subtitle2">
+            N°: R07-25-625 / emp12032533 date: 22-07-2025 12:42:45
           </Typography>
 
-          <Typography>Contenu de l&apos;atelier à compléter...</Typography>
+          {/* Title */}
+          <Typography
+            variant="h6"
+            align="center"
+            sx={{ textDecoration: 'underline', fontWeight: 'bold', my: 1 }}
+          >
+            Réçu atelier
+          </Typography>
+
+          {/* Client Info */}
+          <Typography>
+            <strong>Client:</strong> 86-00003-hlel khalifa khalifa
+          </Typography>
+          <Typography>
+            <strong>Téléphone:</strong> 0633265523
+          </Typography>
+
+          <Divider sx={{ my: 1 }} />
+
+          {/* Product Info */}
+          <Typography>
+            <strong>Désignation:</strong> asus|7265NGW
+          </Typography>
+          <Typography>
+            <strong>Numéro de série:</strong>
+          </Typography>
+          <Typography>
+            <strong>État de dépôt:</strong> Comme neuf
+          </Typography>
+          <Typography>
+            <strong>Note interne:</strong>
+          </Typography>
+          <Typography>
+            <strong>Code (déver./Sim):</strong>
+          </Typography>
+          <Typography>
+            <strong>Schema déver.:</strong>
+          </Typography>
+
+          <Divider sx={{ my: 1 }} />
+
+          {/* Pannes */}
+          <Typography>
+            <strong>Panne:</strong> ecran iphone 7 blancfdfdf
+          </Typography>
+          <Typography>
+            <strong>Prix:</strong> 100.00 €
+          </Typography>
+
+          <Typography>
+            <strong>Panne:</strong> ecran iphone 7 blancfdfdf
+          </Typography>
+          <Typography>
+            <strong>Prix:</strong> 100.00 €
+          </Typography>
+
+          <Typography>
+            <strong>Panne:</strong> sfsdfdsf
+          </Typography>
+          <Typography>
+            <strong>Prix:</strong> 36.00 €
+          </Typography>
+
+          <Typography>
+            <strong>Panne:</strong> top top
+          </Typography>
+          <Typography>
+            <strong>Prix:</strong> 59.00 €
+          </Typography>
+
+          <Divider sx={{ my: 1 }} />
+
+          {/* Totals */}
+          <Typography>
+            <strong>Total:</strong> 295.00 €
+          </Typography>
         </Box>
       )}
     </>
@@ -143,9 +305,7 @@ export function ReparationDetailsInfo({ customer, shippingAddress }) {
           </IconButton>
         }
       />
-      <Box sx={{ p: 3, gap: 0.5, typography: 'body2' }}>
-        Le client n&apos;a pas payé 15€
-      </Box>
+      <Box sx={{ p: 3, gap: 0.5, typography: 'body2' }}>Le client n&apos;a pas payé 15€</Box>
     </>
   );
 
@@ -154,18 +314,6 @@ export function ReparationDetailsInfo({ customer, shippingAddress }) {
       <Card>
         {renderCustomer}
         <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <CardHeader
-          title="Code à barre "
-          action={
-            <IconButton>
-              <Iconify icon="material-symbols:print" />
-            </IconButton>
-          }
-        />
-        <Stack sx={{ p: 3 }} alignItems="center">
-          <img alt="Barre à code" src={`${CONFIG.assetsDir}/assets/images/barCode.png`} width={250} />
-        </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 

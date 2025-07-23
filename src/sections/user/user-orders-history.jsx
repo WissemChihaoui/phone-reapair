@@ -1,20 +1,22 @@
+import React from 'react';
+
 import {
-    Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Stack,
   Table,
+  Button,
+  Dialog,
+  TableRow,
   TableBody,
   TableCell,
-  TableRow,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
 } from '@mui/material';
-import React from 'react';
-import { Scrollbar } from 'src/components/scrollbar';
-import { TableHeadCustom } from 'src/components/table';
+
 import { fCurrency } from 'src/utils/format-number';
 import { fDate, today } from 'src/utils/format-time';
+
+import { TableHeadCustom } from 'src/components/table';
 
 const TABLE_HEAD = [
   { id: 'id', label: 'ID' },
@@ -61,7 +63,7 @@ export default function UserOrdersHistory({ history, open, onClose }) {
       </DialogContent>
       <DialogActions>
         <Stack>
-            <Button variant='contained' onClick={onClose}>Fermer</Button>
+            <Button variant='contained' color='primary' onClick={onClose}>Fermer</Button>
         </Stack>
       </DialogActions>
     </Dialog>

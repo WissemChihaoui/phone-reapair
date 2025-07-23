@@ -142,31 +142,7 @@ export function UserListView() {
     popover.onClose();
   };
 
-  // const handleFileUpload = (event) => {
-  //   const file = event.target.files?.[0];
-  //   console.log(file)
-  //   if (!file) return;
-
-  //   const fileName = file.name.toLowerCase();
-  //   const isCSV = fileName.endsWith('.csv');
-
-  //   if (!isCSV) {
-  //     toast.error('Veuillez sélectionner un fichier CSV valide.');
-  //     return;
-  //   }
-
-  //   // Optional: parse or send to backend
-  //   toast.success(`Fichier "${file.name}" importé avec succès.`);
-
-  //   // Example: Just reading content
-  //   const reader = new FileReader();
-  //   reader.onload = (e) => {
-  //     const text = e.target.result;
-  //     console.log('Contenu du fichier CSV :', text);
-  //     // You can parse the CSV here using PapaParse or manual parsing
-  //   };
-  //   reader.readAsText(file);
-  // };
+ 
 
   const handleCsvImport = (e) => {
     const file = e.target.files[0];
@@ -192,6 +168,7 @@ export function UserListView() {
                 onClick={popover.onOpen}
                 variant="outlined"
                 startIcon={<Iconify icon="material-symbols:upload-rounded" />}
+                color='primary'
               >
                 Importer
               </Button>
@@ -200,6 +177,7 @@ export function UserListView() {
                 variant="contained"
                 startIcon={<Iconify icon="mingcute:add-line" />}
                 href={paths.dashboard.client.add}
+                color='primary'
               >
                 Ajouter Client
               </Button>

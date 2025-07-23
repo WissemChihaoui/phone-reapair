@@ -1,19 +1,24 @@
-import {
-    Button,
+import React from 'react';
+
+  import {
     Card,
-    CardContent,
-    CardHeader,
     Table,
+    Button,
+    TableRow,
     TableBody,
     TableCell,
     TableHead,
-    TableRow,
+    CardHeader,
+    CardContent,
   } from '@mui/material';
-  import React from 'react';
-import { Iconify } from 'src/components/iconify';
+
 import { useBoolean } from 'src/hooks/use-boolean';
-  import { fCurrency } from 'src/utils/format-number';
+
+import { fCurrency } from 'src/utils/format-number';
   import { fDate, today } from 'src/utils/format-time';
+
+  import { Iconify } from 'src/components/iconify';
+
 import CaisseVerificationModal from './caisse-verification-modal';
   
   
@@ -35,7 +40,7 @@ import CaisseVerificationModal from './caisse-verification-modal';
           <CardHeader 
             title="Fond de la caisse" 
             action={
-                <Button onClick={()=> add.onTrue()} variant="contained" startIcon={<Iconify icon="material-symbols:add-rounded" />}>
+                <Button color='primary' onClick={()=> add.onTrue()} variant="contained" startIcon={<Iconify icon="material-symbols:add-rounded" />}>
                   Vérifier caisse
                 </Button>
               }

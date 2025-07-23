@@ -26,7 +26,7 @@ export default function ReparationDetailsNotes() {
                 </FormControl>
             </Stack>
             <CardActions sx={{justifyContent:'flex-end', display: 'flex', p:2}}>
-                <Button variant='contained'>Enrgistrer</Button>
+                <Button variant='contained' color='primary'>Enrgistrer</Button>
             </CardActions>
         </Card>
     </>

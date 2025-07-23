@@ -40,8 +40,8 @@ export default function DisplayReparationView({order}) {
                 subtotal={order?.subtotal}
                 totalAmount={order?.totalAmount}
               />
-              <ReparationsDetailsHistory history={order?.history} />
               <ReparationDetailsNotes />
+              <ReparationsDetailsHistory history={order?.history} />
             </Stack>
           </Grid>
           <Grid xs={12} md={4}>

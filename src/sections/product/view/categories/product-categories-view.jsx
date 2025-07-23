@@ -146,6 +146,7 @@ export default function ProductCategoriesView() {
             onClick={addDialog.onTrue}
             variant="contained"
             startIcon={<Iconify icon="mingcute:add-line" />}
+            color='primary'
           >
             Ajouter une catégorie
           </Button>
@@ -253,7 +254,7 @@ export default function ProductCategoriesView() {
           <Button onClick={addDialog.onFalse} variant="outlined" color="inherit">
             Annuler
           </Button>
-          <Button onClick={addDialog.onFalse} variant="contained">
+          <Button color='primary' onClick={addDialog.onFalse} variant="contained">
             Ajouter
           </Button>
         </DialogActions>

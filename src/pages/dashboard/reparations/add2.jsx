@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
+
 import AddReparationView from 'src/sections/reparations2/views/add-reparation-view';
 
 // ----------------------------------------------------------------------

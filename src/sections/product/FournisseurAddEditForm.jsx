@@ -114,7 +114,7 @@ export default function FournisseurAddEditForm({ currentFournisseur, open, onClo
                 <Button onClick={onClose}>
                     Annuler
                 </Button>
-                <LoadingButton type='submit' variant='contained' loading={isSubmitting}>
+                <LoadingButton color='primary' type='submit' variant='contained' loading={isSubmitting}>
                     {currentFournisseur ? 'Modifier' : 'Ajouter'}
                 </LoadingButton>
             </DialogActions>

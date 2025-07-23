@@ -156,6 +156,7 @@ export default function RachatListView() {
                 variant="contained"
                 startIcon={<Iconify icon="mingcute:add-line" />}
                 href={paths.dashboard.rachat.add}
+                color='primary'
               >
                 Ajouter Rachat
               </Button>

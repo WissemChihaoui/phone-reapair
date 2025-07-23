@@ -150,11 +150,11 @@ export function UserQuickEditForm({ currentUser, open, onClose }) {
         </DialogContent>
 
         <DialogActions>
-          <Button variant="outlined" onClick={onClose}>
+          <Button color='primary' variant="outlined" onClick={onClose}>
             Annuler
           </Button>
 
-          <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+          <LoadingButton color='primary' type="submit" variant="contained" loading={isSubmitting}>
             Mettre à jour
           </LoadingButton>
         </DialogActions>

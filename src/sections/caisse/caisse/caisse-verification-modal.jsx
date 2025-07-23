@@ -66,7 +66,7 @@ export default function CaisseVerificationModal({ open, onClose }) {
           Ecart: {fCurrency(totalMoney)}
         </Typography>
         <TextField name="commentaire" label="Commentaire" />
-        <Button size="large" variant="contained">
+        <Button color='primary' size="large" variant="contained">
           Clôturer
         </Button>
       </DialogActions>

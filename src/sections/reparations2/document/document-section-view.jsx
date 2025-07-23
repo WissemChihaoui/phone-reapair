@@ -131,11 +131,12 @@ export default function DocumentSectionView({
   return (
     <>
       <Grid container spacing={2}>
-        <Grid xs={12} md={2}>
+        <Grid xs={12} md={3}>
           <Box p={4}>
             <Stack spacing={2}>
               <Button
                 onClick={() => handleAddElement('piece')}
+                startIcon={<Iconify icon="mdi:plus" />}
                 variant="contained"
                 color="primary"
                 sx={{ textTransform: 'capitalize' }}
@@ -144,6 +145,7 @@ export default function DocumentSectionView({
               </Button>
               <Button
                 onClick={() => handleAddElement('oeuvre')}
+                startIcon={<Iconify icon="mdi:plus" />}
                 variant="contained"
                 color="secondary"
                 sx={{ textTransform: 'capitalize' }}
@@ -152,6 +154,7 @@ export default function DocumentSectionView({
               </Button>
               <Button
                 onClick={() => handleAddElement('service')}
+                startIcon={<Iconify icon="mdi:plus" />}
                 variant="contained"
                 color="success"
                 sx={{ textTransform: 'capitalize' }}
@@ -160,6 +163,7 @@ export default function DocumentSectionView({
               </Button>
               <Button
                 onClick={() => handleAddElement('group')}
+                startIcon={<Iconify icon="mdi:plus" />}
                 variant="contained"
                 color="warning"
                 sx={{ textTransform: 'capitalize' }}
@@ -178,7 +182,7 @@ export default function DocumentSectionView({
           </Box>
         </Grid>
 
-        <Grid xs={12} md={10}>
+        <Grid xs={12} md={9}>
           <Stack spacing={3}>
             {documents.map((doc, index) => {
               const Component = DocumentComponents[doc.type];

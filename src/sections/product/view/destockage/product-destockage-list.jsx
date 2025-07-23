@@ -13,6 +13,7 @@ import {
   Dialog,
   TableBody,
   DialogActions,
+  Stack,
 } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
@@ -209,13 +210,30 @@ export default function ProductDestockageList() {
             { name: 'Liste' },
           ]}
           action={
+            <Stack direction="row" spacing={1}>
             <Button
-              variant="contained"
+              variant="outlined"
+              startIcon={<Iconify icon="" />}
+              color='primary'
+            >
+              CSV
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<Iconify icon="" />}
+              color='primary'
+            >
+              Excel
+            </Button>
+            <Button
+              variant="outlined"
               startIcon={<Iconify icon="" />}
               onClick={view.onTrue}
+              color='primary'
             >
-              Exporter en PDF
+              PDF
             </Button>
+            </Stack>
           }
           sx={{ mb: { xs: 3, md: 5 } }}
         />

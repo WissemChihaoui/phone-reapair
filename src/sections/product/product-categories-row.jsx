@@ -298,7 +298,7 @@ export function ProductCategoriesRow({ rowParent, selected, onViewRow, onSelectR
           <Button onClick={editDialog2.onFalse} variant="outlined" color="inherit">
             Annuler
           </Button>
-          <Button onClick={editDialog2.onFalse} variant="contained">
+          <Button onClick={editDialog2.onFalse} variant="contained" color='primary'>
             Enregistrer
           </Button>
         </DialogActions>

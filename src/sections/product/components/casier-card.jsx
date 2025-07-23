@@ -27,12 +27,12 @@ export default function CasierCard({ item, add, openAdd, deleteData, editData })
     <Divider sx={{ borderStyle: 'dashed' }} />
     <Box display="grid" gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)' }}>
         <Button color='error' sx={{borderRadius: "0"}}  onClick={()=>openDelete.onTrue()}>Supprimer</Button>
-        <Button variant='contained' onClick={()=>openEdit.onTrue()} sx={{borderRadius: "0"}} >Modifier</Button>
+        <Button variant='contained' color='primary' onClick={()=>openEdit.onTrue()} sx={{borderRadius: "0"}} >Modifier</Button>
     </Box>
 </Card>
     }
     {add &&
-        <Button variant='outlined' onClick={()=>openAdd.onTrue()}>
+        <Button color='primary' variant='outlined' onClick={()=>openAdd.onTrue()}>
             <Stack sx={{ textAlign: 'center', height: "100%", display:"flex", alignItems:'center', justifyContent: 'center', minHeight: '80px' }}>
                 <Typography variant='h6'> Ajouter</Typography>
             </Stack>

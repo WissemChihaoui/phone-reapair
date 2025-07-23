@@ -131,8 +131,7 @@ export function VenteListView() {
 
 
   return (
-    <>
-      <DashboardContent>
+    <DashboardContent>
         <CustomBreadcrumbs
           heading="Liste des ventes"
           links={[
@@ -142,6 +141,7 @@ export function VenteListView() {
           ]}
           action={
             <Button
+            color='primary'
               component={RouterLink}
               href={paths.dashboard.vente.add}
               variant="contained"
@@ -252,7 +252,6 @@ export function VenteListView() {
           </Box>
         </Card>
       </DashboardContent>
-    </>
   );
 }
 

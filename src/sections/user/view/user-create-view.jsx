@@ -140,7 +140,7 @@ export function UserCreateView() {
           {isIndividual.value ? <StepTwo /> : <StepThree />}
 
           <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-            <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+            <LoadingButton type="submit" color='primary' variant="contained" loading={isSubmitting}>
               Enregistrer
             </LoadingButton>
           </Stack>

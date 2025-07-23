@@ -362,6 +362,7 @@ export function ProductAlertStockView() {
               // component={RouterLink}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
+              color='primary'
               // href={paths.dashboard.stock.addArticle}
               onClick={() => toast('This is an default')}
             >

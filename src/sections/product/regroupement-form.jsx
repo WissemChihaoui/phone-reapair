@@ -108,7 +108,7 @@ export default function RegroupementForm({ currentData }) {
           alignItems="center"
           flexWrap="wrap"
         >
-          <LoadingButton type="submit" variant="contained" size="large" loading={isSubmitting}>
+          <LoadingButton color='primary' type="submit" variant="contained" size="large" loading={isSubmitting}>
             {!currentData ? 'Créer un regroupement' : 'Modifier un regroupement'}
           </LoadingButton>
         </Stack>

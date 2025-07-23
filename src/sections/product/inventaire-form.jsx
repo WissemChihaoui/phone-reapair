@@ -43,7 +43,7 @@ export default function InventaireForm({ currentInventaire, onSubmit }) {
         <Stack spacing={3}>
           <Field.Text name="note" label="Note" />
           <ItemsRepeater control={methods.control} />
-          <Button type="submit" variant="contained" size="large" disabled={isSubmitting}>
+          <Button color='primary' type="submit" variant="contained" size="large" disabled={isSubmitting}>
             Enregistrer
           </Button>
         </Stack>
@@ -113,6 +113,7 @@ function ItemsRepeater({ control }) {
 
       <Button
         variant="outlined"
+        color='primary'
         onClick={handleAddItem}
         startIcon={<Iconify icon="mingcute:add-line" />}
         sx={{ alignSelf: 'flex-start' }}

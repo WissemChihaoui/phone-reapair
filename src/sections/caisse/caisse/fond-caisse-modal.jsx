@@ -1,13 +1,14 @@
+import { toast } from 'sonner';
+import React, { useState } from 'react';
+
 import {
   Button,
   Dialog,
+  TextField,
+  DialogTitle,
   DialogActions,
   DialogContent,
-  DialogTitle,
-  TextField,
 } from '@mui/material';
-import React, { useState } from 'react';
-import { toast } from 'sonner';
 
 export default function FondCaisseModal({ open, onClose }) {
   const [fondField, setFondField] = useState(null);
@@ -35,7 +36,7 @@ export default function FondCaisseModal({ open, onClose }) {
         />
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={()=> save()}>Enregistrer</Button>
+        <Button color='primary' variant="contained" onClick={()=> save()}>Enregistrer</Button>
       </DialogActions>
     </Dialog>
   );

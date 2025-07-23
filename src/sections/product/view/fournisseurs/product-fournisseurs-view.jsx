@@ -145,14 +145,16 @@ export default function ProductFournisseursView() {
                 variant="contained"
                 startIcon={<Iconify icon="mingcute:add-line" />}
                 onClick={quickEdit.onTrue}
+                color='primary'
               >
                 Ajouter fournisseur
               </Button>
               <Button
                 component={RouterLink}
-                variant="contained"
+                variant="outlined"
                 startIcon={<Iconify icon="mingcute:add-line" />}
                 href={paths.dashboard.stock.addCommande}
+                color='primary'
               >
                 Ajouter commande
               </Button>

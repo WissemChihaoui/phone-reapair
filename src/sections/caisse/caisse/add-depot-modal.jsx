@@ -70,7 +70,7 @@ export default function AddDepotModal({ open, onClose }) {
             </Stack>
         </DialogContent>
         <DialogActions>
-            <LoadingButton type="submit" loading={isSubmitting} loadingIndicator="En cours..." variant='contained'>Enregistrer</LoadingButton>
+            <LoadingButton color='primary' type="submit" loading={isSubmitting} loadingIndicator="En cours..." variant='contained'>Enregistrer</LoadingButton>
         </DialogActions>
         </Form>
     </Dialog>

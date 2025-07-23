@@ -77,8 +77,6 @@ export function ReparationListView() {
 
   const [tableData, setTableData] = useState(TABLE_DATA);
 
-  console.log(tableData);
-
   const filters = useSetState({
     name: '',
     status: 'all',

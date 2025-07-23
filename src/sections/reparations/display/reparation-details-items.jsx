@@ -31,7 +31,7 @@ export function OrderDetailsItems({
   items = [],
   totalAmount,
 }) {
-  const [controlled, setControlled] = useState(false);
+ const [controlled, setControlled] = useState(0);
 
   const handleChangeControlled = (panel) => (event, isExpanded) => {
     setControlled(isExpanded ? panel : false);

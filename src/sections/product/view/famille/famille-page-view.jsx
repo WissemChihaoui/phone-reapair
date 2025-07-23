@@ -64,7 +64,7 @@ export default function FamillePageView() {
         sx={{ mb: { xs: 3, md: 5 } }}
         action={
           <Stack direction="row" spacing={2}>
-            <Button variant="contained" onClick={handleAddFamille}>
+            <Button color='primary' variant="contained" onClick={handleAddFamille}>
               Ajouter une Famille Comptable
             </Button>
 

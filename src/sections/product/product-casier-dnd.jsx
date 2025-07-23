@@ -45,7 +45,7 @@ export default function ProductCasierDnd({ deleteData, data, addData, editData }
           <Button onClick={openAdd.onFalse} variant="outlined" color="inherit">
             Annuler
           </Button>
-          <Button onClick={()=>addCasier()} variant="contained">
+          <Button onClick={()=>addCasier()} variant="contained" color='primary'>
             Ajouter
           </Button>
         </DialogActions>

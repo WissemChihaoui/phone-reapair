@@ -348,6 +348,7 @@ export function ProductListView() {
             <Stack spacing={2} flexDirection="row">
               <Button
                 component={RouterLink}
+                color='primary'
                 variant="contained"
                 startIcon={<Iconify icon="mingcute:add-line" />}
                 href={paths.dashboard.stock.addArticle}
@@ -355,6 +356,7 @@ export function ProductListView() {
                 Ajouter un article
               </Button>
               <Button
+                color='primary'
                 variant="outlined"
                 onClick={popover.onOpen}
                 startIcon={<Iconify icon="solar:import-bold" />}
@@ -362,6 +364,7 @@ export function ProductListView() {
                 Importer CSV
               </Button>
               <Button
+                color='primary'
                 variant="outlined"
                 onClick={stock.onOpen}
                 startIcon={<Iconify icon="solar:import-bold" />}
@@ -369,6 +372,7 @@ export function ProductListView() {
                 Etat du stock
               </Button>
               <Button
+                color='primary'
                 variant="outlined"
                 LinkComponent={RouterLink}
                 href={paths.dashboard.stock.import}

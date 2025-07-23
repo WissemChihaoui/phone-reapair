@@ -157,7 +157,7 @@ export function AchatsTableToolbar({ filters, onResetPage, dateError }) {
           </Stack>
         </Stack>
 
-        <Button startIcon={<Iconify icon="tabler:pdf" />} variant="contained" onClick={view.onTrue}>
+        <Button color='primary' startIcon={<Iconify icon="tabler:pdf" />} variant="contained" onClick={view.onTrue}>
           Exporter
         </Button>
       </Stack>
