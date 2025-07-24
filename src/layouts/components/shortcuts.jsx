@@ -2,9 +2,10 @@ import React from 'react'
 
 import { Fab, Stack, Tooltip } from '@mui/material'
 
-import { Iconify } from 'src/components/iconify'
 import { paths } from 'src/routes/paths'
 import { RouterLink } from 'src/routes/components'
+
+import { Iconify } from 'src/components/iconify'
 
 export default function Shortcuts() {
   return (

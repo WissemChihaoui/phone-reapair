@@ -1,67 +1,23 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
+import { Alert } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Box, Alert, Button, Typography } from '@mui/material';
-
-import { paths } from 'src/routes/paths';
 
 import { CONFIG } from 'src/config-global';
 import { DashboardContent } from 'src/layouts/dashboard';
 
-import { Iconify } from 'src/components/iconify';
 import DevisCard from 'src/components/dashboard/devis-card/DevisCard';
 import VentesCard from 'src/components/dashboard/ventes-card/VentesCard';
 import AchatsCard from 'src/components/dashboard/achats-card/AchatsCard';
+import SearchVente from 'src/components/dashboard/search-vente/SearchVente';
 import { CaisseCard } from 'src/components/dashboard/caisse-card/CaisseCard';
 import { StockWidget } from 'src/components/dashboard/stock-widget/StockWidget';
 import ReparationCard from 'src/components/dashboard/reparation-card/ReparationCard';
 import SearchReparation from 'src/components/dashboard/search-reparation/SearchReparation';
 import { ReparationsTable } from 'src/components/dashboard/reparations-table/ReparationsTable';
-import SearchVente from 'src/components/dashboard/search-vente/SearchVente';
 
 export default function DashboardView() {
-  const transactionsData = [
-    {
-      id: 1,
-      date: '01/11/2024',
-      client: 'Jane Doe',
-      amount: 111000,
-      methode: 'CB',
-      employee: 'Wissem',
-    },
-    {
-      id: 2,
-      date: '02/11/2024',
-      client: 'John Smith',
-      amount: 75000,
-      methode: 'Virement Bancaire',
-      employee: 'Ahmed',
-    },
-    {
-      id: 3,
-      date: '03/11/2024',
-      client: 'Emily Clark',
-      amount: 50000,
-      methode: 'Espèces',
-      employee: 'Sara',
-    },
-    {
-      id: 4,
-      date: '04/11/2024',
-      client: 'Michael Brown',
-      amount: 120000,
-      methode: 'Carte de Crédit',
-      employee: 'Noah',
-    },
-    {
-      id: 5,
-      date: '05/11/2024',
-      client: 'Linda Green',
-      amount: 92000,
-      methode: 'CB',
-      employee: 'Wissem',
-    },
-  ];
+  
   const reparationsData = [
   {
     id: "e99f09a7-dd88-49d5-b1c8-1daf80c2d7b1",
@@ -75,8 +31,6 @@ export default function DashboardView() {
     status: 'En attente devis',
   },
 ];
-
-  const hoverPopoverRef = useRef(null);
 
   return (
     <DashboardContent maxWidth="xl">
@@ -165,57 +119,7 @@ export default function DashboardView() {
             </Grid>
           </Grid>
         </Grid>
-        {/* <Grid xs={12} md={8}>
-          <StockChart
-            title="Stock"
-            chart={{
-              series: [
-                { label: 'En Stock', value: 45 },
-                { label: 'Epuisé', value: 25 },
-                { label: 'Faible', value: 20 },
-              ],
-            }}
-          />
-        </Grid> */}
-        {/* <Grid xs={12} md={2}>
-          <Box height="100%">
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ height: '50%', borderRadius: '12px 12px 0 0' }}
-              fullWidth
-            >
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <Iconify width={36} icon="ic:outline-sms" />
-                Envoyer SMS
-              </Box>
-            </Button>
-            <Button
-              variant="contained"
-              color="success"
-              sx={{ height: '50%', borderRadius: '0 0 12px 12px' }}
-              fullWidth
-            >
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <Iconify width={36} icon="ic:outline-mail" />
-                Envoyer Email
-              </Box>
-            </Button>
-          </Box>
-        </Grid> */}
-        {/* <Grid xs={12}>
-          <TransactionsTable
-            title="Dernières Transactions"
-            tableData={transactionsData}
-            headLabel={[
-              { id: 'client', label: 'Client' },
-              { id: 'date', label: 'Date' },
-              { id: 'amount', label: 'Monatnt' },
-              { id: 'methode', label: 'Méthode' },
-              { id: 'employee', label: 'Employée' },
-            ]}
-          />
-        </Grid> */}
+       
         <Grid xs={12}>
           <ReparationsTable
             title="Liste des interventions"

@@ -40,6 +40,16 @@ export function ReparationsTable({ title, subheader, tableData, headLabel, ...ot
     [tableData, statusFilter, technicienSearch]
   );
 
+  const statusCounts = useMemo(() => {
+  const counts = {};
+  // eslint-disable-next-line no-restricted-syntax
+  for (const status of tableData) {
+    counts[status.status] = (counts[status.status] || 0) + 1;
+  }
+  return counts;
+}, [tableData]);
+
+
   const statusOptions = [
     'Devis approuvé',
     'En attente devis',
@@ -63,22 +73,22 @@ export function ReparationsTable({ title, subheader, tableData, headLabel, ...ot
           fullWidth
         />
 
-        <TextField
-          label="Filtrer par status"
-          variant="outlined"
-          size="small"
-          select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          fullWidth
-        >
-          <MenuItem value="">Tous</MenuItem>
-          {statusOptions.map((status) => (
-            <MenuItem key={status} value={status}>
-              {status}
-            </MenuItem>
-          ))}
-        </TextField>
+       <TextField
+  label="Filtrer par status"
+  variant="outlined"
+  size="small"
+  select
+  value={statusFilter}
+  onChange={(e) => setStatusFilter(e.target.value)}
+  fullWidth
+>
+  <MenuItem value="">Tous ({tableData.length})</MenuItem>
+  {statusOptions.map((status) => (
+    <MenuItem key={status} value={status}>
+      {`${status} (${statusCounts[status] || 0})`}
+    </MenuItem>
+  ))}
+</TextField>
       </Stack>
 
       <Scrollbar>
