@@ -1,27 +1,39 @@
 import React from 'react'
 
-import { Fab, Stack } from '@mui/material'
+import { Fab, Stack, Tooltip } from '@mui/material'
 
 import { Iconify } from 'src/components/iconify'
+import { paths } from 'src/routes/paths'
+import { RouterLink } from 'src/routes/components'
 
 export default function Shortcuts() {
   return (
     <Stack direction="row" spacing={1}>
-        <Fab size='small' color='primary'>
-            <Iconify icon="uil:processor" />
-        </Fab>
-        <Fab size='small' color='info'>
-            <Iconify icon="mdi:printer-outline" />
-        </Fab>
-        <Fab size='small' color='warning'>
-            <Iconify icon="famicons:card-outline" />
-        </Fab>
-        <Fab size='small' color='success'>
-            <Iconify icon="akar-icons:file" />
-        </Fab>
-        <Fab size='small' color='inherit'>
-            <Iconify icon="majesticons:calendar-line" />
-        </Fab>
+        <Tooltip title="Nouveau réparation" arrow>
+            <Fab href={paths.dashboard.reparations.add} LinkComponent={RouterLink} size='small' color='primary'>
+                <Iconify icon="hugeicons:repair" />
+            </Fab>
+        </Tooltip>
+        <Tooltip title="Nouveau vente" arrow>
+            <Fab href={paths.dashboard.vente.add} LinkComponent={RouterLink} size='small' color='info'>
+                <Iconify icon="weui:shop-outlined" />
+            </Fab>
+        </Tooltip>
+        <Tooltip href={paths.dashboard.caisse.root} LinkComponent={RouterLink} title="Caisse" arrow>
+            <Fab size='small' color='warning'>
+                <Iconify icon="ph:cash-register" />
+            </Fab>
+        </Tooltip>
+        <Tooltip href={paths.dashboard.calendrier.root} LinkComponent={RouterLink} title="Calendrier" arrow>
+            <Fab size='small' color='success'>
+                <Iconify icon="majesticons:calendar-line" />
+            </Fab>
+        </Tooltip>
+        <Tooltip title="Fond de caisse" arrow>
+            <Fab href={paths.dashboard.caisse.depot} LinkComponent={RouterLink} size='small' color='inherit'>
+                <Iconify icon="solar:cash-out-linear" />
+            </Fab>
+        </Tooltip>
     </Stack>
   )
 }

@@ -5,14 +5,17 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
+import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
+
+import { useBoolean } from 'src/hooks/use-boolean';
 
 import { fDateTime } from 'src/utils/format-time';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
-import { useBoolean } from 'src/hooks/use-boolean';
+
 import DisplayControlPanel from './display-control-panel';
 
 // ----------------------------------------------------------------------
@@ -22,6 +25,7 @@ export function DisplayDetailsToolbar({
   backLink,
   createdAt,
   orderNumber,
+  id,
   statusOptions,
   onChangeStatus,
 }) {
@@ -86,7 +90,7 @@ export function DisplayDetailsToolbar({
             Imprimer
           </Button>
 
-          <Button color="primary" variant="contained" startIcon={<Iconify icon="solar:pen-bold" />}>
+          <Button color="primary" href={paths.dashboard.reparations.edit(id)} LinkComponent={RouterLink} variant="contained" startIcon={<Iconify icon="solar:pen-bold" />}>
             Modifier
           </Button>
           <Button onClick={()=>openPanel.onTrue()} color="primary" variant="contained" startIcon={<Iconify icon="tdesign:setting-filled" />}>
@@ -128,21 +132,21 @@ export function DisplayDetailsToolbar({
                 console.log('lien 1');
               }}
             >
-              Réçu
+              Devis
             </MenuItem>
         <MenuItem
               onClick={() => {
                 console.log('lien 2');
               }}
             >
-              Étiquette
+              Réçu PDF
             </MenuItem>
         <MenuItem
               onClick={() => {
                 console.log('lien 3');
               }}
             >
-              Réçu atelier
+              Bon de commande
             </MenuItem>
       </CustomPopover>
 

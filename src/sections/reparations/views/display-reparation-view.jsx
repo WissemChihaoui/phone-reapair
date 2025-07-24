@@ -15,10 +15,10 @@ import { OrderDetailsItems } from '../display/reparation-details-items';
 import ReparationDetailsNotes from '../display/reparation-details-notes';
 import { DisplayDetailsToolbar } from '../display/display-details-toolbar';
 import { ReparationDetailsInfo } from '../display/reparation-details-info';
-import {ReparationsDetailsHistory} from '../display/reparation-details-history';
 import ReparationDetailsSignature from '../display/reparation-details-signature';
+import { ReparationsDetailsHistory } from '../display/reparation-details-history';
 
-export default function DisplayReparationView({order}) {
+export default function DisplayReparationView({ order }) {
   const [status, setStatus] = useState(order?.status);
 
   const handleChangeStatus = useCallback((newValue) => {
@@ -26,31 +26,32 @@ export default function DisplayReparationView({order}) {
   }, []);
   return (
     <DashboardContent>
-      <CustomBreadcrumbs heading="Gestion de l'intervention" links={[""]}/>
-        <DisplayDetailsToolbar
-          backLink={paths.dashboard.reparations.root}
-          orderNumber={order?.orderNumber}
-          createdAt={order?.createdAt}
-          status={status}
-          onChangeStatus={handleChangeStatus}
-          statusOptions={ORDER_STATUS_OPTIONS}
-        />
-        <Grid container spacing={3}>
-          <Grid xs={12} md={8}>
-            <Stack spacing={3} >
-              <OrderDetailsItems
-                items={order?.items}
-                taxes={order?.taxes}
-                shipping={order?.shipping}
-                discount={order?.discount}
-                subtotal={order?.subtotal}
-                totalAmount={order?.totalAmount}
-              />
-              <ReparationDetailsNotes />
-              <ReparationsDetailsHistory history={order?.history} />
-            </Stack>
-          </Grid>
-          <Grid xs={12} md={4}>
+      <CustomBreadcrumbs heading="Gestion de l'intervention" links={['']} />
+      <DisplayDetailsToolbar
+        backLink={paths.dashboard.reparations.root}
+        orderNumber={order?.orderNumber}
+        id={order?.id}
+        createdAt={order?.createdAt}
+        status={status}
+        onChangeStatus={handleChangeStatus}
+        statusOptions={ORDER_STATUS_OPTIONS}
+      />
+      <Grid container spacing={3}>
+        <Grid xs={12} md={8}>
+          <Stack spacing={3}>
+            <OrderDetailsItems
+              items={order?.items}
+              taxes={order?.taxes}
+              shipping={order?.shipping}
+              discount={order?.discount}
+              subtotal={order?.subtotal}
+              totalAmount={order?.totalAmount}
+            />
+            <ReparationDetailsNotes />
+            <ReparationsDetailsHistory history={order?.history} />
+          </Stack>
+        </Grid>
+        <Grid xs={12} md={4}>
           <Stack spacing={3}>
             <ReparationDetailsInfo
               customer={order?.customer}
@@ -60,9 +61,9 @@ export default function DisplayReparationView({order}) {
             />
             <ReparationDetailsSignature />
             <ReparationDetailsCode />
-            </Stack>
-          </Grid>
+          </Stack>
         </Grid>
-      </DashboardContent>
+      </Grid>
+    </DashboardContent>
   );
 }

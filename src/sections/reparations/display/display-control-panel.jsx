@@ -83,42 +83,7 @@ export default function DisplayControlPanel({
       {renderHead}
 
       <Scrollbar sx={{ py: 2, pr: 1, pl: 2.5 }}>
-        <Block sx={{ mb: 2 }} title="Impression Document">
-          <Grid container spacing={2}>
-            <Grid xs={6}>
-              <Button variant="outlined" disabled sx={{ height: '100%' }} fullWidth>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Iconify width={36} icon="mdi:file" />
-                  Devis
-                </Box>
-              </Button>
-            </Grid>
-            <Grid xs={6}>
-              <Button variant="outlined" disabled sx={{ height: '100%' }} fullWidth>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Iconify width={36} icon="teenyicons:pdf-solid" />
-                  Réçu PDF
-                </Box>
-              </Button>
-            </Grid>
-            <Grid xs={6}>
-              <Button variant="outlined" disabled sx={{ height: '100%' }} fullWidth>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Iconify width={36} icon="mdi:file" />
-                  Bon de CMD
-                </Box>
-              </Button>
-            </Grid>
-            <Grid xs={6}>
-              <Button variant="outlined" disabled sx={{ height: '100%' }} fullWidth>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Iconify width={36} icon="solar:ticket-bold" />
-                  Réçu ticket
-                </Box>
-              </Button>
-            </Grid>
-          </Grid>
-        </Block>
+       
         <Block sx={{ mb: 2 }} title="Gestion de fichier">
           <Grid container spacing={2}>
             <Grid xs={6}>

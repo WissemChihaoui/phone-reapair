@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 
 import Box from '@mui/material/Box';
+import { Fab } from '@mui/material';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Stack from '@mui/material/Stack';
@@ -15,12 +16,13 @@ import TextField from '@mui/material/TextField';
 import CardHeader from '@mui/material/CardHeader';
 import ListItemText from '@mui/material/ListItemText';
 
+import { paths } from 'src/routes/paths';
+import { RouterLink } from 'src/routes/components';
+
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import { TableHeadCustom } from 'src/components/table';
-import { RouterLink } from 'src/routes/components';
-import { paths } from 'src/routes/paths';
 
 export function ReparationsTable({ title, subheader, tableData, headLabel, ...other }) {
   const [statusFilter, setStatusFilter] = useState('');
@@ -117,9 +119,7 @@ function RowItem({ row }) {
   return (
     <TableRow>
       <TableCell>
-        <Button size="small" variant="outlined" startIcon={<Iconify icon="eva:eye-outline" />}>
-          {row.actions}
-        </Button>
+        <Fab href={paths.dashboard.reparations.display(row.id)} LinkComponent={RouterLink} color='primary' size='small' variant="contained"><Iconify icon="eva:eye-outline" /></Fab>
       </TableCell>
 
       <TableCell>

@@ -14,11 +14,7 @@ import {
   } from '@mui/material';
   import Grid from '@mui/material/Unstable_Grid2';
   import React, { useState } from 'react';
-  
-  const Screen_Issues = [
-    'Vitre à casée tactile fonctionnel',
-    'Vitre tactil et LCD fonctionnel',
-  ];
+import { Screen_Issues } from 'src/_mock/_rep';
   
   export default function DisplayRapportAvant({ open, onClose }) {
     const [formData, setFormData] = useState({
@@ -70,7 +66,7 @@ import {
       <Dialog maxWidth="md" fullWidth open={open} onClose={onClose}>
         <DialogTitle>RAPPORT DE PRISE EN CHARGE DU MATERIEL VISIBLE PAR LE CLIENT</DialogTitle>
         <DialogContent>
-          <Grid container spacing={2} p={1}>
+          <Grid container spacing={2} mt={1} p={1}>
             <Grid xs={6}>
               <FormControl fullWidth>
                 <InputLabel>Écran</InputLabel>

@@ -1,12 +1,8 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import React from 'react';
+import { Screen_Issues } from 'src/_mock/_rep';
 import { Field } from 'src/components/hook-form';
-
-const Screen_Issues = [
-  'Vitre à casée tactile fonctionnel',
-  'Vitre tactil et LCD fonctionnel',
-];
 
 export default function RapportPanneModal({ index, open, onClose }) {
   const rapport = `articles[${index}].rapport`;
@@ -18,7 +14,7 @@ export default function RapportPanneModal({ index, open, onClose }) {
     <Dialog maxWidth="md" fullWidth open={open} onClose={onClose}>
       <DialogTitle>RAPPORT DE PRISE EN CHARGE DU MATERIEL VISIBLE PAR LE CLIENT</DialogTitle>
       <DialogContent>
-        <Grid container spacing={2} p={1}>
+        <Grid container spacing={2} mt={1} p={1}>
           <Grid xs={6}>
             <Field.Select name={`${rapport}.items.ecran`} label="Écran">
               <MenuItem>Rien à signaler</MenuItem>
@@ -30,7 +26,7 @@ export default function RapportPanneModal({ index, open, onClose }) {
             </Field.Select>
           </Grid>
           <Grid xs={6}>
-            <Field.Select name={`${rapport}.items.arrier`} label="Écran">
+            <Field.Select name={`${rapport}.items.arrier`} label="Arrière">
               <MenuItem>Rien à signaler</MenuItem>
               {Screen_Issues.map((option, i) => (
                 <MenuItem key={i} value={option}>

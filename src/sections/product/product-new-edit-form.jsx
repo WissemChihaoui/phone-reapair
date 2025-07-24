@@ -22,6 +22,8 @@ import {
   TableBody,
   TableCell,
   CardContent,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
@@ -34,6 +36,7 @@ import { _tags, JOB_WORKING_SCHEDULE_OPTIONS, PRODUCT_CATEGORY_GROUP_OPTIONS } f
 import { toast } from 'src/components/snackbar';
 import { TableHeadCustom } from 'src/components/table';
 import { Form, Field, schemaHelper } from 'src/components/hook-form';
+import { Iconify } from 'src/components/iconify';
 
 export const telephonicArticles = [
   { id: 1, title: 'iPhone 14 Pro Max' },
@@ -534,6 +537,13 @@ export function ProductNewEditForm({ currentProduct }) {
       <CardHeader
         title="Produits suggérés"
         subheader="Ajouter des articles similaires ou associés"
+        action={
+          <Tooltip title="Hello, this is an explanation sections, you should expect a long text inside this tooltip.">
+            <IconButton>
+              <Iconify icon="material-symbols:info-outline" />
+            </IconButton>
+          </Tooltip>
+        }
       />
       <Divider /> 
       <Stack spacing={3} sx={{ p: 3 }}>
