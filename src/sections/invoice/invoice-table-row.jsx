@@ -10,14 +10,11 @@ import {
   Box,
   Fab,
   Dialog,
-  Select,
   Tooltip,
   TextField,
   DialogTitle,
   Autocomplete,
   DialogActions,
-  DialogContent,
-  OutlinedInput,
   InputAdornment,
 } from '@mui/material';
 
@@ -33,8 +30,6 @@ import { fDate, fTime } from 'src/utils/format-time';
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
@@ -60,39 +55,43 @@ export function InvoiceTableRow({
       <TableRow hover selected={selected}>
         <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
           <Stack spacing={1} direction="column">
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Tooltip title="Imprimer" placement="top" arrow>
-              <Fab
-                size="small"
-                color="info"
-                href={paths.dashboard.invoice.print(row.id)}
-                LinkComponent={RouterLink}
-              >
-                <Iconify icon="solar:file-bold" />
-              </Fab>
-            </Tooltip>
-            <Tooltip title="Modifier" placement="top" arrow>
-              <Fab size="small" color="warning" onClick={() => router.push(link)}>
-                <Iconify icon="solar:pen-bold" />
-              </Fab>
-            </Tooltip>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Tooltip title="Imprimer" placement="top" arrow>
+                <Fab
+                  size="small"
+                  color="info"
+                  href={paths.dashboard.invoice.print(row.id)}
+                  LinkComponent={RouterLink}
+                >
+                  <Iconify icon="solar:file-bold" />
+                </Fab>
+              </Tooltip>
+              <Tooltip title="Modifier" placement="top" arrow>
+                <Fab size="small" color="warning" onClick={() => router.push(link)}>
+                  <Iconify icon="solar:pen-bold" />
+                </Fab>
+              </Tooltip>
             </Stack>
             <Stack direction="row" alignItems="center" spacing={1}>
-            {row.status !== 'Avoir' && (
-              <>
-              <Tooltip title="Avoir" placement="top" arrow>
-                <Fab size="small" color="success" onClick={() => open.onTrue()}>
-                  <Iconify icon="solar:wad-of-money-bold" />
-                </Fab>
-              </Tooltip>
-              <Tooltip title="SAV" placement="top" arrow>
-                <Fab size="small" color="primary" onClick={() => router.push(paths.dashboard.sav.edit(row.id))}>
-                  <Iconify icon="mdi:invoice-send" />
-                </Fab>
-              </Tooltip>
-              </>
-            )}
-          </Stack>
+              {row.status !== 'Avoir' && (
+                <>
+                  <Tooltip title="Avoir" placement="top" arrow>
+                    <Fab size="small" color="success" onClick={() => open.onTrue()}>
+                      <Iconify icon="solar:wad-of-money-bold" />
+                    </Fab>
+                  </Tooltip>
+                  <Tooltip title="SAV" placement="top" arrow>
+                    <Fab
+                      size="small"
+                      color="primary"
+                      onClick={() => router.push(paths.dashboard.sav.edit(row.id))}
+                    >
+                      <Iconify icon="mdi:invoice-send" />
+                    </Fab>
+                  </Tooltip>
+                </>
+              )}
+            </Stack>
           </Stack>
         </TableCell>
 
@@ -157,6 +156,7 @@ export function InvoiceTableRow({
           <Stack spacing={3}>
             <Typography variant="h6">{row.client.name}</Typography>
             <Autocomplete
+              noOptionsText="Pas de données"
               fullWidth
               options={row.product}
               getOptionLabel={(option) => option.name}
@@ -204,6 +204,7 @@ export function InvoiceTableRow({
               }}
             />
             <Autocomplete
+              noOptionsText="Pas de données"
               fullWidth
               options={['Virement', 'Espece']}
               getOptionLabel={(option) => option}

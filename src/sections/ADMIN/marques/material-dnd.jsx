@@ -69,6 +69,7 @@ export default function MaterialDnd({ deleteData, data, addData, editData }) {
             Veuillez vérifier que le nom de type n&apos;existe pas
           </Alert>
           <Autocomplete
+            noOptionsText="Pas de données"
             fullWidth
             options={top100Films}
             getOptionLabel={(option) => option.title}

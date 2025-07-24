@@ -173,6 +173,9 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/achats`,
       add: `${ROOTS.DASHBOARD}/achats/add`,
       edit: (id) => `${ROOTS.DASHBOARD}/achats/${id}/edit`,
+    },
+    services: {
+      root: `${ROOTS.DASHBOARD}/services`
     }
   },
 };

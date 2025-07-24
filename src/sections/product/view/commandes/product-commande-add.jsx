@@ -1,7 +1,10 @@
 import { z as zod } from 'zod';
+import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useMemo, useState, useCallback } from 'react';
 
-import React, { useState, useCallback, useMemo } from 'react';
-
+import { LoadingButton } from '@mui/lab';
 import Grid from '@mui/material/Unstable_Grid2';
 import {
   Box,
@@ -9,10 +12,12 @@ import {
   Card,
   Link,
   Table,
-  Avatar,
+  Stack,
   Button,
+  Dialog,
   Divider,
   TableRow,
+  MenuItem,
   TableBody,
   TableCell,
   TextField,
@@ -20,16 +25,15 @@ import {
   Typography,
   CardContent,
   FormControl,
-  Autocomplete,
-  Stack,
-  Dialog,
   DialogTitle,
+  Autocomplete,
   DialogContent,
-  MenuItem,
   DialogActions,
 } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
+
+import { useBoolean } from 'src/hooks/use-boolean';
 
 import { fDate } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
@@ -39,13 +43,8 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import { TableHeadCustom } from 'src/components/table';
+import { Form, Field } from 'src/components/hook-form';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { useBoolean } from 'src/hooks/use-boolean';
-import { Field, Form } from 'src/components/hook-form';
-import { LoadingButton } from '@mui/lab';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
 
 const TABLE_HEAD = [
   { id: 'article', label: 'Article' },
@@ -187,6 +186,7 @@ export default function ProductCommandeAdd() {
                           <TableCell>
                             <FormControl sx={{ my: 3, minWidth: 200 }}>
                               <Autocomplete
+                                noOptionsText="Pas de données"
                                 options={ARTICLES}
                                 getOptionLabel={(option) => option.name}
                                 onChange={(_, newValue) => handleArticlesChange(newValue, index)}
@@ -233,7 +233,7 @@ export default function ProductCommandeAdd() {
                       ))}
                       <TableRow>
                         <TableCell align="right" colSpan={6}>
-                          <Button color='primary' onClick={handleAddRow} variant="contained">
+                          <Button color="primary" onClick={handleAddRow} variant="contained">
                             Ajouter un article
                           </Button>
                         </TableCell>
@@ -250,6 +250,7 @@ export default function ProductCommandeAdd() {
               <CardContent>
                 <FormControl sx={{ mb: 4, width: '100%' }}>
                   <Autocomplete
+                    noOptionsText="Pas de données"
                     options={_FOURNISSEURS}
                     value={order.fournisseur} // Ensure this is always a defined value
                     onChange={(_, newValue) =>

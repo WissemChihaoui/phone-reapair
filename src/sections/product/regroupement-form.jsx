@@ -2,6 +2,7 @@ import { z as zod } from 'zod';
 import { toast } from 'sonner';
 import React, { useMemo } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { LoadingButton } from '@mui/lab';
 import { Card, Chip, Stack, TextField, Autocomplete } from '@mui/material';
@@ -10,12 +11,11 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
 import { Form, Field } from 'src/components/hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 export const NewProductSchema = zod.object({
-    name: zod.string().min(1, { message: "Nom de regroupement est requis!" }),
-    description: zod.string().min(1, { message: "Description de regroupement est requis!" }),
-})
+  name: zod.string().min(1, { message: 'Nom de regroupement est requis!' }),
+  description: zod.string().min(1, { message: 'Description de regroupement est requis!' }),
+});
 
 export default function RegroupementForm({ currentData }) {
   const router = useRouter();
@@ -70,6 +70,7 @@ export default function RegroupementForm({ currentData }) {
             control={methods.control}
             render={({ field }) => (
               <Autocomplete
+                noOptionsText="Pas de données"
                 multiple
                 fullWidth
                 options={productsData}
@@ -108,7 +109,13 @@ export default function RegroupementForm({ currentData }) {
           alignItems="center"
           flexWrap="wrap"
         >
-          <LoadingButton color='primary' type="submit" variant="contained" size="large" loading={isSubmitting}>
+          <LoadingButton
+            color="primary"
+            type="submit"
+            variant="contained"
+            size="large"
+            loading={isSubmitting}
+          >
             {!currentData ? 'Créer un regroupement' : 'Modifier un regroupement'}
           </LoadingButton>
         </Stack>

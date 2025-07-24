@@ -35,6 +35,7 @@ export function ProductSearch({ query, results, onSearch, loading }) {
 
   return (
     <Autocomplete
+      noOptionsText="Pas de données"
       sx={{ width: { xs: 1, sm: 260 } }}
       loading={loading}
       autoHighlight

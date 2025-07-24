@@ -97,17 +97,17 @@ export default function ElementsView() {
 
   const handleAdd = (row) => {
     append({
-        name: row.name,
-        stock: row.stock,
-        qte: 1,
-        remise: 0,
-        price: row.price,
-        total: 0,
+      name: row.name,
+      stock: row.stock,
+      qte: 1,
+      remise: 0,
+      price: row.price,
+      total: 0,
     });
   };
 
   const renderList = filteredProducts.map((product) => (
-    <ProductItem key={product.name} product={product} handleAdd={handleAdd}/>
+    <ProductItem key={product.name} product={product} handleAdd={handleAdd} />
   ));
 
   return (
@@ -133,6 +133,7 @@ export default function ElementsView() {
       >
         {/* Categories Dropdown */}
         <Autocomplete
+          noOptionsText="Pas de données"
           fullWidth
           options={CATEGORIES}
           getOptionLabel={(option) => option.name}
@@ -146,6 +147,7 @@ export default function ElementsView() {
 
         {/* Subcategories Dropdown */}
         <Autocomplete
+          noOptionsText="Pas de données"
           fullWidth
           options={selectedCategory ? SUBCATEGORIES[selectedCategory.id] : []}
           getOptionLabel={(option) => option.name}

@@ -99,9 +99,6 @@ export default function AddReparationView() {
     loadingSave.onTrue();
     try {
       console.log('Form data:', data);
-      // Add your submission logic here
-      // Example API call:
-      // await api.createRepair(data);
     } catch (error) {
       console.error('Error submitting form:', error);
     } finally {

@@ -28,7 +28,7 @@ export default function RachatAddEditPayment() {
   return (
     <Box sx={{ p: 3 }}>
         <Typography variant="h6" sx={{ color: 'text.disabled', mb: 3 }}>
-        Payement:
+        Paiement:
         </Typography>
         <Stack direction="row" spacing={2} sx={{ width: 1 }}>
             <Field.Text size='small' type="number" name='amount' label='Montant de rachat' />

@@ -107,7 +107,10 @@ export default function CartView() {
 
   const updateOverAllTotal = useCallback(() => {
     const totalQuantities = values.items.reduce((sum, item) => sum + (item.qte || 0), 0);
-    const totalWithoutRemise = values.items.reduce((sum, item) => sum + (item.qte || 0) * item.price, 0);
+    const totalWithoutRemise = values.items.reduce(
+      (sum, item) => sum + (item.qte || 0) * item.price,
+      0
+    );
     const totalRemise = values.items.reduce((sum, item) => sum + (item.remise || 0), 0);
     const totalWithRemise = totalWithoutRemise - totalRemise;
 
@@ -117,7 +120,7 @@ export default function CartView() {
     setValue('subTotal', totalWithoutRemise);
 
     console.log(totalQuantities, totalRemise, totalWithRemise, totalWithoutRemise);
-  }, [setValue, values.items])
+  }, [setValue, values.items]);
 
   const handleQuantityChange = (index, newQuantity) => {
     const item = fields[index];
@@ -125,7 +128,7 @@ export default function CartView() {
 
     setValue(`items.${index}.qte`, newQuantity);
     updateTotal(index, newQuantity, remise, item.price);
-    updateOverAllTotal()
+    updateOverAllTotal();
   };
 
   const handleRemiseChange = (index, newRemise) => {
@@ -134,13 +137,13 @@ export default function CartView() {
 
     setValue(`items.${index}.remise`, newRemise);
     updateTotal(index, quantity, newRemise, item.price);
-    updateOverAllTotal()
+    updateOverAllTotal();
   };
 
   const updateTotal = (index, quantity, remise, price) => {
-    const total = (price * quantity) - remise;
+    const total = price * quantity - remise;
     console.log(total);
-    
+
     setValue(`items.${index}.total`, total);
   };
 
@@ -200,7 +203,7 @@ export default function CartView() {
   };
 
   useEffect(() => {
-    updateOverAllTotal()
+    updateOverAllTotal();
   }, [updateOverAllTotal]);
 
   const renderList = filteredProducts.map((product) => (
@@ -281,9 +284,7 @@ export default function CartView() {
                         {/* Total */}
                         <TableCell>
                           <Typography sx={{ fontWeight: 'bold' }}>
-                            {fCurrency(
-                              values.items[index]?.total
-                            )}
+                            {fCurrency(values.items[index]?.total)}
                           </Typography>
                         </TableCell>
 
@@ -327,6 +328,7 @@ export default function CartView() {
               >
                 {/* Categories Dropdown */}
                 <Autocomplete
+                  noOptionsText="Pas de données"
                   fullWidth
                   options={CATEGORIES}
                   getOptionLabel={(option) => option.name}
@@ -342,6 +344,7 @@ export default function CartView() {
 
                 {/* Subcategories Dropdown */}
                 <Autocomplete
+                  noOptionsText="Pas de données"
                   fullWidth
                   options={selectedCategory ? SUBCATEGORIES[selectedCategory.id] : []}
                   getOptionLabel={(option) => option.name}

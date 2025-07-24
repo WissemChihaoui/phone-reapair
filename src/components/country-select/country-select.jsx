@@ -125,6 +125,7 @@ export function CountrySelect({
 
   return (
     <Autocomplete
+      noOptionsText="Pas de données"
       id={`country-select-${id}`}
       multiple={multiple}
       options={options}

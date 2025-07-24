@@ -66,6 +66,7 @@ export default function ClientCart() {
 
           <Stack>
             <Autocomplete
+              noOptionsText="Pas de données"
               value={clientTo}
               fullWidth
               options={_addressBooks}

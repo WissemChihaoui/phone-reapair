@@ -106,6 +106,8 @@ const SAV = lazy(() => import('src/pages/dashboard/sav/index'));
 const AddSAV = lazy(() => import('src/pages/dashboard/sav/add'));
 const EditSAV = lazy(() => import('src/pages/dashboard/sav/edit'));
 
+const Services = lazy(() => import('src/pages/dashboard/services/index') )
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -286,6 +288,12 @@ export const dashboardRoutes = [
         path: 'ecologic',
         children: [
           { element: <Ecologic />, path: ':id/add'}
+        ]
+      },
+      {
+        path: 'services',
+        children: [
+          { element: <Services />, index: true}
         ]
       }
     ],

@@ -26,6 +26,7 @@ export default function OeuvreForm({ data, onUpdate, onRemove }) {
             fullWidth
             size="small"
             label="Main d'oeuvre"
+            helperText="Champ libre (pas de gestion de stock)"
             value={data.nom || ''}
             onChange={handleChange('nom')}
           />

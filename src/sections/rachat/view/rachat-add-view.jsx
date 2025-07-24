@@ -1,14 +1,18 @@
 import React from 'react'
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs'
-import { DashboardContent } from 'src/layouts/dashboard'
+
 import { paths } from 'src/routes/paths'
+
+import { DashboardContent } from 'src/layouts/dashboard'
+
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs'
+
 import RachatAddEditView from '../rachat-add-edit-view'
 
 export default function RachatAddView() {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Créer un nouveau rachat"
+        heading="Ajouter un nouveau rachat"
         
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },

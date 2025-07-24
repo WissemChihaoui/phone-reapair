@@ -97,6 +97,7 @@ export default function GroupeForm({ data, onUpdate, onRemove }) {
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Autocomplete
+            noOptionsText="Pas de données"
             options={GROUP_OPTIONS}
             value={selectedGroup}
             onChange={handleGroupChange}

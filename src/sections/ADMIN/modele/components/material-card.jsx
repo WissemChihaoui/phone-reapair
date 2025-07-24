@@ -60,12 +60,7 @@ export default function MaterialCard({ item, add, openAdd, deleteData, editData 
         <Card variant="outlined" sx={{ display: 'flex', flexDirection: 'column' }}>
           <Box sx={{ position: 'relative', p: 1 }}>
             <Tooltip title={item.name} placement="bottom-end">
-              <Image
-                alt={item.name}
-                src={item.image}
-                ratio="1/1"
-                sx={{ borderRadius: 1.5 }}
-              />
+              <Image alt={item.name} src={item.image} ratio="1/1" sx={{ borderRadius: 1.5 }} />
             </Tooltip>
           </Box>
           <Stack sx={{ p: 2, pb: 0, textAlign: 'center', flex: 1, justifyContent: 'center' }}>
@@ -130,8 +125,13 @@ export default function MaterialCard({ item, add, openAdd, deleteData, editData 
       <Dialog open={openEdit.value} onClose={openEdit.onFalse}>
         <DialogTitle>Modifier cette modèle</DialogTitle>
         <DialogContent>
-          {error && <Alert sx={{ mb: 2 }} severity="error">{error}</Alert>}
+          {error && (
+            <Alert sx={{ mb: 2 }} severity="error">
+              {error}
+            </Alert>
+          )}
           <Autocomplete
+            noOptionsText="Pas de données"
             fullWidth
             options={top100Films}
             getOptionLabel={(option) => option.title}
@@ -143,15 +143,14 @@ export default function MaterialCard({ item, add, openAdd, deleteData, editData 
             )}
           />
           <Autocomplete
+            noOptionsText="Pas de données"
             fullWidth
             options={top100Films}
             getOptionLabel={(option) => option.title}
             value={selectedMarque}
             onChange={(event, value) => setSelectedMarque(value)}
             sx={{ mb: 2 }}
-            renderInput={(params) => (
-              <TextField {...params} label="Marque" placeholder="Marque" />
-            )}
+            renderInput={(params) => <TextField {...params} label="Marque" placeholder="Marque" />}
           />
           <UploadBox
             onDrop={handleDrop}

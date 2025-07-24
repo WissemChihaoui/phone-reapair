@@ -70,6 +70,7 @@ export function VenteNewEditAddress() {
         <Stack sx={{ width: 1 }}>
           <Stack>
             <Autocomplete
+              noOptionsText="Pas de données"
               value={clientTo}
               fullWidth
               options={_addressBooks}

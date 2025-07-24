@@ -56,14 +56,9 @@ export function RachatAddEditClient() {
         sx={{ p: 3 }}
       >
         <Stack sx={{ width: 1 }}>
-          {/* <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
-            <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
-              Choisir Client
-            </Typography>
-          </Stack> */}
-
           <Stack>
             <Autocomplete
+              noOptionsText="Pas de données"
               value={clientTo}
               fullWidth
               options={_addressBooks}
@@ -119,18 +114,12 @@ export function RachatAddEditClient() {
                 color="primary"
                 onClick={() => addClient.onTrue()}
               >
-                Créer client
+                Ajouter un client
               </Button>
             </Box>
           </Stack>
         </Stack>
         <Stack sx={{ width: 1 }}>
-          {/* <Stack direction="row" alignItems="center" sx={{ mb: 1 }}>
-            <Typography variant="h6" sx={{ color: 'text.disabled', flexGrow: 1 }}>
-              Client:
-            </Typography>
-          </Stack> */}
-
           <Stack spacing={1}>
             <Typography variant="subtitle2">{client?.name}</Typography>
             <Typography variant="caption" sx={{ color: 'primary.main' }}>

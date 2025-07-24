@@ -33,6 +33,7 @@ export default function OeuvreFormRepeater({ index }) {
             size='small'
               name={`products[${index}].oeuvre[${pieceIndex}].nom`}
               label="Main d'oeuvre"
+              helperText="Champ libre (pas de gestion de stock)"
             />
           </Grid>
           <Grid xs={12} md={4}>

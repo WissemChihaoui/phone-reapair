@@ -14,6 +14,7 @@ export function RHFAutocomplete({ name, label, variant, helperText, placeholder,
       control={control}
       render={({ field, fieldState: { error } }) => (
         <Autocomplete
+          noOptionsText="Pas de données"
           {...field}
           id={`rhf-autocomplete-${name}`}
           onChange={(event, newValue) => setValue(name, newValue, { shouldValidate: true })}

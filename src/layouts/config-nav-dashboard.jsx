@@ -98,6 +98,11 @@ export const navData = [
         ],
       },
       {
+        title: 'Services',
+        path: paths.dashboard.services.root,
+        icon: ICONS.label,
+      },
+      {
         title: 'Ventes',
         path: paths.dashboard.vente.root,
         icon: ICONS.ecommerce,

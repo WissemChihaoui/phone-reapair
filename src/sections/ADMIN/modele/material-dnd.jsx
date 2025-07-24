@@ -72,6 +72,7 @@ export default function MaterialDnd({ deleteData, data, addData, editData }) {
             Veuillez vérifier que le nom de modéle n&apos;existe pas
           </Alert>
           <Autocomplete
+            noOptionsText="Pas de données"
             fullWidth
             options={top100Films}
             getOptionLabel={(option) => option.title}
@@ -88,15 +89,14 @@ export default function MaterialDnd({ deleteData, data, addData, editData }) {
             )}
           />
           <Autocomplete
+            noOptionsText="Pas de données"
             fullWidth
             options={top100Films}
             getOptionLabel={(option) => option.title}
             value={selectedMarque}
             onChange={(event, value) => setSelectedMarque(value)}
             sx={{ mb: 2 }}
-            renderInput={(params) => (
-              <TextField {...params} label="Marque" placeholder="Marque" />
-            )}
+            renderInput={(params) => <TextField {...params} label="Marque" placeholder="Marque" />}
             renderOption={(props, option) => (
               <li {...props} key={option.id}>
                 {option.title}

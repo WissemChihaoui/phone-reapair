@@ -54,12 +54,7 @@ export default function MaterialCard({ item, add, openAdd, deleteData, editData 
         <Card variant="outlined" sx={{ display: 'flex', flexDirection: 'column' }}>
           <Box sx={{ position: 'relative', p: 1 }}>
             <Tooltip title={item.name} placement="bottom-end">
-              <Image
-                alt={item.name}
-                src={item.image}
-                ratio="1/1"
-                sx={{ borderRadius: 1.5 }}
-              />
+              <Image alt={item.name} src={item.image} ratio="1/1" sx={{ borderRadius: 1.5 }} />
             </Tooltip>
           </Box>
           <Stack sx={{ p: 2, pb: 0, textAlign: 'center', flex: 1, justifyContent: 'center' }}>
@@ -140,6 +135,7 @@ export default function MaterialCard({ item, add, openAdd, deleteData, editData 
             Veuillez vérifier que le libellé de type du matériel n&apos;existe pas.
           </Alert>
           <Autocomplete
+            noOptionsText="Pas de données"
             fullWidth
             options={top100Films}
             getOptionLabel={(option) => option.title}
