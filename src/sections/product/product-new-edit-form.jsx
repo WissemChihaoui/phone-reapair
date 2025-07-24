@@ -24,6 +24,7 @@ import {
   CardContent,
   IconButton,
   Tooltip,
+  MenuItem,
 } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
@@ -90,15 +91,11 @@ export function ProductNewEditForm({ currentProduct }) {
 
   const defaultValues = useMemo(
     () => ({
-      //  details
-
       name: currentProduct?.name || '',
       description: currentProduct?.description || '',
       coverUrl: currentProduct?.coverUrl || '',
       category: currentProduct?.category || PRODUCT_CATEGORY_GROUP_OPTIONS[0].classify[1],
       sousCategory: currentProduct?.sousCategory || PRODUCT_CATEGORY_GROUP_OPTIONS[0].classify[1],
-
-      //  properties
 
       casier: currentProduct?.casier || 0,
       fournisseur: currentProduct?.fournisseur || 0,
@@ -214,33 +211,48 @@ export function ProductNewEditForm({ currentProduct }) {
           display="grid"
           gridTemplateColumns={{ xs: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
         >
-          <Field.Select native name="category" label="Catégorie" InputLabelProps={{ shrink: true }}>
-            {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
-              <optgroup key={category.group} label={category.group}>
-                {category.classify.map((classify) => (
-                  <option key={classify} value={classify}>
-                    {classify}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </Field.Select>
-          <Field.Select
-            native
-            name="sousCategory"
-            label="Sous Catégorie"
-            InputLabelProps={{ shrink: true }}
-          >
-            {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
-              <optgroup key={category.group} label={category.group}>
-                {category.classify.map((classify) => (
-                  <option key={classify} value={classify}>
-                    {classify}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </Field.Select>
+          <Stack direction="row" spacing={0.5}>
+            <Field.Select
+              native
+              name="category"
+              label="Catégorie"
+              InputLabelProps={{ shrink: true }}
+            >
+              {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
+                <optgroup key={category.group} label={category.group}>
+                  {category.classify.map((classify) => (
+                    <option key={classify} value={classify}>
+                      {classify}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </Field.Select>
+            <Button color="success" variant="contained">
+              <Iconify icon="ic:round-plus" />
+            </Button>
+          </Stack>
+          <Stack direction="row" spacing={0.5}>
+            <Field.Select
+              native
+              name="sousCategory"
+              label="Sous Catégorie"
+              InputLabelProps={{ shrink: true }}
+            >
+              {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
+                <optgroup key={category.group} label={category.group}>
+                  {category.classify.map((classify) => (
+                    <option key={classify} value={classify}>
+                      {classify}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </Field.Select>
+            <Button color="success" variant="contained">
+              <Iconify icon="ic:round-plus" />
+            </Button>
+          </Stack>
         </Box>
       </Stack>
     </Card>
@@ -259,30 +271,34 @@ export function ProductNewEditForm({ currentProduct }) {
           display="grid"
           gridTemplateColumns={{ xs: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
         >
-          <Field.Select
-            native
-            name="casier"
-            label="Casier de stockage"
-            InputLabelProps={{ shrink: true }}
-          >
-            {['casier 1', 'casier 2', 'casier 3'].map((caiser, index) => (
-              <option key={index} value={index}>
-                {caiser}
-              </option>
-            ))}
-          </Field.Select>
-          <Field.Select
-            native
-            name="fournisseur"
-            label="Fournisseur"
-            InputLabelProps={{ shrink: true }}
-          >
-            {['Fournisseur 1', 'Fournisseur 2', 'Fournisseur 3'].map((caiser, index) => (
-              <option key={index} value={index}>
-                {caiser}
-              </option>
-            ))}
-          </Field.Select>
+          <Stack direction="row" spacing={0.5}>
+            <Field.Select
+              name="casier"
+              label="Casier de stockage"
+              InputLabelProps={{ shrink: true }}
+            >
+              {['casier 1', 'casier 2', 'casier 3'].map((caiser, index) => (
+                <MenuItem key={index} value={index}>
+                  {caiser}
+                </MenuItem>
+              ))}
+            </Field.Select>
+            <Button color="success" variant="contained">
+              <Iconify icon="ic:round-plus" />
+            </Button>
+          </Stack>
+          <Stack direction="row" spacing={0.5}>
+            <Field.Select name="fournisseur" label="Fournisseur" InputLabelProps={{ shrink: true }}>
+              {['Fournisseur 1', 'Fournisseur 2', 'Fournisseur 3'].map((caiser, index) => (
+                <MenuItem key={index} value={index}>
+                  {caiser}
+                </MenuItem>
+              ))}
+            </Field.Select>
+            <Button color="success" variant="contained">
+              <Iconify icon="ic:round-plus" />
+            </Button>
+          </Stack>
           <Field.Text name="refInterne" label="Réf Interne" />
           <Field.Text name="refFournisseur" label="Réf Fournisseur" />
 
@@ -545,33 +561,33 @@ export function ProductNewEditForm({ currentProduct }) {
           </Tooltip>
         }
       />
-      <Divider /> 
+      <Divider />
       <Stack spacing={3} sx={{ p: 3 }}>
         <Field.Autocomplete
-            name="workingSchedule"
-            placeholder="Produits suggérés"
-            multiple
-            disableCloseOnSelect
-            options={telephonicArticles.map((option) => option.title)}
-            getOptionLabel={(option) => option}
-            renderOption={(props, option) => (
-              <li {...props} key={option}>
-                {option}
-              </li>
-            )}
-            renderTags={(selected, getTagProps) =>
-              selected.map((option, index) => (
-                <Chip
-                  {...getTagProps({ index })}
-                  key={option}
-                  label={option}
-                  size="small"
-                  color="info"
-                  variant="soft"
-                />
-              ))
-            }
-          />
+          name="workingSchedule"
+          placeholder="Produits suggérés"
+          multiple
+          disableCloseOnSelect
+          options={telephonicArticles.map((option) => option.title)}
+          getOptionLabel={(option) => option}
+          renderOption={(props, option) => (
+            <li {...props} key={option}>
+              {option}
+            </li>
+          )}
+          renderTags={(selected, getTagProps) =>
+            selected.map((option, index) => (
+              <Chip
+                {...getTagProps({ index })}
+                key={option}
+                label={option}
+                size="small"
+                color="info"
+                variant="soft"
+              />
+            ))
+          }
+        />
       </Stack>
     </Card>
   );

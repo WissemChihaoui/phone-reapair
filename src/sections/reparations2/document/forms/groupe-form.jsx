@@ -96,14 +96,20 @@ export default function GroupeForm({ data, onUpdate, onRemove }) {
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          <Autocomplete
-            noOptionsText="Pas de données"
-            options={GROUP_OPTIONS}
-            value={selectedGroup}
-            onChange={handleGroupChange}
-            getOptionLabel={(option) => option.label}
-            renderInput={(params) => <TextField {...params} label="Regroupement" size="small" />}
-          />
+          <Stack direction='row' spacing={0.5}>
+            <Autocomplete
+            sx={{flexGrow: 1}}
+              noOptionsText="Pas de données"
+              options={GROUP_OPTIONS}
+              value={selectedGroup}
+              onChange={handleGroupChange}
+              getOptionLabel={(option) => option.label}
+              renderInput={(params) => <TextField {...params} label="Regroupement" size="small" />}
+            />
+            <Button color="success" variant="contained">
+                          <Iconify icon="ic:round-plus" />
+                        </Button>
+          </Stack>
         </Grid>
         <Grid item xs={12} md={4}>
           <TextField
