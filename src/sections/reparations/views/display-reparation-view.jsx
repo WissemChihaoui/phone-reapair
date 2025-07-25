@@ -25,7 +25,8 @@ export const STATUS_LIST= [
   { value: 3, label : "En attente de pièce"},
 ]
 export default function DisplayReparationView({ order }) {
-  const [status, setStatus] = useState(order?.status);
+  // const orderStatus = order ? order.status : 1
+  const [status, setStatus] = useState(1);
 
   const handleChangeStatus = useCallback((newValue) => {
     setStatus(newValue);
