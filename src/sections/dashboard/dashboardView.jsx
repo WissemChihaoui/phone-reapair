@@ -29,6 +29,7 @@ export default function DashboardView() {
     client: 'Hlel Khalifa',
     produit: 'Macbook',
     status: 'En attente devis',
+    price: 12
   },
 ];
 
@@ -128,11 +129,12 @@ export default function DashboardView() {
               { id: 'actions', label: 'Actions' },
               { id: 'technicien', label: 'Technicien' },
               { id: 'reparation', label: 'Réparation' },
-              { id: 'piece', label: 'Piéce' },
+              { id: 'piece', label: 'Piéce à changer' },
               { id: 'ref', label: 'Réf' },
               { id: 'client', label: 'Client' },
               { id: 'produit', label: 'Produit' },
               { id: 'status', label: 'Status' },
+              { id: 'price', label: 'Prix' },
             ]}
           />
         </Grid>

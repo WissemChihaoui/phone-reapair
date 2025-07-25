@@ -17,7 +17,13 @@ import { DisplayDetailsToolbar } from '../display/display-details-toolbar';
 import { ReparationDetailsInfo } from '../display/reparation-details-info';
 import ReparationDetailsSignature from '../display/reparation-details-signature';
 import { ReparationsDetailsHistory } from '../display/reparation-details-history';
+import ReparationEcosystemEcologique from '../display/reparation-ecosystem-ecologique';
 
+export const STATUS_LIST= [
+  { value: 1, label : "Prise en charge"},
+  { value: 2, label : "Intervention payée et clôturée (archivée)"},
+  { value: 3, label : "En attente de pièce"},
+]
 export default function DisplayReparationView({ order }) {
   const [status, setStatus] = useState(order?.status);
 
@@ -34,7 +40,7 @@ export default function DisplayReparationView({ order }) {
         createdAt={order?.createdAt}
         status={status}
         onChangeStatus={handleChangeStatus}
-        statusOptions={ORDER_STATUS_OPTIONS}
+        statusOptions={STATUS_LIST}
       />
       <Grid container spacing={3}>
         <Grid xs={12} md={8}>
@@ -53,6 +59,7 @@ export default function DisplayReparationView({ order }) {
         </Grid>
         <Grid xs={12} md={4}>
           <Stack spacing={3}>
+            <ReparationEcosystemEcologique id={order?.id} status={status}/>
             <ReparationDetailsInfo
               customer={order?.customer}
               delivery={order?.delivery}

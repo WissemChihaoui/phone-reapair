@@ -6,6 +6,7 @@ import {
   Stack,
   Button,
   Divider,
+  Tooltip,
   MenuList,
   MenuItem,
   Typography,
@@ -28,7 +29,7 @@ const DocumentComponents = {
   divider: () => <Divider sx={{ my: 2 }} />,
   subtotal: ({ data, onRemove }) => (
     <Box position="relative">
-      <IconButton color='error' onClick={onRemove} sx={{ position: 'absolute', left: 8 }}>
+      <IconButton color="error" onClick={onRemove} sx={{ position: 'absolute', left: 8 }}>
         <Iconify icon="solar:trash-bin-trash-bold" />
       </IconButton>
       <Stack alignItems="flex-end">
@@ -40,7 +41,7 @@ const DocumentComponents = {
   ),
   total: ({ data, onRemove }) => (
     <Box position="relative">
-      <IconButton color='error' onClick={onRemove} sx={{ position: 'absolute', left: 8 }}>
+      <IconButton color="error" onClick={onRemove} sx={{ position: 'absolute', left: 8 }}>
         <Iconify icon="solar:trash-bin-trash-bold" />
       </IconButton>
       <Stack alignItems="flex-end">
@@ -134,42 +135,70 @@ export default function DocumentSectionView({
         <Grid xs={12} md={3}>
           <Box p={4}>
             <Stack spacing={2}>
-              <Button
-                onClick={() => handleAddElement('piece')}
-                startIcon={<Iconify icon="mdi:plus" />}
-                variant="contained"
-                color="primary"
-                sx={{ textTransform: 'capitalize' }}
-              >
-                Pièce à changer
-              </Button>
-              <Button
-                onClick={() => handleAddElement('oeuvre')}
-                startIcon={<Iconify icon="mdi:plus" />}
-                variant="contained"
-                color="secondary"
-                sx={{ textTransform: 'capitalize' }}
-              >
-                Main d&apos;oeuvre
-              </Button>
-              <Button
-                onClick={() => handleAddElement('service')}
-                startIcon={<Iconify icon="mdi:plus" />}
-                variant="contained"
-                color="success"
-                sx={{ textTransform: 'capitalize' }}
-              >
-                Service
-              </Button>
-              <Button
-                onClick={() => handleAddElement('group')}
-                startIcon={<Iconify icon="mdi:plus" />}
-                variant="contained"
-                color="warning"
-                sx={{ textTransform: 'capitalize' }}
-              >
-                Regroupement
-              </Button>
+              <Stack direction="row">
+                <Button
+                  onClick={() => handleAddElement('piece')}
+                  startIcon={<Iconify icon="mdi:plus" />}
+                  variant="contained"
+                  color="primary"
+                  sx={{ textTransform: 'capitalize', flexGrow: 1 }}
+                >
+                  Pièce à changer
+                </Button>
+                <Tooltip title="Piéce à changer">
+                  <IconButton>
+                    <Iconify icon="material-symbols:info-outline-rounded" />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+              <Stack direction="row">
+                <Button
+                  onClick={() => handleAddElement('oeuvre')}
+                  startIcon={<Iconify icon="mdi:plus" />}
+                  variant="contained"
+                  color="secondary"
+                  sx={{ textTransform: 'capitalize', flexGrow: 1 }}
+                >
+                  Main d&apos;oeuvre
+                </Button>
+                <Tooltip title="Main d'oeuvre">
+                  <IconButton>
+                    <Iconify icon="material-symbols:info-outline-rounded" />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+              <Stack direction="row">
+                <Button
+                  onClick={() => handleAddElement('service')}
+                  startIcon={<Iconify icon="mdi:plus" />}
+                  variant="contained"
+                  color="success"
+                  sx={{ textTransform: 'capitalize', flexGrow: 1 }}
+                >
+                  Service
+                </Button>
+                <Tooltip title="Service">
+                  <IconButton>
+                    <Iconify icon="material-symbols:info-outline-rounded" />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+              <Stack direction="row">
+                <Button
+                  onClick={() => handleAddElement('group')}
+                  startIcon={<Iconify icon="mdi:plus" />}
+                  variant="contained"
+                  color="warning"
+                  sx={{ textTransform: 'capitalize', flexGrow: 1 }}
+                >
+                  Regroupement
+                </Button>
+                <Tooltip title="Regroupement">
+                  <IconButton>
+                    <Iconify icon="material-symbols:info-outline-rounded" />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
               <Button
                 onClick={popover.onOpen}
                 startIcon={<Iconify icon="mdi:plus" />}

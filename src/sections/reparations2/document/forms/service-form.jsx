@@ -22,6 +22,7 @@ export default function ServiceForm({ data, onUpdate, onRemove }) {
     <Stack spacing={2} sx={{ position: 'relative' }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
+          <Stack direction="row" spacing={0.5}>
           <TextField
             fullWidth
             size="small"
@@ -29,6 +30,10 @@ export default function ServiceForm({ data, onUpdate, onRemove }) {
             value={data.nom || ''}
             onChange={handleChange('nom')}
           />
+          <Button color="success" variant="contained">
+              <Iconify icon="ic:round-plus" />
+            </Button>
+          </Stack>
         </Grid>
         <Grid item xs={12} md={4}>
           <TextField

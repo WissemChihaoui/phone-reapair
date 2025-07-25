@@ -22,14 +22,20 @@ export default function OeuvreForm({ data, onUpdate, onRemove }) {
     <Stack spacing={2} sx={{ position: 'relative' }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
-          <TextField
-            fullWidth
-            size="small"
-            label="Main d'oeuvre"
-            helperText="Champ libre (pas de gestion de stock)"
-            value={data.nom || ''}
-            onChange={handleChange('nom')}
-          />
+          <Stack direction="row" spacing={0.5}>
+            <TextField
+              fullWidth
+              sx={{ flexGrow: 1 }}
+              size="small"
+              label="Main d'oeuvre"
+              helperText="Champ libre (pas de gestion de stock)"
+              value={data.nom || ''}
+              onChange={handleChange('nom')}
+            />
+            <Button color="success" size='small' variant="contained">
+              <Iconify icon="ic:round-plus" />
+            </Button>
+          </Stack>
         </Grid>
         <Grid item xs={12} md={4}>
           <TextField

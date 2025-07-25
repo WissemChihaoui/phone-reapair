@@ -23,6 +23,7 @@ import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import { TableHeadCustom } from 'src/components/table';
+import { fCurrency } from 'src/utils/format-number';
 
 export function ReparationsTable({ title, subheader, tableData, headLabel, ...other }) {
   const [statusFilter, setStatusFilter] = useState('');
@@ -171,6 +172,7 @@ function RowItem({ row }) {
           {row.status}
         </Label>
       </TableCell>
+      <TableCell>{fCurrency(row.price)}</TableCell>
     </TableRow>
   );
 }

@@ -53,7 +53,7 @@ export function DisplayDetailsToolbar({
                   'default'
                 }
               >
-                {status}
+                {statusOptions.filter(s=>s.value === status)[0].label}
               </Label>
             </Stack>
 
@@ -77,7 +77,7 @@ export function DisplayDetailsToolbar({
             onClick={popover.onOpen}
             sx={{ textTransform: 'capitalize' }}
           >
-            {status}
+            {statusOptions.filter(s=>s.value === status)[0].label}
           </Button>
 
           <Button

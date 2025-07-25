@@ -27,14 +27,19 @@ export default function PieceForm({ data, onUpdate, onRemove }) {
     <Stack spacing={2} sx={{ position: 'relative' }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            size="small"
-            name="nom"
-            label="Pièce à changer / Article"
-            value={data.nom || ''}
-            onChange={handleChange('nom')}
-          />
+          <Stack direction="row" spacing={0.5}>
+            <TextField
+              fullWidth
+              size="small"
+              name="nom"
+              label="Pièce à changer / Article"
+              value={data.nom || ''}
+              onChange={handleChange('nom')}
+            />
+            <Button color="success" variant="contained">
+              <Iconify icon="ic:round-plus" />
+            </Button>
+          </Stack>
         </Grid>
         <Grid item xs={6} md={3}>
           <TextField

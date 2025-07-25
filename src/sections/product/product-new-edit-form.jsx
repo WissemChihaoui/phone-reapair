@@ -18,26 +18,32 @@ import {
   Grid,
   Table,
   Button,
+  Tooltip,
   TableRow,
+  MenuItem,
   TableBody,
   TableCell,
-  CardContent,
   IconButton,
-  Tooltip,
-  MenuItem,
+  CardContent,
 } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
+import { useBoolean } from 'src/hooks/use-boolean';
+
 import { fDate, today } from 'src/utils/format-time';
 
-import { _tags, JOB_WORKING_SCHEDULE_OPTIONS, PRODUCT_CATEGORY_GROUP_OPTIONS } from 'src/_mock';
+import { PRODUCT_CATEGORY_GROUP_OPTIONS } from 'src/_mock';
 
 import { toast } from 'src/components/snackbar';
+import { Iconify } from 'src/components/iconify';
 import { TableHeadCustom } from 'src/components/table';
 import { Form, Field, schemaHelper } from 'src/components/hook-form';
-import { Iconify } from 'src/components/iconify';
+import AddCasierStockage from 'src/components/form-dialogs/casier-stockage';
+import FournisseurAddEditForm from 'src/components/form-dialogs/fournisseur';
+import AddCategories from 'src/components/form-dialogs/categories';
+import AddSousCategories from 'src/components/form-dialogs/sous-category';
 
 export const telephonicArticles = [
   { id: 1, title: 'iPhone 14 Pro Max' },
@@ -87,6 +93,11 @@ export const NewProductSchema = zod.object({
 export function ProductNewEditForm({ currentProduct }) {
   const router = useRouter();
 
+  const addCaisier = useBoolean()
+  const addFournisseur = useBoolean()
+  const addCategory = useBoolean()
+  const addSousCategory = useBoolean()
+
   const [includeTaxes, setIncludeTaxes] = useState(false);
 
   const defaultValues = useMemo(
@@ -94,8 +105,8 @@ export function ProductNewEditForm({ currentProduct }) {
       name: currentProduct?.name || '',
       description: currentProduct?.description || '',
       coverUrl: currentProduct?.coverUrl || '',
-      category: currentProduct?.category || PRODUCT_CATEGORY_GROUP_OPTIONS[0].classify[1],
-      sousCategory: currentProduct?.sousCategory || PRODUCT_CATEGORY_GROUP_OPTIONS[0].classify[1],
+      category: currentProduct?.category || "",
+      sousCategory: currentProduct?.sousCategory ||"",
 
       casier: currentProduct?.casier || 0,
       fournisseur: currentProduct?.fournisseur || 0,
@@ -139,6 +150,7 @@ export function ProductNewEditForm({ currentProduct }) {
 
   const quantityWatch = watch('quantity');
   const multipleWatch = watch('multiple');
+  const categorySelect = watch('category')
 
   useEffect(() => {
     console.log(multipleWatch);
@@ -228,7 +240,7 @@ export function ProductNewEditForm({ currentProduct }) {
                 </optgroup>
               ))}
             </Field.Select>
-            <Button color="success" variant="contained">
+            <Button onClick={addCategory.onTrue} color="success" variant="contained">
               <Iconify icon="ic:round-plus" />
             </Button>
           </Stack>
@@ -238,6 +250,7 @@ export function ProductNewEditForm({ currentProduct }) {
               name="sousCategory"
               label="Sous Catégorie"
               InputLabelProps={{ shrink: true }}
+              disabled={!categorySelect}
             >
               {PRODUCT_CATEGORY_GROUP_OPTIONS.map((category) => (
                 <optgroup key={category.group} label={category.group}>
@@ -249,7 +262,7 @@ export function ProductNewEditForm({ currentProduct }) {
                 </optgroup>
               ))}
             </Field.Select>
-            <Button color="success" variant="contained">
+            <Button onClick={addSousCategory.onTrue} disabled={!categorySelect}  color="success" variant="contained">
               <Iconify icon="ic:round-plus" />
             </Button>
           </Stack>
@@ -283,7 +296,7 @@ export function ProductNewEditForm({ currentProduct }) {
                 </MenuItem>
               ))}
             </Field.Select>
-            <Button color="success" variant="contained">
+            <Button onClick={addCaisier.onTrue} color="success" variant="contained">
               <Iconify icon="ic:round-plus" />
             </Button>
           </Stack>
@@ -295,7 +308,7 @@ export function ProductNewEditForm({ currentProduct }) {
                 </MenuItem>
               ))}
             </Field.Select>
-            <Button color="success" variant="contained">
+            <Button onClick={addFournisseur.onTrue} color="success" variant="contained">
               <Iconify icon="ic:round-plus" />
             </Button>
           </Stack>
@@ -674,6 +687,7 @@ export function ProductNewEditForm({ currentProduct }) {
   );
 
   return (
+    <>
     <Form methods={methods} onSubmit={onSubmit}>
       <Stack
         display="grid"
@@ -697,5 +711,10 @@ export function ProductNewEditForm({ currentProduct }) {
       {currentProduct && renderAdjustTable}
       {renderActions}
     </Form>
+    <AddCasierStockage open={addCaisier.value} onClose={addCaisier.onFalse} />
+    <FournisseurAddEditForm open={addFournisseur.value} onClose={addFournisseur.onFalse} />
+    <AddCategories open={addCategory.value} onClose={addCategory.onFalse} />
+    <AddSousCategories open={addSousCategory.value} onClose={addSousCategory.onFalse} category={categorySelect}/>
+    </>
   );
 }
