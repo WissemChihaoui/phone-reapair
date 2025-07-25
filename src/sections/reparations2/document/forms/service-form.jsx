@@ -1,8 +1,11 @@
 import React from 'react';
 import { Grid, Stack, Divider, TextField, IconButton, Button } from '@mui/material';
 import { Iconify } from 'src/components/iconify';
+import { AddServiceDialog } from 'src/components/form-dialogs/service';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 export default function ServiceForm({ data, onUpdate, onRemove }) {
+  const add = useBoolean()
   const handleChange = (field) => (e) => {
     const newData = {
       ...data,
@@ -19,6 +22,7 @@ export default function ServiceForm({ data, onUpdate, onRemove }) {
   };
 
   return (
+    <>
     <Stack spacing={2} sx={{ position: 'relative' }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
@@ -30,7 +34,7 @@ export default function ServiceForm({ data, onUpdate, onRemove }) {
             value={data.nom || ''}
             onChange={handleChange('nom')}
           />
-          <Button color="success" variant="contained">
+          <Button onClick={add.onTrue} color="success" variant="contained">
               <Iconify icon="ic:round-plus" />
             </Button>
           </Stack>
@@ -67,5 +71,7 @@ export default function ServiceForm({ data, onUpdate, onRemove }) {
         </Grid>
       </Grid>
     </Stack>
+    <AddServiceDialog open={add.value} onClose={add.onFalse}/>
+    </>
   );
 }

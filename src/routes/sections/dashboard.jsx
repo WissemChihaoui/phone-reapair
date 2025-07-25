@@ -108,6 +108,8 @@ const EditSAV = lazy(() => import('src/pages/dashboard/sav/edit'));
 
 const Services = lazy(() => import('src/pages/dashboard/services/index') )
 
+const AbonnementProduct = lazy(() => import('src/pages/dashboard/stock/abonnement') )
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -175,6 +177,7 @@ export const dashboardRoutes = [
           {element: <EditRegroupement />, path:'regroupement/:id/edit'},
           {element: <EditCommande />, path:'commande/:id/edit'},
           {element: <EtatStock />, path:'etat-stock'},
+          {element: <AbonnementProduct />, path:'abonnements'},
         ]
       },
       {

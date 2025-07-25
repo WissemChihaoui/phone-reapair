@@ -7,12 +7,14 @@ import {
   Button,
   Divider,
   TextField,
-  IconButton,
   Typography,
   Autocomplete,
 } from '@mui/material';
 
+import { useBoolean } from 'src/hooks/use-boolean';
+
 import { Iconify } from 'src/components/iconify';
+import AddRegroupementDialog from 'src/components/form-dialogs/regroupement';
 
 import PieceForm from './piece-form';
 
@@ -33,6 +35,7 @@ const GROUP_OPTIONS = [
 ];
 
 export default function GroupeForm({ data, onUpdate, onRemove }) {
+  const add = useBoolean()
   const { setValue } = useFormContext();
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [pieces, setPieces] = useState(data.pieces || []);
@@ -84,6 +87,7 @@ export default function GroupeForm({ data, onUpdate, onRemove }) {
   };
 
   return (
+    <>
     <Stack spacing={2} sx={{ position: 'relative' }}>
       {/* <IconButton
         size="small"
@@ -106,7 +110,7 @@ export default function GroupeForm({ data, onUpdate, onRemove }) {
               getOptionLabel={(option) => option.label}
               renderInput={(params) => <TextField {...params} label="Regroupement" size="small" />}
             />
-            <Button color="success" variant="contained">
+            <Button onClick={add.onTrue} color="success" variant="contained">
                           <Iconify icon="ic:round-plus" />
                         </Button>
           </Stack>
@@ -160,5 +164,7 @@ export default function GroupeForm({ data, onUpdate, onRemove }) {
       )}
       <Divider sx={{ my: 1 }} />
     </Stack>
+    <AddRegroupementDialog open={add.value} onClose={add.onFalse}/>
+    </>
   );
 }

@@ -1,8 +1,14 @@
 import React from 'react';
-import { Grid, Stack, Divider, TextField, IconButton, Button } from '@mui/material';
+
+import { Grid, Stack, Button, Divider, TextField } from '@mui/material';
+
+import { useBoolean } from 'src/hooks/use-boolean';
+
 import { Iconify } from 'src/components/iconify';
+import AddMainOuvreDialog from 'src/components/form-dialogs/main-ouvre';
 
 export default function OeuvreForm({ data, onUpdate, onRemove }) {
+  const add = useBoolean()
   const handleChange = (field) => (e) => {
     const newData = {
       ...data,
@@ -19,6 +25,7 @@ export default function OeuvreForm({ data, onUpdate, onRemove }) {
   };
 
   return (
+    <>
     <Stack spacing={2} sx={{ position: 'relative' }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
@@ -32,7 +39,7 @@ export default function OeuvreForm({ data, onUpdate, onRemove }) {
               value={data.nom || ''}
               onChange={handleChange('nom')}
             />
-            <Button color="success" size='small' variant="contained">
+            <Button onClick={add.onTrue} color="success" size='small' variant="contained">
               <Iconify icon="ic:round-plus" />
             </Button>
           </Stack>
@@ -70,5 +77,7 @@ export default function OeuvreForm({ data, onUpdate, onRemove }) {
       </Grid>
       <Divider sx={{ my: 1 }} />
     </Stack>
+    <AddMainOuvreDialog open={add.value} onClose={add.onFalse} />
+    </>
   );
 }

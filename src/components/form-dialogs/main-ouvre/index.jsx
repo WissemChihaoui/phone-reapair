@@ -5,30 +5,25 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { LoadingButton } from '@mui/lab';
-import {
-  Button,
-  Dialog,
-  Typography,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-} from '@mui/material';
+import { Dialog, Button, DialogTitle, DialogContent, DialogActions, Stack } from '@mui/material';
 
 import { Form, Field } from 'src/components/hook-form';
 
-export const CategoriesSchema = zod.object({
-  category: zod.string().min(1, { message: 'Remplir Champs Catégorie!' }),
+export const MainSchema = zod.object({
+  name: zod.string().min(1, { message: 'Nom est requis' }),
+  price: zod.number().min(1, { message: 'Prix est requis' }),
 });
 
-export default function AddCategories({ open, onClose }) {
+export default function AddMainOuvreDialog({ open, onClose }) {
   const defaultValues = {
-    category: '',
+    name: '',
+    price: 0,
   };
-
   const methods = useForm({
-    resolver: zodResolver(CategoriesSchema),
+    resolver: zodResolver(MainSchema),
     defaultValues,
   });
+
   const {
     reset,
     handleSubmit,
@@ -55,15 +50,16 @@ export default function AddCategories({ open, onClose }) {
       console.error(error);
     }
   });
+
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog maxWidth="sm" fullWidth open={open} onClose={onClose}>
       <Form methods={methods} onSubmit={onSubmit}>
-        <DialogTitle>Ajouter Catégorie</DialogTitle>
+        <DialogTitle>Ajouter un main d&apos;oeuvre</DialogTitle>
         <DialogContent>
-          <Typography sx={{ mb: 3 }}>
-            Ajouter une catégorie maintenant, ajouter une sous-catégorie plus tard
-          </Typography>
-          <Field.Text name="category" autoFocus fullWidth type="text" variant="outlined" label="Nom du catégorie" />
+          <Stack p={2} spacing={1}>
+              <Field.Text name="name" label="Main d'oeuvre" />
+              <Field.Text type="number" name="price" label="Prix" />
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose} variant="outlined" color="inherit">

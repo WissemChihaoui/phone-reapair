@@ -151,17 +151,17 @@ export default function DocumentSectionView({
                   </IconButton>
                 </Tooltip>
               </Stack>
-              <Stack direction="row">
+               <Stack direction="row">
                 <Button
-                  onClick={() => handleAddElement('oeuvre')}
+                  onClick={() => handleAddElement('group')}
                   startIcon={<Iconify icon="mdi:plus" />}
                   variant="contained"
-                  color="secondary"
+                  color="warning"
                   sx={{ textTransform: 'capitalize', flexGrow: 1 }}
                 >
-                  Main d&apos;oeuvre
+                  Regroupement
                 </Button>
-                <Tooltip title="Main d'oeuvre">
+                <Tooltip title="Regroupement">
                   <IconButton>
                     <Iconify icon="material-symbols:info-outline-rounded" />
                   </IconButton>
@@ -185,20 +185,38 @@ export default function DocumentSectionView({
               </Stack>
               <Stack direction="row">
                 <Button
-                  onClick={() => handleAddElement('group')}
+                  onClick={() => handleAddElement('oeuvre')}
                   startIcon={<Iconify icon="mdi:plus" />}
                   variant="contained"
-                  color="warning"
+                  color="secondary"
                   sx={{ textTransform: 'capitalize', flexGrow: 1 }}
                 >
-                  Regroupement
+                  Main d&apos;oeuvre
                 </Button>
-                <Tooltip title="Regroupement">
+                <Tooltip title="Main d'oeuvre">
                   <IconButton>
                     <Iconify icon="material-symbols:info-outline-rounded" />
                   </IconButton>
                 </Tooltip>
               </Stack>
+              <Stack direction="row">
+                <Button
+                  // onClick={() => handleAddElement('oeuvre')}
+                  startIcon={<Iconify icon="mdi:plus" />}
+                  variant="contained"
+                  color="info"
+                  sx={{ textTransform: 'capitalize', flexGrow: 1 }}
+                >
+                  Abonnement
+                </Button>
+                <Tooltip title="Abonnement">
+                  <IconButton>
+                    <Iconify icon="material-symbols:info-outline-rounded" />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
+              
+             
               <Button
                 onClick={popover.onOpen}
                 startIcon={<Iconify icon="mdi:plus" />}

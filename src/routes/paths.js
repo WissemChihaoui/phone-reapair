@@ -88,6 +88,9 @@ export const paths = {
       addCommande: `${ROOTS.DASHBOARD}/stock/commande/add`,
       commande: `${ROOTS.DASHBOARD}/stock/commande`,
       destockage: `${ROOTS.DASHBOARD}/stock/destockage`,
+
+      abonnement: `${ROOTS.DASHBOARD}/stock/abonnements`,
+
       alertStock: `${ROOTS.DASHBOARD}/stock/alert-stock`,
       regroupement: `${ROOTS.DASHBOARD}/stock/regroupement`,
       famille: `${ROOTS.DASHBOARD}/stock/famille`,

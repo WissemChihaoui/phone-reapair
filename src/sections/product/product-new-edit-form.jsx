@@ -39,11 +39,11 @@ import { PRODUCT_CATEGORY_GROUP_OPTIONS } from 'src/_mock';
 import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
 import { TableHeadCustom } from 'src/components/table';
+import AddCategories from 'src/components/form-dialogs/categories';
 import { Form, Field, schemaHelper } from 'src/components/hook-form';
+import AddSousCategories from 'src/components/form-dialogs/sous-category';
 import AddCasierStockage from 'src/components/form-dialogs/casier-stockage';
 import FournisseurAddEditForm from 'src/components/form-dialogs/fournisseur';
-import AddCategories from 'src/components/form-dialogs/categories';
-import AddSousCategories from 'src/components/form-dialogs/sous-category';
 
 export const telephonicArticles = [
   { id: 1, title: 'iPhone 14 Pro Max' },

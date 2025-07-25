@@ -4,8 +4,11 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { Stack, Divider, TextField, IconButton, Button } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
+import { AddArticleDialog } from 'src/components/form-dialogs/article-rapide';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 export default function PieceForm({ data, onUpdate, onRemove }) {
+  const add = useBoolean()
   const handleChange = (field) => (e) => {
     const newData = {
       ...data,
@@ -24,6 +27,7 @@ export default function PieceForm({ data, onUpdate, onRemove }) {
   };
 
   return (
+    <>
     <Stack spacing={2} sx={{ position: 'relative' }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
@@ -36,7 +40,7 @@ export default function PieceForm({ data, onUpdate, onRemove }) {
               value={data.nom || ''}
               onChange={handleChange('nom')}
             />
-            <Button color="success" variant="contained">
+            <Button onClick={add.onTrue} color="success" variant="contained">
               <Iconify icon="ic:round-plus" />
             </Button>
           </Stack>
@@ -93,5 +97,7 @@ export default function PieceForm({ data, onUpdate, onRemove }) {
         </Grid>
       </Grid>
     </Stack>
+    <AddArticleDialog open={add.value} onClose={add.onFalse} />
+    </>
   );
 }

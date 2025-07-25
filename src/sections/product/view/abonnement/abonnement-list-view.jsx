@@ -17,8 +17,8 @@ import { Scrollbar } from 'src/components/scrollbar';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { useTable, emptyRows, TableNoData, getComparator, TableEmptyRows, TableHeadCustom, TableSelectedAction, TablePaginationCustom, rowInPage } from 'src/components/table';
 
-import ServiceTableToolbar from '../service-table-toolbar';
-import ServiceTableRow from '../service-table-row';
+import AbonnementTableToolbar from '../../abonnement-table-toolbar';
+import AbonnementTableRow from '../../abonnement-table-row';
 
 const frequence_list = [
   { value: 'all', label: 'Tous' },
@@ -95,7 +95,7 @@ const data= [
     actif: false,
   },
 ]
-export default function ServicesPageView() {
+export default function AbonnementPageView() {
   const table = useTable();
 
   const confirm = useBoolean()
@@ -128,10 +128,10 @@ export default function ServicesPageView() {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Les services"
+        heading="Les abonnements"
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },
-          { name: 'Les services', href: paths.dashboard.services.root },
+          { name: 'Les abonnements', href: paths.dashboard.services.root },
           { name: 'Liste' },
         ]}
         action={
@@ -142,7 +142,7 @@ export default function ServicesPageView() {
         sx={{ mb: { xs: 3, md: 5 } }}
       />
 
-      {/* <Card>
+      <Card>
         <Tabs
           value={filters.state.frequence}
           onChange={(e, val) => filters.setState({ frequence: val })}
@@ -176,11 +176,12 @@ export default function ServicesPageView() {
           ))}
         </Tabs>
 
-        <ServiceTableToolbar 
+        <AbonnementTableToolbar
           filters={filters}
             onResetPage={table.onResetPage}
         />
 
+        {/* filterResult  */}
 
         <Box sx={{ position: 'relative' }}>
             <TableSelectedAction
@@ -226,7 +227,8 @@ export default function ServicesPageView() {
                       table.page * table.rowsPerPage + table.rowsPerPage
                     )
                     .map((row) => (
-                      <></>
+                    //   <AbonnementTableRow />
+                    <></>
                     ))}
 
                   <TableEmptyRows
@@ -249,7 +251,7 @@ export default function ServicesPageView() {
             onChangeDense={table.onChangeDense}
             onRowsPerPageChange={table.onChangeRowsPerPage}
           />
-      </Card> */}
+      </Card>
     </DashboardContent>
   );
 }

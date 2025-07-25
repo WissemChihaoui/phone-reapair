@@ -93,6 +93,7 @@ export const navData = [
               { title: 'Lieu de stockage', path: paths.dashboard.stock.stockage },
               { title: 'Fournisseurs', path: paths.dashboard.stock.fournisseurs },
               { title: 'Famille comptable', path: paths.dashboard.stock.famille },
+              { title: 'Abonnnements', path: paths.dashboard.stock.abonnement },
             ],
           },
         ],
