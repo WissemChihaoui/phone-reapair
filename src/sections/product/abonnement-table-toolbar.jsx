@@ -23,11 +23,11 @@ export default function AbonnementTableToolbar({ filters, onResetPage }) {
 
   const handleFilterStatus = useCallback(
     (event) => {
-        onResetPage();
-        filters.setState({ status: event.target.value })
+      onResetPage();
+      filters.setState({ status: event.target.value });
     },
     [filters, onResetPage]
-  )
+  );
 
   return (
     <>
@@ -39,30 +39,30 @@ export default function AbonnementTableToolbar({ filters, onResetPage }) {
       >
         <Stack direction="row" alignItems="center" spacing={2} flexGrow={1} sx={{ width: 1 }}>
           <FormControl sx={{ flexShrink: 0, width: { xs: 1, md: 200 } }}>
-              <InputLabel htmlFor="user-filter-role-select-label">Statut</InputLabel>
-              <Select
+            <InputLabel htmlFor="user-filter-role-select-label">Statut</InputLabel>
+            <Select
               onChange={handleFilterStatus}
-                label="Statut"
-                value={filters.state.statut}
-                input={
-                  <OutlinedInput
-                    label="Statut"
-                    renderValue={(selected) => selected.map((value) => value).join(', ')}
-                    inputProps={{ id: 'user-filter-role-select-label' }}
-                    MenuProps={{ PaperProps: { sx: { maxHeight: 240 } } }}
-                  />
-                }
-              >
-                <MenuItem value="all">Touts</MenuItem>
-                <MenuItem value="actif">Actif</MenuItem>
-                <MenuItem value="inactif">Inactif</MenuItem>
-              </Select>
+              label="Statut"
+              value={filters.state.statut}
+              input={
+                <OutlinedInput
+                  label="Statut"
+                  renderValue={(selected) => selected.map((value) => value).join(', ')}
+                  inputProps={{ id: 'user-filter-role-select-label' }}
+                  MenuProps={{ PaperProps: { sx: { maxHeight: 240 } } }}
+                />
+              }
+            >
+              <MenuItem value="all">Touts</MenuItem>
+              <MenuItem value>Actif</MenuItem>
+              <MenuItem value={false}>Inactif</MenuItem>
+            </Select>
           </FormControl>
           <TextField
             fullWidth
             value={filters.state.name}
             onChange={handleFilterName}
-            placeholder="Search customer or order number..."
+            placeholder="Rechercher par nom..."
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

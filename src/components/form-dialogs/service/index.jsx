@@ -21,18 +21,18 @@ export const AddServiceSchema = zod.object({
 });
 
 
-export function AddServiceDialog({ open, onClose }) {
+export function AddServiceDialog({ open, onClose, currentRow }) {
   const defaultValues = useMemo(
   () => ({
-    title: '',
-    refInterne: '',
-    ean: '',
-    tva: '1',
-    priceVenteTtc: 0,
-    priceVenteHt: 0,
-    valeurTva: 0,
+    name: currentRow?.name || '',
+    ref: currentRow?.ref ||'',
+    ean: currentRow?.ean ||'',
+    tva: currentRow?.tva ||'1',
+    pricettc: currentRow?.pricettc ||0,
+    priceht: currentRow?.title ||0,
+    valeurTva: currentRow?.title ||0,
   }),
-  []
+  [currentRow]
 );
 
   const methods = useForm({
@@ -69,7 +69,7 @@ export function AddServiceDialog({ open, onClose }) {
   return (
     <Dialog fullWidth PaperProps={{ sx: { maxWidth: 720 } }} open={open} onClose={onClose} scroll="paper">
       <Form methods={methods} onSubmit={onSubmit}>
-        <DialogTitle>Ajouter un service</DialogTitle>
+        <DialogTitle>{currentRow ? "Modifier Service" : "Ajouter Service"}</DialogTitle>
        
             <DialogContent dividers>
               <Box
@@ -79,9 +79,9 @@ export function AddServiceDialog({ open, onClose }) {
                 gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
               >
                 <Stack spacing={2} py={2}>
-                  <Field.Text label="Libellé" name="title" />
+                  <Field.Text label="Libellé" name="name" />
                  
-                  <Field.Text label="Réf Interne" name="refInterne" />
+                  <Field.Text label="Réf Interne" name="ref" />
 
                   <Field.Text label="EAN - Code Barre" name="ean" />
                   <Field.Select name="tva" label="TVA">
@@ -100,8 +100,8 @@ export function AddServiceDialog({ open, onClose }) {
                   </Field.Select>
                 </Stack>
                 <Stack spacing={2} py={2}>
-                  <Field.Text label="Prix Vente TTC" name="priceVenteTtc" />
-                  <Field.Text label="Prix Vente HT" name="priceVenteHt" />
+                  <Field.Text label="Prix Vente TTC" name="pricettc" />
+                  <Field.Text label="Prix Vente HT" name="priceht" />
                   <Field.Text label="Valeur du TVA" name="valeurTva" />
                   
                 </Stack>
@@ -113,7 +113,7 @@ export function AddServiceDialog({ open, onClose }) {
           </Button>
 
           <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-            Ajouter
+            {currentRow ? "Modifier" : "Ajouter"}
           </LoadingButton>
         </DialogActions>
       </Form>

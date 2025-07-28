@@ -18,10 +18,10 @@ import { useTranslate } from './use-locales';
 export function LocalizationProvider({ children }) {
   const { currentLang } = useTranslate();
 
-  dayjs.locale(currentLang.adapterLocale);
+  dayjs.locale("fr");
 
   return (
-    <Provider dateAdapter={AdapterDayjs} adapterLocale={currentLang.adapterLocale}>
+    <Provider dateAdapter={AdapterDayjs} adapterLocale="fr">
       {children}
     </Provider>
   );

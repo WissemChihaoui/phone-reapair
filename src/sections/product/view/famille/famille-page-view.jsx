@@ -81,7 +81,7 @@ export default function FamillePageView() {
       />
 
       <Stack spacing={3}>
-        <Grid container>
+        <Grid container spacing={2}>
             {familles.map((famille, index) => (
               <Grid xs={6} md={4}>
                   <FamilleCard

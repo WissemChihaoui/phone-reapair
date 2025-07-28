@@ -20,12 +20,14 @@ import PieceForm from './forms/piece-form';
 import OeuvreForm from './forms/oeuvre-form';
 import GroupeForm from './forms/groupe-form';
 import ServiceForm from './forms/service-form';
+import AbonnementForm from './forms/abonnement-form';
 
 const DocumentComponents = {
   piece: PieceForm,
   oeuvre: OeuvreForm,
   service: ServiceForm,
   group: GroupeForm,
+  abonnement: AbonnementForm,
   divider: () => <Divider sx={{ my: 2 }} />,
   subtotal: ({ data, onRemove }) => (
     <Box position="relative">
@@ -67,6 +69,8 @@ export default function DocumentSectionView({
     switch (doc.type) {
       case 'piece':
         return doc.data.price * doc.data.qte * (1 - doc.data.remise / 100);
+      case 'abonnement':
+        return doc.data.price * doc.data.qte * (1 - doc.data.remise / 100);
       case 'oeuvre':
       case 'service':
         return doc.data.price || 0;
@@ -84,7 +88,7 @@ export default function DocumentSectionView({
 
   const updateArticleTotal = () => {
     const total = documents.reduce((sum, doc) => {
-      if (['piece', 'oeuvre', 'service', 'group'].includes(doc.type)) {
+      if (['piece', 'oeuvre', 'service', 'group', 'abonnement'].includes(doc.type)) {
         return sum + calculateDocumentTotal(doc);
       }
       return sum;
@@ -96,6 +100,7 @@ export default function DocumentSectionView({
   const handleAddElement = (type) => {
     const defaultData = {
       piece: { nom: '', price: 0, qte: 1, remise: 0 },
+      abonnement: { nom: '', price: 0, qte: 1, remise: 0 },
       oeuvre: { nom: '', price: 0 },
       service: { nom: '', price: 0 },
       group: { nom: '', items: [] },
@@ -112,7 +117,7 @@ export default function DocumentSectionView({
     onAddDocument(newDoc);
 
     // Update totals if adding a priced element
-    if (['piece', 'oeuvre', 'service', 'group'].includes(type)) {
+    if (['piece', 'oeuvre', 'service', 'group', 'abonnement'].includes(type)) {
       setTimeout(updateArticleTotal, 100); // Small delay to ensure state updates
     }
 
@@ -124,7 +129,7 @@ export default function DocumentSectionView({
     onRemoveDocument(index);
 
     // Update totals if removing a priced element
-    if (['piece', 'oeuvre', 'service', 'group'].includes(doc?.type)) {
+    if (['piece', 'oeuvre', 'service', 'group', 'abonnement'].includes(doc?.type)) {
       setTimeout(updateArticleTotal, 100);
     }
   };
@@ -201,7 +206,7 @@ export default function DocumentSectionView({
               </Stack>
               <Stack direction="row">
                 <Button
-                  // onClick={() => handleAddElement('oeuvre')}
+                  onClick={() => handleAddElement('abonnement')}
                   startIcon={<Iconify icon="mdi:plus" />}
                   variant="contained"
                   color="info"

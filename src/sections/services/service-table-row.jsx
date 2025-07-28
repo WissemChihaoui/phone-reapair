@@ -1,18 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import {
-  Box,
+  Fab,
+  Link,
   Stack,
-  Avatar,
-  Checkbox,
+  Button,
+  Tooltip,
   TableRow,
   TableCell,
-  Tooltip,
-  IconButton,
-  MenuItem,
-  MenuList,
-  Button,
 } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -20,93 +15,63 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { fCurrency } from 'src/utils/format-number';
 
 import { Iconify } from 'src/components/iconify';
-import { CustomPopover, usePopover } from 'src/components/custom-popover';
+import { usePopover } from 'src/components/custom-popover';
 import { ConfirmDialog } from 'src/components/custom-dialog';
+import { AddServiceDialog } from 'src/components/form-dialogs/service';
 
 export default function ServiceTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow }) {
   const confirm = useBoolean();
-
-  const popover = usePopover();
-
   const quickEdit = useBoolean();
+
   return (
     <>
-    <TableRow hover selected={selected} aria-checked={selected} tabIndex={-1}>
-      <TableCell padding="checkbox">
-        <Checkbox id={row.id} checked={selected} onClick={onSelectRow} />
-      </TableCell>
-      <TableCell>
-        <Stack spacing={2} direction="row" alignItems="center">
-          <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>
-            <Link color="inherit" onClick={onEditRow} sx={{ cursor: 'pointer' }}>
+      <TableRow hover>
+         <TableCell>
+          <Stack direction="row" spacing={1}>
+            <Tooltip title="Modifier" placement="top" arrow>
+              <Fab color='warning' size='small' onClick={quickEdit.onTrue}>
+                <Iconify icon="solar:pen-bold" />
+              </Fab>
+            </Tooltip>
+            <Tooltip title="Supprimer" placement="top" arrow>
+              <Fab color='error' size='small' onClick={confirm.onTrue}>
+                <Iconify icon="tabler:trash" />
+              </Fab>
+            </Tooltip>
+          </Stack>
+        </TableCell>
+       
+
+        <TableCell>
+          <Stack spacing={1}>
+            <Link color="inherit" onClick={onEditRow} style={{ cursor: 'pointer' }}>
               {row.name}
             </Link>
-            <Box component="span" sx={{ color: 'text.disabled' }}>
-              {row.description}
-            </Box>
           </Stack>
-        </Stack>
-      </TableCell>
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.duration}</TableCell>
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{fCurrency(row.price)}</TableCell>
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.frequence}</TableCell>
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.conditions}</TableCell>
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.actif}</TableCell>
-      <TableCell>
-        <Stack direction="row" alignItems="center">
-          <Tooltip title="Quick Edit" placement="top" arrow>
-            <IconButton color={quickEdit.value ? 'inherit' : 'default'} onClick={quickEdit.onTrue}>
-              <Iconify icon="solar:pen-bold" />
-            </IconButton>
-          </Tooltip>
+        </TableCell>
 
-          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </Stack>
-      </TableCell>
-    </TableRow>
-      <CustomPopover
-        open={popover.open}
-        anchorEl={popover.anchorEl}
-        onClose={popover.onClose}
-        slotProps={{ arrow: { placement: 'right-top' } }}
-      >
-        <MenuList>
-          <MenuItem
-            onClick={() => {
-              confirm.onTrue();
-              popover.onClose();
-            }}
-            sx={{ color: 'error.main' }}
-          >
-            <Iconify icon="solar:trash-bin-trash-bold" />
-            Delete
-          </MenuItem>
+        <TableCell>{row.ref}</TableCell>
+        <TableCell>{row.ean}</TableCell>
+        <TableCell>{fCurrency(row.pricettc)}</TableCell>
+        <TableCell>{fCurrency(row.priceht)}</TableCell>
+        <TableCell>{row.tva}</TableCell>
 
-          <MenuItem
-            onClick={() => {
-              onEditRow();
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:pen-bold" />
-            Edit
-          </MenuItem>
-        </MenuList>
-      </CustomPopover>
+       
+      </TableRow>
+
+     <AddServiceDialog open={quickEdit.value} onClose={quickEdit.onFalse} currentRow={row}/>
 
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
-        title="Delete"
-        content="Are you sure want to delete?"
+        title="Supprimer"
+        content="Êtes-vous sûr de vouloir supprimer cet élément ?"
         action={
           <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Delete
+            Supprimer
           </Button>
         }
       />
-      </>
+    </>
   );
 }

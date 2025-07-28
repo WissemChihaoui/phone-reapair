@@ -1,15 +1,17 @@
-import React from 'react';
+import React from 'react'
 
-import Grid from '@mui/material/Unstable_Grid2';
-import { Stack, Divider, TextField, IconButton, Button } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2'
+import { Stack, Button, TextField } from '@mui/material'
 
-import { Iconify } from 'src/components/iconify';
-import { AddArticleDialog } from 'src/components/form-dialogs/article-rapide';
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useBoolean } from 'src/hooks/use-boolean'
 
-export default function PieceForm({ data, onUpdate, onRemove }) {
-  const add = useBoolean()
-  const handleChange = (field) => (e) => {
+import { Iconify } from 'src/components/iconify'
+import AddAbonnementDialog from 'src/components/form-dialogs/abonnements'
+
+export default function AbonnementForm({ data, onUpdate, onRemove }) {
+    const add = useBoolean()
+
+    const handleChange = (field) => (e) => {
     const newData = {
       ...data,
       [field]: e.target.value,
@@ -25,7 +27,6 @@ export default function PieceForm({ data, onUpdate, onRemove }) {
 
     onUpdate(newData);
   };
-
   return (
     <>
     <Stack spacing={2} sx={{ position: 'relative' }}>
@@ -36,7 +37,7 @@ export default function PieceForm({ data, onUpdate, onRemove }) {
               fullWidth
               size="small"
               name="nom"
-              label="Pièce à changer / Article / Accessoire"
+              label="Abonnement"
               value={data.nom || ''}
               onChange={handleChange('nom')}
             />
@@ -49,8 +50,7 @@ export default function PieceForm({ data, onUpdate, onRemove }) {
           <TextField
             fullWidth
             size="small"
-            label="Quantité"
-            type="number"
+            label="Durée"
             value={data.qte || 1}
             onChange={handleChange('qte')}
           />
@@ -97,7 +97,7 @@ export default function PieceForm({ data, onUpdate, onRemove }) {
         </Grid>
       </Grid>
     </Stack>
-    <AddArticleDialog open={add.value} onClose={add.onFalse} />
+    <AddAbonnementDialog open={add.value} onClose={add.onFalse} />
     </>
-  );
+  )
 }

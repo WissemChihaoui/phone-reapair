@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import { toast } from 'sonner';
+import React, { useCallback, useState } from 'react';
 import { IconButton } from 'yet-another-react-lightbox';
 
 import { Box, Tab, Card, Tabs, Table, Button, Tooltip, TableBody } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
@@ -15,10 +17,11 @@ import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import AddAbonnementDialog from 'src/components/form-dialogs/abonnements';
 import { useTable, emptyRows, TableNoData, getComparator, TableEmptyRows, TableHeadCustom, TableSelectedAction, TablePaginationCustom, rowInPage } from 'src/components/table';
 
-import AbonnementTableToolbar from '../../abonnement-table-toolbar';
 import AbonnementTableRow from '../../abonnement-table-row';
+import AbonnementTableToolbar from '../../abonnement-table-toolbar';
 
 const frequence_list = [
   { value: 'all', label: 'Tous' },
@@ -29,8 +32,9 @@ const frequence_list = [
 ];
 
 const TABLE_HEAD = [
+  { id: '', width: 88 },
   { id: 'name', label: 'Nom' },
-  { id: 'description', label: 'Description' },
+  // { id: 'description', label: 'Description' },
   { id: 'duration', label: 'Durée', width: 140 },
   {
     id: 'price',
@@ -40,7 +44,6 @@ const TABLE_HEAD = [
   { id: 'frequence', label: 'Fréquence de paiement' },
   { id: 'conditions', label: 'Conditions / Notes' },
   { id: 'actif', label: 'Actif', width: 110 },
-  { id: '', width: 88 },
 ];
 
 const data= [
@@ -98,7 +101,11 @@ const data= [
 export default function AbonnementPageView() {
   const table = useTable();
 
+  const router = useRouter()
+
   const confirm = useBoolean()
+
+  const open = useBoolean()
 
   const { t } = useTranslate('common');
 
@@ -121,11 +128,41 @@ export default function AbonnementPageView() {
   const canReset =
     !!filters.state.name ||
     filters.state.status !== 'all' ||
+    filters.state.frequence !== 'all' ||
     (!!filters.state.startDate && !!filters.state.endDate);
 
   const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
 
+  const handleDeleteRow = useCallback(
+    (id) => {
+      const deleteRow = tableData.filter((row) => row.id !== id);
+
+      toast.success('Suppression réussie !');
+
+      setTableData(deleteRow);
+
+      table.onUpdatePageDeleteRow(dataInPage.length);
+    },
+    [dataInPage.length, table, tableData]
+  );
+
+ const handleSwitchStatus = useCallback((id) => {
+  setTableData((prevData) =>
+    prevData.map((item) =>
+      item.id === id ? { ...item, actif: !item.actif } : item
+    )
+  );
+}, []);
+
+  const handleViewRow = useCallback(
+    (id) => {
+      router.push(paths.dashboard.order.details(id));
+    },
+    [router]
+  );
+
   return (
+    <>
     <DashboardContent>
       <CustomBreadcrumbs
         heading="Les abonnements"
@@ -135,7 +172,7 @@ export default function AbonnementPageView() {
           { name: 'Liste' },
         ]}
         action={
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={open.onTrue}>
             {t('add')}
           </Button>
         }
@@ -156,7 +193,7 @@ export default function AbonnementPageView() {
                 icon={
                   <Label
                     variant={
-                      ((tab.value === 'all' || tab.value === filters.state.status) && 'filled') ||
+                      ((tab.value === 'all' || tab.value === filters.state.frequence) && 'filled') ||
                       'soft'
                     }
                     color={
@@ -167,8 +204,8 @@ export default function AbonnementPageView() {
                       'default'
                     }
                   >
-                    {['completed', 'pending', 'cancelled', 'refunded'].includes(tab.value)
-                      ? tableData.filter((user) => user.status === tab.value).length
+                    {['ponctuel', 'mensuel', 'trimestriel', 'annuel'].includes(tab.value)
+                      ? tableData.filter((user) => user.frequence === tab.value).length
                       : tableData.length}
                   </Label>
                 }
@@ -212,12 +249,7 @@ export default function AbonnementPageView() {
                   rowCount={dataFiltered.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      dataFiltered.map((row) => row.id)
-                    )
-                  }
+                  
                 />
 
                 <TableBody>
@@ -227,8 +259,15 @@ export default function AbonnementPageView() {
                       table.page * table.rowsPerPage + table.rowsPerPage
                     )
                     .map((row) => (
-                    //   <AbonnementTableRow />
-                    <></>
+                      <AbonnementTableRow
+                        key={row.id}
+                        row={row}
+                        selected={table.selected.includes(row.id)}
+                        onSelectRow={() => table.onSelectRow(row.id)}
+                        onDeleteRow={() => handleDeleteRow(row.id)}
+                        onViewRow={() => handleViewRow(row.id)}
+                        SwitchStatus={() => handleSwitchStatus(row.id)}
+                      />
                     ))}
 
                   <TableEmptyRows
@@ -253,10 +292,12 @@ export default function AbonnementPageView() {
           />
       </Card>
     </DashboardContent>
+    <AddAbonnementDialog open={open.value} onClose={open.onFalse} />
+    </>
   );
 }
 function applyFilter({ inputData, comparator, filters, dateError }) {
-  const { status, name, startDate, endDate } = filters;
+  const { status, name, frequence,startDate, endDate } = filters;
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -271,15 +312,18 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
   if (name) {
     inputData = inputData.filter(
       (order) =>
-        order.orderNumber.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
-        order.customer.email.toLowerCase().indexOf(name.toLowerCase()) !== -1
+        order.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
     );
   }
 
-  if (status !== 'all') {
-    inputData = inputData.filter((order) => order.status === status);
+  if (frequence !== 'all') {
+    inputData = inputData.filter((order) => order.frequence === frequence);
   }
+
+  if (status !== "all") {
+    inputData = inputData.filter((order) => order.actif === status)
+  }
+  
 
   return inputData;
 }

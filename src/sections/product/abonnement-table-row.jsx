@@ -1,18 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import {
   Box,
+  Fab,
+  Link,
   Stack,
-  Avatar,
+  Button,
+  Tooltip,
   Checkbox,
   TableRow,
-  TableCell,
-  Tooltip,
-  IconButton,
-  MenuItem,
-  MenuList,
-  Button,
+  TableCell
 } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -21,19 +18,30 @@ import { fCurrency } from 'src/utils/format-number';
 
 import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
-import { CustomPopover, usePopover } from 'src/components/custom-popover';
+import AddAbonnementDialog from 'src/components/form-dialogs/abonnements';
 
-export default function AbonnementTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow }) {
+export default function AbonnementTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow, SwitchStatus }) {
   const confirm = useBoolean();
-
-  const popover = usePopover();
 
   const quickEdit = useBoolean();
   return (
     <>
-    <TableRow hover selected={selected} aria-checked={selected} tabIndex={-1}>
-      <TableCell padding="checkbox">
-        <Checkbox id={row.id} checked={selected} onClick={onSelectRow} />
+    <TableRow hover  tabIndex={-1}>
+      
+       <TableCell>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Tooltip title="Modifier" placement="top" arrow>
+            <Fab size='small' color='warning' onClick={quickEdit.onTrue}>
+              <Iconify icon="solar:pen-bold" />
+            </Fab>
+          </Tooltip>
+          <Tooltip title="Supprimer" placement="top" arrow>
+            <Fab size='small' color='error' onClick={confirm.onTrue}>
+              <Iconify icon="tabler:trash" />
+            </Fab>
+          </Tooltip>
+          
+        </Stack>
       </TableCell>
       <TableCell>
         <Stack spacing={2} direction="row" alignItems="center">
@@ -51,62 +59,24 @@ export default function AbonnementTableRow({ row, selected, onEditRow, onSelectR
       <TableCell sx={{ whiteSpace: 'nowrap' }}>{fCurrency(row.price)}</TableCell>
       <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.frequence}</TableCell>
       <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.conditions}</TableCell>
-      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.actif}</TableCell>
-      <TableCell>
-        <Stack direction="row" alignItems="center">
-          <Tooltip title="Quick Edit" placement="top" arrow>
-            <IconButton color={quickEdit.value ? 'inherit' : 'default'} onClick={quickEdit.onTrue}>
-              <Iconify icon="solar:pen-bold" />
-            </IconButton>
-          </Tooltip>
-
-          <IconButton color={popover.open ? 'inherit' : 'default'} onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </Stack>
-      </TableCell>
+      <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.actif ? <Button variant='contained' size='small' color='success' onClick={SwitchStatus}>Actif</Button> : <Button variant='contained' size='small' color='error' onClick={SwitchStatus}>Inactif</Button>}</TableCell>
+     
     </TableRow>
-      <CustomPopover
-        open={popover.open}
-        anchorEl={popover.anchorEl}
-        onClose={popover.onClose}
-        slotProps={{ arrow: { placement: 'right-top' } }}
-      >
-        <MenuList>
-          <MenuItem
-            onClick={() => {
-              confirm.onTrue();
-              popover.onClose();
-            }}
-            sx={{ color: 'error.main' }}
-          >
-            <Iconify icon="solar:trash-bin-trash-bold" />
-            Delete
-          </MenuItem>
-
-          <MenuItem
-            onClick={() => {
-              onEditRow();
-              popover.onClose();
-            }}
-          >
-            <Iconify icon="solar:pen-bold" />
-            Edit
-          </MenuItem>
-        </MenuList>
-      </CustomPopover>
+     
 
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
-        title="Delete"
-        content="Are you sure want to delete?"
+        title="Supprimer"
+        content="Êtes-vous sûr de vouloir supprimer ?"
         action={
           <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Delete
+            Supprimer
           </Button>
         }
       />
+
+      <AddAbonnementDialog open={quickEdit.value} onClose={quickEdit.onFalse} currentRow={row} />
       </>
   );
 }
