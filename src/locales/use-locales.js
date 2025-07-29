@@ -32,7 +32,7 @@ export function useTranslate(ns) {
         });
 
         if (currentLang) {
-          dayjs.locale(currentLang.adapterLocale);
+          dayjs.locale(currentLang?.adapterLocale || 'fr');
         }
       } catch (error) {
         console.error(error);
