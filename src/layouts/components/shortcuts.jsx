@@ -20,7 +20,7 @@ export default function Shortcuts() {
           <Iconify icon="hugeicons:repair" />
         </Fab>
       </Tooltip>
-      <Tooltip title="Nouveau vente" arrow>
+      <Tooltip title="Nouvelle vente" arrow>
         <Fab href={paths.dashboard.vente.add} LinkComponent={RouterLink} size="small" color="info">
           <Iconify icon="weui:shop-outlined" />
         </Fab>

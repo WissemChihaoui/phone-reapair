@@ -99,6 +99,11 @@ export const navData = [
         ],
       },
       {
+        title: 'Abonnement',
+        icon: ICONS.booking,
+        path: paths.dashboard.abonnements.root,
+      },
+      {
         title: 'Services',
         path: paths.dashboard.services.root,
         icon: ICONS.label,

@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/config-global';
-import { VenteEditView } from 'src/sections/vente/view/vente-edit-view';
-// import { useGetProduct } from 'src/actions/product';
+
+import { VenteEditView } from 'src/sections/vente2/view/vente-edit-view';
 
 // ----------------------------------------------------------------------
 
@@ -28,15 +28,55 @@ export default function Page() {
     date: "2024-12-26T00:00:00+01:00",
     discount: 10,
     items: [
-      {
-        articleId: "1",
-        articleName: "Ecran LCD T44",
-        description: "descrption",
-        quantity: 1,
-        price: 82,
-        total: 82
-      }
-    ],
+    {
+      articleId: '',
+      articleName: '',
+      description: '',
+      price: 0,
+      quantity: 1,
+      remise: 0,
+      tva: 0,
+    },
+    {
+      type: 'piece',
+      nom: 'Batterie iPhone',
+      price: 80,
+      qte: 1,
+      remise: 0,
+      total: 80,
+      champ: 'iPhone 11',
+    },
+    {
+      type: 'abonnement',
+      nom: 'Net+ Pro',
+      price: 50,
+      qte: 12,
+      remise: 0,
+      total: 600,
+      champ: 'Internet annuel',
+    },
+    {
+      type: 'piece',
+      nom: 'Écran Samsung',
+      price: 120,
+      qte: 1,
+      remise: 0,
+      total: 120,
+      champ: 'Galaxy S21',
+    },
+    {
+      type: 'abonnement',
+      nom: 'Mobile Pack',
+      price: 30,
+      qte: 6,
+      remise: 0,
+      total: 180,
+      champ: 'Offre mobile',
+    },
+    {
+      type: 'divider',
+    },
+  ],
     note: "note de vente",
     paid: 72,
     payement: [

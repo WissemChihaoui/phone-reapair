@@ -89,7 +89,6 @@ export const paths = {
       commande: `${ROOTS.DASHBOARD}/stock/commande`,
       destockage: `${ROOTS.DASHBOARD}/stock/destockage`,
 
-      abonnement: `${ROOTS.DASHBOARD}/stock/abonnements`,
 
       alertStock: `${ROOTS.DASHBOARD}/stock/alert-stock`,
       regroupement: `${ROOTS.DASHBOARD}/stock/regroupement`,
@@ -103,6 +102,9 @@ export const paths = {
       editCommande: (id) => `${ROOTS.DASHBOARD}/stock/commande/${id}/edit`,
       editArticle: (id) => `${ROOTS.DASHBOARD}/stock/${id}/edit`,
       duplicate: (id) => `${ROOTS.DASHBOARD}/stock/${id}/duplicate`,
+    },
+    abonnements: {
+      root: `${ROOTS.DASHBOARD}/abonnements`,
     },
     vente: {
       root: `${ROOTS.DASHBOARD}/vente`,

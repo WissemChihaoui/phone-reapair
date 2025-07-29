@@ -399,6 +399,15 @@ export function VenteNewEditDetails() {
         >
           Ajouter Article
         </Button>
+        <Button
+          size="small"
+          color="primary"
+          variant="outlined"
+          startIcon={<Iconify icon="mingcute:add-line" />}
+          sx={{ flexShrink: 0 }}
+        >
+          Ajouter Abonnement
+        </Button>
       </Stack>
 
       {renderTotal}

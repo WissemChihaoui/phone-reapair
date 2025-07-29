@@ -1,24 +1,16 @@
 // core (MUI)
 import {
   frFR as frFRCore,
-  viVN as viVNCore,
-  zhCN as zhCNCore,
-  arSA as arSACore,
 } from '@mui/material/locale';
 // date pickers (MUI)
 import {
   enUS as enUSDate,
   frFR as frFRDate,
-  viVN as viVNDate,
-  zhCN as zhCNDate,
 } from '@mui/x-date-pickers/locales';
 // data grid (MUI)
 import {
   enUS as enUSDataGrid,
   frFR as frFRDataGrid,
-  viVN as viVNDataGrid,
-  zhCN as zhCNDataGrid,
-  arSD as arSDDataGrid,
 } from '@mui/x-data-grid/locales';
 
 // ----------------------------------------------------------------------

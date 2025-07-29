@@ -1,11 +1,12 @@
 import React from 'react';
 
 import Grid from '@mui/material/Unstable_Grid2';
-import { Stack, Divider, TextField, IconButton, Button } from '@mui/material';
+import { Stack, Button, TextField } from '@mui/material';
+
+import { useBoolean } from 'src/hooks/use-boolean';
 
 import { Iconify } from 'src/components/iconify';
 import { AddArticleDialog } from 'src/components/form-dialogs/article-rapide';
-import { useBoolean } from 'src/hooks/use-boolean';
 
 export default function PieceForm({ data, onUpdate, onRemove }) {
   const add = useBoolean()
