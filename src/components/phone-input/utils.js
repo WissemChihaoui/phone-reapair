@@ -19,7 +19,7 @@ export function getCountryCode(inputValue, countryCode) {
 // ----------------------------------------------------------------------
 
 export function getCountry(countryCode) {
-  const option = countries.filter((country) => country.code === countryCode)[0];
+  const option = countries.filter((country) => country.code === countryCode || "FR")[0];
   return option;
 }
 

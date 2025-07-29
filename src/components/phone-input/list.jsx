@@ -27,7 +27,7 @@ export function CountryListPopover({
 }) {
   const popover = usePopover();
 
-  const selectedCountry = getCountry(countryCode);
+  const selectedCountry = getCountry(countryCode || "FR");
 
   const dataFiltered = applyFilter({ inputData: countries, query: searchCountry });
 
