@@ -116,6 +116,7 @@ export const navData = [
           { title: 'Nouvelle vente', path: paths.dashboard.vente.add },
           { title: 'Liste des ventes', path: paths.dashboard.vente.root },
           { title: 'Caisse virtuelle', path: paths.dashboard.vente.caisse },
+          { title: 'Suivi abonnements', path: paths.dashboard.vente.suivre },
         ],
       },
       

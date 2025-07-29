@@ -46,7 +46,7 @@ export default function PieceForm({ index, onRemove }) {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Pièce à changer"
+                    label="Article / Accessoire"
                     size="small"
                     InputLabelProps={{ shrink: true }}
                   />

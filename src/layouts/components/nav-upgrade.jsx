@@ -117,7 +117,7 @@ export function UpgradeBlock({ sx, ...other }) {
 
       <Stack alignItems="flex-start" sx={{ position: 'relative' }}>
         <Box component="span" sx={{ typography: 'h5', color: 'common.white' }}>
-          35% OFF
+          1 Mois offert pour vous
         </Box>
 
         <Box
@@ -129,11 +129,11 @@ export function UpgradeBlock({ sx, ...other }) {
             typography: 'subtitle2',
           }}
         >
-          Power up Productivity!
+          et pour votre affélié
         </Box>
 
         <Button variant="contained" size="small" color="warning">
-          Upgrade to Pro
+          Parrainage
         </Button>
       </Stack>
     </Stack>

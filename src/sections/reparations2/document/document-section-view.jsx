@@ -150,13 +150,9 @@ export default function DocumentSectionView({
                 >
                   Pièce à changer
                 </Button>
-                <Tooltip title="Piéce à changer">
-                  <IconButton>
-                    <Iconify icon="material-symbols:info-outline-rounded" />
-                  </IconButton>
-                </Tooltip>
+                
               </Stack>
-               <Stack direction="row">
+              <Stack direction="row">
                 <Button
                   onClick={() => handleAddElement('group')}
                   startIcon={<Iconify icon="mdi:plus" />}
@@ -166,7 +162,11 @@ export default function DocumentSectionView({
                 >
                   Regroupement
                 </Button>
-                <Tooltip title="Regroupement">
+                <Tooltip
+                  title={`Cette fonctionnalité permet à la boutique de regrouper plusieurs articles sous un seul nom, afin de :
+- Créer des offres commerciales ou des packs (ex. : "Pack protection téléphone" incluant coque + verre trempé + écouteur),
+- Simplifier la facture pour le client final, en n’affichant que le nom du regroupement au lieu de la liste détaillée des articles.`}
+                >
                   <IconButton>
                     <Iconify icon="material-symbols:info-outline-rounded" />
                   </IconButton>
@@ -182,11 +182,7 @@ export default function DocumentSectionView({
                 >
                   Service
                 </Button>
-                <Tooltip title="Service">
-                  <IconButton>
-                    <Iconify icon="material-symbols:info-outline-rounded" />
-                  </IconButton>
-                </Tooltip>
+                
               </Stack>
               <Stack direction="row">
                 <Button
@@ -198,30 +194,9 @@ export default function DocumentSectionView({
                 >
                   Main d&apos;oeuvre
                 </Button>
-                <Tooltip title="Main d'oeuvre">
-                  <IconButton>
-                    <Iconify icon="material-symbols:info-outline-rounded" />
-                  </IconButton>
-                </Tooltip>
+                
               </Stack>
-              <Stack direction="row">
-                <Button
-                  onClick={() => handleAddElement('abonnement')}
-                  startIcon={<Iconify icon="mdi:plus" />}
-                  variant="contained"
-                  color="info"
-                  sx={{ textTransform: 'capitalize', flexGrow: 1 }}
-                >
-                  Abonnement
-                </Button>
-                <Tooltip title="Abonnement">
-                  <IconButton>
-                    <Iconify icon="material-symbols:info-outline-rounded" />
-                  </IconButton>
-                </Tooltip>
-              </Stack>
-              
-             
+
               <Button
                 onClick={popover.onOpen}
                 startIcon={<Iconify icon="mdi:plus" />}

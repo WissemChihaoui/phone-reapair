@@ -63,7 +63,7 @@ export default function VenteNewEditDetails() {
               onClick={handleAddPiece}
               fullWidth
             >
-              Pièce à changer
+              Article / Accessoire
             </Button>
             <Button
               startIcon={<Iconify icon="mdi:plus" />}

@@ -110,6 +110,7 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/vente`,
       add: `${ROOTS.DASHBOARD}/vente/add`,
       caisse: `${ROOTS.DASHBOARD}/vente/caisse`,
+      suivre: `${ROOTS.DASHBOARD}/vente/suivre-abonnement`,
       edit: (id) => `${ROOTS.DASHBOARD}/vente/${id}/edit`
     },
 

@@ -44,7 +44,7 @@ const EtatStock = lazy(() => import('src/pages/dashboard/stock/etatStock'))
 
 
 const Ventes = lazy(() => import('src/pages/dashboard/ventes/index'))
-// const AddVente2 = lazy(() => import('src/pages/dashboard/ventes2/add'))
+const Suivre = lazy(() => import('src/pages/dashboard/ventes/abonnements'))
 const AddVente = lazy(() => import('src/pages/dashboard/ventes/add'))
 const EditVente = lazy(() => import('src/pages/dashboard/ventes/edit'))
 const CaisseVirtuelle = lazy(() => import('src/pages/dashboard/ventes/caisse'))
@@ -190,7 +190,7 @@ export const dashboardRoutes = [
         children: [
           {element: <Ventes />, index: true},
           {element: <AddVente />, path: 'add'},
-          // {element: <AddVente2 />, path: 'add2'},
+          {element: <Suivre />, path: 'suivre-abonnement'},
           {element: <CaisseVirtuelle />, path: 'caisse'},
           {element: <EditVente />, path: ':id/edit'},
         ]
