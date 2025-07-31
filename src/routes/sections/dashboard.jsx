@@ -110,6 +110,7 @@ const EditSAV = lazy(() => import('src/pages/dashboard/sav/edit'));
 const Services = lazy(() => import('src/pages/dashboard/services/index') )
 
 const AbonnementProduct = lazy(() => import('src/pages/dashboard/stock/abonnement') )
+const ViewAbonnementProduct = lazy(() => import('src/pages/dashboard/ventes/view-abonnements') )
 
 // ----------------------------------------------------------------------
 
@@ -191,6 +192,7 @@ export const dashboardRoutes = [
           {element: <Ventes />, index: true},
           {element: <AddVente />, path: 'add'},
           {element: <Suivre />, path: 'suivre-abonnement'},
+          {element: <ViewAbonnementProduct />, path: 'suivre-abonnement/:id'},
           {element: <CaisseVirtuelle />, path: 'caisse'},
           {element: <EditVente />, path: ':id/edit'},
         ]
