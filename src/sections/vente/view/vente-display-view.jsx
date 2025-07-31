@@ -14,13 +14,9 @@ import {
 } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
-
 import { useResponsive } from 'src/hooks/use-responsive';
-
 import { fDate } from 'src/utils/format-time';
-
 import { DashboardContent } from 'src/layouts/dashboard';
-
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
@@ -43,7 +39,7 @@ export default function VenteDisplayView({ product }) {
   const mdUp = useResponsive('up', 'md');
   const popover = usePopover();
 
-  const [status, setStatus] = useState(product.status || 'Payé');
+  const [status, setStatus] = useState(product?.status || 'Payé');
 
   const handleChangeStatus = (newStatus) => {
     setStatus(newStatus);
@@ -136,7 +132,7 @@ export default function VenteDisplayView({ product }) {
         <Divider sx={{ my: 2 }} />
 
         {/* Articles / Items */}
-        <Stack spacing={2} sx={{ px: 3 }}>
+        <Stack spacing={2} sx={{ p: 3, bgcolor: 'background.neutral' }}>
           <Typography variant="subtitle2">Articles</Typography>
           {items
             ?.filter((item) => item.type && item.type !== 'divider')
@@ -158,11 +154,17 @@ export default function VenteDisplayView({ product }) {
         </Stack>
 
         {/* Infos complémentaires */}
-        <Stack spacing={2} sx={{ px: 3, pt: 3 }}>
-          <TextField fullWidth disabled label="Note" value={note} />
-          <TextField fullWidth disabled label="Remise globale (%)" value={discount} />
-          <TextField fullWidth disabled label="Total HT" value={totalHt || ''} />
-        </Stack>
+        <Grid container spacing={2} sx={{ px: 3, pt: 3 }}>
+  <Grid xs={12} md={6}>
+    <TextField fullWidth disabled label="Note" value={note} />
+  </Grid>
+  <Grid xs={6} md={3}>
+    <TextField fullWidth disabled label="Remise globale (%)" value={discount} />
+  </Grid>
+  <Grid xs={6} md={3}>
+    <TextField fullWidth disabled label="Total HT" value={totalHt || ''} />
+  </Grid>
+</Grid>
       </Card>
 
       {/* Status Popover */}

@@ -1,37 +1,43 @@
-import { Box, Button, Card, Tab, Table, TableBody, Tabs } from '@mui/material';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { DashboardContent } from 'src/layouts/dashboard';
-import { useRouter } from 'src/routes/hooks';
+import { useState, useCallback } from 'react';
+
+import { Box, Tab, Card, Tabs, Table, Button, TableBody } from '@mui/material';
+
 import { paths } from 'src/routes/paths';
-import { useCallback, useState } from 'react';
+import { useRouter } from 'src/routes/hooks';
+import { RouterLink } from 'src/routes/components';
+
 import { useSetState } from 'src/hooks/use-set-state';
+
+import { fIsAfter, fIsBetween } from 'src/utils/format-time';
+
+import { varAlpha } from 'src/theme/styles';
+import { DashboardContent } from 'src/layouts/dashboard';
+
+import { Label } from 'src/components/label';
+import { toast } from 'src/components/snackbar';
 import { Iconify } from 'src/components/iconify';
+import { Scrollbar } from 'src/components/scrollbar';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import {
+  useTable,
   emptyRows,
-  getComparator,
   rowInPage,
+  TableNoData,
+  getComparator,
   TableEmptyRows,
   TableHeadCustom,
-  TableNoData,
-  useTable,
 } from 'src/components/table';
-import { fIsAfter, fIsBetween } from 'src/utils/format-time';
-import { toast } from 'src/components/snackbar';
-import { RouterLink } from 'src/routes/components';
-import { _orders } from 'src/_mock';
-import { Scrollbar } from 'src/components/scrollbar';
-import { Label } from 'src/components/label';
-import { varAlpha } from 'src/theme/styles';
+
+import { VenteTableRow } from '../vente-table-row';
 import { VenteTableToolbar } from '../VenteTableToolbar';
 import { VenteTableFiltersResult } from '../vente-table-filters-result';
-import { VenteTableRow } from '../vente-table-row';
 
 const _ventes = [
   {
     id: 1,
     venteNumber: 4556,
     customer: {
-      name : 'Wissem Chihaoui',
+      name: 'Wissem Chihaoui',
       email: 'mail@mail.com',
     },
     createdAt: '2024-11-25T12:41:34+01:00',
@@ -42,14 +48,14 @@ const _ventes = [
     id: 2,
     venteNumber: 4556,
     customer: {
-      name : 'Wissem Chihaoui',
+      name: 'Wissem Chihaoui',
       email: 'mail@mail.com',
     },
     createdAt: '2024-11-25T11:41:34+01:00',
     subtotal: 255.2,
     status: 1,
   },
-]
+];
 
 const STATUS_OPTIONS = [
   { value: 'all', label: 'Tous' },
@@ -129,129 +135,127 @@ export function VenteListView() {
     [filters, table]
   );
 
-
   return (
     <DashboardContent>
-        <CustomBreadcrumbs
-          heading="Liste des ventes"
-          links={[
-            { name: 'Tableau de bord', href: paths.dashboard.root },
-            { name: 'Ventes', href: paths.dashboard.vente.root },
-            { name: 'Liste' },
-          ]}
-          action={
-            <Button
-            color='primary'
-              component={RouterLink}
-              href={paths.dashboard.vente.add}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-            >
-              Nouvelle Vente
-            </Button>
-          }
-          sx={{ mb: { xs: 3, md: 5 } }}
+      <CustomBreadcrumbs
+        heading="Liste des ventes"
+        links={[
+          { name: 'Tableau de bord', href: paths.dashboard.root },
+          { name: 'Ventes', href: paths.dashboard.vente.root },
+          { name: 'Liste' },
+        ]}
+        action={
+          <Button
+            color="primary"
+            component={RouterLink}
+            href={paths.dashboard.vente.add}
+            variant="contained"
+            startIcon={<Iconify icon="mingcute:add-line" />}
+          >
+            Nouvelle Vente
+          </Button>
+        }
+        sx={{ mb: { xs: 3, md: 5 } }}
+      />
+
+      <Card>
+        <Tabs
+          value={filters.state.status}
+          onChange={handleFilterStatus}
+          sx={{
+            px: 2.5,
+            boxShadow: (theme) =>
+              `inset 0 -2px 0 0 ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
+          }}
+        >
+          {STATUS_OPTIONS.map((tab) => {
+            const statusCount =
+              tab.value === 'all'
+                ? tableData.length
+                : tableData.filter((order) => String(order.status) === tab.value).length;
+
+            return (
+              <Tab
+                key={tab.value}
+                value={tab.value}
+                label={
+                  <>
+                    {tab.label}
+                    <Label
+                      variant={
+                        ((tab.value === 'all' || tab.value === filters.state.status) && 'filled') ||
+                        'soft'
+                      }
+                      color={
+                        (tab.value === '0' && 'success') ||
+                        (tab.value === '1' && 'warning') ||
+                        (tab.value === '2' && 'error') ||
+                        'default'
+                      }
+                      sx={{ ml: 1 }}
+                    >
+                      {statusCount}
+                    </Label>
+                  </>
+                }
+              />
+            );
+          })}
+        </Tabs>
+
+        <VenteTableToolbar
+          filters={filters}
+          onResetPage={table.onResetPage}
+          dateError={dateError}
         />
 
-        <Card>
-
-        <Tabs
-  value={filters.state.status}
-  onChange={handleFilterStatus}
-  sx={{
-    px: 2.5,
-    boxShadow: (theme) =>
-      `inset 0 -2px 0 0 ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
-  }}
->
-  {STATUS_OPTIONS.map((tab) => {
-    const statusCount =
-      tab.value === 'all'
-        ? tableData.length
-        : tableData.filter((order) => String(order.status) === tab.value).length;
-
-    return (
-      <Tab
-        key={tab.value}
-        value={tab.value}
-        label={
-          <>
-            {tab.label}
-            <Label
-               variant={
-                ((tab.value === 'all' || tab.value === filters.state.status) && 'filled') ||
-                'soft'
-              }
-              color={
-                (tab.value === '0' && 'success') ||
-                (tab.value === '1' && 'warning') ||
-                (tab.value === '2' && 'error') ||
-                'default'
-              }
-              sx={{ ml: 1 }}
-            >
-              {statusCount}
-            </Label>
-          </>
-        }
-      />
-    );
-  })}
-</Tabs>
-
-          <VenteTableToolbar
+        {canReset && (
+          <VenteTableFiltersResult
             filters={filters}
+            totalResults={dataFiltered.length}
             onResetPage={table.onResetPage}
-            dateError={dateError}
+            sx={{ p: 2.5, pt: 0 }}
           />
+        )}
 
-          {canReset && (
-            <VenteTableFiltersResult
-              filters={filters}
-              totalResults={dataFiltered.length}
-              onResetPage={table.onResetPage}
-              sx={{ p: 2.5, pt: 0 }}
-            />
-          )}
+        <Box sx={{ position: 'relative' }}>
+          <Scrollbar sx={{ minHeight: 444 }}>
+            <Table size="small" sx={{ minWidth: 960 }}>
+              <TableHeadCustom
+                order={table.order}
+                orderBy={table.orderBy}
+                headLabel={TABLE_HEAD}
+                rowCount={dataFiltered.length}
+                numSelected={table.selected.length}
+                onSort={table.onSort}
+              />
 
-          <Box sx={{ position: 'relative' }}>
-            <Scrollbar sx={{ minHeight: 444 }}>
-              <Table size="small" sx={{ minWidth: 960 }}>
-                <TableHeadCustom
-                  order={table.order}
-                  orderBy={table.orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={dataFiltered.length}
-                  numSelected={table.selected.length}
-                  onSort={table.onSort}
+              <TableBody>
+                {dataFiltered
+                  .slice(
+                    table.page * table.rowsPerPage,
+                    table.page * table.rowsPerPage + table.rowsPerPage
+                  )
+                  .map((row) => (
+                    <VenteTableRow
+                      key={row.id}
+                      row={row}
+                      onDeleteRow={() => handleDeleteRow(row.id)}
+                      onViewRow={() => handleViewRow(row.id)}
+                    />
+                  ))}
+                <TableEmptyRows
+                  height={table.dense ? 56 : 56 + 20}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
                 />
 
-                <TableBody>
-                  {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
-                    .map((row) => (
-                      <VenteTableRow
-                        key={row.id}
-                        row={row}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        onViewRow={() => handleViewRow(row.id)}
-                      />
-                    ))}
-                  <TableEmptyRows
-                    height={table.dense ? 56 : 56 + 20}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
-                  />
-
-                  <TableNoData notFound={notFound} />
-                </TableBody>
-              </Table>
-            </Scrollbar>
-          </Box>
-        </Card>
-      </DashboardContent>
+                <TableNoData notFound={notFound} />
+              </TableBody>
+            </Table>
+          </Scrollbar>
+        </Box>
+      </Card>
+    </DashboardContent>
   );
 }
 
@@ -280,7 +284,6 @@ function applyFilter({ inputData, comparator, filters, dateError }) {
   if (filters.status !== 'all') {
     inputData = inputData.filter((order) => String(order.status) === filters.status);
   }
-  
 
   if (!dateError) {
     if (startDate && endDate) {

@@ -1,7 +1,12 @@
+import { name } from 'dayjs/locale/en';
+import { useForm } from 'react-hook-form';
+import { useCallback, useMemo, useState } from 'react';
+
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import { LoadingButton } from '@mui/lab';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import MenuList from '@mui/material/MenuList';
@@ -12,16 +17,6 @@ import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import ListItemText from '@mui/material/ListItemText';
-
-import { useBoolean } from 'src/hooks/use-boolean';
-
-import { fCurrency } from 'src/utils/format-number';
-import { fDate, fTime } from 'src/utils/format-time';
-
-import { Label } from 'src/components/label';
-import { Iconify } from 'src/components/iconify';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { usePopover, CustomPopover } from 'src/components/custom-popover';
 import {
   Dialog,
   DialogActions,
@@ -32,13 +27,20 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { Field, Form } from 'src/components/hook-form';
-import { LoadingButton } from '@mui/lab';
-import { useCallback, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { name } from 'dayjs/locale/en';
-import { useRouter } from 'src/routes/hooks';
+
 import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
+
+import { useBoolean } from 'src/hooks/use-boolean';
+
+import { fCurrency } from 'src/utils/format-number';
+import { fDate, fTime } from 'src/utils/format-time';
+
+import { Label } from 'src/components/label';
+import { Iconify } from 'src/components/iconify';
+import { Field, Form } from 'src/components/hook-form';
+import { ConfirmDialog } from 'src/components/custom-dialog';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
@@ -105,7 +107,7 @@ export function VenteTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
 
   const handleEditRow = useCallback(
     (id) => {
-      router.push(paths.dashboard.vente.edit(id));
+      router.push(paths.dashboard.vente.display(id));
     },
     [router]
   );
@@ -121,9 +123,9 @@ export function VenteTableRow({ row, selected, onViewRow, onSelectRow, onDeleteR
       
       <TableCell align="right" sx={{ px: 1, whiteSpace: 'nowrap' }}>
         <Stack direction="row" alignItems="center" spacing={1}>
-          <Tooltip title="Modifier" placement="top" arrow>
-            <Fab size="small" color="warning" onClick={()=>handleEditRow(row.id)}>
-              <Iconify icon="solar:pen-bold" />
+          <Tooltip title="Voir" placement="top" arrow>
+            <Fab size="small" color="info" onClick={()=>handleEditRow(row.id)}>
+              <Iconify icon="solar:eye-bold" />
             </Fab>
           </Tooltip>
           <Tooltip title="Supprimer" placement="top" arrow>
