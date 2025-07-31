@@ -109,6 +109,7 @@ export const paths = {
     vente: {
       root: `${ROOTS.DASHBOARD}/vente`,
       add: `${ROOTS.DASHBOARD}/vente/add`,
+      devis: `${ROOTS.DASHBOARD}/vente/devis`,
       caisse: `${ROOTS.DASHBOARD}/vente/caisse`,
       suivre: `${ROOTS.DASHBOARD}/vente/suivre-abonnement`,
       suivreDetails: (id) => `${ROOTS.DASHBOARD}/vente/suivre-abonnement/${id}`,

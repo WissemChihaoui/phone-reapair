@@ -89,7 +89,7 @@ export const navData = [
             path: paths.dashboard.stock.categories,
             children: [
               { title: 'Catégories articles', path: paths.dashboard.stock.categories },
-              { title: "Regroupement d'articles" , path: paths.dashboard.stock.regroupement },
+              { title: "Regroupement d'articles", path: paths.dashboard.stock.regroupement },
               { title: 'Lieu de stockage', path: paths.dashboard.stock.stockage },
               { title: 'Fournisseurs', path: paths.dashboard.stock.fournisseurs },
               { title: 'Famille comptable', path: paths.dashboard.stock.famille },
@@ -117,9 +117,10 @@ export const navData = [
           { title: 'Liste des ventes', path: paths.dashboard.vente.root },
           { title: 'Caisse virtuelle', path: paths.dashboard.vente.caisse },
           { title: 'Suivi abonnements', path: paths.dashboard.vente.suivre },
+          { title: 'Liste de devis', path: paths.dashboard.vente.devis },
         ],
       },
-      
+
       {
         title: 'Rachat',
         path: paths.dashboard.rachat.root,
@@ -136,7 +137,7 @@ export const navData = [
       },
 
       {
-        title: "Liste des SAV",
+        title: 'Liste des SAV',
         path: paths.dashboard.sav.root,
         icon: ICONS.invoice,
       },
@@ -154,14 +155,17 @@ export const navData = [
           { title: 'Dépôt bancaire', path: paths.dashboard.caisse.depot },
           { title: 'Export comptable', path: paths.dashboard.caisse.exportComptable },
           { title: 'Export comptable marge', path: paths.dashboard.caisse.exportComptableMarge },
-          { title: 'Export comptable famille', path: paths.dashboard.caisse.exportComptableFamille },
+          {
+            title: 'Export comptable famille',
+            path: paths.dashboard.caisse.exportComptableFamille,
+          },
           { title: 'Statistique', path: paths.dashboard.caisse.statistiques },
         ],
       },
       {
         title: 'Achats/Dépenses',
         path: paths.dashboard.achats.root,
-        icon: ICONS.file
+        icon: ICONS.file,
       },
       {
         title: 'Ma Boutique',

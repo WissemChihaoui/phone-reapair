@@ -5,62 +5,89 @@ import {
   Box,
   Card,
   Stack,
-  Button,
   Divider,
-  MenuList,
-  MenuItem,
   TextField,
   Typography,
+  Button,
+  MenuList,
+  MenuItem,
 } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 
 import { useResponsive } from 'src/hooks/use-responsive';
-
-import { fDate } from 'src/utils/format-time';
+import { fDate, today } from 'src/utils/format-time';
 
 import { DashboardContent } from 'src/layouts/dashboard';
-
+import { CustomPopover, usePopover } from 'src/components/custom-popover';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
-// Status options & color mapping
+// ✅ Status options
 const STATUS_OPTIONS = [
-  { label: 'Payé', value: 'Payé' },
-  { label: 'Impayé', value: 'Impayé' },
-  { label: 'En attente', value: 'En attente' },
-  { label: 'Annulé', value: 'Annulé' },
+  { label: 'Actif', value: 'active' },
+  { label: 'Suspendu', value: 'suspended' },
+  { label: 'Annulé', value: 'cancelled' },
+  { label: 'En attente de paiement', value: 'pending' },
+  { label: 'Expiré', value: 'expired' },
 ];
 
+// ✅ Status color mapping
 const STATUS_COLORS = {
-  'Payé': 'success',
-  'Impayé': 'error',
-  'En attente': 'warning',
-  'Annulé': 'info',
+  active: 'success',
+  suspended: 'warning',
+  cancelled: 'error',
+  pending: 'info',
+  expired: 'warning',
 };
 
-export default function VenteDisplayView({ product }) {
+export default function VenteAbonDetails() {
   const mdUp = useResponsive('up', 'md');
   const popover = usePopover();
 
-  const [status, setStatus] = useState(product.status || 'Payé');
+  const [status, setStatus] = useState('active');
 
   const handleChangeStatus = (newStatus) => {
     setStatus(newStatus);
     popover.onClose();
   };
 
-  const { client, date, vente, note, items, payement, totalAmount, rest, discount, totalHt } =
-    product;
+  const data = {
+    client: {
+      name: 'Jon Doe',
+      fullAddress: '1147 Rohan Drive Suite 819 - Burlington, VT / 82021',
+      phoneNumber: '+1 416-555-0198',
+      email: 'milo.farrell@hotmail.com',
+    },
+    details: [
+      { label: 'Périodicité', value: 'Hebdomadaire' },
+      { label: 'Prochaine Facture', value: fDate(today()) },
+      { label: 'Date Fin', value: fDate(today()) },
+      { label: 'Date échéance', value: fDate(today()) },
+      { label: 'Mode de paiement', value: 'Prélèvement automatique' },
+    ],
+    vente: {
+      ref: '12345',
+      type: 'Abonnement',
+      dateCreation: fDate(today()),
+      note: '',
+    },
+    produit: {
+      label: 'Abonnement',
+      duree: '12 jours',
+      prix: '80',
+      champLibre: '80',
+      remise: '10',
+    },
+  };
 
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Détails de vente"
+        heading="Suivre des abonnements"
         links={[
           { name: 'Tableau de brd', href: paths.dashboard.root },
           { name: 'Vente', href: paths.dashboard.vente.root },
-          { name: 'Suivi des ventes', href: paths.dashboard.vente.suivre },
+          { name: 'Suivre des abonnements', href: paths.dashboard.vente.suivre },
           { name: 'Détails' },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
@@ -70,13 +97,13 @@ export default function VenteDisplayView({ product }) {
             onClick={popover.onOpen}
             color={STATUS_COLORS[status] || 'primary'}
           >
-            Statut : {status}
+            {STATUS_OPTIONS.find((s) => s.value === status)?.label}
           </Button>
         }
       />
 
       <Card sx={{ p: 3 }}>
-        {/* Client & General Info */}
+        {/* Client & Details Section */}
         <Stack
           spacing={{ xs: 3, md: 5 }}
           direction={{ xs: 'column', md: 'row' }}
@@ -90,82 +117,59 @@ export default function VenteDisplayView({ product }) {
           sx={{ p: 3 }}
         >
           <Stack spacing={1} sx={{ width: 1 }}>
-            <Typography variant="subtitle2">{client?.name}</Typography>
-            <Typography variant="body2">{client?.company}</Typography>
-            <Typography variant="body2">{client?.fullAddress}</Typography>
-            <Typography variant="body2">{client?.phoneNumber}</Typography>
-            <Typography variant="body2">{client?.email}</Typography>
+            <Typography variant="subtitle2">{data.client.name}</Typography>
+            <Typography variant="body2">{data.client.fullAddress}</Typography>
+            <Typography variant="body2">{data.client.phoneNumber}</Typography>
+            <Typography variant="body2">{data.client.email}</Typography>
           </Stack>
 
           <Stack spacing={2} sx={{ width: 1 }}>
-            <Box display="flex" justifyContent="space-between">
-              <Typography variant="body2" color="text.secondary">Date</Typography>
-              <Typography variant="body2" fontWeight="medium">{fDate(date)}</Typography>
-            </Box>
-            <Box display="flex" justifyContent="space-between">
-              <Typography variant="body2" color="text.secondary">Type</Typography>
-              <Typography variant="body2" fontWeight="medium">{product.type}</Typography>
-            </Box>
-            <Box display="flex" justifyContent="space-between">
-              <Typography variant="body2" color="text.secondary">Montant total</Typography>
-              <Typography variant="body2" fontWeight="medium">{totalAmount} €</Typography>
-            </Box>
-            <Box display="flex" justifyContent="space-between">
-              <Typography variant="body2" color="text.secondary">Restant</Typography>
-              <Typography variant="body2" fontWeight="medium">{rest} €</Typography>
-            </Box>
+            {data.details.map((item, index) => (
+              <Box key={index} display="flex" justifyContent="space-between">
+                <Typography variant="body2" color="text.secondary">
+                  {item.label}
+                </Typography>
+                <Typography variant="body2" fontWeight="medium">
+                  {item.value || '-'}
+                </Typography>
+              </Box>
+            ))}
           </Stack>
         </Stack>
 
-        {/* Paiements */}
-        <Stack spacing={2} sx={{ px: 3, pb: 2 }}>
-          <Typography variant="subtitle2">Paiement(s)</Typography>
-          {payement?.map((p, i) => (
-            <Box
-              key={i}
-              display="flex"
-              justifyContent="space-between"
-              sx={{ typography: 'body2', color: 'text.secondary' }}
-            >
-              <span>{fDate(p.date)} - {p.via}</span>
-              <strong>{p.amount} €</strong>
-            </Box>
-          ))}
+        <Stack
+          spacing={2}
+          direction={{ xs: 'column', sm: 'row' }}
+          sx={{ p: 3, bgcolor: 'background.neutral' }}
+        >
+          <TextField disabled label="Vente Numéro" value={data.vente.ref} />
+          <TextField disabled label="Type de Vente" value={data.vente.type} />
+          <TextField disabled label="Date Création" value={data.vente.dateCreation} />
+          <TextField disabled label="Dernière Facture" value={data.vente.dateCreation} />
+          <TextField disabled label="Note" value={data.vente.note} />
         </Stack>
 
-        <Divider sx={{ my: 2 }} />
-
-        {/* Articles / Items */}
-        <Stack spacing={2} sx={{ px: 3 }}>
-          <Typography variant="subtitle2">Articles</Typography>
-          {items
-            ?.filter((item) => item.type && item.type !== 'divider')
-            .map((item, index) => (
-              <Box key={index} sx={{ borderBottom: '1px dashed #ccc', pb: 1 }}>
-                <Typography variant="body2" fontWeight="medium">
-                  {item.nom} ({item.type})
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {item.champ}
-                </Typography>
-                <Box display="flex" justifyContent="space-between" mt={1}>
-                  <Typography variant="body2">Qté: {item.qte}</Typography>
-                  <Typography variant="body2">Prix: {item.price} €</Typography>
-                  <Typography variant="body2">Total: {item.total} €</Typography>
-                </Box>
-              </Box>
-            ))}
-        </Stack>
-
-        {/* Infos complémentaires */}
-        <Stack spacing={2} sx={{ px: 3, pt: 3 }}>
-          <TextField fullWidth disabled label="Note" value={note} />
-          <TextField fullWidth disabled label="Remise globale (%)" value={discount} />
-          <TextField fullWidth disabled label="Total HT" value={totalHt || ''} />
+        <Stack spacing={2} py={2}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <TextField label="Libellé" value={data.produit.label} fullWidth disabled />
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <TextField label="Durée" value={data.produit.duree} fullWidth disabled />
+            </Grid>
+            <Grid item xs={6} md={3}>
+              <TextField label="Prix (€)" value={data.produit.prix} fullWidth disabled />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField label="Champ libre" value={data.produit.champLibre} fullWidth disabled />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField label="Remise (€ TTC)" value={data.produit.remise} fullWidth disabled />
+            </Grid>
+          </Grid>
         </Stack>
       </Card>
 
-      {/* Status Popover */}
       <CustomPopover open={popover.open} onClose={popover.onClose} anchorEl={popover.anchorEl}>
         <MenuList>
           {STATUS_OPTIONS.map((option) => (
