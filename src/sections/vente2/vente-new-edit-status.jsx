@@ -33,7 +33,7 @@ export function VenteNewEditStatusDate() {
         ))}
       </Field.Select>
 
-      <Field.DatePicker name="date" label="Date Facture" />
+      {/* <Field.DatePicker name="date" label="Date Facture" /> */}
       <Field.Text name="note" label="Note" />
     </Stack>
   );

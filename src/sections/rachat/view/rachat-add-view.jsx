@@ -12,7 +12,7 @@ export default function RachatAddView() {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Ajouter un nouveau rachat"
+        heading="Ajouter un nouveau Rachat"
         
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },

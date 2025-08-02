@@ -271,7 +271,7 @@ export function InvoiceListView() {
           ]}
           sx={{ mb: { xs: 3, md: 5 } }}
         />
-
+{/* 
         <Card sx={{ mb: { xs: 3, md: 5 } }}>
           <Scrollbar sx={{ minHeight: 108 }}>
             <Stack
@@ -316,7 +316,7 @@ export function InvoiceListView() {
               />
             </Stack>
           </Scrollbar>
-        </Card>
+        </Card> */}
 
         <InvoiceExport />
 

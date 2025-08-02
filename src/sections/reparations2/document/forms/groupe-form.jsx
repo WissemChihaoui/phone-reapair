@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import {
-  Grid,
-  Stack,
-  Button,
-  Divider,
-  TextField,
-  Typography,
-  Autocomplete,
-} from '@mui/material';
+import { Grid, Stack, Button, Divider, TextField, Typography, Autocomplete } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -35,7 +27,7 @@ const GROUP_OPTIONS = [
 ];
 
 export default function GroupeForm({ data, onUpdate, onRemove }) {
-  const add = useBoolean()
+  const add = useBoolean();
   const { setValue } = useFormContext();
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [pieces, setPieces] = useState(data.pieces || []);
@@ -88,83 +80,68 @@ export default function GroupeForm({ data, onUpdate, onRemove }) {
 
   return (
     <>
-    <Stack spacing={2} sx={{ position: 'relative' }}>
-      {/* <IconButton
-        size="small"
-        color="error"
-        onClick={onRemove}
-        sx={{ position: 'absolute', right: 0, top: 0 }}
-      >
-        <Iconify icon="mdi:delete" />
-      </IconButton> */}
-
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <Stack direction='row' spacing={0.5}>
-            <Autocomplete
-            sx={{flexGrow: 1}}
-              noOptionsText="Pas de données"
-              options={GROUP_OPTIONS}
-              value={selectedGroup}
-              onChange={handleGroupChange}
-              getOptionLabel={(option) => option.label}
-              renderInput={(params) => <TextField {...params} label="Regroupement" size="small" />}
-            />
-            <Button onClick={add.onTrue} color="success" variant="contained">
-                          <Iconify icon="ic:round-plus" />
-                        </Button>
-          </Stack>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <TextField
-            fullWidth
-            size="small"
-            label="Prix Total"
-            type="number"
-            value={data.price || 0}
-            InputProps={{ readOnly: true }}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={2}>
-          <Button
-            variant="contained"
-            size="small"
-            color="error"
-            onClick={onRemove}
-            startIcon={<Iconify icon="mdi:delete" />}
-          >
-            Supprimer
-          </Button>
-        </Grid>
-      </Grid>
-
-      {pieces.length > 0 && (
-        <>
-          <Typography variant="subtitle2">Pièces incluses:</Typography>
-          <Stack spacing={2} sx={{ pl: 2, borderLeft: '2px dashed', borderColor: 'divider' }}>
-            {pieces.map((piece, index) => (
-              <PieceForm
-                key={index}
-                data={piece}
-                onUpdate={(newData) => handlePieceUpdate(index, newData)}
-                onRemove={() => handleRemovePiece(index)}
+      <Stack spacing={2} sx={{ position: 'relative' }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <Stack direction="row" spacing={0.5}>
+              <Autocomplete
+                sx={{ flexGrow: 1 }}
+                noOptionsText="Pas de données"
+                options={GROUP_OPTIONS}
+                value={selectedGroup}
+                onChange={handleGroupChange}
+                getOptionLabel={(option) => option.label}
+                renderInput={(params) => (
+                  <TextField {...params} label="Regroupement" size="small" />
+                )}
               />
-            ))}
-            <Button
-              variant="outlined"
+              <Button onClick={add.onTrue} color="success" variant="contained">
+                <Iconify icon="ic:round-plus" />
+              </Button>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <TextField
+              fullWidth
               size="small"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-              onClick={handleAddPiece}
+              label="Prix Total"
+              type="number"
+              value={data.price || 0}
+              InputProps={{ readOnly: true }}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={2}>
+            <Button
+              variant="contained"
+              size="small"
+              color="error"
+              onClick={onRemove}
+              startIcon={<Iconify icon="mdi:delete" />}
             >
-              Ajouter Pièce
+              Supprimer
             </Button>
-          </Stack>
-        </>
-      )}
-      <Divider sx={{ my: 1 }} />
-    </Stack>
-    <AddRegroupementDialog open={add.value} onClose={add.onFalse}/>
+          </Grid>
+        </Grid>
+
+        {pieces.length > 0 && (
+          <>
+            <Typography variant="subtitle2">Pièces incluses:</Typography>
+            <Stack spacing={2} sx={{ pl: 2, borderLeft: '2px dashed', borderColor: 'divider' }}>
+              {pieces.map((piece, index) => (
+                <PieceForm
+                  key={index}
+                  data={piece}
+                  onUpdate={(newData) => handlePieceUpdate(index, newData)}
+                  onRemove={() => handleRemovePiece(index)}
+                />
+              ))}
+            </Stack>
+          </>
+        )}
+        <Divider sx={{ my: 1 }} />
+      </Stack>
+      <AddRegroupementDialog open={add.value} onClose={add.onFalse} />
     </>
   );
 }

@@ -9,7 +9,7 @@ export const ORDER_STATUS_OPTIONS = [
   { value: 'refunded', label: 'Refunded' },
 ];
 
-const ITEMS = [...Array(3)].map((_, index) => ({
+const ITEMS = [...Array(1)].map((_, index) => ({
   id: _mock.id(index),
   sku: `16H9UR${index}`,
   quantity: index + 1,

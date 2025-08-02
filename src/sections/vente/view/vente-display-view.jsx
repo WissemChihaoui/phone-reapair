@@ -86,6 +86,7 @@ export default function VenteDisplayView({ product }) {
           sx={{ p: 3 }}
         >
           <Stack spacing={1} sx={{ width: 1 }}>
+          <Typography variant='subtitle1'>Client</Typography>
             <Typography variant="subtitle2">{client?.name}</Typography>
             <Typography variant="body2">{client?.company}</Typography>
             <Typography variant="body2">{client?.fullAddress}</Typography>
@@ -115,7 +116,7 @@ export default function VenteDisplayView({ product }) {
 
         {/* Paiements */}
         <Stack spacing={2} sx={{ px: 3, pb: 2 }}>
-          <Typography variant="subtitle2">Paiement(s)</Typography>
+          <Typography variant="subtitle1">Paiement(s)</Typography>
           {payement?.map((p, i) => (
             <Box
               key={i}
@@ -133,7 +134,7 @@ export default function VenteDisplayView({ product }) {
 
         {/* Articles / Items */}
         <Stack spacing={2} sx={{ p: 3, bgcolor: 'background.neutral' }}>
-          <Typography variant="subtitle2">Articles</Typography>
+          <Typography variant="subtitle1">Articles</Typography>
           {items
             ?.filter((item) => item.type && item.type !== 'divider')
             .map((item, index) => (

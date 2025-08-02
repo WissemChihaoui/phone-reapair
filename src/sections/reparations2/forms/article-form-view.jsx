@@ -86,9 +86,7 @@ export default function ArticleFormView() {
 
   return (
     <Box sx={{ p: 3, bgcolor: 'background.neutral' }}>
-      <Typography variant="h6" sx={{ color: 'text.disabled', mb: 3 }}>
-        Articles à réparer
-      </Typography>
+      
       
       <Stack divider={<Divider flexItem sx={{ borderStyle: 'dashed' }} />} spacing={3}>
         {fields.map((field, index) => (
@@ -130,7 +128,7 @@ export default function ArticleFormView() {
           </Accordion>
         ))}
 
-        <Stack
+        {/* <Stack
           spacing={3}
           direction={{ xs: 'column', md: 'row' }}
           alignItems={{ xs: 'flex-end', md: 'center' }}
@@ -145,7 +143,7 @@ export default function ArticleFormView() {
           >
             Ajouter Article
           </Button>
-        </Stack>
+        </Stack> */}
       </Stack>
     </Box>
   );

@@ -4,8 +4,10 @@ import {
   CardActions,
   CardHeader,
   FormControl,
+  IconButton,
   Stack,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import React from 'react';
@@ -16,7 +18,16 @@ export default function ReparationDetailsNotes() {
   return (
     <>
       <Card>
-        <CardHeader title="Information technique sur l'intervention" />
+        <CardHeader
+          title="Information technique sur l'intervention"
+          action={
+            <Tooltip title="Text Affiché">
+              <IconButton>
+                <Iconify icon="material-symbols:info-outline" />
+              </IconButton>
+            </Tooltip>
+          }
+        />
         <Stack sx={{ p: 3 }}>
           <UploadBox
             placeholder={
@@ -32,18 +43,31 @@ export default function ReparationDetailsNotes() {
           </FormControl>
         </Stack>
         <CardActions sx={{ justifyContent: 'flex-end', display: 'flex', p: 2 }}>
-          <Button variant="contained" color='primary'>Enrgistrer</Button>
+          <Button variant="contained" color="primary">
+            Enrgistrer
+          </Button>
         </CardActions>
       </Card>
       <Card>
-        <CardHeader title="Observations (interne)" />
+        <CardHeader
+          title="Observations (interne)"
+          action={
+            <Tooltip title="Text Affiché">
+              <IconButton>
+                <Iconify icon="material-symbols:info-outline" />
+              </IconButton>
+            </Tooltip>
+          }
+        />
         <Stack sx={{ p: 3 }}>
           <FormControl>
             <TextField label="Observations (interne)" multiline rows={5} />
           </FormControl>
         </Stack>
         <CardActions sx={{ justifyContent: 'flex-end', display: 'flex', p: 2 }}>
-          <Button color='primary' variant="contained">Enrgistrer</Button>
+          <Button color="primary" variant="contained">
+            Enrgistrer
+          </Button>
         </CardActions>
       </Card>
     </>

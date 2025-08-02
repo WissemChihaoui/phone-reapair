@@ -17,71 +17,85 @@ import ArticleFormView from '../forms/article-form-view';
 import PaymentFormView from '../forms/payment-form-view';
 import NotificationsSettingsModal from '../notifications-settings-modal';
 
-const useRepairFormDefaultValues = () => 
-  useMemo(() => ({
-    id: '',
-    client: {
+const useRepairFormDefaultValues = () =>
+  useMemo(
+    () => ({
       id: '',
-      name: '',
-      fullAddress: '',
-      phoneNumber: '',
-      email: '',
-      company: ''
-    },
-    articles: [
-      {
-        type: "",
-        marque: "",
-        modele: "",
-        serie: "",
-        etat: "",
-        accessoire: "",
-        rapport: {
-          items: [],
-          observation: "",
-        },
-        noteClient: "",
-        noteIntervention: "",
-        noteInterne: "",
-        schemaVer: [],
-        dateRestitution: null,
-        technicien: "",
-        documents: [
-          {
-            id: "",
-            type: "",
-            data: {},
-          },
-        ],
-        total: 0,
-      }
-    ],
-    payement: {
-      quali: false,
-      data: [
+      client: {
+        id: '',
+        name: '',
+        fullAddress: '',
+        phoneNumber: '',
+        email: '',
+        company: '',
+      },
+      articles: [
         {
-          remboursement: "",
-          amount: 0,
-          methode: "",
-          date: null,
+          type: '',
+          marque: '',
+          modele: '',
+          serie: '',
+          etat: '',
+          accessoire: '',
+          rapport: {
+            items: [],
+            observation: '',
+          },
+          noteClient: '',
+          noteIntervention: '',
+          noteInterne: '',
+          schemaVer: [],
+          dateRestitution: null,
+          technicien: '',
+          documents: [
+            {
+              id: '',
+              type: '',
+              data: {},
+            },
+          ],
+          total: 0,
         },
       ],
-    },
-    total: 0,
-    remise: 0,
-    paid: 0,
-    rest: 0,
-    notification: {
-      email: false,
-      sms: false,
-      materiel: false,
-      materielTitle: "",
-      etat: "",
-      delai: "",
-      casier: "",
-      devis: "",
-    },
-  }), []);
+      payement: {
+        quali: false,
+        data: [
+          {
+            remboursement: '',
+            amount: 0,
+            methode: '',
+            date: null,
+          },
+        ],
+        remboursement: '',
+        amount: 0,
+        methode: '',
+        date: null,
+      },
+      payment: [
+        {
+          amount: 85,
+          date: '2025-08-02T00:00:00+01:00',
+          id: 0,
+        },
+      ],
+      total: 0,
+      remise: 0,
+      paid: 0,
+      rest: 0,
+      notification: {
+        email: false,
+        sms: false,
+        materiel: false,
+        materielTitle: '',
+        etat: '',
+        delai: '',
+        casier: '',
+        devis: '',
+      },
+    }),
+    []
+  );
 
 export default function AddReparationView() {
   const loadingSave = useBoolean();
@@ -90,10 +104,14 @@ export default function AddReparationView() {
 
   const methods = useForm({
     mode: 'onBlur',
-    defaultValues
+    defaultValues,
   });
 
-  const { handleSubmit, formState: { isSubmitting }, reset } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+    reset,
+  } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
     loadingSave.onTrue();
@@ -132,28 +150,15 @@ export default function AddReparationView() {
             <PaymentFormView />
           </Card>
 
-          <Stack 
-            justifyContent="flex-end" 
-            direction="row" 
-            spacing={2} 
-            sx={{ mt: 3 }}
-          >
-            <Button 
-              variant="outlined" 
-              size="large"
-              onClick={handleReset}
-            >
+          <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
+            <Button variant="outlined" size="large" onClick={handleReset}>
               Réinitialiser
             </Button>
-            
-            <Button 
-              variant="contained" 
-              size="large" 
-              onClick={openSettings.onTrue}
-            >
+
+            <Button variant="contained" size="large" onClick={openSettings.onTrue}>
               Paramètres des notifications
             </Button>
-            
+
             <LoadingButton
               type="submit"
               color="primary"
@@ -166,10 +171,7 @@ export default function AddReparationView() {
           </Stack>
         </form>
 
-        <NotificationsSettingsModal 
-          open={openSettings.value} 
-          onClose={openSettings.onFalse} 
-        />
+        <NotificationsSettingsModal open={openSettings.value} onClose={openSettings.onFalse} />
       </FormProvider>
     </DashboardContent>
   );

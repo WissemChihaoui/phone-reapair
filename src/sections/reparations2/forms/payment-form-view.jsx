@@ -119,8 +119,8 @@ export default function PaymentFormView() {
           </Button>
         </Stack>
       </Box>
-      <Divider orientation="vertical" variant="middle" flexItem sx={{ mx: 4 }} />
-      <Stack
+      {/* <Divider orientation="vertical" variant="middle" flexItem sx={{ mx: 4 }} /> */}
+      {/* <Stack
         spacing={2}
         alignItems="flex-end"
         sx={{ mt: 3, textAlign: 'right', typography: 'body2' }}
@@ -151,7 +151,7 @@ export default function PaymentFormView() {
           <div>Total Restant :</div>
           <Box sx={{ width: 160 }}>{fCurrency(200) || '-'}</Box>
         </Stack>
-      </Stack>
+      </Stack> */}
     </Box>
   );
 }
