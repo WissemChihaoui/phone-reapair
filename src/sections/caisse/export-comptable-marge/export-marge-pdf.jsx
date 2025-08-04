@@ -33,6 +33,7 @@ const useStyles = () =>
         mb8: { marginBottom: 8 },
         mb40: { marginBottom: 40 },
         subtitle2: { fontSize: 9, fontWeight: 'bold' },
+        bold: { fontSize: 12, fontWeight: 'bold' },
         body2: { fontSize: 9 },
         table: { display: 'flex', width: '100%', marginTop: 8 },
         row: {
@@ -96,8 +97,11 @@ export function ExportMargePDF({ invoice }) {
             <Text style={styles.body2}>N°TVA Intracom :</Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
+             <Text style={styles.bold}>
+              Export comptable Marge 
+            </Text>
             <Text style={styles.body2}>
-              Export comptable Marge de {fDateTime(invoice.period.start)} à {fDateTime(invoice.period.end)}
+              de {fDateTime(invoice.period.start)} à {fDateTime(invoice.period.end)}
             </Text>
           </View>
         </View>

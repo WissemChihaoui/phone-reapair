@@ -49,6 +49,7 @@ const useStyles = () =>
         subtitle1: { fontSize: 10, fontWeight: 700 },
         body2: { fontSize: 9 },
         subtitle2: { fontSize: 9, fontWeight: 700 },
+        bold: { fontSize: 12, fontWeight: 'bold' },
         // table
         table: { display: 'flex', width: '100%' },
         row: {
@@ -174,8 +175,11 @@ export function ExportFamillePDF({ invoice }) {
             <Text style={styles.body2}>N°TVA Intracom :</Text>
           </View>
           <View style={{ width: '40%', alignItems: 'flex-end' }}>
+             <Text style={styles.bold}>
+              Export comptable famille
+            </Text>
             <Text style={styles.body2}>
-              Export comptable Marge de {fDate(invoice.period.start)} à {fDate(invoice.period.end)}
+              de {fDate(invoice.period.start)} à {fDate(invoice.period.end)}
             </Text>
           </View>
         </View>
