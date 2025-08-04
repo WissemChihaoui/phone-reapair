@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Grid from '@mui/material/Unstable_Grid2';
 import {
   Box,
   Fab,
@@ -18,10 +19,8 @@ import {
   DataGrid,
   gridClasses,
   GridToolbar,
-  GridToolbarExport,
   GridToolbarContainer,
   GridToolbarQuickFilter,
-  GridToolbarColumnsButton,
 } from '@mui/x-data-grid';
 
 import { paths } from 'src/routes/paths';
@@ -42,6 +41,7 @@ import { ConfirmDialog } from 'src/components/custom-dialog';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
+import EtatStockPdf from '../../etat-stock-pdf';
 import { ProductTableToolbar } from '../../product-table-toolbar';
 import { ProductQuantityAdjust } from '../../product-quantity-adjust';
 import { ProductTableFiltersResult } from '../../product-table-filters-result';
@@ -52,7 +52,7 @@ import {
   RenderCellProduct,
   RenderCellPriceBuy,
 } from '../../product-table-row';
-import EtatStockPdf from '../../etat-stock-pdf';
+import MostSellsArticles from '../most-sells-articles';
 
 // ----------------------------------------------------------------------
 
@@ -348,7 +348,7 @@ export function ProductListView() {
             <Stack spacing={2} flexDirection="row">
               <Button
                 component={RouterLink}
-                color='primary'
+                color="primary"
                 variant="contained"
                 startIcon={<Iconify icon="mingcute:add-line" />}
                 href={paths.dashboard.stock.addArticle}
@@ -356,7 +356,7 @@ export function ProductListView() {
                 Ajouter un article
               </Button>
               <Button
-                color='primary'
+                color="primary"
                 variant="outlined"
                 onClick={popover.onOpen}
                 startIcon={<Iconify icon="solar:import-bold" />}
@@ -364,7 +364,7 @@ export function ProductListView() {
                 Importer CSV
               </Button>
               <Button
-                color='primary'
+                color="primary"
                 variant="outlined"
                 onClick={stock.onOpen}
                 startIcon={<Iconify icon="solar:import-bold" />}
@@ -372,7 +372,7 @@ export function ProductListView() {
                 Etat du stock
               </Button>
               <Button
-                color='primary'
+                color="primary"
                 variant="outlined"
                 LinkComponent={RouterLink}
                 href={paths.dashboard.stock.import}
@@ -384,49 +384,59 @@ export function ProductListView() {
           }
           sx={{ mb: { xs: 3, md: 5 } }}
         />
-
-        <Card
-          sx={{
-            flexGrow: { md: 1 },
-            display: { md: 'flex' },
-            height: { xs: 800, md: 2 },
-            flexDirection: { md: 'column' },
-          }}
-        >
-          <DataGrid
-            checkboxSelection
-            disableRowSelectionOnClick
-            rows={dataFiltered}
-            columns={columns}
-            filterMode="client"
-            components={{
-              Toolbar: GridToolbar, // Add filter button
-            }}
-            componentsProps={{
-              toolbar: {
-                showQuickFilter: true, // Optional: Quick filter for searching
-              },
-            }}
-            // loading={productsLoading}
-            getRowHeight={() => 'auto'}
-            pageSizeOptions={[5, 10, 25]}
-            initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
-            onRowSelectionModelChange={(newSelectionModel) => setSelectedRowIds(newSelectionModel)}
-            columnVisibilityModel={columnVisibilityModel}
-            onColumnVisibilityModelChange={(newModel) => setColumnVisibilityModel(newModel)}
-            slots={{
-              toolbar: CustomToolbarCallback,
-              noRowsOverlay: () => <EmptyContent />,
-              noResultsOverlay: () => <EmptyContent title="Pas de données" />,
-            }}
-            slotProps={{
-              panel: { anchorEl: filterButtonEl },
-              toolbar: { setFilterButtonEl },
-              columnsManagement: { getTogglableColumns },
-            }}
-            sx={{ [`& .${gridClasses.cell}`]: { alignItems: 'center', display: 'inline-flex' } }}
-          />
-        </Card>
+        <Grid container spacing={2}>
+          <Grid sm={12} md={8}>
+            <Card
+              sx={{
+                flexGrow: { md: 1 },
+                display: { md: 'flex' },
+                flexDirection: { md: 'column' },
+                height: 700
+              }}
+            >
+              <DataGrid
+                checkboxSelection
+                disableRowSelectionOnClick
+                rows={dataFiltered}
+                columns={columns}
+                filterMode="client"
+                components={{
+                  Toolbar: GridToolbar, // Add filter button
+                }}
+                componentsProps={{
+                  toolbar: {
+                    showQuickFilter: true, // Optional: Quick filter for searching
+                  },
+                }}
+                // loading={productsLoading}
+                getRowHeight={() => 'auto'}
+                pageSizeOptions={[5, 10, 25]}
+                initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
+                onRowSelectionModelChange={(newSelectionModel) =>
+                  setSelectedRowIds(newSelectionModel)
+                }
+                columnVisibilityModel={columnVisibilityModel}
+                onColumnVisibilityModelChange={(newModel) => setColumnVisibilityModel(newModel)}
+                slots={{
+                  toolbar: CustomToolbarCallback,
+                  noRowsOverlay: () => <EmptyContent />,
+                  noResultsOverlay: () => <EmptyContent title="Pas de données" />,
+                }}
+                slotProps={{
+                  panel: { anchorEl: filterButtonEl },
+                  toolbar: { setFilterButtonEl },
+                  columnsManagement: { getTogglableColumns },
+                }}
+                sx={{
+                  [`& .${gridClasses.cell}`]: { alignItems: 'center', display: 'inline-flex' },
+                }}
+              />
+            </Card>
+          </Grid>
+          <Grid sm={12} md={4}>
+            <MostSellsArticles />
+          </Grid>
+        </Grid>
       </DashboardContent>
       {/* <UserQuickEditForm currentUser={products[0]} open={adjustDialog.value} onClose={adjustDialog.onFalse} /> */}
       {adjustDialog.value && (
@@ -501,13 +511,16 @@ export function ProductListView() {
 
       <CustomPopover open={stock.open} anchorEl={stock.anchorEl} onClose={stock.onClose}>
         <MenuList>
-          <MenuItem onClick={() => {
-            view.onTrue();
-            stock.onClose();
-          }}>PDF</MenuItem>
+          <MenuItem
+            onClick={() => {
+              view.onTrue();
+              stock.onClose();
+            }}
+          >
+            PDF
+          </MenuItem>
           <MenuItem onClick={stock.onClose}>CSV</MenuItem>
         </MenuList>
-
       </CustomPopover>
 
       <Dialog fullScreen open={view.value}>
@@ -576,9 +589,6 @@ function CustomToolbar({
               Supprimer ({selectedRowIds.length})
             </Button>
           )}
-{/* 
-          <GridToolbarColumnsButton />
-          <GridToolbarExport /> */}
         </Stack>
       </GridToolbarContainer>
 
