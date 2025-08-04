@@ -77,7 +77,7 @@ export default function AbonnementForm({ index, onRemove }) {
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={10 }>
             <TextField
               InputLabelProps={{ shrink: true }}
               fullWidth
@@ -87,16 +87,7 @@ export default function AbonnementForm({ index, onRemove }) {
             />
           </Grid>
 
-          <Grid item xs={12} md={4}>
-            <TextField
-              InputLabelProps={{ shrink: true }}
-              fullWidth
-              size="small"
-              label="Remise en euro TTC"
-              type="number"
-              {...register(`items.${index}.remise`, { valueAsNumber: true })}
-            />
-          </Grid>
+       
 
           <Grid item xs={12} md={2}>
             <Button

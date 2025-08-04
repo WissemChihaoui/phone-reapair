@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Typography,
 } from '@mui/material';
 
 import { Form, Field } from 'src/components/hook-form';
@@ -33,9 +34,12 @@ export default function AddAbonnementDialog({ open, onClose, currentRow }) {
       name: currentRow?.name || '',
       duration: currentRow?.duration || '',
       price: currentRow?.price || '',
+      marge: currentRow?.marge || '',
       frequence: currentRow?.frequence || '',
+      frequence_remuneration: currentRow?.frequence_remuneration || '',
       conditions: currentRow?.conditions || '',
       description: currentRow?.description || '',
+      rappel: currentRow?.rappel || '',
     }),
     [currentRow]
   );
@@ -85,21 +89,29 @@ export default function AddAbonnementDialog({ open, onClose, currentRow }) {
             gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
           >
             <Stack spacing={2} py={2}>
-              <Field.Text label="Nom" name="name" />
+              <Field.Text label="Libellé" name="name" />
 
               <Field.Text type="number" label="Prix" name="price" />
+              <Field.Text type="number" label="Rémunération / Marge arrière" name="marge" />
 
               <Field.Text name="description" label="Description" multiline rows={3} />
             </Stack>
             <Stack spacing={2} py={2}>
               <Field.Select label="Durée" name="duration">
-                <MenuItem value="1 jour">1 jour</MenuItem>
-                <MenuItem value="2 jour">2 jour</MenuItem>
-                <MenuItem value="2 semaines">2 semaines</MenuItem>
+                <MenuItem value="1 mois">1 mois</MenuItem>
                 <MenuItem value="3 mois">3 mois</MenuItem>
+                <MenuItem value="6 mois">6 mois</MenuItem>
                 <MenuItem value="12 mois">12 mois</MenuItem>
+                <MenuItem value="24 mois">24 mois</MenuItem>
+                <MenuItem value="36 mois">36 mois</MenuItem>
               </Field.Select>
               <Field.Select label="Fréquene de paiement" name="frequence">
+                <MenuItem value="ponctuel">Ponctuel</MenuItem>
+                <MenuItem value="mensuel">Mensuel</MenuItem>
+                <MenuItem value="trimestriel">Trimestriel</MenuItem>
+                <MenuItem value="annuel">Annuel</MenuItem>
+              </Field.Select>
+              <Field.Select label="Fréquence de paiement de la Rémunération" name="frequence_remuneration">
                 <MenuItem value="ponctuel">Ponctuel</MenuItem>
                 <MenuItem value="mensuel">Mensuel</MenuItem>
                 <MenuItem value="trimestriel">Trimestriel</MenuItem>
@@ -108,6 +120,15 @@ export default function AddAbonnementDialog({ open, onClose, currentRow }) {
               <Field.Text name="conditions" label="Conditions / Notes" multiline rows={3} />
             </Stack>
           </Box>
+          <Stack spacing={2}>
+            <Typography variant='caption'>Rappel moi avant la fin de l’abonnement</Typography>
+            <Field.Select label="Rappel" name="rappel">
+                <MenuItem value="1 jour">1 jour</MenuItem>
+                <MenuItem value="7 jours">7 jours</MenuItem>
+                <MenuItem value="15 jours ">15 jours </MenuItem>
+                <MenuItem value="30 jours">30 jours</MenuItem>
+              </Field.Select>
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button variant="outlined" onClick={onClose}>

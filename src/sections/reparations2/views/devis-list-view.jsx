@@ -32,9 +32,10 @@ import {
   TableSelectedAction,
   TablePaginationCustom,
 } from 'src/components/table';
+
+import { ReparationTableRow } from '../reparation-table-row';
 import { ReparationTableToolbar } from '../reparation-table-toolbar';
 import { ReparationTableFiltersResult } from '../reparation-table-filter-result';
-import { ReparationTableRow } from '../reparation-table-row';
 
 
 // ----------------------------------------------------------------------

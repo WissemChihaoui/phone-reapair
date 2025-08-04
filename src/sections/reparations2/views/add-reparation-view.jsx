@@ -154,10 +154,10 @@ export default function AddReparationView() {
             <Button variant="outlined" size="large" onClick={handleReset}>
               Réinitialiser
             </Button>
-
+{/* 
             <Button variant="contained" size="large" onClick={openSettings.onTrue}>
               Paramètres des notifications
-            </Button>
+            </Button> */}
 
             <LoadingButton
               type="submit"
@@ -171,7 +171,7 @@ export default function AddReparationView() {
           </Stack>
         </form>
 
-        <NotificationsSettingsModal open={openSettings.value} onClose={openSettings.onFalse} />
+        {/* <NotificationsSettingsModal open={openSettings.value} onClose={openSettings.onFalse} /> */}
       </FormProvider>
     </DashboardContent>
   );

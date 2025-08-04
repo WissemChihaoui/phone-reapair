@@ -85,17 +85,12 @@ export default function ArticleFormView() {
   }, [watch, calculateTotals]);
 
   return (
-    <Box sx={{ p: 3, bgcolor: 'background.neutral' }}>
+    <Box sx={{ p: 3 }}>
       
       
       <Stack divider={<Divider flexItem sx={{ borderStyle: 'dashed' }} />} spacing={3}>
         {fields.map((field, index) => (
-          <Accordion
-            key={field.id}
-            expanded={expanded === `panel${index}`}
-            onChange={handleAccordionChange(`panel${index}`)}
-          >
-            <AccordionSummary expandIcon={<Iconify icon="eva:arrow-ios-downward-fill" />}>
+         <>
               <Stack
                 display="flex"
                 flexDirection="row"
@@ -106,26 +101,14 @@ export default function ArticleFormView() {
                 <Typography variant="subtitle1">
                   {field.type || `Article ${index + 1}`}
                 </Typography>
-                <Button
-                  size="small"
-                  color="error"
-                  startIcon={<Iconify icon="solar:trash-bin-trash-bold" />}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleRemoveArticle(index);
-                  }}
-                >
-                  Supprimer
-                </Button>
+               
               </Stack>
-            </AccordionSummary>
-            <AccordionDetails>
+           
               <SingleArticleForm 
                 articleIndex={index} 
                 onTotalChange={calculateTotals}
               />
-            </AccordionDetails>
-          </Accordion>
+              </>
         ))}
 
         {/* <Stack

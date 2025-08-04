@@ -15,6 +15,8 @@ import {
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
+import { _etat } from 'src/_mock/_rep';
+
 import { Iconify } from 'src/components/iconify';
 import { Field } from 'src/components/hook-form';
 
@@ -55,6 +57,12 @@ const CONDITIONS = [
   { value: 'good', label: 'Bon état' },
 ];
 
+const ACCESSOIRE = [
+  { value: '1', label: 'Accessoir 1' },
+  { value: '2', label: 'Accessoir 2' },
+  { value: '3', label: 'Accessoir 3' },
+];
+
 export default function SingleArticleForm({ articleIndex, onTotalChange }) {
   const { control, watch, setValue } = useFormContext();
   const {
@@ -71,6 +79,7 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
   const openPad = useBoolean();
   const openAddMarque = useBoolean();
   const openAddModele = useBoolean();
+  const openAddAccessoire = useBoolean();
 
   const currentValues = watch(`articles[${articleIndex}]`);
 
@@ -180,7 +189,7 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
         </Grid>
 
         {/* Article Details Section */}
-        <Grid xs={12} lg={8}>
+        <Grid xs={12} md={4}>
           <Field.Text
             control={control}
             name={`articles[${articleIndex}].serie`}
@@ -188,6 +197,23 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
           />
         </Grid>
 
+        <Grid xs={12} md={4}>
+          <Stack spacing={1.5} direction="row">
+            <Field.Autocomplete
+              control={control}
+              sx={{ width: '100%' }}
+              name={`articles[${articleIndex}].etat`}
+              label="Accessoire"
+              options={ACCESSOIRE}
+              getOptionLabel={(option) => option.label}
+              isOptionEqualToValue={(option, value) => option.value === value?.value}
+              value={currentCondition}
+            />
+            <Button color="success" variant="contained" onClick={openAddAccessoire.onTrue}>
+              +
+            </Button>
+          </Stack>
+        </Grid>
         <Grid xs={12} md={4}>
           <Field.Autocomplete
             control={control}
@@ -227,7 +253,7 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
           <Field.Text
             control={control}
             name={`articles[${articleIndex}].noteClient`}
-            label="Note Client"
+            label="Note Client (Code de déverouillage / Code SIM)"
             multiline
             rows={2}
           />
@@ -304,6 +330,56 @@ export default function SingleArticleForm({ articleIndex, onTotalChange }) {
         </Grid>
       </Grid>
 
+<Grid container spacing={2}>
+          <Grid xs={12} md={4}>
+            <Typography>Notifications :</Typography>
+            <Field.Checkbox label="Email" name="settings.notifications.email" />
+            <Field.Checkbox label="SMS" name="settings.notifications.sms" />
+          </Grid>
+          <Grid xs={12} md={4}>
+            <Typography>Etat :</Typography>
+            <Field.Select name="settings.etat">
+              <MenuItem value="none">No Value</MenuItem>
+              <MenuItem value="none">No Value</MenuItem>
+              {_etat.map((etat) => (
+                <MenuItem key={etat.value} value={etat.value}>
+                  {etat.label}
+                </MenuItem>
+              ))}
+            </Field.Select>
+          </Grid>
+          <Grid xs={12} md={4}>
+            <Typography>Casier de rangement :</Typography>
+            <Field.Select name="settings.casier">
+              <MenuItem value="none">No Value</MenuItem>
+            </Field.Select>
+          </Grid>
+          <Grid xs={12} md={4}>
+            <Field.Checkbox name="settings.isMateriel" label="Matériel de prêt" />
+            <Field.Text name="settings.materiel" label="Matériel" />
+          </Grid>
+          <Grid xs={12} md={4}>
+            <Typography>Délai de reparation :</Typography>
+            <Field.Select name="settings.delai">
+              <MenuItem value="none">No Value</MenuItem>
+              <Divider/>
+              <MenuItem value="24">24 h</MenuItem>
+              <MenuItem value="48">48 h</MenuItem>
+              <MenuItem value="72">72 h</MenuItem>
+              <MenuItem value="24">96 h</MenuItem>
+            </Field.Select>
+          </Grid>
+          <Grid xs={12} md={4}>
+            <Typography>Validité du devis :</Typography>
+            <Field.Select name="settings.validity">
+              <MenuItem value="none">No Value</MenuItem>
+              <Divider />
+              <MenuItem value="1">1 mois</MenuItem>
+              <MenuItem value="2">2 mois</MenuItem>
+              <MenuItem value="3">3 mois</MenuItem>
+            </Field.Select>
+          </Grid>
+        </Grid>
       {/* Modals */}
       <RapportPanneModal
         index={articleIndex}

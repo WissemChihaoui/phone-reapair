@@ -5,22 +5,25 @@ import {
   Box,
   Card,
   Stack,
-  Divider,
-  TextField,
-  Typography,
   Button,
+  Divider,
   MenuList,
   MenuItem,
+  TextField,
+  Typography,
 } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 
 import { useResponsive } from 'src/hooks/use-responsive';
+
 import { fDate, today } from 'src/utils/format-time';
 
 import { DashboardContent } from 'src/layouts/dashboard';
-import { CustomPopover, usePopover } from 'src/components/custom-popover';
+
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
+import { DatePicker } from '@mui/x-date-pickers';
 
 // ✅ Status options
 const STATUS_OPTIONS = [
@@ -58,13 +61,14 @@ export default function VenteAbonDetails() {
       phoneNumber: '+1 416-555-0198',
       email: 'milo.farrell@hotmail.com',
     },
-    details: [
-      { label: 'Périodicité', value: 'Hebdomadaire' },
-      { label: 'Prochaine Facture', value: fDate(today()) },
-      { label: 'Date Fin', value: fDate(today()) },
-      { label: 'Date échéance', value: fDate(today()) },
-      { label: 'Mode de paiement', value: 'Prélèvement automatique' },
-    ],
+    details: {
+      Periodicite: 'Hebdomadaire',
+      ProchaineFacture: fDate(today()),
+      DateFin: fDate(today()),
+      DateEcheance: fDate(today()),
+      Modedepaiement: 'Prélèvement automatique',
+    },
+
     vente: {
       ref: '12345',
       type: 'Abonnement',
@@ -123,17 +127,51 @@ export default function VenteAbonDetails() {
             <Typography variant="body2">{data.client.email}</Typography>
           </Stack>
 
-          <Stack spacing={2} sx={{ width: 1 }}>
-            {data.details.map((item, index) => (
-              <Box key={index} display="flex" justifyContent="space-between">
-                <Typography variant="body2" color="text.secondary">
-                  {item.label}
-                </Typography>
-                <Typography variant="body2" fontWeight="medium">
-                  {item.value || '-'}
-                </Typography>
-              </Box>
-            ))}
+          <Stack spacing={1} sx={{ width: 1 }}>
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="body2" color="text.secondary">
+                Périodicité
+              </Typography>
+              <Typography variant="body2" fontWeight="medium">
+                {data.details.Periodicite}
+              </Typography>
+            </Box>
+
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Typography variant="body2" color="text.secondary">
+                Prochaine Facture
+              </Typography>
+              <Typography variant="body2" fontWeight="medium">
+                <DatePicker />
+              </Typography>
+            </Box>
+
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="body2" color="text.secondary">
+                Date de Fin
+              </Typography>
+              <Typography variant="body2" fontWeight="medium">
+                {data.details.DateFin}
+              </Typography>
+            </Box>
+
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="body2" color="text.secondary">
+                Date d&apos;échéance
+              </Typography>
+              <Typography variant="body2" fontWeight="medium">
+                {data.details.DateEcheance}
+              </Typography>
+            </Box>
+
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="body2" color="text.secondary">
+                Mode de paiement
+              </Typography>
+              <Typography variant="body2" fontWeight="medium">
+                {data.details.Modedepaiement}
+              </Typography>
+            </Box>
           </Stack>
         </Stack>
 
@@ -163,9 +201,7 @@ export default function VenteAbonDetails() {
             <Grid item xs={12} md={6}>
               <TextField label="Champ libre" value={data.produit.champLibre} fullWidth disabled />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField label="Remise (€ TTC)" value={data.produit.remise} fullWidth disabled />
-            </Grid>
+           
           </Grid>
         </Stack>
       </Card>

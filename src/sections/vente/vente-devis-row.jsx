@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Stack, Button, TableRow, TableCell, IconButton } from '@mui/material';
+import { Stack, Button, TableRow, TableCell, IconButton, Fab } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -26,12 +26,12 @@ export default function VenteDevisRow({ row, onDeleteRow }) {
     >
       <TableCell>
         <Stack direction="row" alignItems="center" spacing={1}>
-          <IconButton href={paths.dashboard.vente.edit(row.id)} LinkComponent={RouterLink}>
+          <Fab size="small" color="warning" href={paths.dashboard.vente.edit(row.id)} LinkComponent={RouterLink}>
             <Iconify icon="bx:edit" />
-          </IconButton>
-          <IconButton onClick={confirm.onTrue}>
+          </Fab>
+          <Fab size="small" color="error" onClick={confirm.onTrue}>
             <Iconify icon="line-md:trash" />
-          </IconButton>
+          </Fab>
         </Stack>
       </TableCell>
       <TableCell>{row.id}</TableCell>
