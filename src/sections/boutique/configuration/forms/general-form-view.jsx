@@ -18,7 +18,7 @@ import { Form, Field, schemaHelper } from 'src/components/hook-form';
 
 import { useMockedUser } from 'src/auth/hooks';
 import { useCallback } from 'react';
-import { Divider, InputAdornment, MenuItem } from '@mui/material';
+import { CardHeader, Divider, InputAdornment, MenuItem } from '@mui/material';
 import { Iconify } from 'src/components/iconify';
 import { Label } from 'src/components/label';
 
@@ -96,7 +96,7 @@ export function GeneralFormView() {
     formState: { isSubmitting },
   } = methods;
 
-  const colorWatch = watch('color')  
+  const colorWatch = watch('color');
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -146,24 +146,17 @@ export function GeneralFormView() {
               }
             />
 
-            {/* <Field.Switch
-              name="isPublic"
-              labelPlacement="start"
-              label="Public profile"
-              sx={{ mt: 5 }}
-            /> */}
-
-<Field.Text 
-                                name='color' 
-                                label='Couleur' 
-                                InputProps={{
-                                    endAdornment: (
-                                      <InputAdornment position="end">
-                                        <Label style={{ background: colorWatch}}/>
-                                      </InputAdornment>
-                                    ),
-                                  }}
-                                />   
+            <Field.Text
+              name="color"
+              label="Couleur"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Label style={{ background: colorWatch }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
 
             <Button variant="soft" color="error" sx={{ mt: 3 }}>
               Déconnexion
@@ -172,7 +165,8 @@ export function GeneralFormView() {
         </Grid>
 
         <Grid xs={12} md={8}>
-          <Card sx={{ p: 3 }}>
+          <Card>
+            <CardHeader title="Ma Boutique" action={<Button variant='contained' color='primary'>Certificat</Button>}/>
             <Box
               rowGap={3}
               columnGap={2}
@@ -181,6 +175,7 @@ export function GeneralFormView() {
                 xs: 'repeat(1, 1fr)',
                 sm: 'repeat(2, 1fr)',
               }}
+              p={3}
             >
               <Field.Text name="displayName" label="Nom de la boutique" />
               <Field.Text name="email" label="Email de la boutique" />
@@ -206,7 +201,9 @@ export function GeneralFormView() {
               <Field.Text name="tva" label="Numéro TVA INTRA" />
               <Field.Select name="formJuridique" label="Forme juridique">
                 <MenuItem value="1">Entreprise individuelle(EI)</MenuItem>
-                <MenuItem value="2">Entreprise unipersonnelle à responsabilité limitée (SARL unipersonnelle)(EURL)</MenuItem>
+                <MenuItem value="2">
+                  Entreprise unipersonnelle à responsabilité limitée (SARL unipersonnelle)(EURL)
+                </MenuItem>
                 <MenuItem value="3">Société à responsabilité limitée(SARL)</MenuItem>
                 <MenuItem value="4">Société anonyme(SA)</MenuItem>
                 <MenuItem value="5">Société par actions simplifiée(SAS)</MenuItem>
@@ -262,23 +259,25 @@ export function GeneralFormView() {
           </Card>
         </Grid>
         <Grid xs={12} md={4}>
-          <Card sx={{ p: 3,  height: '100%' }}>
+          <Card sx={{ p: 3, height: '100%' }}>
             <Grid container spacing={2}>
-                <Field.UploadBox name="cgvFile" label="CGV PDF" 
-                  placeholder={
-                    <Stack spacing={0.5} alignItems="center">
-                      <Iconify icon="eva:cloud-upload-fill" width={40} />
-                      <Typography variant="body2">CGV PDF</Typography>
-                    </Stack>
-                  }
-                  sx={{ mb: 3, py: 2.5, flexGrow: 1, height: 'auto' }}
-                />
-                <Field.MultiCheckbox row name="cgvOn" sx={{ gap: 2 }} options={CGVON} />
+              <Field.UploadBox
+                name="cgvFile"
+                label="CGV PDF"
+                placeholder={
+                  <Stack spacing={0.5} alignItems="center">
+                    <Iconify icon="eva:cloud-upload-fill" width={40} />
+                    <Typography variant="body2">CGV PDF</Typography>
+                  </Stack>
+                }
+                sx={{ mb: 3, py: 2.5, flexGrow: 1, height: 'auto' }}
+              />
+              <Field.MultiCheckbox row name="cgvOn" sx={{ gap: 2 }} options={CGVON} />
             </Grid>
           </Card>
         </Grid>
         <Grid xs={12} md={8}>
-          <Card sx={{ p: 3,  height: '100%' }}>
+          <Card sx={{ p: 3, height: '100%' }}>
             <Box
               rowGap={3}
               columnGap={2}
@@ -289,9 +288,11 @@ export function GeneralFormView() {
             >
               <Field.Text name="fournisseur" label="Fournisseur bon de commande" />
               <Field.Checkbox name="codeEmp" label="Code employé" />
-              <Field.Select name="fuseaux" label="Fuseaux horaire America/Guadeloupe" >
+              <Field.Select name="fuseaux" label="Fuseaux horaire America/Guadeloupe">
                 {['America/Guadeloupe'].map((option) => (
-                  <MenuItem key={option} value={option}>{option}</MenuItem>
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
                 ))}
               </Field.Select>
             </Box>
@@ -299,7 +300,13 @@ export function GeneralFormView() {
         </Grid>
         <Grid xs={12}>
           <Card sx={{ p: 3, height: '100%' }}>
-            <Field.Text name="condition" label="Conditions Générale" InputLabelProps={{ shrink: true }} multiline rows={4}/>
+            <Field.Text
+              name="condition"
+              label="Conditions Générale"
+              InputLabelProps={{ shrink: true }}
+              multiline
+              rows={4}
+            />
 
             <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>

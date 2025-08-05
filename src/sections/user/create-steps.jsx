@@ -1,12 +1,13 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { Grid, MenuItem } from '@mui/material';
 import Typography from '@mui/material/Typography';
+
+import { CONFIG } from 'src/config-global';
+import { _clientIndvTypes } from 'src/_mock';
 
 import { Iconify } from 'src/components/iconify';
 import { Field } from 'src/components/hook-form';
-import { Grid, MenuItem } from '@mui/material';
-import { CONFIG } from 'src/config-global';
-import { _clientIndvTypes } from 'src/_mock';
 
 // ----------------------------------------------------------------------
 
@@ -18,49 +19,46 @@ export function StepOne({ isIndividual, handleNext }) {
       isIndividual.onFalse();
     }
     console.log(isIndividual);
-
   };
   return (
-    <>
-      <Grid container spacing={3}>
-        <Grid xs={12} md={6} padding={4}>
-          <Button
-            onClick={() => nextStepOne(true)}
-            size="medium"
-            color="primary"
-            variant={isIndividual.value ? 'contained' : 'outlined'}
-            sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}
-          >
-            <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/user.png`} width={60} />
-            <Box alignItems="center" display="flex">
-              <Typography variant="h5">Compte Individuel</Typography>
-              <Iconify icon="solar:arrow-right-linear" width={28} />
-            </Box>
-          </Button>
-        </Grid>
-        <Grid xs={12} md={6} padding={4}>
-          <Button
-            onClick={() => nextStepOne(false)}
-            size="medium"
-            color="primary"
-            variant={isIndividual.value ? 'outlined' : 'contained'}
-            sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}
-          >
-            <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/office.png`} width={60} />
-            <Box alignItems="center" display="flex">
-              <Typography variant="h5">Société</Typography>
-              <Iconify icon="solar:arrow-right-linear" width={28} />
-            </Box>
-          </Button>
-        </Grid>
+    <Grid container spacing={3}>
+      <Grid item xs={12} md={6} padding={4}>
+        <Button
+          onClick={() => nextStepOne(true)}
+          size="medium"
+          color="primary"
+          variant={isIndividual.value ? 'contained' : 'outlined'}
+          sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}
+        >
+          <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/user.png`} width={60} />
+          <Box alignItems="center" display="flex">
+            <Typography variant="h5">Compte Individuel</Typography>
+            <Iconify icon="solar:arrow-right-linear" width={28} />
+          </Box>
+        </Button>
       </Grid>
-    </>
+      <Grid item xs={12} md={6} padding={4}>
+        <Button
+          onClick={() => nextStepOne(false)}
+          size="medium"
+          color="primary"
+          variant={isIndividual.value ? 'outlined' : 'contained'}
+          sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}
+        >
+          <img alt="icon" src={`${CONFIG.assetsDir}/assets/icons/office.png`} width={60} />
+          <Box alignItems="center" display="flex">
+            <Typography variant="h5">Société</Typography>
+            <Iconify icon="solar:arrow-right-linear" width={28} />
+          </Box>
+        </Button>
+      </Grid>
+    </Grid>
   );
 }
 export function StepTwo() {
   return (
     <Grid container spacing={3}>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid item xs={12} md={6} lg={4} padding={2}>
         <Field.Text
           name="StepUserData.id"
           label="Id"
@@ -71,7 +69,7 @@ export function StepTwo() {
           disabled
         />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid item xs={12} md={6} lg={4} padding={2}>
         <Field.Text
           name="StepUserData.name"
           label="Nom et prénom"
@@ -80,7 +78,7 @@ export function StepTwo() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid xs={12} item md={6} lg={4} padding={2}>
         <Field.Text
           name="StepUserData.email"
           label="Email"
@@ -89,7 +87,7 @@ export function StepTwo() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid xs={12} item md={6} lg={4} padding={2}>
         <Field.Phone
           name="StepUserData.phone"
           label="Téléphone"
@@ -98,21 +96,21 @@ export function StepTwo() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid xs={12} item md={6} lg={4} padding={2}>
         <Field.Select
           name="StepUserData.type"
           label="Type client"
           variant="filled"
           InputLabelProps={{ shrink: true }}
         >
-          {_clientIndvTypes.map((status) => (
-            <MenuItem key={status.value} value={status.value}>
+          {_clientIndvTypes.map((status, index) => (
+            <MenuItem key={index} value={status.value}>
               {status.label}
             </MenuItem>
           ))}
         </Field.Select>
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid xs={12} item md={6} lg={4} padding={2}>
         <Field.Text
           name="StepUserData.country"
           label="Ville"
@@ -121,7 +119,7 @@ export function StepTwo() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={8} padding={2}>
+      <Grid xs={12} item md={8} padding={2}>
         <Field.Text
           name="StepUserData.address"
           label="Adresse"
@@ -130,7 +128,7 @@ export function StepTwo() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={4} padding={2}>
+      <Grid xs={12} item md={4} padding={2}>
         <Field.Text
           name="StepUserData.zipCode"
           label="Code postal"
@@ -139,16 +137,14 @@ export function StepTwo() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12}>
+      <Grid xs={12} item>
         <Field.Switch
           name="StepUserData.isVerified"
           labelPlacement="end"
           label={
-            <>
-              <Typography variant="subtitle2">
-                Voulez-vous recevoir nos offres commerciales
-              </Typography>
-            </>
+            <Typography variant="subtitle2">
+              Voulez-vous recevoir nos offres commerciales
+            </Typography>
           }
           sx={{ mx: 0, width: 1 }}
         />
@@ -160,7 +156,7 @@ export function StepTwo() {
 export function StepThree() {
   return (
     <Grid container spacing={3}>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid item xs={12} md={6} lg={4} padding={2}>
         <Field.Text
           name="StepCompanyData.id"
           label="Id"
@@ -171,7 +167,7 @@ export function StepThree() {
           disabled
         />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid item xs={12} md={6} lg={4} padding={2}>
         <Field.Text
           name="StepCompanyData.raisonSocial"
           label="Raison social"
@@ -180,7 +176,7 @@ export function StepThree() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid item xs={12} md={6} lg={4} padding={2}>
         <Field.Text
           name="StepCompanyData.email"
           label="Email"
@@ -189,7 +185,7 @@ export function StepThree() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid item xs={12} md={6} lg={4} padding={2}>
         <Field.Phone
           name="StepUserData.phone"
           label="Téléphone"
@@ -198,7 +194,7 @@ export function StepThree() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid item xs={12} md={6} lg={4} padding={2}>
         <Field.Text
           name="StepCompanyData.name"
           label="Nom du gérant"
@@ -207,7 +203,7 @@ export function StepThree() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid item xs={12} md={6} lg={4} padding={2}>
         <Field.Text
           name="StepCompanyData.siret"
           label="Siret"
@@ -216,7 +212,7 @@ export function StepThree() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid item xs={12} md={6} lg={4} padding={2}>
         <Field.Text
           name="StepCompanyData.tva"
           label="TVA"
@@ -225,10 +221,10 @@ export function StepThree() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid item xs={12} md={6} lg={4} padding={2}>
         <Field.Checkbox name="primary" label="Exonéré de TVA union européen ou étranger" />
       </Grid>
-      <Grid xs={12} md={6} lg={4} padding={2}>
+      <Grid item xs={12} md={6} lg={4} padding={2}>
         <Field.Text
           name="StepCompanyData.country"
           label="Ville"
@@ -237,7 +233,7 @@ export function StepThree() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={8} padding={2}>
+      <Grid item xs={12} md={8} padding={2}>
         <Field.Text
           name="StepCompanyData.address"
           label="Adresse"
@@ -246,7 +242,7 @@ export function StepThree() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12} md={4} padding={2}>
+      <Grid item xs={12} md={4} padding={2}>
         <Field.Text
           name="StepCompanyData.zipCode"
           label="Code postal"
@@ -255,16 +251,14 @@ export function StepThree() {
           InputLabelProps={{ shrink: true }}
         />
       </Grid>
-      <Grid xs={12}>
+      <Grid item xs={12}>
         <Field.Switch
           name="StepCompanyData.isVerified"
           labelPlacement="end"
           label={
-            <>
-              <Typography variant="subtitle2">
+            <Typography variant="subtitle2">
                 Voulez-vous recevoir nos offres commerciales
               </Typography>
-            </>
           }
           sx={{ mx: 0, width: 1 }}
         />

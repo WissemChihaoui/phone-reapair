@@ -132,7 +132,7 @@ export function UpgradeBlock({ sx, ...other }) {
           et pour votre affélié
         </Box>
 
-        <Button variant="contained" size="small" color="warning">
+        <Button href={paths.dashboard.abonnement.parrainage} variant="contained" size="small" color="warning">
           Parrainage
         </Button>
       </Stack>

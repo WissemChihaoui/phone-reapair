@@ -2,10 +2,11 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import RachatListView from 'src/sections/rachat/view/rachat-list-view';
+import ReparationAddView from 'src/sections/reparations3/views/reparation-add-view';
+
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Liste des rachats - ${CONFIG.appName}` };
+const metadata = { title: `Liste des réparations - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -13,7 +14,7 @@ export default function Page() {
       <Helmet>
         <title> {metadata.title}</title>
       </Helmet>
-      <RachatListView />
+      <ReparationAddView />
     </>
   );
 }

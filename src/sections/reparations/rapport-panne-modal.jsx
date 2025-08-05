@@ -30,6 +30,7 @@ export default function RapportPanneModal({ index, open, onClose }) {
               ))}
             </Field.Select>
           </Grid>
+          
           <Grid xs={6}>
             <Field.Select name={`${rapport}.items.arrier`} label="Arrière">
               <MenuItem>Rien à signaler</MenuItem>
