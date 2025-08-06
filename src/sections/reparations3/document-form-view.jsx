@@ -128,7 +128,7 @@ export default function DocumentFormView() {
       {/* Floating popover to add custom sections */}
       <CustomPopover open={popover.open} anchorEl={popover.anchorEl} onClose={popover.onClose}>
         <MenuList>
-          <MenuItem onClick={() => handleAddSection('subtotal')}>
+          {/* <MenuItem onClick={() => handleAddSection('subtotal')}>
             <Iconify icon="mdi:calculator" width={20} sx={{ mr: 1 }} />
             Sous-total
           </MenuItem>
@@ -136,7 +136,7 @@ export default function DocumentFormView() {
             <Iconify icon="mdi:calculator-variant" width={20} sx={{ mr: 1 }} />
             Total
           </MenuItem>
-          <Divider />
+          <Divider /> */}
           <MenuItem onClick={() => handleAddSection('separator')}>
             <Iconify icon="mdi:minus" width={20} sx={{ mr: 1 }} />
             Ligne de séparation

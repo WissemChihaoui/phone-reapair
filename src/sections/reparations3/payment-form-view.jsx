@@ -13,17 +13,26 @@ const _baseMethodes = [
   { value: '', label: 'Choisir ...' },
   { value: 'virement', label: 'Virement' },
   { value: 'espece', label: 'Éspece' },
-]
+];
+
 const _remboursementMethodes = [
   { value: 'remboursement_25', label: 'Paiement à remboursement 25' },
   { value: 'remboursement_50', label: 'Paiement à remboursement 50' },
 ];
+
 export default function PaymentFormView() {
   const { control, watch } = useFormContext();
 
   const { fields, append, remove } = useFieldArray({ control, name: 'payment.data' });
 
-  const {payment} = watch()
+  const payment = watch('payment') || {};
+  const total = Number(watch('total') || 0);
+  const remise = Number(watch('remise') || 0);
+  const totalApresRemise = total - remise;
+
+  const paymentData = payment.data || [];
+  const montantPaye = paymentData.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
+  const totalRestant = totalApresRemise - montantPaye;
 
   const getPaymentOptions = () => {
     let options = _baseMethodes;
@@ -34,15 +43,12 @@ export default function PaymentFormView() {
   };
 
   const handleAdd = () => {
-    const newLocal = 500 > 0;
-    if (newLocal) {
-      append({
-        id: fields.length,
-        amount: null,
-        date: today(),
-        methode: { value: '', label: 'Choisir ...' },
-      });
-    }
+    append({
+      id: fields.length,
+      amount: null,
+      date: today(),
+      methode: { value: '', label: 'Choisir ...' },
+    });
   };
 
   const handleRemove = (index) => {
@@ -52,8 +58,7 @@ export default function PaymentFormView() {
   return (
     <Box sx={{ p: 3, display: 'flex', alignItems: 'flex-start' }}>
       <Box sx={{ p: 3, flex: 1 }}>
-       
-        <Stack sx={{ mb: 2}}>
+        <Stack sx={{ mb: 2 }}>
           <Field.Checkbox name="payment.quali" label="Réparation éligible qualirepar" />
         </Stack>
         {fields.map((item, index) => (
@@ -110,37 +115,31 @@ export default function PaymentFormView() {
           </Button>
         </Stack>
       </Box>
-       <Divider orientation="vertical" variant="middle" flexItem sx={{ mx: 4 }} />
-      <Stack
-        spacing={2}
-        alignItems="flex-end"
-        sx={{ mt: 3, textAlign: 'right', typography: 'body2' }}
-      >
+      <Divider orientation="vertical" variant="middle" flexItem sx={{ mx: 4 }} />
+      <Stack spacing={2} alignItems="flex-end" sx={{ mt: 3, textAlign: 'right', typography: 'body2' }}>
         <Stack direction="row">
           <Box sx={{ color: 'text.secondary' }}>Total</Box>
-          <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(600)}</Box>
+          <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(total)}</Box>
         </Stack>
 
         <Stack direction="row">
           <Box sx={{ color: 'text.secondary' }}>Remise (€)</Box>
-          <Box sx={{ width: 160, color: 'error.main' }}>
-            {`- ${fCurrency(1200)}`} ({`- ${1200}%`})
-          </Box>
+          <Box sx={{ width: 160, color: 'error.main' }}>- {fCurrency(remise)}</Box>
         </Stack>
 
         <Stack direction="row">
-          <Box sx={{ color: 'text.secondary' }}>Total aprés remise </Box>
-          <Box
-            sx={{ width: 160, color: 'error.main' }}
-          >{`${fCurrency(500 - 100)}`}</Box>
+          <Box sx={{ color: 'text.secondary' }}>Total après remise</Box>
+          <Box sx={{ width: 160, color: 'error.main' }}>{fCurrency(totalApresRemise)}</Box>
         </Stack>
+
         <Stack direction="row">
           <Box sx={{ color: 'text.secondary' }}>Montant Payé</Box>
-          <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(700) || '-'}</Box>
+          <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(montantPaye)}</Box>
         </Stack>
+
         <Stack direction="row" sx={{ typography: 'subtitle1' }}>
           <div>Total Restant :</div>
-          <Box sx={{ width: 160 }}>{fCurrency(200) || '-'}</Box>
+          <Box sx={{ width: 160 }}>{fCurrency(totalRestant)}</Box>
         </Stack>
       </Stack>
     </Box>

@@ -1,6 +1,4 @@
-import React from 'react';
-import { useWatch, Controller, useFormContext } from 'react-hook-form';
-
+import React, { useEffect } from 'react';
 import {
   Grid,
   Stack,
@@ -9,9 +7,9 @@ import {
   TextField,
   Autocomplete,
 } from '@mui/material';
+import { useWatch, Controller, useFormContext } from 'react-hook-form';
 
 import { useBoolean } from 'src/hooks/use-boolean';
-
 import { mainOeuvreList } from 'src/_mock/_reparations';
 
 import { Iconify } from 'src/components/iconify';
@@ -21,7 +19,7 @@ export default function MainOeuvreSection({ index, onRemove }) {
   const { register, setValue, control, trigger } = useFormContext();
   const add = useBoolean();
 
-  const watchPrice = useWatch({ name: `documents.${index}.data.price`, control });
+  const price = useWatch({ name: `documents.${index}.data.price`, control });
 
   const handleSelect = (e, value) => {
     setValue(`documents.${index}.data.nom`, value);
@@ -31,9 +29,15 @@ export default function MainOeuvreSection({ index, onRemove }) {
     trigger(`documents.${index}.data.nom`);
   };
 
+  // 🔁 Update total when price changes
+  useEffect(() => {
+    setValue(`documents.${index}.total`, price || 0);
+  }, [price, setValue, index]);
+
   return (
     <>
       <Grid container spacing={2} mb={2}>
+        {/* Autocomplete for nom */}
         <Grid item xs={12} md={8}>
           <Stack direction="row" spacing={1}>
             <Controller
@@ -101,6 +105,7 @@ export default function MainOeuvreSection({ index, onRemove }) {
           </Button>
         </Grid>
       </Grid>
+
       <AddMainOuvreDialog open={add.value} onClose={add.onFalse} />
     </>
   );

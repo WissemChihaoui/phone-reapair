@@ -1,149 +1,113 @@
-import React, { useState } from 'react';
-import { useFormContext, useFieldArray } from 'react-hook-form';
+import React from 'react';
+import { useFormContext, useFieldArray, Controller } from 'react-hook-form';
 
-import {
-  Grid,
-  Stack,
-  Button,
-  TextField,
-  Autocomplete,
-  Typography,
-  Divider,
-  Card,
-} from '@mui/material';
-
-import { useBoolean } from 'src/hooks/use-boolean';
-
+import { Stack, Typography, IconButton, Grid, TextField, Autocomplete, Divider } from '@mui/material';
 import { Iconify } from 'src/components/iconify';
-import AddRegroupementDialog from 'src/components/form-dialogs/regroupement';
 
-// import { AddRegroupementDialog } from 'src/components/form-dialogs/regroupement-rapide';
-
-// import { regroupementOptions } from 'src/_mock/_reparations';
-
-const regroupementOptions =[
+const REGROUPEMENTS = [
   {
-    value: 'g1',
-    label: 'Pack réparation écran',
+    id: 'group1',
+    label: 'Smartphone Repair Kit',
     pieces: [
-      { label: 'Écran Samsung S21', value: 'screen-1', price: 120 },
-      { label: 'Adhésif écran', value: 'glue-5', price: 5 },
-    ]
+      { nom: 'Screen', qte: 1, price: 89.99 },
+      { nom: 'Battery', qte: 1, price: 39.99 },
+    ],
   },
-]
+  {
+    id: 'group2',
+    label: 'Laptop Maintenance Pack',
+    pieces: [
+      { nom: 'Thermal Paste', qte: 1, price: 12.99 },
+    ],
+  },
+];
+
 export default function RegroupementSection({ index, onRemove }) {
   const { control, setValue } = useFormContext();
-  const { append, remove, fields } = useFieldArray({
+
+  const { fields, append, update, remove } = useFieldArray({
     control,
-    name: 'documents',
+    name: `documents.${index}.data`, // pieces nested in this regroupement
   });
 
-  const add = useBoolean();
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  const handleGroupChange = (event, newValue) => {
+    if (!newValue) return;
 
-  const handleGroupChange = (e, group) => {
-    setSelectedGroup(group);
-
-    if (!group || !group.pieces?.length) return;
-
-    const newPieceItems = group.pieces.map((piece) => ({
-      type: 'piece',
-      data: {
-        nom: piece, // piece is an object with label, value, price
-        qte: 1,
-        price: piece.price,
-        remise: 0,
-        champ: '',
-        total: piece.price,
-        fromGroup: group.value, // mark it's from a regroupement
-      },
+    const selectedPieces = newValue.pieces.map(piece => ({
+      ...piece,
     }));
 
-    // Insert right after the regroupement
-    const insertAt = index + 1;
-    newPieceItems.forEach((item, i) => {
-      append(item, { shouldFocus: false });
-    });
-
-    setValue(`documents.${index}.data.groupLabel`, group.label);
-    setValue(`documents.${index}.data.groupValue`, group.value);
-    setValue(`documents.${index}.data.price`, group.pieces.reduce((acc, p) => acc + p.price, 0));
-  };
-
-  // Remove this group and all following items with matching fromGroup
-  const handleRemoveGroup = () => {
-    const currentFields = fields; // all documents
-    const groupKey = selectedGroup?.value;
-
-    // Get indexes of pieces added by this group
-    const indexesToRemove = currentFields.reduce((acc, item, idx) => {
-      if (idx === index) return acc; // regroupement itself
-      if (item.type === 'piece' && item.data?.fromGroup === groupKey) acc.push(idx);
-      return acc;
-    }, []);
-
-    // First remove the group itself
-    onRemove();
-
-    // Then remove related pieces in reverse order
-    indexesToRemove.sort((a, b) => b - a).forEach((i) => remove(i));
+    // Set regroupement name
+    setValue(`documents.${index}.nom`, newValue.label);
+    // Reset the pieces
+    setValue(`documents.${index}.data`, selectedPieces);
   };
 
   return (
-    <Card variant="outlined" sx={{ p: 2 }}>
-      <Typography variant="subtitle1" gutterBottom>
-        Regroupement
-      </Typography>
-
-      <Grid container spacing={2}>
+    <Stack spacing={2} sx={{ p: 2, bgcolor: 'background.paper' }}>
+      <Grid container spacing={2} alignItems="center">
         <Grid item xs={12} md={6}>
-          <Stack direction="row" spacing={0.5}>
-            <Autocomplete
-              sx={{ flexGrow: 1 }}
-              noOptionsText="Pas de données"
-              options={regroupementOptions}
-              value={selectedGroup}
-              onChange={handleGroupChange}
-              getOptionLabel={(option) => option.label}
-              renderInput={(params) => (
-                <TextField {...params} label="Regroupement" size="small" />
-              )}
-            />
-            <Button onClick={add.onTrue} color="success" variant="contained">
-              <Iconify icon="ic:round-plus" />
-            </Button>
-          </Stack>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <TextField
-            fullWidth
-            size="small"
-            label="Prix Total"
-            type="number"
-            value={
-              selectedGroup?.pieces?.reduce((acc, p) => acc + p.price, 0) || 0
-            }
-            InputProps={{ readOnly: true }}
+          <Controller
+            name={`documents.${index}.regroupement`}
+            control={control}
+            render={({ field }) => (
+              <Autocomplete
+                {...field}
+                options={REGROUPEMENTS}
+                getOptionLabel={(option) => option?.label || ''}
+                onChange={handleGroupChange}
+                renderInput={(params) => <TextField {...params} label="Regroupement" size="small" />}
+              />
+            )}
           />
         </Grid>
 
-        <Grid item xs={12} md={2}>
-          <Button
-            variant="contained"
-            size="small"
-            color="error"
-            onClick={handleRemoveGroup}
-            startIcon={<Iconify icon="mdi:delete" />}
-            sx={{ height: '100%' }}
-          >
-            Supprimer
-          </Button>
+        <Grid item xs={12} md={6} sx={{ textAlign: 'right' }}>
+          <IconButton color="error" onClick={onRemove}>
+            <Iconify icon="mdi:delete" />
+          </IconButton>
         </Grid>
       </Grid>
 
-      <Divider sx={{ my: 2 }} />
-      <AddRegroupementDialog open={add.value} onClose={add.onFalse} />
-    </Card>
+      {fields.length > 0 && (
+        <>
+          <Divider />
+          <Typography variant="subtitle2">Pièces:</Typography>
+          <Stack spacing={2} sx={{ pl: 2, borderLeft: '2px dashed #ccc' }}>
+            {fields.map((piece, pieceIndex) => (
+              <Grid container spacing={2} key={piece.id}>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    size="small"
+                    label="Nom"
+                    value={piece.nom}
+                    InputProps={{ readOnly: true }}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Controller
+                    name={`documents.${index}.data.${pieceIndex}.qte`}
+                    control={control}
+                    render={({ field }) => (
+                      <TextField {...field} size="small" label="Quantité" type="number" fullWidth />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Controller
+                    name={`documents.${index}.data.${pieceIndex}.price`}
+                    control={control}
+                    render={({ field }) => (
+                      <TextField {...field} size="small" label="Prix" type="number" fullWidth />
+                    )}
+                  />
+                </Grid>
+              </Grid>
+            ))}
+          </Stack>
+        </>
+      )}
+    </Stack>
   );
 }

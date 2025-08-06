@@ -145,9 +145,9 @@ export const dashboardRoutes = [
         path: 'reparations',
         children: [
           {element:<Reparations />, index: true},
-          {element:<AddReparations3 />, path: 'add3'},
+          {element:<AddReparations3 />, path: 'add'},
           {element:<AddReparations />, path: 'add2'},
-          {element:<AddReparations2 />, path: 'add'},
+          {element:<AddReparations2 />, path: 'add3'},
           {element:<DisplayReparations />, path: ':id/display'},
           {element:<EditReparations />, path: ':id/edit'},
         ]

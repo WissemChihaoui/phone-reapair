@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   useWatch,
   Controller,
@@ -22,10 +22,44 @@ import { AddServiceDialog } from 'src/components/form-dialogs/service';
 import { servicesList } from 'src/_mock/_reparations';
 
 export default function ServiceSection({ index, onRemove }) {
-  const { register, setValue, control, trigger } = useFormContext();
+  const { register, setValue, control, getValues, trigger } = useFormContext();
   const add = useBoolean();
 
-  const watchPrice = useWatch({ name: `documents.${index}.data.price`, control });
+  // Watch price changes for this service line
+  const watchPrice = useWatch({
+    name: `documents.${index}.data.price`,
+    control,
+  });
+
+  // Watch all documents to recalculate total
+  const allDocuments = useWatch({ name: 'documents', control });
+
+  // Update total when price changes
+  useEffect(() => {
+    if (!Array.isArray(allDocuments)) return;
+
+    const total = allDocuments.reduce((sum, doc) => {
+      const type = doc.type;
+      const data = doc.data;
+
+      if (!data || typeof data.price !== 'number') return sum;
+
+      const discount = typeof data.discount === 'number' ? data.discount : 0;
+      const qty = typeof data.qte === 'number' ? data.qte : 1;
+
+      if (type === 'piece') {
+        return sum + qty * (data.price - discount);
+      }
+
+      if (type === 'main_oeuvre' || type === 'service') {
+        return sum + (data.price - discount);
+      }
+
+      return sum;
+    }, 0);
+
+    setValue('total', total);
+  }, [watchPrice, allDocuments, setValue]);
 
   const handleSelect = (e, value) => {
     setValue(`documents.${index}.data.nom`, value);
@@ -108,6 +142,6 @@ export default function ServiceSection({ index, onRemove }) {
       </Grid>
 
       <AddServiceDialog open={add.value} onClose={add.onFalse} />
-</>
+    </>
   );
 }

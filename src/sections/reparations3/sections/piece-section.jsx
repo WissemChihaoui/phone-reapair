@@ -1,40 +1,67 @@
 import React, { useEffect } from 'react';
 import { useWatch, Controller, useFormContext } from 'react-hook-form';
-
-import { Grid, Stack, Button, TextField, Autocomplete } from '@mui/material';
+import {
+  Grid,
+  Stack,
+  Button,
+  TextField,
+  Autocomplete,
+} from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
-
 import { piecesList } from 'src/_mock/_reparations';
-
 import { Iconify } from 'src/components/iconify';
 import { AddArticleDialog } from 'src/components/form-dialogs/article-rapide';
 
-// Props: index (number), onRemove (function), piecesList (array)
 export default function PieceSection({ index, onRemove }) {
-  const { register, control, setValue, trigger } = useFormContext();
+  const { register, control, setValue, getValues, trigger } = useFormContext();
   const add = useBoolean();
 
-  const watchQte = useWatch({ name: `documents.${index}.data.qte`, control });
-  const watchPrice = useWatch({ name: `documents.${index}.data.price`, control });
-  const watchRemise = useWatch({ name: `documents.${index}.data.remise`, control });
+  const qte = useWatch({ name: `documents.${index}.data.qte`, control });
+  const price = useWatch({ name: `documents.${index}.data.price`, control });
+  const remise = useWatch({ name: `documents.${index}.data.remise`, control });
 
-  // Auto calculate total
-  useEffect(() => {
-    const total = (watchQte || 0) * (watchPrice || 0) - (watchRemise || 0);
-    setValue(`documents.${index}.data.total`, total);
-    trigger(`documents.${index}.data.total`);
-  }, [watchQte, watchPrice, watchRemise, index, setValue, trigger]);
+  const total = (qte || 0) * (price || 0) - (remise || 0);
 
+  // Handle selecting article from autocomplete
   const handleSelect = (e, value) => {
     setValue(`documents.${index}.data.nom`, value);
     if (value?.price) {
       setValue(`documents.${index}.data.price`, value.price);
+      setValue(`documents.${index}.data.qte`, 1);
     }
   };
 
+  // Update piece total + trigger recalculating global totals
+  useEffect(() => {
+    setValue(`documents.${index}.data.total`, total);
+
+    // Calculate global total & remise from all document items
+    const documents = getValues('documents') || [];
+    let globalTotal = 0;
+    let globalRemise = 0;
+
+    documents.forEach((doc, i) => {
+      const d = doc?.data || {};
+      const t = (d.qte || 0) * (d.price || 0);
+      globalTotal += t;
+      globalRemise += d.remise || 0;
+
+      // Optionally update each piece total individually if not current
+      if (i !== index) {
+        setValue(`documents.${i}.data.total`, t - (d.remise || 0));
+      }
+    });
+
+    // Save the updated global totals in form state
+    setValue('total', globalTotal);
+    setValue('remise', globalRemise);
+
+    trigger(['total', 'remise']);
+  }, [qte, price, remise, index, setValue, getValues, trigger, total]);
+
   return (
-   <>
+    <>
       <Grid container spacing={2} mb={2}>
         {/* Nom */}
         <Grid item xs={12} md={6}>
@@ -45,8 +72,8 @@ export default function PieceSection({ index, onRemove }) {
               render={({ field }) => (
                 <Autocomplete
                   {...field}
+                  fullWidth
                   options={piecesList}
-                  sx={{ width: 1 }}
                   onChange={handleSelect}
                   getOptionLabel={(option) => option?.label || ''}
                   renderInput={(params) => (
@@ -121,7 +148,7 @@ export default function PieceSection({ index, onRemove }) {
             size="small"
             disabled
             InputLabelProps={{ shrink: true }}
-            value={(watchQte || 0) * (watchPrice || 0) - (watchRemise || 0)}
+            value={total.toFixed(2)}
           />
         </Grid>
 
@@ -141,6 +168,6 @@ export default function PieceSection({ index, onRemove }) {
       </Grid>
 
       <AddArticleDialog open={add.value} onClose={add.onFalse} />
-   </>
+    </>
   );
 }
