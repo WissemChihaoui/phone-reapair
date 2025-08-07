@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useWatch, Controller, useFormContext } from 'react-hook-form';
+import { useFormContext, Controller, useWatch } from 'react-hook-form';
 import {
   Grid,
   Stack,
@@ -14,51 +14,35 @@ import { Iconify } from 'src/components/iconify';
 import { AddArticleDialog } from 'src/components/form-dialogs/article-rapide';
 
 export default function PieceSection({ index, onRemove }) {
-  const { register, control, setValue, getValues, trigger } = useFormContext();
+  const { register, control, setValue } = useFormContext();
+
   const add = useBoolean();
 
-  const qte = useWatch({ name: `documents.${index}.data.qte`, control });
-  const price = useWatch({ name: `documents.${index}.data.price`, control });
-  const remise = useWatch({ name: `documents.${index}.data.remise`, control });
+  // ✅ Watch only this piece's data
+  const data = useWatch({ control, name: `documents.${index}.data` }) || {};
 
-  const total = (qte || 0) * (price || 0) - (remise || 0);
-
-  // Handle selecting article from autocomplete
-  const handleSelect = (e, value) => {
-    setValue(`documents.${index}.data.nom`, value);
-    if (value?.price) {
-      setValue(`documents.${index}.data.price`, value.price);
-      setValue(`documents.${index}.data.qte`, 1);
-    }
-  };
-
-  // Update piece total + trigger recalculating global totals
+  // ✅ Update total & totalNet when needed
   useEffect(() => {
+    const qte = Number(data.qte || 0);
+    const price = Number(data.price || 0);
+    const remise = Number(data.remise || 0);
+
+    const totalNet = qte * price;
+    const total = totalNet - remise;
+
+    setValue(`documents.${index}.data.totalNet`, totalNet);
     setValue(`documents.${index}.data.total`, total);
+  }, [data.qte, data.price, data.remise, index, setValue]);
 
-    // Calculate global total & remise from all document items
-    const documents = getValues('documents') || [];
-    let globalTotal = 0;
-    let globalRemise = 0;
+  // ✅ When selecting an article
+  const handleSelect = (e, value) => {
+    if (!value) return;
 
-    documents.forEach((doc, i) => {
-      const d = doc?.data || {};
-      const t = (d.qte || 0) * (d.price || 0);
-      globalTotal += t;
-      globalRemise += d.remise || 0;
-
-      // Optionally update each piece total individually if not current
-      if (i !== index) {
-        setValue(`documents.${i}.data.total`, t - (d.remise || 0));
-      }
-    });
-
-    // Save the updated global totals in form state
-    setValue('total', globalTotal);
-    setValue('remise', globalRemise);
-
-    trigger(['total', 'remise']);
-  }, [qte, price, remise, index, setValue, getValues, trigger, total]);
+    setValue(`documents.${index}.data.nom`, value);
+    setValue(`documents.${index}.data.price`, value.price);
+    setValue(`documents.${index}.data.qte`, 1);
+    setValue(`documents.${index}.data.remise`, 0);
+  };
 
   return (
     <>
@@ -101,7 +85,7 @@ export default function PieceSection({ index, onRemove }) {
             type="number"
             size="small"
             InputLabelProps={{ shrink: true }}
-            {...register(`documents.${index}.data.qte`, { valueAsNumber: true })}
+            {...register(`documents.${index}.data.qte`)}
           />
         </Grid>
 
@@ -113,7 +97,7 @@ export default function PieceSection({ index, onRemove }) {
             type="number"
             size="small"
             InputLabelProps={{ shrink: true }}
-            {...register(`documents.${index}.data.price`, { valueAsNumber: true })}
+            {...register(`documents.${index}.data.price`)}
           />
         </Grid>
 
@@ -136,7 +120,7 @@ export default function PieceSection({ index, onRemove }) {
             type="number"
             size="small"
             InputLabelProps={{ shrink: true }}
-            {...register(`documents.${index}.data.remise`, { valueAsNumber: true })}
+            {...register(`documents.${index}.data.remise`)}
           />
         </Grid>
 
@@ -148,7 +132,7 @@ export default function PieceSection({ index, onRemove }) {
             size="small"
             disabled
             InputLabelProps={{ shrink: true }}
-            value={total.toFixed(2)}
+            value={data.total?.toFixed(2) || ''}
           />
         </Grid>
 

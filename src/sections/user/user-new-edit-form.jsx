@@ -227,7 +227,7 @@ export function UserNewEditForm({ currentUser }) {
               />
 
               <Field.Text name="state" label="State/region" />
-              <Field.Text name="city" label="City" />
+              <Field.Text name="city" label="Ville" />
               <Field.Text name="address" label="Address" />
               <Field.Text name="zipCode" label="Zip/code" />
               <Field.Text name="company" label="Company" />

@@ -58,7 +58,7 @@ export const navData = [
     items: [
       {
         title: 'Réparations',
-        path: paths.dashboard.group.root,
+        path: paths.dashboard.reparations.root,
         icon: ICONS.repaire,
         children: [
           { title: 'Nouvelle réparations', path: paths.dashboard.reparations.add },
@@ -172,6 +172,7 @@ export const navData = [
         path: paths.dashboard.boutique.root,
         icon: ICONS.boutique,
         children: [
+          { title: 'Configurations', path: paths.dashboard.boutique.configurations },
           { title: 'Employées', path: paths.dashboard.boutique.root },
           { title: 'Fonction employeur', path: paths.dashboard.boutique.fonctions },
           { title: 'Partenaires', path: paths.dashboard.boutique.partenaires },
@@ -180,7 +181,6 @@ export const navData = [
           { title: 'Type de client', path: paths.dashboard.boutique.types },
           { title: 'Type de matériel', path: paths.dashboard.boutique.materialTypes },
           { title: 'Conditions', path: paths.dashboard.boutique.conditions },
-          { title: 'Configurations', path: paths.dashboard.boutique.configurations },
           { title: 'Impression', path: paths.dashboard.boutique.impression },
           { title: 'Casier de rangement', path: paths.dashboard.boutique.cassierRangements },
         ],

@@ -18,7 +18,8 @@ export default function StatusTableRow({ row, selected, onEditRow, onSelectRow, 
         <TableCell padding="checkbox">
             <Checkbox id={row.id} checked={selected} onClick={onSelectRow} />
         </TableCell>
-        <TableCell>
+       {!row.fromAdmin ? (
+         <TableCell>
           <Stack direction="row" alignItems="center" spacing={1}>
             <Tooltip title="Modifier" placement="top" arrow>
               <Fab size="small" color="warning" onClick={() => quickEdit.onTrue()}>
@@ -39,6 +40,7 @@ export default function StatusTableRow({ row, selected, onEditRow, onSelectRow, 
             </Tooltip>
           </Stack>
         </TableCell>
+       ): <TableCell />}
         <TableCell>
             <Typography variant='body2'>
                 {row.name}
@@ -59,6 +61,7 @@ export default function StatusTableRow({ row, selected, onEditRow, onSelectRow, 
         <TableCell>
             <Label style={{ backgroundColor: row.color, color: 'white'}}>{row.color}</Label>
         </TableCell>
+        
     </TableRow>
     <StatusAddEditForm open={quickEdit.value} onClose={quickEdit.onFalse} currentStatus={row} />
 

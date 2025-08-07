@@ -61,13 +61,8 @@ export const paths = {
   // DASHBOARD
   dashboard: {
     root: ROOTS.DASHBOARD,
-    two: `${ROOTS.DASHBOARD}/two`,
-    three: `${ROOTS.DASHBOARD}/three`,
-    group: {
-      root: `${ROOTS.DASHBOARD}/group`,
-      five: `${ROOTS.DASHBOARD}/group/five`,
-      six: `${ROOTS.DASHBOARD}/group/six`,
-    },
+    
+   
     reparations:{
       root: `${ROOTS.DASHBOARD}/reparations`,
       add: `${ROOTS.DASHBOARD}/reparations/add`,
@@ -173,10 +168,10 @@ export const paths = {
       edit: (title) => `${ROOTS.DASHBOARD}/support/${title}/edit`,
     },
     ecosystem: {
-      add: (id) => `${ROOTS.DASHBOARD}/ecosystem/${id}/add`,
+      root: (id) => `${ROOTS.DASHBOARD}/ecosystem/${id}/add`,
     },
     ecologic: {
-      add: (id) => `${ROOTS.DASHBOARD}/ecologic/${id}/add`,
+      root: (id) => `${ROOTS.DASHBOARD}/ecologic/${id}/add`,
     },
     achats: {
       root: `${ROOTS.DASHBOARD}/achats`,

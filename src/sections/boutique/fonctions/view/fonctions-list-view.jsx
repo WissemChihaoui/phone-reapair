@@ -15,8 +15,7 @@ export default function FonctionsListView() {
     }
   }, []);
   return (
-    <>
-      <DashboardContent>
+    <DashboardContent>
         <CustomBreadcrumbs
           heading="Les fonctions employeur"
           links={[
@@ -46,6 +45,5 @@ export default function FonctionsListView() {
             <PermissionSideView />
         )}
       </DashboardContent>
-    </>
   );
 }

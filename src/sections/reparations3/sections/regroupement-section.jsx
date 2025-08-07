@@ -1,7 +1,16 @@
-import React from 'react';
-import { useFormContext, useFieldArray, Controller } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useFormContext, useFieldArray, Controller, useWatch } from 'react-hook-form';
 
-import { Stack, Typography, IconButton, Grid, TextField, Autocomplete, Divider } from '@mui/material';
+import {
+  Stack,
+  Typography,
+  IconButton,
+  Grid,
+  TextField,
+  Autocomplete,
+  Divider,
+} from '@mui/material';
+
 import { Iconify } from 'src/components/iconify';
 
 const REGROUPEMENTS = [
@@ -25,10 +34,26 @@ const REGROUPEMENTS = [
 export default function RegroupementSection({ index, onRemove }) {
   const { control, setValue } = useFormContext();
 
-  const { fields, append, update, remove } = useFieldArray({
+  const { fields } = useFieldArray({
     control,
-    name: `documents.${index}.data`, // pieces nested in this regroupement
+    name: `documents.${index}.data`,
   });
+
+  // 👀 Watch for price and qte changes
+  const pieces = useWatch({ name: `documents.${index}.data`, control });
+
+  // 🧮 Total calculation on pieces change
+  useEffect(() => {
+    if (!pieces || !Array.isArray(pieces)) return;
+
+    const total = pieces.reduce((acc, piece) => {
+      const qte = Number(piece.qte) || 0;
+      const price = Number(piece.price) || 0;
+      return acc + qte * price;
+    }, 0);
+
+    setValue(`documents.${index}.total`, total);
+  }, [pieces, setValue, index]);
 
   const handleGroupChange = (event, newValue) => {
     if (!newValue) return;
@@ -37,9 +62,7 @@ export default function RegroupementSection({ index, onRemove }) {
       ...piece,
     }));
 
-    // Set regroupement name
     setValue(`documents.${index}.nom`, newValue.label);
-    // Reset the pieces
     setValue(`documents.${index}.data`, selectedPieces);
   };
 

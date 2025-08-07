@@ -1,32 +1,39 @@
-import { Box, Button, Card, IconButton, Table, TableBody, Tooltip } from '@mui/material';
-import React, { useCallback, useState } from 'react';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { Iconify } from 'src/components/iconify';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { Scrollbar } from 'src/components/scrollbar';
-import {
-  emptyRows,
-  getComparator,
-  rowInPage,
-  TableEmptyRows,
-  TableHeadCustom,
-  TableNoData,
-  TableSelectedAction,
-  useTable,
-} from 'src/components/table';
 import { toast } from 'sonner';
+import React, { useState, useCallback } from 'react';
+
+import { Box, Card, Table, Button, Tooltip, TableBody, IconButton } from '@mui/material';
+
+import { paths } from 'src/routes/paths';
+
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
+
 import { DashboardContent } from 'src/layouts/dashboard';
-import { paths } from 'src/routes/paths';
-import StatusTableToolbar from '../status-table-toolbar';
-import StatusTableFiltersResult from '../status-table-filters-result';
+
+import { Iconify } from 'src/components/iconify';
+import { Scrollbar } from 'src/components/scrollbar';
+import { ConfirmDialog } from 'src/components/custom-dialog';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+import {
+  useTable,
+  emptyRows,
+  rowInPage,
+  TableNoData,
+  getComparator,
+  TableEmptyRows,
+  TableHeadCustom,
+  TableSelectedAction,
+} from 'src/components/table';
+
 import StatusTableRow from '../status-table-row';
 import StatusAddEditForm from '../status-add-edit-form';
+import StatusTableToolbar from '../status-table-toolbar';
+import StatusTableFiltersResult from '../status-table-filters-result';
 
 const _statusList = [
   {
     name: 'Prise en charge',
+    id:1,
     isSms: true,
     sms:'Message de notification par sms',
     isMail: true,
@@ -35,6 +42,20 @@ const _statusList = [
     validation: true,
     file: false,
     color: '#fb0e58',
+    fromAdmin: true
+  },
+  {
+    name: 'En Cours',
+    id:2,
+    isSms: true,
+    sms:'Message de notification par sms',
+    isMail: true,
+    objectMail: 'Objet de mail',
+    messageMail: 'Notification par mail',
+    validation: true,
+    file: false,
+    color: '#fb0e88',
+    fromAdmin: false
   },
 ];
 
@@ -108,6 +129,7 @@ export default function StatusViewList() {
             <Button
               onClick={() => modalForm.onTrue()}
               variant="contained"
+              color='primary'
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
               Ajouter un statut
@@ -222,11 +244,11 @@ function applyFilter({ inputData, comparator, filters }) {
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
+  // stabilizedThis.sort((a, b) => {
+  //   const order = comparator(a[0], b[0]);
+  //   if (order !== 0) return order;
+  //   return a[1] - b[1];
+  // });
 
   inputData = stabilizedThis.map((el) => el[0]);
 

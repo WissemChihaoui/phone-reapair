@@ -137,7 +137,7 @@ export default function EmployeesCreateEditDialog({ open, onClose, currentUser }
             <Field.Phone name="phoneNumber" label="Téléphone Mobile" />
             <Field.Text name="address" label="Adresse" />
             <Field.Text name="zipCode" label="Code postal" />
-            <Field.Text name="city" label="City" />
+            <Field.Text name="city" label="Ville" />
           </Box>
         </DialogContent>
         <DialogActions>

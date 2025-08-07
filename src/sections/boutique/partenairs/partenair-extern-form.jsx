@@ -118,7 +118,7 @@ export default function PartenairExternForm({ open, onClose, currentUser }) {
             <Field.Text
               name="password"
               label="Password"
-              placeholder="6+ characters"
+              placeholder="6+ caractéres"
               type={password.value ? 'text' : 'password'}
               InputLabelProps={{ shrink: true }}
               InputProps={{
@@ -131,11 +131,11 @@ export default function PartenairExternForm({ open, onClose, currentUser }) {
                 ),
               }}
             />
-            <Field.Phone name="phoneNumber" label="Téléphone Mobile" />
-            <Field.Phone name="fixNumber" label="Téléphone Fixe" />
+            <Field.Phone name="phoneNumber" label="Téléphone Mobile" placeholder="Numéro du téléphone mobile"/>
+            <Field.Phone name="fixNumber" label="Téléphone Fixe" placeholder="Numéro du téléphone fixe"/>
             <Field.Text name="address" label="Adresse" />
             <Field.Text name="zipCode" label="Code postal" />
-            <Field.Text name="city" label="City" />
+            <Field.Text name="city" label="Ville" />
           </Box>
         </DialogContent>
         <DialogActions>

@@ -54,7 +54,7 @@ export function PermissionSideView() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Route</TableCell>
+            {/* <TableCell>Route</TableCell> */}
             <TableCell align="right">Lien</TableCell>
             <TableCell align="right">Fonctions</TableCell>
           </TableRow>
@@ -73,6 +73,8 @@ export function PermissionSideView() {
 function CollapsibleTableRow({ row }) {
   const collapsible = useBoolean();
   const local = useSetState({ selectedFunctions: [] });
+
+  console.log(row)
 
   // Handle function selection for a route
   const handleFunctionSelect = (selectedId) => {
@@ -113,11 +115,11 @@ function CollapsibleTableRow({ row }) {
           )}
         </TableCell>
 
-        <TableCell component="th" scope="row">
+        {/* <TableCell component="th" scope="row">
           {row.key}
-        </TableCell>
+        </TableCell> */}
 
-        <TableCell align="right">{row.path}</TableCell>
+        <TableCell align="right">{row.path? row.path : row?.children[0]?.path}</TableCell>
 
         {/* Function Select for Parent */}
         <TableCell align="right">

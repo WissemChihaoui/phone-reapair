@@ -83,7 +83,6 @@ export default function DisplayControlPanel({
       {renderHead}
 
       <Scrollbar sx={{ py: 2, pr: 1, pl: 2.5 }}>
-       
         <Block sx={{ mb: 2 }} title="Gestion de fichier">
           <Grid container spacing={2}>
             <Grid xs={6}>
@@ -139,7 +138,13 @@ export default function DisplayControlPanel({
               </Button>
             </Grid>
             <Grid xs={6}>
-              <Button href={paths.dashboard.ecosystem.add(1)} LinkComponent={RouterLink} variant="outlined" sx={{ height: '100%' }} fullWidth>
+              <Button
+                href={paths.dashboard.ecosystem.root(1)}
+                LinkComponent={RouterLink}
+                variant="outlined"
+                sx={{ height: '100%' }}
+                fullWidth
+              >
                 <Box display="flex" flexDirection="column" alignItems="center">
                   <Iconify width={36} icon="nimbus:ecosystem" />
                   EcoSystem
@@ -147,7 +152,13 @@ export default function DisplayControlPanel({
               </Button>
             </Grid>
             <Grid xs={6}>
-              <Button href={paths.dashboard.ecologic.add(1)} LinkComponent={RouterLink} variant="outlined" sx={{ height: '100%' }} fullWidth>
+              <Button
+                href={paths.dashboard.ecosystem.root(1)}
+                LinkComponent={RouterLink}
+                variant="outlined"
+                sx={{ height: '100%' }}
+                fullWidth
+              >
                 <Box display="flex" flexDirection="column" alignItems="center">
                   <Iconify width={36} icon="nimbus:ecosystem" />
                   EcoLogic

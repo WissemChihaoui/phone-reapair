@@ -17,9 +17,9 @@ export default function ReparationEcosystemEcologique({ id, status = 3 }) {
   const renderEcosystem = (
     <Stack direction="row" justifyContent="space-around" width={1} flexGrow={1}>
       <Button
-      disabled={status === 2}
+        disabled={status === 2}
         variant="outlined"
-        href={paths.dashboard.ecosystem.add(id)}
+        href={paths.dashboard.ecosystem.root(id)}
         LinkComponent={RouterLink}
       >
         <Image src={`${CONFIG.assetsDir}/assets/ecosystem.png`} width={100} />
@@ -32,9 +32,9 @@ export default function ReparationEcosystemEcologique({ id, status = 3 }) {
   const renderEcologic = (
     <Stack direction="row" justifyContent="space-around" width={1} flexGrow={1}>
       <Button
-      disabled={status === 1}
+        disabled={status === 1}
         variant="outlined"
-        href={paths.dashboard.ecologic.add(id)}
+        href={paths.dashboard.ecosystem.root(id)}
         LinkComponent={RouterLink}
       >
         <Image src={`${CONFIG.assetsDir}/assets/ecologic.png`} width={100} />
