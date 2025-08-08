@@ -10,8 +10,8 @@ import {
   DialogContent,
 } from '@mui/material';
 
-export default function FondCaisseModal({ open, onClose }) {
-  const [fondField, setFondField] = useState(null);
+export default function FondCaisseModal({ open, onClose, currentFond }) {
+  const [fondField, setFondField] = useState(currentFond?.amount || "");
 
   const save = () => {
     if(fondField){
@@ -23,7 +23,7 @@ export default function FondCaisseModal({ open, onClose }) {
   }
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Ajouter fond de caisse</DialogTitle>
+      <DialogTitle>{currentFond ? "Modifier" : "Ajouter"} fond de caisse</DialogTitle>
       <DialogContent>
         <TextField
           sx={{ mt: 2 }}
@@ -36,7 +36,7 @@ export default function FondCaisseModal({ open, onClose }) {
         />
       </DialogContent>
       <DialogActions>
-        <Button color='primary' variant="contained" onClick={()=> save()}>Enregistrer</Button>
+        <Button color='primary' variant="contained" onClick={()=> save()}>{currentFond ? "Modifier" : "Ajouter"}</Button>
       </DialogActions>
     </Dialog>
   );

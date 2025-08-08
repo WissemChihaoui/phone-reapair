@@ -88,7 +88,7 @@ export default function FournisseurAddEditForm({ currentFournisseur, open, onClo
       PaperProps={{ sx: { maxWidth: 720 } }}
     >
       <Form methods={methods} onSubmit={onSubmit}>
-        <DialogTitle>{currentFournisseur ? 'Modifier' : 'Ajouter'} Fournisseur</DialogTitle>
+        <DialogTitle>{currentFournisseur ? 'Modifier' : 'Ajouter'} un fournisseur</DialogTitle>
         <DialogContent>
           <Box
             mt={2}
@@ -100,8 +100,8 @@ export default function FournisseurAddEditForm({ currentFournisseur, open, onClo
             <Field.Text name="name" label="Nom" />
             <Field.Text name="company" label="Société" />
             <Field.Text name="email" label="Email" />
-            <Field.Phone name="phone" label="Téléphone" />
-            <Field.Phone name="fixNumber" label="Numéro Fixe" />
+            <Field.Phone name="phone" label="Téléphone" placeholder="Numéro du téléphone"/>
+            <Field.Phone name="fixNumber" label="Numéro Fixe" placeholder="Numéro du téléphone fixe"  />
             <Field.Text name="adress" label="Adresse" />
             <Field.Text name="city" label="Ville" />
             <Field.Text name="zipCode" label="Code postal" />

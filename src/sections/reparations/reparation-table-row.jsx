@@ -115,9 +115,9 @@ export function ReparationTableRow({ row, selected, onViewRow, onSelectRow, onDe
         <Label
           variant="soft"
           color={
-            (row.status === 'completed' && 'success') ||
-            (row.status === 'pending' && 'warning') ||
-            (row.status === 'cancelled' && 'error') ||
+            (row.status === 'Devis' && 'success') ||
+            (row.status === 'Prise en charge' && 'warning') ||
+            (row.status === 'Intervention payée et clôturée (archivée)' && 'error') ||
             'default'
           }
         >

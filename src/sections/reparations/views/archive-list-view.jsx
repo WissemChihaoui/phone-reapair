@@ -64,7 +64,7 @@ const TABLE_DATA = [
     product: 'Produit 4',
     createdAt: '2024-11-25T12:41:34+01:00',
     totalAmount: 288,
-    status: 'ntervention payée et clôturée (archivée)'
+    status: 'Intervention payée et clôturée (archivée)'
   }
 ]
 

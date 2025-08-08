@@ -28,11 +28,11 @@ export default function ProductImportView() {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Importer un article"
+        heading="Importer une facture"
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },
           { name: 'Stock', href: paths.dashboard.stock.root },
-          { name: 'Importer un article' },
+          { name: 'Importer une facture' },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />

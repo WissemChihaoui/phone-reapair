@@ -44,7 +44,7 @@ export function SettingsDrawer({
   const renderHead = (
     <Box display="flex" alignItems="center" sx={{ py: 2, pr: 1, pl: 2.5 }}>
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
-        Settings
+        Paramètres
       </Typography>
 
       <FullScreenButton />
@@ -72,7 +72,7 @@ export function SettingsDrawer({
 
   const renderMode = (
     <BaseOption
-      label="Dark mode"
+      label="Mode sombre"
       icon="moon"
       selected={settings.colorScheme === 'dark'}
       onClick={() => {
@@ -84,7 +84,7 @@ export function SettingsDrawer({
 
   const renderContrast = (
     <BaseOption
-      label="Contrast"
+      label="Contraste"
       icon="contrast"
       selected={settings.contrast === 'hight'}
       onClick={() =>
@@ -95,7 +95,7 @@ export function SettingsDrawer({
 
   const renderRTL = (
     <BaseOption
-      label="Right to left"
+      label="De droite à gauche"
       icon="align-right"
       selected={settings.direction === 'rtl'}
       onClick={() =>
@@ -106,8 +106,8 @@ export function SettingsDrawer({
 
   const renderCompact = (
     <BaseOption
-      tooltip="Dashboard only and available at large resolutions > 1600px (xl)"
-      label="Compact"
+      tooltip="Tableau de bord uniquement et disponible dans des résolutions supérieures à 1600px (xl)"
+      label="Compatible"
       icon="autofit-width"
       selected={settings.compactLayout}
       onClick={() => settings.onUpdateField('compactLayout', !settings.compactLayout)}

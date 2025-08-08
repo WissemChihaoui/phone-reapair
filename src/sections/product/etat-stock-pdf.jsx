@@ -1,5 +1,7 @@
 import { Page, View, Text, Font, Document, StyleSheet } from '@react-pdf/renderer';
 
+import { fDate, today } from 'src/utils/format-time';
+
 Font.register({
   family: 'Roboto',
   fonts: [
@@ -19,6 +21,16 @@ const styles = StyleSheet.create({
   logo: { width: 100, marginBottom: 10 },
   header: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
   bold: { fontWeight: 'bold' },
+  redHeader: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textDecoration: 'underline',
+    marginBottom: 10,
+  },
+  topRightInfo: {
+    textAlign: 'right',
+    marginBottom: 10,
+  },
   table: { display: 'table', width: 'auto', marginTop: 10 },
   tableRow: {
     flexDirection: 'row',
@@ -64,16 +76,17 @@ export default function EtatStockPdf({ data, company }) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Text style={[styles.bold, { fontSize: 16, marginBottom: 10 }]}>Inventaire</Text>
-
-        {/* Header */}
         <View style={styles.header}>
-          <View>
+          <View style={{ marginBottom: 20 }}>
             <Text style={styles.bold}>{company?.name}</Text>
             <Text>{company?.address}</Text>
             <Text>Tél.: {company?.phone}</Text>
             <Text>SIRET: {company?.siret}</Text>
             <Text>N°TVA Intracom : {company?.tva}</Text>
+          </View>
+          <View>
+            <Text style={styles.topRightInfo}>État du stock</Text>
+            <Text style={styles.topRightInfo}>date : {fDate(today())}</Text>
           </View>
         </View>
 

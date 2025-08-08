@@ -567,7 +567,7 @@ export function ProductNewEditForm({ currentProduct }) {
         title="Produits suggérés"
         subheader="Ajouter des articles similaires ou associés"
         action={
-          <Tooltip title="Hello, this is an explanation sections, you should expect a long text inside this tooltip.">
+          <Tooltip title="Choisissez cette option si vous voulez suggérer d'autres articles à vos clients lors d'une vente">
             <IconButton>
               <Iconify icon="material-symbols:info-outline" />
             </IconButton>

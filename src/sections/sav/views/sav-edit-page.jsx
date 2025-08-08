@@ -115,7 +115,6 @@ export default function SavEditPage({ currentSav }) {
             />
             <Divider sx={{ borderStyle: 'dashed' }} />
             <Stack spacing={3} direction="row">
-             
               <Field.Checkbox name="checked" label={currentSav?.product} />
               <Field.Text sx={{ flex: 1 }} name="imei" label="IMEI" />
               <Field.Select sx={{ flex: 1 }} name="type" label="Type de produit">
@@ -138,7 +137,7 @@ export default function SavEditPage({ currentSav }) {
             loading={loadingSend.value && isSubmitting}
             onClick={() => handleCreateAndSend()}
           >
-            Sauvgarder
+            Enregistrer
           </LoadingButton>
         </Stack>
       </Form>

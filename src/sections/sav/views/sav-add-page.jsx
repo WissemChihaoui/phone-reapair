@@ -104,7 +104,7 @@ export default function SavAddPage() {
             loading={loadingSend.value && isSubmitting}
             onClick={() => handleCreateAndSend()}
           >
-            Sauvgarder
+            Enregistrer
           </LoadingButton>
         </Stack>
       </Form>

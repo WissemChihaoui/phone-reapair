@@ -76,7 +76,7 @@ export function CaisseWidgetSummary({ title, percent, total, chart, sx, ...other
         {fPercent(percent)}
       </Box>
       <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-        Semaine Dernière
+        (j-1)
       </Box>
     </Box>
   );

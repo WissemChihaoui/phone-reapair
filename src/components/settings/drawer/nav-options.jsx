@@ -23,7 +23,7 @@ export function NavOptions({ options, value, onClickOption, hideNavColor, hideNa
   const renderLayout = (
     <Box gap={1.5} display="flex" flexDirection="column">
       <Box component="span" sx={labelStyles}>
-        Layout
+        Mise en page
       </Box>
       <Box gap={1.5} display="flex">
         {options.layouts.map((option) => (
@@ -41,7 +41,7 @@ export function NavOptions({ options, value, onClickOption, hideNavColor, hideNa
   const renderColor = (
     <Box gap={1.5} display="flex" flexDirection="column">
       <Box component="span" sx={labelStyles}>
-        Color
+        Couleur
       </Box>
       <Box gap={1.5} display="flex">
         {options.colors.map((option) => (
@@ -57,7 +57,7 @@ export function NavOptions({ options, value, onClickOption, hideNavColor, hideNa
   );
 
   return (
-    <Block title="Nav" tooltip="Dashboard only" sx={{ gap: 2.5 }}>
+    <Block title="Nav" tooltip="Tableau de bord uniquement" sx={{ gap: 2.5 }}>
       {!hideNavLayout && renderLayout}
       {!hideNavColor && renderColor}
     </Block>

@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Fab,
   Table,
   TableBody,
   TableCell,
@@ -31,6 +32,7 @@ const DATA = [
 ];
 export default function FondTableView() {
   const openFond = useBoolean();
+  const edit = useBoolean();
   return (
     <>
       <Card>
@@ -54,15 +56,24 @@ export default function FondTableView() {
               <TableCell>Date</TableCell>
               <TableCell>Utilisateur</TableCell>
               <TableCell>Montant</TableCell>
+              <TableCell />
             </TableHead>
             <TableBody>
               {DATA.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>#{row.id}</TableCell>
-                  <TableCell>{fDate(row.date)}</TableCell>
-                  <TableCell>{row.user}</TableCell>
-                  <TableCell>{fCurrency(row.amount)}</TableCell>
-                </TableRow>
+                <>
+                  <TableRow key={row.id}>
+                    <TableCell>#{row.id}</TableCell>
+                    <TableCell>{fDate(row.date)}</TableCell>
+                    <TableCell>{row.user}</TableCell>
+                    <TableCell>{fCurrency(row.amount)}</TableCell>
+                    <TableCell>
+                      <Fab size='small' variant="contained" color="warning" onClick={edit.onTrue}>
+                        <Iconify icon="material-symbols:edit-outline" />
+                      </Fab>
+                    </TableCell>
+                  </TableRow>
+                  <FondCaisseModal open={edit.value} onClose={edit.onFalse} currentFond={row} />
+                </>
               ))}
             </TableBody>
           </Table>

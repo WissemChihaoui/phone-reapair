@@ -14,12 +14,16 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
-import { Button, Fab } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, Fab } from '@mui/material';
+import { useBoolean } from 'src/hooks/use-boolean';
+import { PDFViewer } from '@react-pdf/renderer';
+import ClientsPDF from './clients-pdf';
 
 // ----------------------------------------------------------------------
 
 export function UserTableToolbar({ filters, options, onResetPage }) {
   const popover = usePopover();
+  const facture = useBoolean()
 
   const handleFilterName = useCallback(
     (event) => {
@@ -113,6 +117,7 @@ export function UserTableToolbar({ filters, options, onResetPage }) {
           <MenuItem
             onClick={() => {
               popover.onClose();
+              facture.onTrue();
             }}
           >
             <Iconify icon="tabler:pdf" />
@@ -129,6 +134,21 @@ export function UserTableToolbar({ filters, options, onResetPage }) {
           </MenuItem>
         </MenuList>
       </CustomPopover>
+      <Dialog fullScreen open={facture.value}>
+        <Box sx={{ height: 1, display: 'flex', flexDirection: 'column' }}>
+          <DialogActions sx={{ p: 1.5 }}>
+            <Button color="inherit" variant="contained" onClick={facture.onFalse}>
+              Fermer
+            </Button>
+          </DialogActions>
+
+          <Box sx={{ flexGrow: 1, height: 1, overflow: 'hidden' }}>
+            <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
+              <ClientsPDF  />
+            </PDFViewer>
+          </Box>
+        </Box>
+      </Dialog>
     </>
   );
 }

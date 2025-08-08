@@ -10,7 +10,7 @@ import { Block, BlockOption } from './styles';
 
 export function FontOptions({ value, options, onClickOption }) {
   return (
-    <Block title="Font">
+    <Block title="Police">
       <Box component="ul" gap={1.5} display="grid" gridTemplateColumns="repeat(2, 1fr)">
         {options.map((option) => {
           const selected = value === option;

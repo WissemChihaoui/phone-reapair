@@ -315,7 +315,7 @@ export default function CartView() {
                     onChange={(event) => setSearchText(event.target.value)}
                   />
                 </Stack>
-                <ProductSort sort={sortOption} sortOptions={SORT_OPTIONS} />
+                {/* <ProductSort sort={sortOption} sortOptions={SORT_OPTIONS} /> */}
               </Stack>
               <Stack
                 display="grid"

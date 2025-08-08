@@ -32,6 +32,7 @@ import { useSetState } from 'src/hooks/use-set-state';
 
 import { PRODUCT_STOCK_OPTIONS } from 'src/_mock';
 import { _articlesList } from 'src/_mock/_articles';
+import { customLocaleText } from 'src/_mock/textfr';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { toast } from 'src/components/snackbar';
@@ -42,6 +43,7 @@ import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 import EtatStockPdf from '../../etat-stock-pdf';
+import MostSellsArticles from '../most-sells-articles';
 import { ProductTableToolbar } from '../../product-table-toolbar';
 import { ProductQuantityAdjust } from '../../product-quantity-adjust';
 import { ProductTableFiltersResult } from '../../product-table-filters-result';
@@ -52,7 +54,6 @@ import {
   RenderCellProduct,
   RenderCellPriceBuy,
 } from '../../product-table-row';
-import MostSellsArticles from '../most-sells-articles';
 
 // ----------------------------------------------------------------------
 
@@ -397,6 +398,7 @@ export function ProductListView() {
               <DataGrid
                 checkboxSelection
                 disableRowSelectionOnClick
+                localeText={customLocaleText}
                 rows={dataFiltered}
                 columns={columns}
                 filterMode="client"
@@ -417,6 +419,7 @@ export function ProductListView() {
                 }
                 columnVisibilityModel={columnVisibilityModel}
                 onColumnVisibilityModelChange={(newModel) => setColumnVisibilityModel(newModel)}
+                row
                 slots={{
                   toolbar: CustomToolbarCallback,
                   noRowsOverlay: () => <EmptyContent />,

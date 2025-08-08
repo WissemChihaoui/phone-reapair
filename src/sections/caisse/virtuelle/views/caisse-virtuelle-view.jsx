@@ -1,22 +1,28 @@
 import { z as zod } from 'zod';
 import { React,useMemo } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Card, CardContent, Stack } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { Form, schemaHelper } from 'src/components/hook-form';
-import { DashboardContent } from 'src/layouts/dashboard';
 import { LoadingButton } from '@mui/lab';
+import Grid from '@mui/material/Unstable_Grid2';
+import { Card, CardContent, Stack } from '@mui/material';
+
 import { paths } from 'src/routes/paths';
+
 import { useBoolean } from 'src/hooks/use-boolean';
+
 import { today } from 'src/utils/format-time';
-import PanierView from '../panier-view';
-import ElementsView from '../elements-view';
+
+import { DashboardContent } from 'src/layouts/dashboard';
+
+import { Form, schemaHelper } from 'src/components/hook-form';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+
 import CartView from '../cart-view';
-import ClientCart from '../client-cart';
 import TotalView from '../total-view';
+import PanierView from '../panier-view';
+import ClientCart from '../client-cart';
+import ElementsView from '../elements-view';
 import PaymentModal from '../payment-modal';
 
 export const NewInvoiceSchema = zod
@@ -69,8 +75,7 @@ export default function CaisseVirtuelleView() {
     checkout.onTrue();
   });
   return (
-    <>
-      <DashboardContent>
+    <DashboardContent>
         <CustomBreadcrumbs
           heading="Caisse Virtuelle"
           links={[
@@ -108,6 +113,5 @@ export default function CaisseVirtuelleView() {
           </Stack>
         </Form>
       </DashboardContent>
-    </>
   );
 }

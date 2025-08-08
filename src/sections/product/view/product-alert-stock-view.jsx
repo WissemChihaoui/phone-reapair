@@ -6,23 +6,23 @@ import Button from '@mui/material/Button';
 import {
   DataGrid,
   gridClasses,
+  GridToolbar,
   GridToolbarExport,
   GridActionsCellItem,
   GridToolbarContainer,
   GridToolbarQuickFilter,
   GridToolbarFilterButton,
   GridToolbarColumnsButton,
-  GridToolbar,
 } from '@mui/x-data-grid';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
 import { PRODUCT_STOCK_OPTIONS } from 'src/_mock';
+import { customLocaleText } from 'src/_mock/textfr';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { toast } from 'src/components/snackbar';
@@ -31,17 +31,16 @@ import { EmptyContent } from 'src/components/empty-content';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-import { ProductTableToolbar } from '../product-table-toolbar';
+import ProductAlertToolbar from '../product-alert-toolbar';
+import { ProductQuantityAdjust } from '../product-quantity-adjust';
 import { ProductTableFiltersResult } from '../product-table-filters-result';
 import {
   RenderCellStock,
   RenderCellPrice,
-  RenderCellProduct,
   RenderRefInterne,
+  RenderCellProduct,
   RenderCellPriceBuy,
 } from '../product-table-row';
-import { ProductQuantityAdjust } from '../product-quantity-adjust';
-import ProductAlertToolbar from '../product-alert-toolbar';
 // import { ProductAlertToolbar } from '../product-alert-toolbar';
 
 // ----------------------------------------------------------------------
@@ -253,7 +252,7 @@ export function ProductAlertStockView() {
       filterable: false,
       disableColumnMenu: true,
       getActions: (params) => [
-         <GridActionsCellItem
+        <GridActionsCellItem
           showInMenu
           icon={<Iconify icon="solar:copy-bold-duotone" />}
           label="Dupliquer"
@@ -339,7 +338,6 @@ export function ProductAlertStockView() {
       editable: true,
       renderCell: (params) => <RenderCellPriceBuy params={params} />,
     },
-    
   ];
 
   const getTogglableColumns = () =>
@@ -362,7 +360,7 @@ export function ProductAlertStockView() {
               // component={RouterLink}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
-              color='primary'
+              color="primary"
               // href={paths.dashboard.stock.addArticle}
               onClick={() => toast('This is an default')}
             >
@@ -383,6 +381,7 @@ export function ProductAlertStockView() {
           <DataGrid
             checkboxSelection
             disableRowSelectionOnClick
+            localeText={customLocaleText}
             rows={dataFiltered}
             columns={columns}
             filterMode="client"

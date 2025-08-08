@@ -28,12 +28,12 @@ export default function TotalView() {
       </Stack>
 
       <Stack direction="row">
-        <Box sx={{ color: 'text.secondary' }}>Total Quantités</Box>
+        <Box sx={{ color: 'text.secondary' }}>Total TVA</Box>
         <Box sx={{ width: 160 }}>{values.quantities ? values.quantities : '-'}</Box>
       </Stack>
 
       <Stack direction="row" sx={{ typography: 'subtitle1' }}>
-        <div>Total</div>
+        <div>Total TTC</div>
         <Box sx={{ width: 160 }}>{fCurrency(values.total) || '-'}</Box>
       </Stack>
     </Stack>

@@ -1,7 +1,19 @@
 import React from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
 
-import { Box, Button, Dialog, Checkbox, TableRow, TableCell, IconButton, DialogActions } from '@mui/material';
+import {
+  Box,
+  Button,
+  Dialog,
+  Checkbox,
+  TableRow,
+  TableCell,
+  IconButton,
+  DialogActions,
+  Fab,
+  Stack,
+  Tooltip,
+} from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
@@ -15,16 +27,9 @@ import { ConfirmDialog } from 'src/components/custom-dialog';
 
 import { InventairePDF } from './inventaire-pdf';
 
-export default function InventaireTableRow({
-  row,
-  selected,
-  onSelectRow,
-  onDeleteRow,
-  onViewRow,
-  onValidateRow,
-}) {
+export default function InventaireTableRow({ row, selected, onSelectRow, onValidateRow }) {
   const valider = useBoolean();
-  const view = useBoolean()
+  const view = useBoolean();
   return (
     <>
       <TableRow>
@@ -35,24 +40,33 @@ export default function InventaireTableRow({
             inputProps={{ id: `row-checkbox-${row.id}`, 'aria-label': `Row checkbox` }}
           />
         </TableCell>
-<TableCell sx={{ px: 1, whiteSpace: 'nowrap' }}>
-          {!row.confirmed && (
-            <IconButton
-              color="default"
-              href={paths.dashboard.stock.editInventaire(row.inventaireId)}
-              LinkComponent={RouterLink}
-            >
-              <Iconify icon="lucide:edit" />
-            </IconButton>
-          )}
-          <IconButton color="default" onClick={view.onTrue}>
-            <Iconify icon="mdi:file-outline" />
-          </IconButton>
-          {!row.confirmed && (
-            <IconButton onClick={valider.onTrue} color="default">
-              <Iconify icon="mingcute:check-fill" />
-            </IconButton>
-          )}
+        <TableCell sx={{ px: 1, whiteSpace: 'nowrap' }}>
+          <Stack display="flex" gap={1} flexDirection="row" flexWrap="wrap">
+            {!row.confirmed && (
+              <Tooltip title="Modifier">
+                <Fab
+                  size="small"
+                  color="warning"
+                  href={paths.dashboard.stock.editInventaire(row.inventaireId)}
+                  LinkComponent={RouterLink}
+                >
+                  <Iconify icon="lucide:edit" />
+                </Fab>
+              </Tooltip>
+            )}
+            <Tooltip title="Exporter">
+              <Fab size="small" color="info" onClick={view.onTrue}>
+                <Iconify icon="mdi:file-outline" />
+              </Fab>
+            </Tooltip>
+            {!row.confirmed && (
+              <Tooltip title="Valider">
+                <Fab size="small" onClick={valider.onTrue} color="success">
+                  <Iconify icon="mingcute:check-fill" />
+                </Fab>
+              </Tooltip>
+            )}
+          </Stack>
         </TableCell>
         <TableCell>
           <Box component="span">#{row.inventaireId}</Box>
@@ -72,7 +86,6 @@ export default function InventaireTableRow({
             {fDate(row.createdAt)}
           </Box>
         </TableCell>
-        
       </TableRow>
 
       <ConfirmDialog
@@ -95,7 +108,7 @@ export default function InventaireTableRow({
       />
 
       <Dialog fullScreen open={view.value}>
-         <Box sx={{ height: 1, display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ height: 1, display: 'flex', flexDirection: 'column' }}>
           <DialogActions sx={{ p: 1.5 }}>
             <Button color="inherit" variant="contained" onClick={view.onFalse}>
               Fermer

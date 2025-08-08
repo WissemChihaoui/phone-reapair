@@ -100,7 +100,7 @@ export default function EmployeesCreateEditDialog({ open, onClose, currentUser }
       PaperProps={{ sx: { maxWidth: 720 } }}
     >
       <Form methods={methods} onSubmit={onSubmit}>
-        <DialogTitle>{currentUser ? 'Modifier' : 'Ajouter'}</DialogTitle>
+        <DialogTitle>{currentUser ? 'Modifier' : 'Ajouter'} un employée</DialogTitle>
         <DialogContent>
           <Box
             rowGap={3}
@@ -120,7 +120,7 @@ export default function EmployeesCreateEditDialog({ open, onClose, currentUser }
             <Field.Text name="email" label="Email" />
             <Field.Text
               name="password"
-              label="Password"
+              label="Mot de passe"
               placeholder="6+ characters"
               type={password.value ? 'text' : 'password'}
               InputLabelProps={{ shrink: true }}
@@ -134,7 +134,7 @@ export default function EmployeesCreateEditDialog({ open, onClose, currentUser }
                 ),
               }}
             />
-            <Field.Phone name="phoneNumber" label="Téléphone Mobile" />
+            <Field.Phone name="phoneNumber" label="Téléphone Mobile" placeholder="Numéro du téléphone"/>
             <Field.Text name="address" label="Adresse" />
             <Field.Text name="zipCode" label="Code postal" />
             <Field.Text name="city" label="Ville" />

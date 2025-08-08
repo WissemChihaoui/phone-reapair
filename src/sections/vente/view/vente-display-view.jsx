@@ -29,6 +29,7 @@ import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
 import FacturePDF from '../vente-facture-pdf';
+import EtiquettePDF from '../etiquette-pdf';
 
 // Status options & color mapping
 const STATUS_OPTIONS = [
@@ -49,6 +50,7 @@ export default function VenteDisplayView({ product }) {
   const mdUp = useResponsive('up', 'md');
   const popover = usePopover();
   const facture = useBoolean();
+  const etiquette = useBoolean();
 
   const [status, setStatus] = useState(product?.status || 'Payé');
 
@@ -65,11 +67,11 @@ export default function VenteDisplayView({ product }) {
       <Button onClick={facture.onTrue} variant="contained" color="info">
         Générer la facture
       </Button>
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" >
         Envoyer par email
       </Button>
-      <Button variant="contained" color="primary">
-        Imprimer + email
+      <Button variant="contained" color="primary" onClick={etiquette.onTrue}>
+        Générer étiquette
       </Button>
       <Button
         variant="contained"
@@ -257,6 +259,22 @@ export default function VenteDisplayView({ product }) {
           </Box>
         </Box>
       </Dialog>
+
+       <Dialog fullScreen open={etiquette.value} onClose={etiquette.onFalse}>
+              <Box sx={{ height: 1, display: 'flex', flexDirection: 'column' }}>
+                <DialogActions sx={{ p: 1.5 }}>
+                  <Button color="inherit" variant="contained" onClick={etiquette.onFalse}>
+                    Fermer
+                  </Button>
+                </DialogActions>
+      
+                <Box sx={{ flexGrow: 1, height: 1, overflow: 'hidden' }}>
+                  <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
+                    <EtiquettePDF date="08-08-2025"/>
+                  </PDFViewer>
+                </Box>
+              </Box>
+            </Dialog>
     </>
   );
 }

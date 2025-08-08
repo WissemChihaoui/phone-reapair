@@ -51,7 +51,7 @@ export default function RachatAddEditView({ currentInvoice }) {
   return (
     <Form methods={methods}>
         <Card>
-            <RachatAddEditClient />
+            <RachatAddEditClient isEdit={!!currentInvoice}/>
             <RachatAddEditDetails />
             <RachatAddEditPayment />
         </Card>

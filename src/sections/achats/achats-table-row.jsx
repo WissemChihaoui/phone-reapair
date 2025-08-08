@@ -75,7 +75,7 @@ export default function AchatsTableRow({ row, selected, onSelectRow, onViewRow, 
 
         <TableCell>
           <Stack direction="row" spacing={1}>
-            <Tooltip title="Edit">
+            <Tooltip title="Modifier">
               <IconButton color="primary" onClick={onViewRow}>
                 <Iconify icon="solar:pen-bold" />
               </IconButton>
