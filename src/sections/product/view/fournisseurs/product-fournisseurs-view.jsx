@@ -152,7 +152,7 @@ export default function ProductFournisseursView() {
                 onClick={quickEdit.onTrue}
                 color='primary'
               >
-                Ajouter fournisseur
+                Ajouter un fournisseur
               </Button>
               <Button
                 component={RouterLink}

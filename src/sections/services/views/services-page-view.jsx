@@ -159,7 +159,7 @@ export default function ServicesPageView() {
         ]}
         action={
           <Button variant="contained" color="primary" onClick={add.onTrue}>
-            {t('add')}
+            Ajouter un service
           </Button>
         }
         sx={{ mb: { xs: 3, md: 5 } }}

@@ -173,7 +173,7 @@ export default function AbonnementPageView() {
         ]}
         action={
           <Button variant="contained" color="primary" onClick={open.onTrue}>
-            {t('add')}
+            Ajouter un abonnement
           </Button>
         }
         sx={{ mb: { xs: 3, md: 5 } }}

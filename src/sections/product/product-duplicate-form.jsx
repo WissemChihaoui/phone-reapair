@@ -466,7 +466,7 @@ export function ProductDuplicateForm({ currentProduct }) {
     <Stack mt={3} spacing={3} direction="row" width='100%' display="flex" justifyContent="flex-end" alignItems="center" flexWrap="wrap">
       <Button variant='outlined' size="large" onClick={()=>router.push(paths.dashboard.stock.root)}>Annuler</Button>
       <LoadingButton type="submit" variant="contained" size="large" color='primary' loading={isSubmitting}>
-        {!currentProduct ? 'Créer Article' : 'Modifier'}
+        {!currentProduct ? 'Créer un article' : 'Modifier cet article'}
       </LoadingButton>
     </Stack>
   );

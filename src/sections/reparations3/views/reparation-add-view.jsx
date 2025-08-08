@@ -106,7 +106,7 @@ export default function ReparationAddView({ currentReparation }) {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading={currentReparation ? "Modifier Réparation" : "Creér Réparation"}
+        heading={currentReparation ? "Modifier une réparation" : "Creér une réparation"}
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },
           { name: 'Réparation', href: paths.dashboard.reparations.root },

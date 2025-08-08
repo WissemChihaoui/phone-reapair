@@ -158,7 +158,7 @@ export default function RachatListView() {
                 href={paths.dashboard.rachat.add}
                 color='primary'
               >
-                Ajouter Rachat
+                Ajouter un rachat
               </Button>
 
               <CustomPopover

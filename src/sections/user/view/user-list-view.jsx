@@ -179,7 +179,7 @@ export function UserListView() {
                 href={paths.dashboard.client.add}
                 color='primary'
               >
-                Ajouter Client
+                Ajouter un client
               </Button>
 
               <CustomPopover

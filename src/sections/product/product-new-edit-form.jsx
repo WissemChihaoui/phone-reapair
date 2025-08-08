@@ -630,7 +630,7 @@ export function ProductNewEditForm({ currentProduct }) {
         color="primary"
         loading={isSubmitting}
       >
-        {!currentProduct ? 'Créer Article' : 'Modifier'}
+        {!currentProduct ? 'Créer un article' : 'Modifier cet article'}
       </LoadingButton>
     </Stack>
   );

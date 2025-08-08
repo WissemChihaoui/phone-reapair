@@ -113,7 +113,7 @@ export function CalendarView() {
             startIcon={<Iconify icon="mingcute:add-line" />}
             onClick={onOpenForm}
           >
-            Ajouter RDV
+            Ajouter un RDV
           </Button>
         </Stack>
 

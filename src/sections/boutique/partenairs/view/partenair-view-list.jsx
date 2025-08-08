@@ -36,6 +36,7 @@ export default function PartenaireViewList() {
               <Button
                 onClick={() => addDialogExtern.onTrue()}
                 variant="contained"
+                color='info'
                 startIcon={<Iconify icon="mingcute:add-line" />}
               >
                 Ajouter un partenaire externe
@@ -43,6 +44,7 @@ export default function PartenaireViewList() {
               <Button
                 onClick={() => addDialogIntern.onTrue()}
                 variant="contained"
+                color='primary'
                 startIcon={<Iconify icon="mingcute:add-line" />}
               >
                 Ajouter un partenaire SASgestion

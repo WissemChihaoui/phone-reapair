@@ -1,33 +1,38 @@
-import Grid from '@mui/material/Unstable_Grid2';
 import React from 'react';
+
+import Grid from '@mui/material/Unstable_Grid2';
 import {
-  Alert,
   Card,
-  CardContent,
-  CardHeader,
   Link,
+  Alert,
   Table,
+  TableRow,
   TableBody,
   TableCell,
   TableHead,
-  TableRow,
+  CardHeader,
+  CardContent,
 } from '@mui/material';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
-import { DashboardContent } from 'src/layouts/dashboard';
+
 import { paths } from 'src/routes/paths';
+
+import { fDate } from 'src/utils/format-time';
+
+import { DashboardContent } from 'src/layouts/dashboard';
 import {
   BookingIllustration,
   CheckInIllustration,
   CheckoutIllustration,
 } from 'src/assets/illustrations';
-import { fDate } from 'src/utils/format-time';
+
 import { Label } from 'src/components/label';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
+
 import { AbonnementWidgetSummary } from '../course-widget-summary';
 
 export default function AbonnementPageView() {
   return (
-    <>
-      <DashboardContent>
+    <DashboardContent>
         <CustomBreadcrumbs
           heading="Mes Abonnements"
           links={[
@@ -97,6 +102,5 @@ export default function AbonnementPageView() {
           </Grid>
         </Grid>
       </DashboardContent>
-    </>
   );
 }
