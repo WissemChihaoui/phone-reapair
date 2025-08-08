@@ -13,7 +13,7 @@ export default function SearchReparation() {
     }}
   >
     <Box sx={{ flexGrow: 1 }}>
-      <Box sx={{ typography: 'body', textAlign: 'center', fontWeight:'700' }}>Chercher Réparation </Box>
+      <Box sx={{ typography: 'body', textAlign: 'center', fontWeight:'700' }}>Rechercher une réparation</Box>
       <Box sx={{ mt: 1.5, mb: 1, typography: 'h3', display: 'flex' }}>
         <TextField 
           placeholder='Chercher par Nom, Email, N° Tel, N° Réparation, Code Barre...'
