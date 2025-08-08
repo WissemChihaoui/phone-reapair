@@ -1,72 +1,37 @@
 import React, { useEffect } from 'react';
-import {
-  useWatch,
-  Controller,
-  useFormContext,
-} from 'react-hook-form';
+import { useWatch, Controller, useFormContext } from 'react-hook-form';
 
-import {
-  Grid,
-  Card,
-  Stack,
-  Button,
-  TextField,
-  Typography,
-  Autocomplete,
-} from '@mui/material';
+import { Grid, Stack, Button, TextField, Autocomplete } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
+import { servicesList } from 'src/_mock/_reparations';
+
 import { Iconify } from 'src/components/iconify';
 import { AddServiceDialog } from 'src/components/form-dialogs/service';
-import { servicesList } from 'src/_mock/_reparations';
 
 export default function ServiceSection({ index, onRemove }) {
   const { register, setValue, control, getValues, trigger } = useFormContext();
   const add = useBoolean();
 
-  // Watch price changes for this service line
-  const watchPrice = useWatch({
-    name: `documents.${index}.data.price`,
-    control,
-  });
+  const service = useWatch({ control, name: `documents.${index}` }) || {};
 
-  // Watch all documents to recalculate total
-  const allDocuments = useWatch({ name: 'documents', control });
-
-  // Update total when price changes
   useEffect(() => {
-    if (!Array.isArray(allDocuments)) return;
+    const price = Number(service.data.price);
 
-    const total = allDocuments.reduce((sum, doc) => {
-      const type = doc.type;
-      const data = doc.data;
-
-      if (!data || typeof data.price !== 'number') return sum;
-
-      const discount = typeof data.discount === 'number' ? data.discount : 0;
-      const qty = typeof data.qte === 'number' ? data.qte : 1;
-
-      if (type === 'piece') {
-        return sum + qty * (data.price - discount);
-      }
-
-      if (type === 'main_oeuvre' || type === 'service') {
-        return sum + (data.price - discount);
-      }
-
-      return sum;
-    }, 0);
-
-    setValue('total', total);
-  }, [watchPrice, allDocuments, setValue]);
+    setValue(`documents.${index}.total`, price)
+    setValue(`documents.${index}.totalNet`, price)
+    setValue(`documents.${index}.remise`, 0)
+  }, [index, service.data.price, setValue])
 
   const handleSelect = (e, value) => {
+    if (!value) return;
+
     setValue(`documents.${index}.data.nom`, value);
-    if (value?.price) {
-      setValue(`documents.${index}.data.price`, value.price);
-    }
-    trigger(`documents.${index}.data.nom`);
+    setValue(`documents.${index}.data.price`, value.price);
+    setValue(`documents.${index}.totalNet`, value.price);
+    setValue(`documents.${index}.total`, value.price);
+    setValue(`documents.${index}.remise`, 0);
   };
 
   return (

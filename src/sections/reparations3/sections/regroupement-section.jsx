@@ -52,6 +52,8 @@ export default function RegroupementSection({ index, onRemove }) {
       return acc + qte * price;
     }, 0);
 
+    setValue(`documents.${index}.remise`, 0);
+    setValue(`documents.${index}.totalNet`, total);
     setValue(`documents.${index}.total`, total);
   }, [pieces, setValue, index]);
 

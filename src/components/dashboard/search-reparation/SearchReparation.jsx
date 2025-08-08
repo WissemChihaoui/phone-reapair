@@ -9,7 +9,6 @@ export default function SearchReparation() {
     sx={{
       display: 'flex',
       alignItems: 'center',
-      height:'100%',
       p: 3,
     }}
   >

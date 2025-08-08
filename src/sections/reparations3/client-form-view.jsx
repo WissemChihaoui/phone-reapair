@@ -19,7 +19,7 @@ import VenteNewEditAddClient from 'src/sections/vente/vente-new-edit-add-client'
 
 // ----------------------------------------------------------------------
 
-export default function ClientFormView() {
+export default function ClientFormView({ isEdit = false }) {
   const filterOptions = createFilterOptions({
     stringify: (option) => `${option.name} ${option.phoneNumber}`,
   });
@@ -73,6 +73,7 @@ const [clientTo, setClientTo] = useState(values.client?.id ? values.client : nul
           <Stack>
             <Autocomplete
               noOptionsText="Pas de données"
+              disabled={isEdit}
               value={clientTo}
               fullWidth
               options={_addressBooks}
@@ -128,6 +129,7 @@ const [clientTo, setClientTo] = useState(values.client?.id ? values.client : nul
                 variant="contained"
                 color="primary"
                 onClick={() => addClient.onTrue()}
+                disabled={isEdit}
               >
                 Créer client
               </Button>
@@ -136,6 +138,7 @@ const [clientTo, setClientTo] = useState(values.client?.id ? values.client : nul
                 sx={{ alignSelf: 'flex-end', width: '100%' }}
                 onClick={() => handlePassager()}
                 variant="outlined"
+                disabled={isEdit}
               >
                 Client Passager
               </Button>
@@ -154,6 +157,7 @@ const [clientTo, setClientTo] = useState(values.client?.id ? values.client : nul
               size="small"
               fullWidth
               margin="dense"
+              disabled={isEdit}
             />
             <TextField
               label="Téléphone"
@@ -162,6 +166,7 @@ const [clientTo, setClientTo] = useState(values.client?.id ? values.client : nul
               size="small"
               fullWidth
               margin="dense"
+              disabled={isEdit}
             />
             <TextField
               label="Email"
@@ -170,6 +175,7 @@ const [clientTo, setClientTo] = useState(values.client?.id ? values.client : nul
               size="small"
               fullWidth
               margin="dense"
+              disabled={isEdit}
             />
           </Stack>
         </Stack>

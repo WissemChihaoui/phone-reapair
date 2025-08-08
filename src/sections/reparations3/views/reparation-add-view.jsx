@@ -20,11 +20,11 @@ import PaymentFormView from '../payment-form-view';
 import DocumentFormView from '../document-form-view';
 import NotificationsFormView from '../notifications-form-view';
 
-export default function ReparationAddView() {
+export default function ReparationAddView({ currentReparation }) {
   const defaultValues = useMemo(
     () => ({
-      id: '',
-      client: {
+      id: currentReparation?.id || '',
+      client:currentReparation?.client || {
         id: '',
         name: '',
         fullAddress: '',
@@ -32,7 +32,7 @@ export default function ReparationAddView() {
         email: '',
         company: '',
       },
-      article: {
+      article: currentReparation?.article || {
         materiel: { value: '', label: 'Choisir ...' },
         marque: { value: '', label: 'Choisir ...' },
         modele: { value: '', label: 'Choisir ...' },
@@ -50,8 +50,8 @@ export default function ReparationAddView() {
         dateRestitution: null,
         technicien: '',
       },
-      documents: [],
-      payment: {
+      documents:currentReparation?.documents || [],
+      payment: currentReparation?.payment || {
         quali: true,
         data: [
           {
@@ -61,11 +61,11 @@ export default function ReparationAddView() {
           },
         ],
       },
-      total: 0,
-      remise: 0,
-      paid: 0,
-      rest: 0,
-      notification: {
+      total:currentReparation?.total || 0,
+      remise:currentReparation?.remise || 0,
+      paid:currentReparation?.paid || 0,
+      rest:currentReparation?.rest || 0,
+      notification:currentReparation?.notification || {
         email: false,
         sms: false,
         materiel: false,
@@ -76,7 +76,7 @@ export default function ReparationAddView() {
         devis: '',
       },
     }),
-    []
+    [currentReparation]
   );
 
   const methods = useForm({
@@ -106,17 +106,17 @@ export default function ReparationAddView() {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Créer une nouvelle réparation"
+        heading={currentReparation ? "Modifier Réparation" : "Creér Réparation"}
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },
           { name: 'Réparation', href: paths.dashboard.reparations.root },
-          { name: 'Ajouter' },
+          { name: currentReparation ? "Modifier" : "Créer" },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
       <Form methods={methods} onSubmit={onSubmit}>
         <Card sx={{ p: 3 }}>
-          <ClientFormView />
+          <ClientFormView isEdit={!!currentReparation?.client}/>
           <Divider sx={{ my: 3 }} />
           <ArticleFormView />
           <Divider sx={{ my: 3 }} />
@@ -139,7 +139,7 @@ export default function ReparationAddView() {
             variant="contained"
             loading={isSubmitting}
           >
-            Enregistrer
+            {currentReparation ? "Modifier" : "Enregistrer" }
           </LoadingButton>
         </Stack>
       </Form>

@@ -39,7 +39,7 @@ export default function ConfigurationsPageView() {
         links={[
           { name: 'Dashboard', href: paths.dashboard.root },
           { name: 'Configuration', href: paths.dashboard.boutique.configurations },
-          { name: 'Page' },
+          { name: 'Boutique' },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />

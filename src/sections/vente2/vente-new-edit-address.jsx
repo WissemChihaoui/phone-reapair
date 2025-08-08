@@ -19,7 +19,7 @@ import VenteNewEditAddClient from './vente-new-edit-add-client';
 
 // ----------------------------------------------------------------------
 
-export function VenteNewEditAddress() {
+export function VenteNewEditAddress({ isEdit }) {
   const filterOptions = createFilterOptions({
     stringify: (option) => `${option.name} ${option.phoneNumber}`,
   });
@@ -71,6 +71,7 @@ export function VenteNewEditAddress() {
           <Stack>
             <Autocomplete
               noOptionsText="Pas de données"
+              disabled={isEdit}
               value={clientTo}
               fullWidth
               options={_addressBooks}
@@ -126,6 +127,8 @@ export function VenteNewEditAddress() {
                 variant="contained"
                 color="primary"
                 onClick={() => addClient.onTrue()}
+              disabled={isEdit}
+
               >
                 Créer client
               </Button>
@@ -134,6 +137,8 @@ export function VenteNewEditAddress() {
                 sx={{ alignSelf: 'flex-end', width: '100%' }}
                 onClick={() => handlePassager()}
                 variant="outlined"
+              disabled={isEdit}
+
               >
                 Client Passager
               </Button>
@@ -146,15 +151,36 @@ export function VenteNewEditAddress() {
               Client:
             </Typography>
           </Stack> */}
-
-          <Stack spacing={1}>
+ <Stack spacing={1}>
             <Typography variant="subtitle2">{client?.name}</Typography>
-            {/* <Typography variant="caption" sx={{ color: 'primary.main' }}>
-              {client?.company}
-            </Typography> */}
-            <Typography variant="body2">{client?.fullAddress}</Typography>
-            <Typography variant="body2"> {client?.phoneNumber}</Typography>
-            <Typography variant="body2"> {client?.email}</Typography>
+           
+            <TextField
+              label="Adresse"
+              value={client?.fullAddress || ''}
+              onChange={(e) => setValue('client.fullAddress', e.target.value)}
+              size="small"
+              fullWidth
+              margin="dense"
+              disabled={isEdit}
+            />
+            <TextField
+              label="Téléphone"
+              value={client?.phoneNumber || ''}
+              onChange={(e) => setValue('client.phoneNumber', e.target.value)}
+              size="small"
+              fullWidth
+              margin="dense"
+              disabled={isEdit}
+            />
+            <TextField
+              label="Email"
+              value={client?.email || ''}
+              onChange={(e) => setValue('client.email', e.target.value)}
+              size="small"
+              fullWidth
+              margin="dense"
+              disabled={isEdit}
+            />
           </Stack>
         </Stack>
       </Stack>

@@ -16,23 +16,29 @@ import { Iconify } from 'src/components/iconify';
 import AddMainOuvreDialog from 'src/components/form-dialogs/main-ouvre';
 
 export default function MainOeuvreSection({ index, onRemove }) {
-  const { register, setValue, control, trigger } = useFormContext();
-  const add = useBoolean();
-
-  const price = useWatch({ name: `documents.${index}.data.price`, control });
-
-  const handleSelect = (e, value) => {
-    setValue(`documents.${index}.data.nom`, value);
-    if (value?.price) {
+  const { register, setValue, control, getValues, trigger } = useFormContext();
+    const add = useBoolean();
+  
+    const service = useWatch({ control, name: `documents.${index}` }) || {};
+  
+    useEffect(() => {
+      const price = Number(service.data.price);
+  
+      setValue(`documents.${index}.total`, price)
+      setValue(`documents.${index}.totalNet`, price)
+      setValue(`documents.${index}.remise`, 0)
+    }, [index, service.data.price, setValue])
+  
+    const handleSelect = (e, value) => {
+      if (!value) return;
+  
+      setValue(`documents.${index}.data.nom`, value);
       setValue(`documents.${index}.data.price`, value.price);
-    }
-    trigger(`documents.${index}.data.nom`);
-  };
-
-  // 🔁 Update total when price changes
-  useEffect(() => {
-    setValue(`documents.${index}.total`, price || 0);
-  }, [price, setValue, index]);
+      setValue(`documents.${index}.totalNet`, value.price);
+      setValue(`documents.${index}.total`, value.price);
+      setValue(`documents.${index}.remise`, 0);
+    };
+  
 
   return (
     <>

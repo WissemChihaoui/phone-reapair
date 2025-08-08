@@ -2,7 +2,16 @@ import React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import Grid from '@mui/material/Unstable_Grid2';
-import { Box, Stack, Button, Divider, MenuItem, MenuList } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Button,
+  Divider,
+  MenuItem,
+  MenuList,
+  Tooltip,
+  IconButton,
+} from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
@@ -40,19 +49,55 @@ export default function DocumentFormView() {
                 color="primary"
                 fullWidth
                 onClick={() => handleAddSection('piece')}
+                sx={{
+                  textTransform: 'capitalize',
+                  justifyContent: 'flex-start',
+                  flexGrow: 1,
+                  paddingLeft: 4,
+                }}
               >
                 Piéce à changer
               </Button>
 
-              <Button
-                startIcon={<Iconify icon="mdi:plus" />}
-                variant="contained"
-                color="warning"
-                fullWidth
-                onClick={() => handleAddSection('regroupement')}
-              >
-                Regroupement
-              </Button>
+             <Stack position="relative" sx={{ width: '100%' }}>
+  <Button
+    startIcon={<Iconify icon="mdi:plus" />}
+    variant="contained"
+    color="warning"
+    fullWidth
+    onClick={() => handleAddSection('regroupement')}
+    sx={{
+      textTransform: 'capitalize',
+      justifyContent: 'flex-start',
+      flexGrow: 1,
+      paddingLeft: 4,
+    }}
+  >
+    Regroupement
+  </Button>
+
+  <Tooltip
+    title={`Cette fonctionnalité permet à la boutique de regrouper plusieurs articles sous un seul nom, afin de :
+    - Créer des offres commerciales ou des packs (ex. : "Pack protection téléphone" incluant coque + verre trempé + écouteur),
+    - Simplifier la facture pour le client final, en n’affichant que le nom du regroupement au lieu de la liste détaillée des articles.`}
+    placement="top"
+  >
+    <IconButton
+      size="small"
+      sx={{
+        position: 'absolute',
+        right: -40, // pushes it outside the button
+        top: '50%',
+        transform: 'translateY(-50%)',
+        backgroundColor: 'white', // optional to make it stand out
+        boxShadow: 1, // optional subtle shadow
+      }}
+    >
+      <Iconify icon="material-symbols:info-outline-rounded" />
+    </IconButton>
+  </Tooltip>
+</Stack>
+
 
               <Button
                 startIcon={<Iconify icon="mdi:plus" />}
@@ -60,6 +105,12 @@ export default function DocumentFormView() {
                 color="success"
                 fullWidth
                 onClick={() => handleAddSection('service')}
+                sx={{
+                  textTransform: 'capitalize',
+                  justifyContent: 'flex-start',
+                  flexGrow: 1,
+                  paddingLeft: 4,
+                }}
               >
                 Service
               </Button>
@@ -70,6 +121,12 @@ export default function DocumentFormView() {
                 color="error"
                 fullWidth
                 onClick={() => handleAddSection('main_oeuvre')}
+                sx={{
+                  textTransform: 'capitalize',
+                  justifyContent: 'flex-start',
+                  flexGrow: 1,
+                  paddingLeft: 4,
+                }}
               >
                 Main d’oeuvre
               </Button>
@@ -80,6 +137,12 @@ export default function DocumentFormView() {
                 color="secondary"
                 onClick={popover.onOpen}
                 fullWidth
+                sx={{
+                  textTransform: 'capitalize',
+                  justifyContent: 'flex-start',
+                  flexGrow: 1,
+                  paddingLeft: 4,
+                }}
               >
                 Ajouter un élèment
               </Button>
@@ -106,10 +169,20 @@ export default function DocumentFormView() {
                     <ServiceSection key={field.id} index={index} onRemove={() => remove(index)} />
                   );
                 case 'regroupement':
-                  return <RegroupementSection key={field.id} index={index} onRemove={() => remove(index)} />;
+                  return (
+                    <RegroupementSection
+                      key={field.id}
+                      index={index}
+                      onRemove={() => remove(index)}
+                    />
+                  );
                 case 'main_oeuvre':
                   return (
-                    <MainOeuvreSection key={field.id} index={index} onRemove={() => remove(index)} />
+                    <MainOeuvreSection
+                      key={field.id}
+                      index={index}
+                      onRemove={() => remove(index)}
+                    />
                   );
                 case 'separator':
                   return <Divider key={field.id} />;

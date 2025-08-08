@@ -1,15 +1,15 @@
 import React from 'react';
+import { PDFViewer } from '@react-pdf/renderer';
 
 import { DatePicker } from '@mui/x-date-pickers';
-import { Tab, Card, Stack, Button, CardContent } from '@mui/material';
+import { Tab, Box, Card, Stack, Button, Dialog, CardContent, DialogActions } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { today } from 'src/utils/format-time';
 
 import { CustomTabs } from 'src/components/custom-tabs';
-
-import FondCaisseModal from './fond-caisse-modal';
+import ClotureCaissePDF from './ClotureCaissePDF';
 
 const TABS = [
   { value: 'fond', label: 'Fond de la caisse', component: <p>Hey</p> },
@@ -20,7 +20,7 @@ const TABS = [
 export default function CaisseToolbar({ date = today(), tabs }) {
   console.log(date);
 
-  const openFond = useBoolean();
+  const open = useBoolean();
 
   return (
     <>
@@ -30,6 +30,9 @@ export default function CaisseToolbar({ date = today(), tabs }) {
             <DatePicker name="date" />
             <Button variant="contained" color="primary">
               Voir la caisse
+            </Button>
+            <Button onClick={open.onTrue} variant="contained" color="success">
+              Z de Caisse
             </Button>
           </Stack>
           <Stack sx={{ flex: 1, mx: 2 }}>
@@ -45,14 +48,25 @@ export default function CaisseToolbar({ date = today(), tabs }) {
             </CustomTabs>
           </Stack>
           <Stack display="flex" flexDirection="row" gap={2}>
-            <Button variant="contained" color="info" onClick={() => openFond.onTrue()}>
-              Fond de caisse
-            </Button>
             <Button variant="contained">Ouvrir tiroir caisse</Button>
           </Stack>
         </CardContent>
       </Card>
-      <FondCaisseModal open={openFond.value} onClose={openFond.onFalse} />
+      <Dialog fullScreen open={open.value} onClose={open.onFalse}>
+        <Box sx={{ height: 1, display: 'flex', flexDirection: 'column' }}>
+          <DialogActions sx={{ p: 1.5 }}>
+            <Button color="inherit" variant="contained" onClick={open.onFalse}>
+              Fermer
+            </Button>
+          </DialogActions>
+
+          <Box sx={{ flexGrow: 1, height: 1, overflow: 'hidden' }}>
+            <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
+              <ClotureCaissePDF date="08-08-2025"/>
+            </PDFViewer>
+          </Box>
+        </Box>
+      </Dialog>
     </>
   );
 }

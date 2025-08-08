@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
-import { useFormContext, Controller, useWatch } from 'react-hook-form';
-import {
-  Grid,
-  Stack,
-  Button,
-  TextField,
-  Autocomplete,
-} from '@mui/material';
+import { useWatch, Controller, useFormContext } from 'react-hook-form';
+
+import { Grid, Stack, Button, TextField, Autocomplete } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
+
 import { piecesList } from 'src/_mock/_reparations';
+
 import { Iconify } from 'src/components/iconify';
 import { AddArticleDialog } from 'src/components/form-dialogs/article-rapide';
 
@@ -18,36 +15,33 @@ export default function PieceSection({ index, onRemove }) {
 
   const add = useBoolean();
 
-  // ✅ Watch only this piece's data
-  const data = useWatch({ control, name: `documents.${index}.data` }) || {};
+  const piece = useWatch({ control, name: `documents.${index}` }) || {};
 
-  // ✅ Update total & totalNet when needed
   useEffect(() => {
-    const qte = Number(data.qte || 0);
-    const price = Number(data.price || 0);
-    const remise = Number(data.remise || 0);
+    const qte = Number(piece.data.qte || 0);
+    const price = Number(piece.data.price || 0);
+    const remise = Number(piece.remise || 0);
 
     const totalNet = qte * price;
     const total = totalNet - remise;
 
-    setValue(`documents.${index}.data.totalNet`, totalNet);
-    setValue(`documents.${index}.data.total`, total);
-  }, [data.qte, data.price, data.remise, index, setValue]);
+    setValue(`documents.${index}.totalNet`, totalNet);
+    setValue(`documents.${index}.total`, total);
+    setValue(`documents.${index}.remise`, remise);
+  }, [piece.data.qte, piece.data.price, piece.remise, index, setValue]);
 
-  // ✅ When selecting an article
   const handleSelect = (e, value) => {
     if (!value) return;
 
     setValue(`documents.${index}.data.nom`, value);
     setValue(`documents.${index}.data.price`, value.price);
     setValue(`documents.${index}.data.qte`, 1);
-    setValue(`documents.${index}.data.remise`, 0);
+    setValue(`documents.${index}.remise`, 0);
   };
 
   return (
     <>
       <Grid container spacing={2} mb={2}>
-        {/* Nom */}
         <Grid item xs={12} md={6}>
           <Stack direction="row" spacing={1}>
             <Controller
@@ -77,7 +71,6 @@ export default function PieceSection({ index, onRemove }) {
           </Stack>
         </Grid>
 
-        {/* Quantité */}
         <Grid item xs={6} md={3}>
           <TextField
             fullWidth
@@ -89,7 +82,6 @@ export default function PieceSection({ index, onRemove }) {
           />
         </Grid>
 
-        {/* Prix */}
         <Grid item xs={6} md={3}>
           <TextField
             fullWidth
@@ -101,7 +93,6 @@ export default function PieceSection({ index, onRemove }) {
           />
         </Grid>
 
-        {/* Champ libre */}
         <Grid item xs={12} md={4}>
           <TextField
             fullWidth
@@ -112,7 +103,6 @@ export default function PieceSection({ index, onRemove }) {
           />
         </Grid>
 
-        {/* Remise */}
         <Grid item xs={12} md={3}>
           <TextField
             fullWidth
@@ -120,11 +110,10 @@ export default function PieceSection({ index, onRemove }) {
             type="number"
             size="small"
             InputLabelProps={{ shrink: true }}
-            {...register(`documents.${index}.data.remise`)}
+            {...register(`documents.${index}.remise`)}
           />
         </Grid>
 
-        {/* Total */}
         <Grid item xs={12} md={3}>
           <TextField
             fullWidth
@@ -132,11 +121,10 @@ export default function PieceSection({ index, onRemove }) {
             size="small"
             disabled
             InputLabelProps={{ shrink: true }}
-            value={data.total?.toFixed(2) || ''}
+            value={piece.total?.toFixed(2) || ''}
           />
         </Grid>
 
-        {/* Delete */}
         <Grid item xs={12} md={2}>
           <Button
             color="error"

@@ -4,7 +4,6 @@ import { Page, View, Text, Font, Image, Document, StyleSheet } from '@react-pdf/
 import { fDateTime } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
 
-// Font setup
 Font.register({
   family: 'Roboto',
   fonts: [
@@ -13,7 +12,6 @@ Font.register({
   ],
 });
 
-// Styles
 const useStyles = () =>
   useMemo(
     () =>
@@ -58,23 +56,32 @@ const useStyles = () =>
         col_ttc: { width: '10%', textAlign: 'right' },
         col_marge: { width: '10%', textAlign: 'right' },
         col_date: { width: '17%', textAlign: 'right' },
-        totalRow: {
+
+        totalSummaryRow: {
           flexDirection: 'row',
-          paddingTop: 6,
+          justifyContent: 'space-between',
+          marginTop: 12,
+          paddingVertical: 6,
+          backgroundColor: '#f0f0f0',
+        },
+        totalBox: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 4,
+          paddingHorizontal: 6,
+          minWidth: '22%',
+          justifyContent: 'space-between',
         },
         totalLabel: {
-          width: '25%',
           fontWeight: 'bold',
         },
         totalValue: {
-          width: '12%',
           textAlign: 'right',
         },
       }),
     []
   );
 
-// Component
 export function ExportMargePDF({ invoice }) {
   const styles = useStyles();
 
@@ -97,9 +104,7 @@ export function ExportMargePDF({ invoice }) {
             <Text style={styles.body2}>N°TVA Intracom :</Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
-             <Text style={styles.bold}>
-              Export comptable Marge 
-            </Text>
+            <Text style={styles.bold}>Export comptable Marge</Text>
             <Text style={styles.body2}>
               de {fDateTime(invoice.period.start)} à {fDateTime(invoice.period.end)}
             </Text>
@@ -134,22 +139,24 @@ export function ExportMargePDF({ invoice }) {
           </View>
         ))}
 
-        {/* Totals */}
-        <View style={[styles.totalRow, { marginTop: 12 }]}>
-          <Text style={styles.totalLabel}>Total HT</Text>
-          <Text style={styles.totalValue}>{fCurrency(totalHT)}</Text>
-        </View>
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Total TVA</Text>
-          <Text style={styles.totalValue}>{fCurrency(totalTVA)}</Text>
-        </View>
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Total TTC</Text>
-          <Text style={styles.totalValue}>{fCurrency(totalTTC)}</Text>
-        </View>
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Total Marge</Text>
-          <Text style={styles.totalValue}>{fCurrency(totalMarge)}</Text>
+        {/* Totals in One Row */}
+        <View style={styles.totalSummaryRow}>
+          <View style={styles.totalBox}>
+            <Text style={styles.totalLabel}>Total HT</Text>
+            <Text style={styles.totalValue}>{fCurrency(totalHT)}</Text>
+          </View>
+          <View style={styles.totalBox}>
+            <Text style={styles.totalLabel}>Total TVA</Text>
+            <Text style={styles.totalValue}>{fCurrency(totalTVA)}</Text>
+          </View>
+          <View style={styles.totalBox}>
+            <Text style={styles.totalLabel}>Total TTC</Text>
+            <Text style={styles.totalValue}>{fCurrency(totalTTC)}</Text>
+          </View>
+          <View style={styles.totalBox}>
+            <Text style={styles.totalLabel}>Total Marge</Text>
+            <Text style={styles.totalValue}>{fCurrency(totalMarge)}</Text>
+          </View>
         </View>
       </Page>
     </Document>

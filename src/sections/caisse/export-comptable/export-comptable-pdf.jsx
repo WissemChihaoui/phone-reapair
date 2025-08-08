@@ -57,16 +57,26 @@ const useStyles = () =>
         col_total_tva: { width: '10%', textAlign: 'right' },
         col_ttc: { width: '20%', textAlign: 'right' },
         col_date: { width: '17%', textAlign: 'right' },
-        totalRow: {
+
+        totalSummaryRow: {
           flexDirection: 'row',
-          paddingTop: 6,
+          justifyContent: 'space-between',
+          marginTop: 12,
+          paddingVertical: 6,
+          backgroundColor: '#f0f0f0',
+        },
+        totalBox: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 4,
+          paddingHorizontal: 6,
+          minWidth: '30%',
+          justifyContent: 'space-between',
         },
         totalLabel: {
-          width: '25%',
           fontWeight: 'bold',
         },
         totalValue: {
-          width: '12%',
           textAlign: 'right',
         },
       }),
@@ -95,11 +105,9 @@ export function ExportComptablePDF({ invoice }) {
             <Text style={styles.body2}>N°TVA Intracom :</Text>
           </View>
           <View style={{ alignItems: 'flex-end' }}>
-            <Text style={styles.bold}>
-              Export comptable
-            </Text>
+            <Text style={styles.bold}>Export comptable</Text>
             <Text style={styles.body2}>
-               de {fDateTime(invoice.period.start)} à {fDateTime(invoice.period.end)}
+              de {fDateTime(invoice.period.start)} à {fDateTime(invoice.period.end)}
             </Text>
           </View>
         </View>
@@ -130,20 +138,21 @@ export function ExportComptablePDF({ invoice }) {
           </View>
         ))}
 
-        {/* Totals */}
-        <View style={[styles.totalRow, { marginTop: 12 }]}>
-          <Text style={styles.totalLabel}>Total HT</Text>
-          <Text style={styles.totalValue}>{fCurrency(totalHT)}</Text>
+        {/* Totals in One Row */}
+        <View style={styles.totalSummaryRow}>
+          <View style={styles.totalBox}>
+            <Text style={styles.totalLabel}>Total HT</Text>
+            <Text style={styles.totalValue}>{fCurrency(totalHT)}</Text>
+          </View>
+          <View style={styles.totalBox}>
+            <Text style={styles.totalLabel}>Total TVA</Text>
+            <Text style={styles.totalValue}>{fCurrency(totalTVA)}</Text>
+          </View>
+          <View style={styles.totalBox}>
+            <Text style={styles.totalLabel}>Total TTC</Text>
+            <Text style={styles.totalValue}>{fCurrency(totalTTC)}</Text>
+          </View>
         </View>
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Total TVA</Text>
-          <Text style={styles.totalValue}>{fCurrency(totalTVA)}</Text>
-        </View>
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Total TTC</Text>
-          <Text style={styles.totalValue}>{fCurrency(totalTTC)}</Text>
-        </View>
-
       </Page>
     </Document>
   );

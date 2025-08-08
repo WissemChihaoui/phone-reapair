@@ -137,7 +137,7 @@ export function VenteNewEditForm({ currentInvoice }) {
   return (
     <Form methods={methods}>
       <Card>
-        <VenteNewEditAddress />
+        <VenteNewEditAddress isEdit={!!currentInvoice}/>
         <VenteNewEditStatusDate />
         <VenteNewEditDetails />
         <VenteNewEditCheckout open={checkout.value} onClose={checkout.onFalse} handleSubmit={handleSubmit}/>

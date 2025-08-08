@@ -422,7 +422,7 @@ export function ExportMargeListView() {
                 <TableFooter>
                   <TableRow>
                     <TableCell colSpan={5} align="right" sx={{ fontWeight: 'bold' }}>
-                      Totals
+                      Total
                     </TableCell>
                     <TableCell align="center" sx={{ fontWeight: 'bold' }}>
                       {totals.totalTVA.toFixed(2)} €

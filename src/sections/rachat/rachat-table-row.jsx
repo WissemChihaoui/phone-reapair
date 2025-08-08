@@ -29,6 +29,7 @@ import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 
 import RachatSinglePDF from './rachat-single-pdf';
+import RachatPDF from './rachat-row-pdf';
 
 const STATUS_OPTIONS = {
   excellent: { label: 'Excellent' },
@@ -41,6 +42,7 @@ export function RachatTableRow({ row, selected, onViewRow, onSelectRow, onDelete
   const router = useRouter();
   const showCin = useBoolean();
   const showFacture = useBoolean();
+  const showRecu = useBoolean();
 
   const invoice = {
     invoiceNumber: 'R2025-19',
@@ -60,6 +62,26 @@ export function RachatTableRow({ row, selected, onViewRow, onSelectRow, onDelete
   state: 'excellent',
   price: 22.0,
   };
+
+  const data = {
+  invoiceNumber: 'R2025-19',
+  date: '2025-04-11T10:32:00',
+  product: {
+    title: 'dfqsdf qsdfsqdf',
+  },
+  accessory: '',
+  serialNumber: '',
+  state: 'excellent',
+  price: 22,
+  client: {
+    name: 'test dsfsdf',
+    address: 'test, fsdfsdfsdf',
+    city: '1000 Bruxe sousse',
+    phone: '0125478963',
+    cin: '',
+  },
+};
+
   return (
     <>
       <TableRow hover selected={selected}>
@@ -138,6 +160,7 @@ export function RachatTableRow({ row, selected, onViewRow, onSelectRow, onDelete
           <Button
             sx={{ px: 1 }}
             size="small"
+            onClick={showRecu.onTrue}
             color="success"
             variant="outlined"
             startIcon={<Iconify icon="foundation:page-export-pdf" />}
@@ -174,6 +197,26 @@ export function RachatTableRow({ row, selected, onViewRow, onSelectRow, onDelete
           <Box sx={{ flexGrow: 1, height: 1, overflow: 'hidden' }}>
             <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
               {invoice && <RachatSinglePDF rachat={invoice} />}
+            </PDFViewer>
+          </Box>
+        </Box>
+      </Dialog>
+      <Dialog
+        fullScreen
+        keepMounted
+        open={showRecu.value}
+        TransitionComponent={Transition}
+        onClose={showRecu.onFalse}
+      >
+        <Box sx={{ height: 1, display: 'flex', flexDirection: 'column' }}>
+          <DialogActions sx={{ p: 1.5 }}>
+            <Button color="inherit" variant="contained" onClick={showRecu.onFalse}>
+              Fermer
+            </Button>
+          </DialogActions>
+          <Box sx={{ flexGrow: 1, height: 1, overflow: 'hidden' }}>
+            <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
+              {data && <RachatPDF rachat={data} />}
             </PDFViewer>
           </Box>
         </Box>

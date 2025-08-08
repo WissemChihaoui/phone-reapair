@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Alert } from '@mui/material';
+import { Alert, Tab, Tabs } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { CONFIG } from 'src/config-global';
@@ -15,6 +15,9 @@ import { StockWidget } from 'src/components/dashboard/stock-widget/StockWidget';
 import ReparationCard from 'src/components/dashboard/reparation-card/ReparationCard';
 import SearchReparation from 'src/components/dashboard/search-reparation/SearchReparation';
 import { ReparationsTable } from 'src/components/dashboard/reparations-table/ReparationsTable';
+import { useTabs } from 'src/hooks/use-tabs';
+import { varAlpha } from 'src/theme/styles';
+import { CustomTabs } from 'src/components/custom-tabs';
 
 export default function DashboardView() {
   
@@ -33,6 +36,8 @@ export default function DashboardView() {
   },
 ];
 
+const tabs = useTabs('reparation')
+
   return (
     <DashboardContent maxWidth="xl">
       <Grid container spacing={3}>
@@ -42,14 +47,34 @@ export default function DashboardView() {
             <strong>0 SMS</strong>
           </Alert>
         </Grid>
-        <Grid xs={12} md={6} container>
-          <Grid xs={12}>
+        <Grid xs={12}>
+          <CustomTabs
+            value={tabs.value}
+            onChange={tabs.onChange}
+            variant="fullWidth"
+            sx={{
+              px: 3,
+              boxShadow: (theme) =>
+                `inset 0 -2px 0 0 ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
+            }}
+          >
+            {[
+              { value: 'reparation', label: 'Réparations' },
+              { value: 'ventes', label: 'Ventes' },
+            ].map((tab) => (
+              <Tab
+               key={tab.value} value={tab.value} label={tab.label} />
+            ))}
+          </CustomTabs>
+          {tabs.value === 'reparation' && (
             <SearchReparation />
-          </Grid>
+          )}
+          {tabs.value === 'ventes' && (
+            <SearchVente />
+          )}
         </Grid>
-        <Grid xs={12} md={6}>
-          <SearchVente />
-        </Grid>
+      
+      
         <Grid xs={12} md={6} container>
           <Grid xs={12} md={6}>
             <ReparationCard

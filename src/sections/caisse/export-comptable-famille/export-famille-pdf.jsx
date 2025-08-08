@@ -1,21 +1,19 @@
 import { useMemo } from 'react';
 import { Page, View, Text, Font, Image, Document, StyleSheet } from '@react-pdf/renderer';
-
 import { fDate } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
 
-// ----------------------------------------------------------------------
-
+// Register font
 Font.register({
   family: 'Roboto',
   fonts: [{ src: '/fonts/Roboto-Regular.ttf' }, { src: '/fonts/Roboto-Bold.ttf' }],
 });
 
+// Styles
 const useStyles = () =>
   useMemo(
     () =>
       StyleSheet.create({
-        // layout
         page: {
           fontSize: 9,
           lineHeight: 1.6,
@@ -23,26 +21,13 @@ const useStyles = () =>
           backgroundColor: '#FFFFFF',
           padding: '40px 24px 120px 24px',
         },
-        footer: {
-          left: 0,
-          right: 0,
-          bottom: 0,
-          padding: 24,
-          margin: 'auto',
-          borderTopWidth: 1,
-          borderStyle: 'solid',
-          position: 'absolute',
-          borderColor: '#e9ecef',
-        },
         container: {
           flexDirection: 'row',
           justifyContent: 'space-between',
         },
-        // margin
         mb4: { marginBottom: 4 },
         mb8: { marginBottom: 8 },
         mb40: { marginBottom: 40 },
-        // text
         h3: { fontSize: 16, fontWeight: 700 },
         h4: { fontSize: 13, fontWeight: 700 },
         body1: { fontSize: 10 },
@@ -50,7 +35,7 @@ const useStyles = () =>
         body2: { fontSize: 9 },
         subtitle2: { fontSize: 9, fontWeight: 700 },
         bold: { fontSize: 12, fontWeight: 'bold' },
-        // table
+
         table: { display: 'flex', width: '100%' },
         row: {
           padding: '10px 0 8px 0',
@@ -59,12 +44,6 @@ const useStyles = () =>
           borderStyle: 'solid',
           borderColor: '#e9ecef',
         },
-        cell_1: { width: '5%' },
-        cell_2: { width: '50%' },
-        cell_3: { width: '15%', paddingLeft: 32 },
-        cell_4: { width: '15%', paddingLeft: 8 },
-        cell_5: { width: '15%' },
-        cell_org: { width: '20%' },
         cell_num: { width: '10%' },
         cell_ref: { width: '12%' },
         cell_art: { width: '16%' },
@@ -74,14 +53,12 @@ const useStyles = () =>
         cell_ttc: { width: '6%', textAlign: 'right' },
         cell_total: { width: '8%', textAlign: 'right' },
         cell_date: { width: '12%', textAlign: 'right' },
-
         noBorder: { paddingTop: '10px', paddingBottom: 0, borderBottomWidth: 0 },
       }),
     []
   );
 
-// ----------------------------------------------------------------------
-
+// Main component
 export function ExportFamillePDF({ invoice }) {
   const styles = useStyles();
 
@@ -131,32 +108,43 @@ export function ExportFamillePDF({ invoice }) {
           </View>
         ))}
 
-        {/* Subtotals */}
-        {[
-          { label: 'Total HT', val: totalHT },
-          { label: 'Total TVA', val: totalTVA },
-          { label: 'Total TTC', val: totalTTC },
-          { label: 'Total HT avoir', val: 0 },
-          { label: 'Total TVA avoir', val: 0 },
-          { label: 'Total TTC avoir', val: 0 },
-          { label: 'Total HT Facture', val: totalHT },
-          { label: 'Total TVA Facture', val: totalTVA },
-          { label: 'Total TTC Facture', val: totalTTC },
-        ].map((row, idx) => (
-          <View key={idx} style={styles.row}>
-            <Text style={styles.cell_num} />
-            <Text style={styles.cell_ref} />
-            <Text style={styles.cell_art} />
-            <Text style={styles.cell_ht} />
-            <Text style={styles.cell_taux} />
-            <Text style={styles.cell_tva} />
-            <Text style={styles.cell_ttc} />
-            <Text style={styles.cell_total}>{row.label}</Text>
-            <Text style={styles.cell_total}>{fCurrency(row.val)}</Text>
-            <Text style={styles.cell_total} />
-            <Text style={styles.cell_date} />
-          </View>
-        ))}
+        {/* Totals in 3x3 Grid */}
+        <View style={{ marginTop: 12 }}>
+          {[
+            [
+              { label: 'Total HT', val: totalHT },
+              { label: 'Total TVA', val: totalTVA },
+              { label: 'Total TTC', val: totalTTC },
+            ],
+            [
+              { label: 'Total HT avoir', val: 0 },
+              { label: 'Total TVA avoir', val: 0 },
+              { label: 'Total TTC avoir', val: 0 },
+            ],
+            [
+              { label: 'Total HT Facture', val: totalHT },
+              { label: 'Total TVA Facture', val: totalTVA },
+              { label: 'Total TTC Facture', val: totalTTC },
+            ],
+          ].map((line, lineIdx) => (
+            <View key={lineIdx} style={{ flexDirection: 'row', marginBottom: 6 }}>
+              {line.map((col, colIdx) => (
+                <View
+                  key={colIdx}
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    paddingHorizontal: 8,
+                  }}
+                >
+                  <Text style={{ fontWeight: 'bold' }}>{col.label}</Text>
+                  <Text>{fCurrency(col.val)}</Text>
+                </View>
+              ))}
+            </View>
+          ))}
+        </View>
       </>
     );
   };
@@ -175,16 +163,14 @@ export function ExportFamillePDF({ invoice }) {
             <Text style={styles.body2}>N°TVA Intracom :</Text>
           </View>
           <View style={{ width: '40%', alignItems: 'flex-end' }}>
-             <Text style={styles.bold}>
-              Export comptable famille
-            </Text>
+            <Text style={styles.bold}>Export comptable famille</Text>
             <Text style={styles.body2}>
               de {fDate(invoice.period.start)} à {fDate(invoice.period.end)}
             </Text>
           </View>
         </View>
 
-        {/* All Groups */}
+        {/* Render each group */}
         {Object.entries(invoice.grouped).map(([key, rows]) => renderGroupTable(key, rows))}
       </Page>
     </Document>

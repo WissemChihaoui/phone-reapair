@@ -1,5 +1,5 @@
-import React from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import { Box, Stack, Button, Divider } from '@mui/material';
 
@@ -21,7 +21,7 @@ const _remboursementMethodes = [
 ];
 
 export default function PaymentFormView() {
-  const { control, watch } = useFormContext();
+  const { control, watch, setValue } = useFormContext();
 
   const { fields, append, remove } = useFieldArray({ control, name: 'payment.data' });
 
@@ -29,6 +29,25 @@ export default function PaymentFormView() {
   const total = Number(watch('total') || 0);
   const remise = Number(watch('remise') || 0);
   const totalApresRemise = total - remise;
+
+  // Calculating Totals 
+
+  const documents = useWatch({ control, name: `documents` });
+
+  const documentTotals = Object.values(documents).map((doc) => Number(doc.total));
+
+  const totalDocumentsSum = documentTotals.reduce((acc, val) => acc + val, 0);
+
+  const documentTotalsNet = Object.values(documents).map((doc) => Number(doc.totalNet));
+
+  const totalNetDocumentsSum = documentTotalsNet.reduce((acc, val) => acc + val, 0);
+
+  const remiseTotal = Object.values(documents).map((doc) => Number(doc.remise));
+
+  const totalRemise = remiseTotal.reduce((acc, val) => acc + val, 0);
+
+  // setValue('total', totalDocumentsSum)
+
 
   const paymentData = payment.data || [];
   const montantPaye = paymentData.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
@@ -54,6 +73,14 @@ export default function PaymentFormView() {
   const handleRemove = (index) => {
     remove(index);
   };
+
+  
+  useEffect(() => {
+    setValue('total', totalDocumentsSum)
+    setValue('remise', totalRemise)
+    setValue('rest', totalRestant)
+    setValue('paid', totalRestant)
+  },[setValue,totalDocumentsSum,totalRemise,totalRestant, montantPaye])
 
   return (
     <Box sx={{ p: 3, display: 'flex', alignItems: 'flex-start' }}>
@@ -116,20 +143,24 @@ export default function PaymentFormView() {
         </Stack>
       </Box>
       <Divider orientation="vertical" variant="middle" flexItem sx={{ mx: 4 }} />
-      <Stack spacing={2} alignItems="flex-end" sx={{ mt: 3, textAlign: 'right', typography: 'body2' }}>
+      <Stack
+        spacing={2}
+        alignItems="flex-end"
+        sx={{ mt: 3, textAlign: 'right', typography: 'body2' }}
+      >
         <Stack direction="row">
           <Box sx={{ color: 'text.secondary' }}>Total</Box>
-          <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(total)}</Box>
+          <Box sx={{ width: 160, typography: 'subtitle2' }}>{fCurrency(totalNetDocumentsSum)}</Box>
         </Stack>
 
         <Stack direction="row">
           <Box sx={{ color: 'text.secondary' }}>Remise (€)</Box>
-          <Box sx={{ width: 160, color: 'error.main' }}>- {fCurrency(remise)}</Box>
+          <Box sx={{ width: 160, color: 'error.main' }}>- {fCurrency(totalRemise)}</Box>
         </Stack>
 
         <Stack direction="row">
           <Box sx={{ color: 'text.secondary' }}>Total après remise</Box>
-          <Box sx={{ width: 160, color: 'error.main' }}>{fCurrency(totalApresRemise)}</Box>
+          <Box sx={{ width: 160, color: 'error.main' }}>{fCurrency(totalDocumentsSum)}</Box>
         </Stack>
 
         <Stack direction="row">

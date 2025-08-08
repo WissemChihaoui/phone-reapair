@@ -11,10 +11,10 @@ export function VenteEditView({ product }) {
   return (
     <DashboardContent>
       <CustomBreadcrumbs
-        heading="Modifier une vente"
+        heading="Modifier une devis"
         links={[
           { name: 'Tableau de bord', href: paths.dashboard.root },
-          { name: 'Ventes', href: paths.dashboard.vente.root },
+          { name: 'Devis', href: paths.dashboard.vente.root },
           { name: 'Modifier' },
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
