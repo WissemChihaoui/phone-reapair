@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import Grid from '@mui/material/Unstable_Grid2';
@@ -6,54 +6,19 @@ import { Box, Stack, Button, Tooltip, IconButton } from '@mui/material';
 
 import { Iconify } from 'src/components/iconify';
 
-import PieceForm from './piece-form';
-import AbonnementForm from './abonnement-form';
-import DividerItem from './devider-item';
-import RegroupementForm from './regroupement-form';
+
 
 export default function VenteNewEditDetails() {
-  const { control, watch } = useFormContext();
-  const { fields, append, remove, update } = useFieldArray({
-    control,
-    name: 'items',
-  });
-
-  const items = watch('items');
-  const [showRegroupementForm, setShowRegroupementForm] = useState(false);
-
-  const handleAddAbonnement = () => {
-    append({
-      type: 'abonnement',
-      nom: '',
-      qte: 1,
-      price: 0,
-      champ: '',
-      remise: 0,
-      total: 0,
+   const { control } = useFormContext();
+  
+    const { fields, append, remove } = useFieldArray({
+      control,
+      name: 'documents',
     });
-  };
-
-  const handleAddPiece = () => {
-    append({
-      type: 'piece',
-      nom: '',
-      qte: 1,
-      price: 0,
-      champ: '',
-      remise: 0,
-      total: 0,
-    });
-  };
-
-  const handleAddDivider = () => {
-    append({ type: 'divider' });
-  };
-
-  const handleSubmitRegroupement = (groupItems) => {
-    append(groupItems); // Add all selected regroupement items
-    setShowRegroupementForm(false);
-  };
-
+  
+    const handleAddSection = (type) => {
+      append({ type, data: {} });
+    };
   return (
     <Grid container spacing={2} py={2}>
       {/* LEFT CONTROLS */}
@@ -64,8 +29,14 @@ export default function VenteNewEditDetails() {
               startIcon={<Iconify icon="mdi:plus" />}
               variant="contained"
               color="primary"
-              onClick={handleAddPiece}
+              onClick={() => handleAddSection('piece')}
               fullWidth
+              sx={{
+                textTransform: 'capitalize',
+                justifyContent: 'flex-start',
+                flexGrow: 1,
+                paddingLeft: 4,
+              }}
             >
               Article / Accessoire
             </Button>
@@ -74,8 +45,14 @@ export default function VenteNewEditDetails() {
                 startIcon={<Iconify icon="mdi:plus" />}
                 variant="contained"
                 color="warning"
-                onClick={() => setShowRegroupementForm(true)}
+                onClick={() => handleAddSection('regroupement')}
                 fullWidth
+                sx={{
+                  textTransform: 'capitalize',
+                  justifyContent: 'flex-start',
+                  flexGrow: 1,
+                  paddingLeft: 4,
+                }}
               >
                 Regroupement
               </Button>
@@ -104,8 +81,14 @@ export default function VenteNewEditDetails() {
               startIcon={<Iconify icon="mdi:plus" />}
               variant="contained"
               color="info"
-              onClick={handleAddAbonnement}
+              onClick={() => handleAddSection('abonnement')}
               fullWidth
+              sx={{
+                textTransform: 'capitalize',
+                justifyContent: 'flex-start',
+                flexGrow: 1,
+                paddingLeft: 4,
+              }}
             >
               Abonnement
             </Button>
@@ -114,8 +97,14 @@ export default function VenteNewEditDetails() {
               startIcon={<Iconify icon="mdi:minus" />}
               variant="outlined"
               color="secondary"
-              onClick={handleAddDivider}
+              onClick={() => handleAddSection('separator')}
               fullWidth
+              sx={{
+                textTransform: 'capitalize',
+                justifyContent: 'flex-start',
+                flexGrow: 1,
+                paddingLeft: 4,
+              }}
             >
               Ligne de séparation
             </Button>
@@ -124,36 +113,7 @@ export default function VenteNewEditDetails() {
       </Grid>
 
       {/* RIGHT MAIN CONTENT */}
-      <Grid xs={12} md={9}>
-        <Stack spacing={3}>
-          {fields.map((field, index) => {
-            const data = items?.[index];
-            if (!data) return null;
-
-            if (data.type === 'abonnement') {
-              return <AbonnementForm key={field.id} index={index} onRemove={() => remove(index)} />;
-            }
-
-            if (data.type === 'piece') {
-              return <PieceForm key={field.id} index={index} onRemove={() => remove(index)} />;
-            }
-
-            if (data.type === 'divider') {
-              return <DividerItem key={field.id} onRemove={() => remove(index)} />;
-            }
-
-            return null;
-          })}
-
-          {/* Show RegroupementForm in MAIN AREA */}
-          {showRegroupementForm && (
-            <RegroupementForm
-              onSubmit={handleSubmitRegroupement}
-              onCancel={() => setShowRegroupementForm(false)}
-            />
-          )}
-        </Stack>
-      </Grid>
+     
     </Grid>
   );
 }

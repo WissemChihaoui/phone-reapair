@@ -93,6 +93,7 @@ export function VenteNewEditForm({ currentInvoice }) {
           tva: 0,
         },
       ],
+      documents:currentInvoice?.documents || [],
       totalHT: currentInvoice?.totalHT || null,
       totalSs: currentInvoice?.totalSs || null,
       discount: currentInvoice?.discount || null,

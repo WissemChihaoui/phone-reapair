@@ -59,45 +59,44 @@ export default function DocumentFormView() {
                 Piéce à changer
               </Button>
 
-             <Stack position="relative" sx={{ width: '100%' }}>
-  <Button
-    startIcon={<Iconify icon="mdi:plus" />}
-    variant="contained"
-    color="warning"
-    fullWidth
-    onClick={() => handleAddSection('regroupement')}
-    sx={{
-      textTransform: 'capitalize',
-      justifyContent: 'flex-start',
-      flexGrow: 1,
-      paddingLeft: 4,
-    }}
-  >
-    Regroupement
-  </Button>
+              <Stack position="relative" sx={{ width: '100%' }}>
+                <Button
+                  startIcon={<Iconify icon="mdi:plus" />}
+                  variant="contained"
+                  color="warning"
+                  fullWidth
+                  onClick={() => handleAddSection('regroupement')}
+                  sx={{
+                    textTransform: 'capitalize',
+                    justifyContent: 'flex-start',
+                    flexGrow: 1,
+                    paddingLeft: 4,
+                  }}
+                >
+                  Regroupement
+                </Button>
 
-  <Tooltip
-    title={`Cette fonctionnalité permet à la boutique de regrouper plusieurs articles sous un seul nom, afin de :
+                <Tooltip
+                  title={`Cette fonctionnalité permet à la boutique de regrouper plusieurs articles sous un seul nom, afin de :
     - Créer des offres commerciales ou des packs (ex. : "Pack protection téléphone" incluant coque + verre trempé + écouteur),
     - Simplifier la facture pour le client final, en n’affichant que le nom du regroupement au lieu de la liste détaillée des articles.`}
-    placement="top"
-  >
-    <IconButton
-      size="small"
-      sx={{
-        position: 'absolute',
-        right: -40, // pushes it outside the button
-        top: '50%',
-        transform: 'translateY(-50%)',
-        backgroundColor: 'white', // optional to make it stand out
-        boxShadow: 1, // optional subtle shadow
-      }}
-    >
-      <Iconify icon="material-symbols:info-outline-rounded" />
-    </IconButton>
-  </Tooltip>
-</Stack>
-
+                  placement="top"
+                >
+                  <IconButton
+                    size="small"
+                    sx={{
+                      position: 'absolute',
+                      right: -40, // pushes it outside the button
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      backgroundColor: 'white', // optional to make it stand out
+                      boxShadow: 1, // optional subtle shadow
+                    }}
+                  >
+                    <Iconify icon="material-symbols:info-outline-rounded" />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
 
               <Button
                 startIcon={<Iconify icon="mdi:plus" />}
@@ -201,15 +200,6 @@ export default function DocumentFormView() {
       {/* Floating popover to add custom sections */}
       <CustomPopover open={popover.open} anchorEl={popover.anchorEl} onClose={popover.onClose}>
         <MenuList>
-          {/* <MenuItem onClick={() => handleAddSection('subtotal')}>
-            <Iconify icon="mdi:calculator" width={20} sx={{ mr: 1 }} />
-            Sous-total
-          </MenuItem>
-          <MenuItem onClick={() => handleAddSection('total')}>
-            <Iconify icon="mdi:calculator-variant" width={20} sx={{ mr: 1 }} />
-            Total
-          </MenuItem>
-          <Divider /> */}
           <MenuItem onClick={() => handleAddSection('separator')}>
             <Iconify icon="mdi:minus" width={20} sx={{ mr: 1 }} />
             Ligne de séparation
